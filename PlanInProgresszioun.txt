@@ -1,0 +1,158 @@
+C MOTHERFUCKIN NEWS
+
+Roles/Identity
+	Admin					EVERYTHING Duh
+	Moderator				Hantera Users
+	Editor/Publisher		Edit and Publish Articles
+	Journalist				Write and Fetch Articles
+	
+	Paid User				Read everything
+	Cheapskate				Can read some.
+	
+	Unregistered(Not A Role)
+	
+	
+	Roles/Identity Ingående description
+		
+		Admin
+			Give/Remove Roles
+			Delete/Edit Articles
+			Write/Fetch Articles
+			Give/Remove Zubbscription
+			
+		Moderator
+			Give/Remove Zubbscription
+			
+		Editor/Publisher
+			Edit/Publish Articles
+			
+		Journalist
+			Write/Fetch Articles
+		
+		
+		Paid User
+			Read EVERYTHING
+			Can see Archive (30days)
+			No ADS!!!
+			Nyhetsbrev
+		
+		Cheapskate 
+			Can only read Headlines and Summering on the NewNews.
+			Can Read (om läskunnighet finnes) Older news (48h).
+			Cannot See Archive(30days). 
+			Cannot See Sport. Can all other categories.
+			MASSOR MED ADS!!!
+			Nyhetsbrev
+			
+			
+		Unregistered
+			Can only see Headlines and Summering.
+			
+			
+LAYOUT STUFF
+
+	NAVBAR
+		C-News, Categories, Search, Account, Weather
+		
+		C-News
+			Icon
+			Link to FRONTPAGE
+		
+		Categories (Local, Sweden, World, Economy, Sport)
+			Links to Respektive Ämne
+			
+		Search
+			Input Field
+			Link to Results and Advanced Search on SEARCH/Enter
+			
+		Account (Not Logged in)
+			Login
+				Link to Login/Register Account
+		
+		Account (Logged in)
+			Logout
+			My Account
+				Link to Account Details
+					Zubbscription
+					My Details
+					
+		Weather	
+			Icon
+			Link to Weather
+			
+
+	NAVBAR MOBILE
+		DropDown, C-News, Account
+		
+		DropDown
+			Categories
+		
+		C-News
+			Icon
+			Link To FRONTPAGE
+			
+		Account
+			Link To MyAcc
+			
+
+	
+	FRONTPAGE
+		
+		|							:			|				
+		|							:			|
+		|							:			|
+		|							:			|
+		|							:			|
+
+		FET Article (60-70% Width)   Weather / Växlingskurser(Resten% Width)
+			STOR BILD
+			Rubrik
+			Sammanfattning
+			Läs Mer
+		
+		TvåDelatFält för Artiklar		Rubriker - Länkar till artiklarna
+			BILD
+			Rubrik
+			Sammanfattning
+			Läs Mer
+			
+	
+
+
+DataBase (HÖGKVARTERET)
+
+	Article
+		int 			ID
+		DateTime 		DatePublished
+		string 			LinkText
+		string			HeadLine
+		string			ContentSummary
+		string 			Content
+		int 			Views
+		int				Likes
+		string			IMGLink
+		List<int>		Category IDS
+		bool			IsArchived
+		
+	Category
+		int 			ID
+		string			Name
+		
+	Zubbscription (Ongoing)
+		int 			ID
+		int				SubsciptionTypeID
+		Class(Sub)		SubsciptionType
+		decimal			Price at PURCHASE
+		DateTime		TimeOfActivation
+		int				UserID
+		
+		NotImplementedException		PaymentStatus(Failed, Pending, Done)
+		
+	ZubbscriptionTypes
+		int				ID
+		string			Name
+		string			Desc
+		decimal 		Price
+	
+	
+	
