@@ -1,4 +1,5 @@
 ﻿using CNewsProject.Models.DataBase;
+using CNewsProject.Data;
 
 namespace CNewsProject.Service
 {
@@ -20,7 +21,7 @@ namespace CNewsProject.Service
 
         public Customer GetCustomerById(int Id)
         {
-            return _db.Customers.FirstOrDefault(m => m.Id == Id);
+            return (_db.Customers.FirstOrDefault(m => m.Id == Id)!);
         }
 
         public Customer GetCustomerByEmail(string email)
