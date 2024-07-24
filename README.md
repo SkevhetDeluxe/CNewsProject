@@ -1,1 +1,1 @@
-# C News coming soon!!
+# C News is coming soon!!
