@@ -13,6 +13,10 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <ul>
+                    <div class="logo">
+                        <img src="logo.png" alt="News Logo">
+                    </div>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CNewsProject</a>
                     <li><a href="#">Local</a></li>
                     <li><a href="#">Sweden</a></li>
                     <li><a href="#">World</a></li>
@@ -31,6 +35,7 @@
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <partial name="_LoginPartial" />
+                    <div class="user-icon">👤</div>
                 </div>
             </div>
         </nav>
