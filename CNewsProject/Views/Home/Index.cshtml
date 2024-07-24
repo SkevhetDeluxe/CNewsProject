@@ -1,8 +1,45 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Front Page</title>
+    <link rel="stylesheet" href="styles.css">    
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="logo.png" alt="News Logo">
+        </div>
+        <nav>
+            
+            
+            <div class="user-icon">👤</div>
+            <div class="weather-icon">☀️</div>
+        </nav>
+    </header>
+    <main>
+        <section class="main-article">
+            <img src="main-article-image.jpg" alt="Main Article Image">
+            <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
+            <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
+        </section>
+        <aside>
+            <div class="card">
+                <h2>Weather</h2>
+                <p>Weather details here...</p>
+            </div>
+            <div class="card">
+                <h2>Exchange rates</h2>
+                <ul>
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>JPY</li>
+                    <li>CNY</li>
+                    <li>GBP</li>
+                </ul>
+            </div>
+        </aside>
+    </main>
+</body>
+</html>
