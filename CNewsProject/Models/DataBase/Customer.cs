@@ -32,5 +32,10 @@ namespace CNewsProject.Models.DataBase
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 
+        [Required]
+        [StringLength(50)] 
+        [Display(Name = "Subscriptions")]
+        public string Subscriptions { get; set; } = string.Empty;
+
     }
 }
