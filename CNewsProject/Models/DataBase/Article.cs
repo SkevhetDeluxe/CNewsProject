@@ -7,8 +7,7 @@ namespace CNewsProject.Models.DataBase
         public int Id { get; set; }
 
         [Required]
-        [DateStamp(Date = "Datestamp")]
-        public date DateStamp { get; set; }
+        public DateOnly DateStamp { get; set; }
 
         [Required]
         [Display(Name = "Link text")]
@@ -36,7 +35,7 @@ namespace CNewsProject.Models.DataBase
         public string Categori { get; set; } = string.Empty;
 
         [Required]
-        public bool IsArchived  { get; set; } = string.Empty;
+        public bool IsArchived  { get; set; }
 
 
     }

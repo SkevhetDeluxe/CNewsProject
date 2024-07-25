@@ -7,6 +7,6 @@ namespace CNewsProject.Models.DataBase
         public int Id { get; set; }
 
         [Required]
-        public string Category { get; set; } = string.Empty;
+        public string CategoryType { get; set; } = string.Empty;
     }
 }
