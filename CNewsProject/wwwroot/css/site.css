@@ -2,17 +2,18 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f4;
 }
 
 header {
-    background-color: #ccc;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;    
+    padding: 15px 20px;
 }
 
 .logo img {
     height: 50px;
+    margin-right: 20px;
 }
 
 nav {
@@ -21,27 +22,14 @@ nav {
     flex-grow: 1;
 }
 
-    nav ul {
-        list-style-type: none;
-        display: flex;
-        margin: 0;
-        padding: 0;
-    }
+ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-        nav ul li {
-            margin-right: 15px;
-        }
-
-            nav ul li a {
-                text-decoration: none;
-                color: black;
-                font-weight: bold;
-                transition: color 0.3s;
-            }
-
-                nav ul li a:hover {
-                    color: #007BFF;
-                }
+ul li {
+    margin-bottom: 10px;
+}
 
 .search-bar {
     display: flex;
@@ -49,55 +37,99 @@ nav {
     margin-left: auto;
 }
 
-    .search-bar input[type="text"] {
-        padding: 5px;
-    }
-
-.search-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 5px;
+.search-bar input[type="text"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-.user-icon,
+.search-button {
+    background: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+   
+}
+
+.search-button:hover {
+    background: #0056b3;
+}
+
 .weather-icon {
-    margin-left: 10px;
-    font-size: 20px;
+    font-size: 2em;
 }
 
 main {
     display: flex;
+    justify-content: space-between;
     padding: 20px;
 }
 
 .main-article {
     flex: 3;
     border: 1px solid #000;
+    background-color: #fff;
     padding: 20px;
     margin-right: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-    .main-article img {
-        width: 100%;
-        height: auto;
-    }
+.main-article img {
+    width: 100%;
+    height: auto;
+}
 
 aside {
     flex: 1;
-    padding: 10px;
-    border-left: 1px solid #000;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;  
 }
 
-    aside h2 {
-        margin-top: 0;
-    }
+aside h2 {
+    margin-top: 0;
+}
 
 .card {
-    background-color: #f4f4f4;
-    padding: 10px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);    
+}
+
+.main-article h1 {
+    font-size: 2em;
     margin-bottom: 10px;
+}
+
+.main-article p {
+    font-size: 1.2em;
+    line-height: 1.6;
+}
+
+.search-button:hover {
+    color: #007BFF;
+}
+
+.card:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+nav ul {
+    display: flex;
+    gap: 15px;
+}
+
+nav ul li {
+    margin-bottom: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #000;
+    padding: 5px 10px;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
