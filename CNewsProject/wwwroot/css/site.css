@@ -22,15 +22,6 @@ nav {
     flex-grow: 1;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    margin-bottom: 10px;
-}
-
 .search-bar {
     display: flex;
     align-items: center;
