@@ -52,7 +52,7 @@ namespace CNewsProject.Service
             GetCustomerById(customer.Id).EmailAddress = customer.EmailAddress;
             GetCustomerById(customer.Id).Mobilenumber = customer.Mobilenumber;
             GetCustomerById(customer.Id).Password = customer.Password;
-
+            GetCustomerById(customer.Id).Subscriptions = customer.Subscriptions;
 
             _db.SaveChanges();
         }
