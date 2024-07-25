@@ -12,10 +12,10 @@ namespace CNewsProject.Models.DataBase
         public decimal HistoricalPrice { get; set; }
 
         [Required]
-        public date CreateDate { get; set; }
+        public DateOnly CreateDate { get; set; }
 
         [Required]
-        public date ExpiresDate { get; set; }
+        public DateOnly ExpiresDate { get; set; }
 
         [Required]
         public int UserId { get; set; }
