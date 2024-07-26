@@ -38,7 +38,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                appUserService.LoginAppUserAsync(login)
+                appUserService.LoginAppUserAsync(login);
             }
         }
 
