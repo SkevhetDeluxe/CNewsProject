@@ -13,9 +13,13 @@ namespace CNewsProject.Data
 
         public DbSet<Article> Article { get; set; }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Category { get; set; }
 
         public DbSet<Subscription> Subscription { get; set; }
+
+        public DbSet<SubscriptionType> SubscriptionType { get; set; }
+
         
+
     }
 }
