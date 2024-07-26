@@ -46,9 +46,7 @@ nav {
     background: #0056b3;
 }
 
-.weather-icon {
-    font-size: 2em;
-}
+
 
 main {
     display: flex;
@@ -84,7 +82,8 @@ aside h2 {
 .card {
     background-color: #fff;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
 
 .main-article h1 {
@@ -123,4 +122,22 @@ nav ul li a {
 nav ul li a:hover {
     background-color: #ddd;
     border-radius: 5px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.main-article h2 {
+    font-size: 1.75em;
+    margin-top: 15px;
+}
+
+.card-body {
+    padding: 15px;
+}
+
+.weather-icon {
+    font-size: 2em;
 }
