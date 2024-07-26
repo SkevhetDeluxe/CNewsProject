@@ -66,12 +66,16 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 Microsoft.AspNetCore.Identity.SignInResult result = await appUserService.LoginAppUserAsync(login);
 
                 if (result.Succeeded)
                     return Redirect(login.ReturnUrl ?? "/");
                 
                 ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");   
+
+                appUserService.LoginAppUserAsync(login);
+
             }
             
             return View(login);
