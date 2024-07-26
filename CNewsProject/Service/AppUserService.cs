@@ -42,20 +42,24 @@ namespace CNewsProject.Service
         // LOGIN LOGOUT METHODS
         #region LOGIN LOGOUT METHODS
 
-        //public async Task<SignInResult> LoginAppUserAsync(Login login)
-        //{
-        //    AppUser appUser = await userManager.FindByEmailAsync(login.EmailUsername);
-        //    if (appUser != null)
-        //    {
-        //        await signInManager.SignOutAsync();
+        public async Task<SignInResult> LoginAppUserAsync(Login login)
+        {
+            AppUser appUser = await userManager.FindByEmailAsync(login.EmailUsername);
 
-        //        SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
+            if (appUser == null)
+                appUser = await userManager.FindByNameAsync(login.EmailUsername);
 
-        //        if (result.Succeeded)
-        //            return result;
-        //    }
+            if (appUser != null)
+            {
+                await signInManager.SignOutAsync();
 
-        //}
+                SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
+
+                return result;
+            }
+
+            return SignInResult.Failed;
+        }
 
         #endregion
 
