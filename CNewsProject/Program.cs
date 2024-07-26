@@ -1,5 +1,6 @@
 using CNewsProject.Data;
 using CNewsProject.Models.DataBase.Identity;
+using CNewsProject.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,25 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.User.RequireUniqueEmail = true;
+    
+    options.Password.RequiredLength = 8;
+});
+
+builder.Services.ConfigureApplicationCookie(opts =>
+{
+    opts.LoginPath = "/Account/Login";
+    opts.AccessDeniedPath = "/Account/Denied";
+
+    opts.Cookie.Name = ".AspNetCore.Identity.Application";
+    opts.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    opts.SlidingExpiration = true;
+});
+
+
+builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 builder.Services.AddControllersWithViews();
 
