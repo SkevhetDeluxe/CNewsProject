@@ -1,0 +1,29 @@
+﻿@model CNewsProject.Models.Account.User
+@{
+    ViewData["Title"] = "CREATE USER";
+}
+
+@*Make CNEWS Snygg again*@
+@* <h1>Someone Please make this a little bit FINARE</h1> *@
+
+<h1 class="bg-info text-white">Create User</h1>
+<a asp-action="Index" class="btn btn-secondary">Back</a>
+<div asp-validation-summary="All" class="text-danger"></div>
+
+
+@* Don't touch this though! *@
+<form method="post">
+    <div class="form-group">
+        <label asp-for="UserName"></label>
+        <input asp-for="UserName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
