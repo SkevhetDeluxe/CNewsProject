@@ -22,6 +22,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<A
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddMvc();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +40,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 app.UseRouting();
 
