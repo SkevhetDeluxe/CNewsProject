@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CNewsProject.Models.DataBase;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CNewsProject.Data
@@ -7,7 +8,14 @@ namespace CNewsProject.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
-        }
+        { }
+        public DbSet<Customer> Customers { get; set; }
+
+        public DbSet<Article> Article { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Subscription> Subscriptions { get; set; }
+        
     }
 }

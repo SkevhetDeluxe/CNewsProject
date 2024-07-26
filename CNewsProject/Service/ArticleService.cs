@@ -1,59 +1,59 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using CNewsProject.Models.Database;
+using CNewsProject.Models.DataBase;
+using CNewsProject.Data;
+using CNewsProject.Models.ViewModels;
 
 namespace CNewsProject.Services
 {
-    public class CNewsService : ICNewsService
+    public class ArticleService : IArticleService
     {
-        private readonly ArticleDbContext _db;
+        private readonly ApplicationDbContext _db;
         private readonly IConfiguration _configuration;
 
-        public CNewsService(CNewsDbContext db, IConfiguration configuration)
+        public ArticleService(ApplicationDbContext db, IConfiguration configuration)
         {
             _db = db;
             _configuration = configuration;
         }
 
         #region Base_Methods()
-        public List<Movie> GetAllMovies()
+        public List<Article> GetAllArticles()
         {
-            return _db.Movies.OrderBy(m => m.Title).ToList();
+            return _db.Article.OrderBy(m => m.Headline).ToList();
         }
 
-        public Movie GetMovieById(int Id)
+        public Article GetArticleById(int Id)
         {
-            return _db.Movies.FirstOrDefault(m => m.Id == Id);
+            return _db.Article.FirstOrDefault(m => m.Id == Id);
         }
 
-        public void AddMovie(Movie movie)
+        public void AddArticle(Article article)
         {
-            _db.Movies.Add(movie);
+            _db.Article.Add(article);
             _db.SaveChanges();
         }
 
-        public void RemoveMovie(Movie movie)
+        public void RemoveArticle(Article article)
         {
-            _db.Movies.Remove(_db.Movies.FirstOrDefault(m => m.Id == movie.Id));
+            _db.Article.Remove(_db.Article.FirstOrDefault(m => m.Id == article.Id));
             _db.SaveChanges();
         }
 
 
 
 
-        public void EditMovie(Movie movie)
+        public void EditArticle (Article article)
         {
-            GetMovieById(movie.Id).Title = movie.Title;
-            GetMovieById(movie.Id).Category = movie.Category;
-            GetMovieById(movie.Id).Director = movie.Director;
-            GetMovieById(movie.Id).Language = movie.Language;
-            GetMovieById(movie.Id).Country = movie.Country;
-            GetMovieById(movie.Id).ReleaseYear = movie.ReleaseYear;
-            GetMovieById(movie.Id).Price = movie.Price;
-            GetMovieById(movie.Id).ImageURL = movie.ImageURL;
-
-
-
-
+            GetArticleById(article.Id).DateStamp = article.DateStamp;
+            GetArticleById(article.Id).LinkText = article.LinkText;
+            GetArticleById(article.Id).Headline = article.Headline;
+            GetArticleById(article.Id).ContentSummary = article.ContentSummary;
+            GetArticleById(article.Id).Content = article.Content;
+            GetArticleById(article.Id).Views = article.Views;
+            GetArticleById(article.Id).Likes = article.Likes;
+            GetArticleById(article.Id).ImageLink = article.ImageLink;
+            GetArticleById(article.Id).Category = article.Category;
+            GetArticleById(article.Id).IsArchived = article.IsArchived;
 
             _db.SaveChanges();
         }
@@ -65,42 +65,42 @@ namespace CNewsProject.Services
 
         #region Get_Lists_With_Filters()
         // Overload later to take filters and sortings
-        public List<Movie> GetMovieList()
+        public List<Article> GetArticleList()
         {
-            List<Movie> movieList = GetAllMovies();
+            List<Article> articleList = GetAllArticles();
 
-            return movieList;
+            return articleList;
         }
 
-        public List<Movie> GetMovieList(MovieListVM vModel)
+        public List<Article> GetArticleList(ArticleListVM vModel)
         {
-            List<Movie> movieList = GetAllMovies();
+            List<Article> articleList = GetAllArticles();
 
-            if (vModel.Director != "All")
-                movieList = movieList.Where(m => m.Director == vModel.Director).ToList();
+            if (vModel.Headline != "All")
+                articleList = articleList.Where(m => m.Headline == vModel.Headline).ToList();
 
             if (vModel.Category != "All")
-                movieList = movieList.Where(m => m.Category == vModel.Category).ToList();
+                articleList = articleList.Where(m => m.Category == vModel.Category).ToList();
 
-            return movieList;
+            return articleList;
         }
 
 
         // Get SORTINGS and FILTERS
-        public List<string> GetDirectors() // Gets a List<string> of Directors. No Dupes.
+        public List<string> GetHeadlines() // Gets a List<string> of Headlines. No Dupes.
         {
-            List<string> directors = new()
+            List<string> headlines = new()
             {
                 "All"
             };
 
-            foreach (Movie movie in GetAllMovies())
+            foreach (Article article in GetAllArticles())
             {
-                if (!directors.Contains(movie.Director))
-                    directors.Add(movie.Director);
+                if (!headlines.Contains(article.Headline))
+                    headlines.Add(article.Headline);
             }
 
-            return directors;
+            return headlines;
         }
 
         public List<string> GetCategories() // Gets a List<string> of Categories. No Dupes.
@@ -110,30 +110,30 @@ namespace CNewsProject.Services
                 "All"
             };
 
-            foreach (Movie movie in GetAllMovies())
+            foreach (Article article in GetAllArticles())
             {
-                if (!categories.Contains(movie.Category))
-                    categories.Add(movie.Category);
+                if (!categories.Contains(article.Category))
+                    categories.Add(article.Category);
             }
 
             return categories;
         }
 
         // SELECT LISTS
-        public List<SelectListItem> GetDirectorList()
+        public List<SelectListItem> GetHeadlineList()
         {
-            List<SelectListItem> directorList = new();
+            List<SelectListItem> headlineList = new();
 
-            foreach (string director in GetDirectors())
+            foreach (string headline in GetHeadlines())
             {
-                directorList.Add(new SelectListItem
+                headlineList.Add(new SelectListItem
                 {
-                    Value = director,
-                    Text = director
+                    Value = headline,
+                    Text = headline
                 });
             }
 
-            return directorList;
+            return headlineList;
         }
 
         public List<SelectListItem> GetCategoryList()
@@ -157,53 +157,47 @@ namespace CNewsProject.Services
         #region Specifics_For_FrontPage()
         // These Methods are for displaying TOP Fives on the front page
 
-        public List<Movie> FPMostPopular()
+        //public List<Article> FPMostPopular()
+        //{
+        //    var fpmostpopular = _db.OrderRows.GroupBy(or => or.ArticleId)
+        //       .OrderByDescending(g => g.Count())
+        //       .Select(m => new Article()
+        //       {
+        //           Id = m.Key,
+        //           Headline = m.First().Article.Headline,
+        //           Views = m.First().Article.Views,
+        //           Likes = m.First().Article.Likes,
+
+        //       }).Take(5).ToList();
+
+        //    return fpmostpopular;
+        //}
 
 
-
+        public List<Article> FPNewest()
         {
-            var fpmostpopular = _db.OrderRows.GroupBy(or => or.MovieId)
-               .OrderByDescending(g => g.Count())
-               .Select(m => new Movie()
-               {
-                   Id = m.Key,
-                   ImageURL = m.First().Movie.ImageURL,
-                   Title = m.First().Movie.Title,
-                   Price = m.First().Movie.Price,
-
-               }).Take(5).ToList();
-
-            return fpmostpopular;
-
-
-
-        }
-
-
-        public List<Movie> FPNewest()
-        {
-            List<Movie> movieList = new();
-            movieList = GetAllMovies().OrderByDescending(m => m.ReleaseYear)
+            List<Article> articleList = new();
+            articleList = GetAllArticles().OrderByDescending(m => m.DateStamp)
                 .Take(5).ToList();
 
-            return movieList;
+            return articleList;
         }
-        public List<Movie> FPOldest()
+        public List<Article> FPOldest()
         {
-            List<Movie> movieList = new();
-            movieList = GetAllMovies().OrderBy(m => m.ReleaseYear)
+            List<Article> articleList = new();
+        articleList = GetAllArticles().OrderBy(m => m.DateStamp)
                 .Take(5).ToList();
 
-            return movieList;
+            return articleList;
         }
-        public List<Movie> FPCheapest()
-        {
-            List<Movie> movieList = new();
-            movieList = GetAllMovies().OrderBy(m => m.Price)
-                .Take(5).ToList();
+        //public List<Article> FPCheapest()
+        //{
+        //    List<Article> articleList = new();
+        //articleList = GetAllArticles().OrderBy(m => m.Price)
+        //        .Take(5).ToList();
 
-            return movieList;
-        }
+        //    return articleList;
+        //}
 
         #region SetupVM()_For_FrontPage_Specifics
 
@@ -218,19 +212,19 @@ namespace CNewsProject.Services
          * 4. Cheapest
          */
 
-        public FrontPageVM SetupFPVM()
-        {
-            FrontPageVM vModel = new();
-            vModel.FrontPageMovieLists = new()
-            {
-                { FPMostPopular() },
-                { FPNewest() },
-                { FPOldest() },
-                { FPCheapest() }
-            };
+        //public FrontPageVM SetupFPVM()
+        //{
+        //    FrontPageVM vModel = new();
+        //    vModel.FrontPageMovieLists = new()
+        //    {
+        //        { FPMostPopular() },
+        //        { FPNewest() },
+        //        { FPOldest() },
+        //        { FPCheapest() }
+        //    };
 
-            return vModel;
-        }
+        //    return vModel;
+        //}
 
         #endregion
 
@@ -239,43 +233,43 @@ namespace CNewsProject.Services
 
         #region Setups_And_UpdateVM()
         // UPDATE METHODS, Used for Setting and Updating
-        public MovieListVM UpdateVM()
+        public ArticleListVM UpdateVM()
         {
-            MovieListVM vModel = new();
+            ArticleListVM vModel = new();
 
             vModel.CategoryList = GetCategoryList();
-            vModel.DirectorList = GetDirectorList();
-            vModel.MovieList = GetMovieList();
+            vModel.HeadlineList = GetHeadlineList();
+            vModel.ArticleList = GetArticleList();
 
             return vModel;
         }
 
-        public MovieListVM UpdateVM(MovieListVM vModel)
+        public ArticleListVM UpdateVM(ArticleListVM vModel)
         {
             vModel.CategoryList = GetCategoryList();
-            vModel.DirectorList = GetDirectorList();
-            vModel.MovieList = GetMovieList(vModel);
+            vModel.HeadlineList = GetHeadlineList();
+            vModel.ArticleList = GetArticleList(vModel);
 
             return vModel;
         }
 
-        public MovieListVM UpdateVM(int pageNum, int pageSize)
+        public ArticleListVM UpdateVM(int pageNum, int pageSize)
         {
-            MovieListVM vModel = new();
+            ArticleListVM vModel = new();
             vModel.SelectedPageSize = Convert.ToString(pageSize);
 
             vModel.CategoryList = GetCategoryList();
-            vModel.DirectorList = GetDirectorList();
-            vModel.MovieList = GetMovieList()
+            vModel.HeadlineList = GetHeadlineList();
+            vModel.ArticleList = GetArticleList()
                 .Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
 
             vModel.PageNum = pageNum;
             vModel.PageSize = pageSize;
 
-            if (pageSize < GetAllMovies().Count())
+            if (pageSize < GetAllArticles().Count())
             {
-                vModel.MaxPage = (GetAllMovies().Count() % pageSize == 0)
-                    ? GetAllMovies().Count() / pageSize : GetAllMovies().Count() / pageSize + 1;
+                vModel.MaxPage = (GetAllArticles().Count() % pageSize == 0)
+                    ? GetAllArticles().Count() / pageSize : GetAllArticles().Count() / pageSize + 1;
             }
             else
                 vModel.MaxPage = 1;
@@ -283,22 +277,22 @@ namespace CNewsProject.Services
             return vModel;
         }
 
-        public MovieListVM UpdateVM(int pageNum, int pageSize, MovieListVM vModel)
+        public ArticleListVM UpdateVM(int pageNum, int pageSize, ArticleListVM vModel)
         {
             vModel.SelectedPageSize = Convert.ToString(pageSize);
 
             vModel.CategoryList = GetCategoryList();
-            vModel.DirectorList = GetDirectorList();
-            vModel.MovieList = GetMovieList(vModel)
+            vModel.HeadlineList = GetHeadlineList();
+            vModel.ArticleList = GetArticleList(vModel)
                 .Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
 
             vModel.PageNum = pageNum;
             vModel.PageSize = pageSize;
 
-            if (pageSize < GetAllMovies().Count())
+            if (pageSize < GetAllArticles().Count())
             {
-                vModel.MaxPage = (GetAllMovies().Count() % pageSize == 0)
-                    ? GetAllMovies().Count() / pageSize : GetAllMovies().Count() / pageSize + 1;
+                vModel.MaxPage = (GetAllArticles().Count() % pageSize == 0)
+                    ? GetAllArticles().Count() / pageSize : GetAllArticles().Count() / pageSize + 1;
             }
             else
                 vModel.MaxPage = 1;

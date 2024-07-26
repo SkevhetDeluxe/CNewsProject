@@ -14,7 +14,7 @@ namespace CNewsProject.Models.DataBase
         public string LinkText { get; set; } = string.Empty;
 
         [Required]
-        public string HeadLine { get; set; } = string.Empty;
+        public string Headline { get; set; } = string.Empty;
 
         [Required]
         public string ContentSummary { get; set; } = string.Empty;
@@ -23,7 +23,7 @@ namespace CNewsProject.Models.DataBase
         public string Content { get; set; } = string.Empty;
 
         [Required]
-        public int views { get; set; }
+        public int Views { get; set; }
 
         [Required]
         public int Likes { get; set; }
@@ -32,7 +32,7 @@ namespace CNewsProject.Models.DataBase
         public string ImageLink { get; set; } = string.Empty;
        
         [Required]
-        public string Categori { get; set; } = string.Empty;
+        public string Category { get; set; } = string.Empty;
 
         [Required]
         public bool IsArchived  { get; set; }
