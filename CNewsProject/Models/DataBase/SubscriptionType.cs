@@ -2,7 +2,7 @@
 
 namespace CNewsProject.Models.DataBase
 {
-    public class SuscriptionType
+    public class SubscriptionType
     {
         public int Id { get; set; }
 
