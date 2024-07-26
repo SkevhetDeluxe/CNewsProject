@@ -15,7 +15,7 @@ namespace CNewsProject.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<Subscription> Subscription { get; set; }
         
     }
 }
