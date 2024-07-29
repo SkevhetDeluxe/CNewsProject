@@ -20,14 +20,16 @@ namespace CNewsProject.Controllers
         // CRUD METHODS
         #region CRUD METHODS
 
-        [AllowAnonymous]
+        // [Route("Account/Register")]
+        [AllowAnonymous] // CREATE
         public IActionResult Register()
         {
             return View();
         }
 
+        // [Route("Account/Register")]
         [HttpPost]
-        [AllowAnonymous]
+        [AllowAnonymous] // CREATE
         public async Task<IActionResult> Register(User user)
         {
             if (ModelState.IsValid)
@@ -46,11 +48,69 @@ namespace CNewsProject.Controllers
             return View(user);
         }
 
+
+        //Single READ ACCOUnt
+		public async Task<IActionResult> MyAccount()
+		{
+			AppUser user = await appUserService.GetAppUserByClaimsPrincipal(HttpContext.User);
+
+			return View(user);
+		}
+
+		// UPDATE ACCOUNT. (We can decide what the Users are allowed to update later.)
+		//                 (For now I'm just putting email, user name and password.)
+
+		//[Route("Account/Update")]
+		[HttpGet]
+        public async Task<IActionResult> Update(string id)
+        {
+            AppUser user = await appUserService.GetAppUserByIdAsync(id);
+            if (user != null)
+                return View(user);
+            else
+                return RedirectToAction("Index");
+        }
+
+
+        //[Route("Account/Update")] // THIS MADE WHOLE FING ÅPROGHRAM HELT JÄVLA EFTERBLIBET ASSÅ DPON*YT USER PLEASE !THACACKTTACK!!=!=!
+        [HttpPost]
+        public async Task<IActionResult> Update(string id, string email, string userName, string password)
+        {
+            AppUser user = await appUserService.GetAppUserByIdAsync(id);
+
+            IdentityResult result = await appUserService.UpdateAppUserAsync(id, email, userName, password);
+
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            return View(user);
+        }
+
+        public async Task<IActionResult> DeleteMyAccount()
+        {
+            AppUser user = await appUserService.GetAppUserByClaimsPrincipal(HttpContext.User);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteMyAccount(string id)
+        {
+            IdentityResult result = await appUserService.DeleteUserByIdAsync(id);
+
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Home");
+
+            return RedirectToAction("DeleteMyAccount");
+        }
+
+
         #endregion
 
         // LOGIN LOGOUT METHODS
         #region LOGIN LOGOUT METHODS
 
+        // [Route("Account/Login")]
         [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
@@ -59,6 +119,7 @@ namespace CNewsProject.Controllers
             return View(login);
         }
 
+        // [Route("Account/Login")]
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -81,13 +142,19 @@ namespace CNewsProject.Controllers
             return View(login);
         }
 
+        public async Task<IActionResult> Logout()
+        {
+            await appUserService.LogoutAppUserAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
         #endregion
 
 
-        //TESTING PURPOSES
-        public IActionResult TestingShit()
+        private void Errors(IdentityResult result)
         {
-            return View();
+            foreach (IdentityError error in result.Errors)
+                ModelState.AddModelError("", error.Description);
         }
     }
 }

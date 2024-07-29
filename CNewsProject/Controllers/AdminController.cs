@@ -1,42 +1,32 @@
-﻿using Microsoft.AspNetCore.Mvc;
+
+using CNewsProject.Models.Account;
+using CNewsProject.Models.DataBase.Identity;
+using CNewsProject.Service;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CNewsProject.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        
-        public IActionResult Index()
+        private readonly IAppUserService appUserService;
+
+        public AdminController(IAppUserService appUserSrvc)
         {
-            return View();
-        }
-        public IActionResult EditeArtical()
-        {
-           return RedirectToAction("Index");
-        }
-        public IActionResult EditeCategory()
-        {
-            return RedirectToAction("Index");
+            appUserService = appUserSrvc;
         }
 
-        public IActionResult Removemember()
-        {
-            return RedirectToAction("Index", "Home");   
-        }
-        public IActionResult Details()
-        {
-            return View();
-        }
-        //public AdminController<IActionResult> DeleteCategory(int id)
-        //{
-            
-        //    return RedirectToAction((DeleteCategory));
-        //}
 
-        //private AdminController<IActionResult> RedirectToAction(Func<int, AdminController<IActionResult>> deleteCategory)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        [AllowAnonymous]
+        //[Route("Admin/Users")]
+        public IActionResult Users()
+        {
+            IEnumerable<AppUser> users = appUserService.ReadAppUsers();
+
+            return View(users);
+        }
     }
-
-   
 }
