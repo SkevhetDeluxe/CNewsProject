@@ -2,32 +2,59 @@
     ViewData["Title"] = "Swedish News";
 }
 
-<div class="container mt-4">
-    <h1 class="mb-4">Swedish News</h1>
-    <div class="row">
-        <div class="col-md-8">
-            <div class="main-article">
-                <img src="sweden-main-article.jpg" alt="Sweden Main Article Image" class="img-fluid">
-                <h2 class="mt-3">Main Headline</h2>
-                <p>Main article summary...</p>
+<main class="row">
+    <section class="main-article col-lg-8 col-md-8 col-sm-12">
+        <img src="main-article-image.jpg" alt="Main Article Image" class="img-fluid">
+        <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
+        <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
+    </section>
+    <aside class="col-lg-4 col-md-4 col-sm-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2>Weather</h2>
+                <div class="weather-icon" id="weather-icon">☀️</div>
+                <p id="weather-details">Fetching weather details...</p>
             </div>
         </div>
-        <div class="col-md-4">
-            <aside>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>Weather</h3>
-                        <div class="weather-icon">☀️</div>
-                        <p>Weather details here...</p>
-                    </div>
-                </div>
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h3>Sweden News</h3>
-                        <p>Additional Sweden news content...</p>
-                    </div>
-                </div>
-            </aside>
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2>Exchange rates</h2>
+                <ul>
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>JPY</li>
+                    <li>CNY</li>
+                    <li>GBP</li>
+                </ul>
+                <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
+                <h2><a href="@Url.Action("World", "News")">World news</a></h2>
+                <h2><a href="@Url.Action("Latest", "News")">Latest news</a></h2>
+            </div>
         </div>
-    </div>
-</div>
+    </aside>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
+        var city = 'Atlanta'; // Replace with the desired city
+        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function (data) {
+                var weatherIcon = data.weather[0].icon;
+                var weatherDescription = data.weather[0].description;
+                var temperature = data.main.temp;
+                var weatherDetails = `${weatherDescription}, ${temperature}°C`;
+
+                $('#weather-details').text(weatherDetails);
+            },
+            error: function () {
+                $('#weather-details').text('Unable to fetch weather details.');
+            }
+        });
+    });
+</script>
