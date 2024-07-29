@@ -1,7 +1,6 @@
 ﻿using CNewsProject.Data;
 using CNewsProject.Models.DataBase;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using CNewsProject.Models.ViewModels;
 
 namespace CNewsProject.Service
 {

@@ -1,4 +1,5 @@
-﻿using CNewsProject.Models.Account;
+
+using CNewsProject.Models.Account;
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Service;
 using Microsoft.AspNetCore.Authorization;
