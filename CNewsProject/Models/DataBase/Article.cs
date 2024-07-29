@@ -30,9 +30,9 @@ namespace CNewsProject.Models.DataBase
 
         [Required]
         public string ImageLink { get; set; } = string.Empty;
-       
+
         [Required]
-        public string Category { get; set; } = string.Empty;
+        public Category Category { get; set; } = new();
 
         [Required]
         public bool IsArchived  { get; set; }

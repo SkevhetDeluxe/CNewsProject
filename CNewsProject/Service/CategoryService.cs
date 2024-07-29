@@ -43,7 +43,7 @@ namespace CNewsProject.Service
 
         public void EditCategory(Category category)
         {
-            GetCategoryById(category.Id).CategoryType = category.CategoryType;
+            GetCategoryById(category.Id).Name = category.Name;
            
             _db.SaveChanges();
         }

@@ -1,42 +1,51 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CNewsProject.Models.DataBase;
+using CNewsProject.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CNewsProject.Controllers
 {
-    [Route("news")]
-    public class NewsController : Controller
-    {        
-        [Route("local")]
-        public IActionResult Local()
-        {
-            return View();
-        }
+	[Route("news")]
+	public class NewsController : Controller
+	{
+		private readonly IArticleService _articleService;
 
-        [Route("sweden")]
+		public NewsController(IArticleService articleService)
+		{
+			_articleService = articleService;
+		}
+		public IActionResult Local()
+		{
+			Category category = new();
+			List<Article> localArticles = _articleService.GetArticleListByCategory(category);
+			return View(localArticles);
+		}
 
-        public IActionResult Sweden()
-        {
-            return View();
-        }
+		public IActionResult Sweden()
+		{
+			Category category = new();
+			List<Article> swedenArticles = _articleService.GetArticleListByCategory(category);
+			return View(swedenArticles);
+		}
 
-        [Route("world")]
+		public IActionResult World()
+		{
+			Category category = new();
+			List<Article> worldArticles = _articleService.GetArticleListByCategory(category);
+			return View(worldArticles);
+		}
 
-        public IActionResult World()
-        {
-            return View();
-        }
+		public IActionResult Economy()
+		{
+			Category category = new();
+			List<Article> economyArticles = _articleService.GetArticleListByCategory(category);
+			return View(economyArticles);
+		}
 
-        [Route("economy")]
-
-        public IActionResult Economy()
-        {
-            return View();
-        }
-
-        [Route("sport")]
-
-        public IActionResult Sport()
-        {
-            return View();
-        }
-    }
+		public IActionResult Sport()
+		{
+			Category category = new();
+			List<Article> sportArticles = _articleService.GetArticleListByCategory(category);
+			return View(sportArticles);
+		}
+	}
 }
