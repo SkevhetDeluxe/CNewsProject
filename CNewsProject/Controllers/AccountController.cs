@@ -10,11 +10,16 @@ namespace CNewsProject.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly IAppUserService appUserService;
+        private readonly IIdentityService identityService;
 
-        public AccountController(IAppUserService appUserSrvc)
+        public AccountController(IIdentityService identitySrvc)
         {
-            appUserService = appUserSrvc;
+            identityService = identitySrvc;
+        }
+
+        public IActionResult Index()
+        {
+            return RedirectToAction("MyAccount");
         }
 
         // CRUD METHODS
@@ -34,7 +39,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await appUserService.CreateAppUserAsync(user);
+                IdentityResult result = await identityService.CreateAppUserAsync(user);
 
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Home");
@@ -50,9 +55,9 @@ namespace CNewsProject.Controllers
 
 
         //Single READ ACCOUnt
-		public async Task<IActionResult> MyAccount()
+		public async Task<IActionResult> Profile()
 		{
-			AppUser user = await appUserService.GetAppUserByClaimsPrincipal(HttpContext.User);
+			AppUser user = await identityService.GetAppUserByClaimsPrincipal(HttpContext.User);
 
 			return View(user);
 		}
@@ -64,7 +69,7 @@ namespace CNewsProject.Controllers
 		[HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            AppUser user = await appUserService.GetAppUserByIdAsync(id);
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
             if (user != null)
                 return View(user);
             else
@@ -76,9 +81,9 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(string id, string email, string userName, string password)
         {
-            AppUser user = await appUserService.GetAppUserByIdAsync(id);
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
 
-            IdentityResult result = await appUserService.UpdateAppUserAsync(id, email, userName, password);
+            IdentityResult result = await identityService.UpdateAppUserAsync(id, email, userName, password);
 
             if (result.Succeeded)
                 return RedirectToAction("Index");
@@ -88,7 +93,7 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> DeleteMyAccount()
         {
-            AppUser user = await appUserService.GetAppUserByClaimsPrincipal(HttpContext.User);
+            AppUser user = await identityService.GetAppUserByClaimsPrincipal(HttpContext.User);
 
             return View(user);
         }
@@ -96,7 +101,7 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteMyAccount(string id)
         {
-            IdentityResult result = await appUserService.DeleteUserByIdAsync(id);
+            IdentityResult result = await identityService.DeleteUserByIdAsync(id);
 
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home");
@@ -112,7 +117,7 @@ namespace CNewsProject.Controllers
 
         // [Route("Account/Login")]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
             Login login = new();
             login.ReturnUrl = returnUrl;
@@ -128,14 +133,14 @@ namespace CNewsProject.Controllers
             if (ModelState.IsValid)
             {
 
-                Microsoft.AspNetCore.Identity.SignInResult result = await appUserService.LoginAppUserAsync(login);
+                Microsoft.AspNetCore.Identity.SignInResult result = await identityService.LoginAppUserAsync(login);
 
                 if (result.Succeeded)
                     return Redirect(login.ReturnUrl ?? "/");
                 
-                ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");   
+                ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
 
-                appUserService.LoginAppUserAsync(login);
+                identityService.LoginAppUserAsync(login);
 
             }
             
@@ -144,12 +149,19 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await appUserService.LogoutAppUserAsync();
+            await identityService.LogoutAppUserAsync();
             return RedirectToAction("Index", "Home");
         }
 
         #endregion
 
+        
+
+        [Route("/Door/Bouncer")]
+        public IActionResult Denied()
+        {
+            return View();
+        }
 
         private void Errors(IdentityResult result)
         {

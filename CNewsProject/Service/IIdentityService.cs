@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CNewsProject.Service
 {
-    public interface IAppUserService
+    public interface IIdentityService
     {
         public Task<IdentityResult> CreateAppUserAsync(User user);
         public Task<AppUser> GetAppUserByIdAsync(string id);
@@ -18,6 +18,22 @@ namespace CNewsProject.Service
         public Task<SignInResult> LoginAppUserAsync(Login login);
         public Task LogoutAppUserAsync();
 
+
+        // ROLES
+        #region ROLES
+        public IEnumerable<IdentityRole>? ReadRoles();
+        public Task<IdentityResult> CreateRoleAsync(string name);
+        public Task<IdentityRole>? GetRoleByIdAsync(string id);
+        public Task<IdentityResult> DeleteRoleAsync(IdentityRole role);
+
+        public Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers);
+        public Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName);
+        public Task<IdentityResult> PurgeUserRoleAsync(AppUser user, string roleName);
+
+
+
+
+        #endregion
 
     }
 }
