@@ -38,8 +38,8 @@
 <script>
     $(document).ready(function () {
         var apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
-        var city = 'Atlanta'; // Replace with the desired city
-        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        var city = 'Linköping'; // Replace with the desired city
+        var apiUrl = `https://weather.com/weather/tenday{city}&appid=${apiKey}&units=metric`;
 
         $.ajax({
             url: apiUrl,
