@@ -39,6 +39,8 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 builder.Services.AddControllersWithViews();
 
