@@ -2,7 +2,7 @@
 using CNewsProject.Models.DataBase;
 using CNewsProject.Models.ViewModels;
 
-namespace CNewsProject.Services
+namespace CNewsProject.Service
 {
     public interface IArticleService
     {
