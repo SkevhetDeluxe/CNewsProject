@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CNewsProject</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
     <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -38,6 +38,7 @@
                             <a class="nav-link text-dark" asp-controller="News" asp-action="Sport">Sport</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit" asp-controller="News" asp-action="Search">Search</button>
