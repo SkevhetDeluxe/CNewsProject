@@ -129,5 +129,12 @@ namespace CNewsProject.Controllers
         }
 
         #endregion
+
+        // CLAIMS
+        #region CLAIMS
+
+        public ViewResult Claims() => View(User?.Claims);
+
+        #endregion
     }
 }
