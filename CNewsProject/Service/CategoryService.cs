@@ -22,9 +22,9 @@ namespace CNewsProject.Service
             return _db.Category.OrderBy(c => c.Id).ToList();
         }
 
-        public Category GetCategoryByName(string name)
+        public Category GetCategoryById(int id)
         {
-            return _db.Category.FirstOrDefault(c => c.Name == name)!;
+            return _db.Category.FirstOrDefault(c => c.Id == id);
         }
 
 
@@ -43,7 +43,7 @@ namespace CNewsProject.Service
 
         public void EditCategory(Category category)
         {
-            GetCategoryByName(category.Name).Name = category.Name;
+            GetCategoryById(category.Id).Name = category.Name;
            
             _db.SaveChanges();
         }
