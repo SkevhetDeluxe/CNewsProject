@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CNewsProject.Service
 {
-    public class AppUserService : IAppUserService
+    public class IdentityService : IIdentityService
     {
         private ApplicationDbContext db;
         private readonly UserManager<AppUser> userManager;
@@ -14,7 +14,7 @@ namespace CNewsProject.Service
         private readonly IPasswordHasher<AppUser> passwordHasher;
 
 
-        public AppUserService(ApplicationDbContext db, UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr,
+        public IdentityService(ApplicationDbContext db, UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr,
             RoleManager<IdentityRole> roleMgr, IPasswordHasher<AppUser> passwordHash)
         {
             this.db = db;
@@ -24,6 +24,8 @@ namespace CNewsProject.Service
             passwordHasher = passwordHash;
         }
 
+        // AppUser RELATED
+        #region AppUser RELATED
 
         // CRUD OPERATIONS AppUser ACCOUNTS
         #region CRUD OPERATIONS AppUser Accounts
@@ -152,6 +154,64 @@ namespace CNewsProject.Service
         }
 
         #endregion
+        #endregion
 
+        // Role RELATED
+        #region Role RELATED
+
+        // CRUD OPS
+        #region CRUD OPS 
+
+        public IEnumerable<IdentityRole>? ReadRoles()
+        {
+            IEnumerable<IdentityRole>? roles = roleManager.Roles;
+            return roles;
+        }
+
+        public async Task<IdentityResult> CreateRoleAsync(string name)
+        {
+            IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
+
+            return result;
+        }
+
+        public async Task<IdentityRole>? GetRoleByIdAsync(string id)
+        {
+            IdentityRole? role = await roleManager.FindByIdAsync(id);
+            return role;
+        }
+
+        public async Task<IdentityResult> DeleteRoleAsync(IdentityRole role)
+        {
+            IdentityResult result = await roleManager.DeleteAsync(role);
+            return result;
+        }
+
+        #endregion
+
+        public async Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers)
+        {
+            foreach (AppUser user in userManager.Users)
+            {
+                var list = (await userManager.IsInRoleAsync(user, role.Name)) ? members : nonMembers;
+                list.Add(user);
+            }
+        }
+
+        public async Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName)
+        {
+            IdentityResult result = await userManager.AddToRoleAsync(user, roleName);
+
+            return result;
+        }
+
+        public async Task<IdentityResult> PurgeUserRoleAsync(AppUser user, string roleName)
+        {
+            IdentityResult result = await userManager.RemoveFromRoleAsync(user, roleName);
+
+            return result;
+        }
+
+        #endregion
     }
 }

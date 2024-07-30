@@ -38,7 +38,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 });
 
 
-builder.Services.AddScoped<IAppUserService, AppUserService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 builder.Services.AddControllersWithViews();
 
