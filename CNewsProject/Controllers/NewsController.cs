@@ -48,5 +48,16 @@ namespace CNewsProject.Controllers
 			List<Article> sportArticles = _articleService.GetArticleListByCategory(category);
 			return View(sportArticles);
 		}
+
+		public IActionResult Search()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Search(string search)
+		{
+			List<Article> searchResults = _articleService.SearchForArticles(search);
+			return View(searchResults);
+		}
 	}
 }

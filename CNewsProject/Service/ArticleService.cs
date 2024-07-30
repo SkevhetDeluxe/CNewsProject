@@ -72,6 +72,12 @@ namespace CNewsProject.Service
             return articleList;
         }
 
+		public List<Article> SearchForArticles(string search)
+		{
+			List<Article> searchResults = _db.Article.Where(a => a.Headline.ToLower().Contains(search)).ToList();
+			return null;
+		}
+
 		#region Extra shit we wont need. Probably
 		//public List<Article> GetArticleList(ArticleListVM vModel)
 		//{
