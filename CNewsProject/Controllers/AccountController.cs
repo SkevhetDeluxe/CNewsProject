@@ -155,10 +155,12 @@ namespace CNewsProject.Controllers
 
         #endregion
 
+        
 
+        [Route("/Door/Bouncer")]
         public IActionResult Denied()
         {
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
         private void Errors(IdentityResult result)
