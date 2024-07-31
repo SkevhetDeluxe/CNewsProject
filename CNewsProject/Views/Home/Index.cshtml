@@ -1,5 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using CNewsProject.Models.Api.Weather
+
+@model WeatherStats
+
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +12,10 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
+    
 </head>
+
+
 <body>   
     <main>
         <section class="main-article">
@@ -18,8 +26,10 @@
         <aside>
             <div class="card">
                 <h2>Weather</h2>
+                <partial name="_WeatherPartial" model="@Model" />
                 <div class="weather-icon">☀️</div>
-                <p>Weather details here...</p>
+                <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
+                
             </div>
             <div class="card">
                 <h2>Exchange rates</h2>

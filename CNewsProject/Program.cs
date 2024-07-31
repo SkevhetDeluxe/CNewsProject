@@ -1,4 +1,5 @@
 using CNewsProject.Data;
+using CNewsProject.Models.Api.Weather;
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Service;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
+builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 
 builder.Services.AddControllersWithViews();
 
