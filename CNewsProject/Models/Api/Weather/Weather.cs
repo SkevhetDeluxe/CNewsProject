@@ -23,5 +23,8 @@
         public int Elevation { get; set; }
         public HourlyUnits Hourly_units { get; set; }
         public Hourly Hourly { get; set; }
+
+        public string CurrentTime { get; set; }
+        public double CurrentTemperature { get; set; }
     }
 }
