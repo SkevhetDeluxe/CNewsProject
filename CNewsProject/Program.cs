@@ -31,7 +31,7 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.ConfigureApplicationCookie(opts =>
 {
     opts.LoginPath = "/Account/Login";
-    opts.AccessDeniedPath = "/Account/Denied";
+    opts.AccessDeniedPath = "/Door/Bouncer";
 
     opts.Cookie.Name = ".AspNetCore.Identity.Application";
     opts.ExpireTimeSpan = TimeSpan.FromMinutes(60);
@@ -40,7 +40,14 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
+
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
+
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+
+
 
 builder.Services.AddControllersWithViews();
 

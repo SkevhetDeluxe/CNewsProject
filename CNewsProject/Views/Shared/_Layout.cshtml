@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CNewsProject</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
     <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
 </head>
 <body>
@@ -13,7 +13,7 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="logo.png" alt="News Logo" style="height: 50px;">
+					<img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
                     CNewsProject
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -38,9 +38,10 @@
                             <a class="nav-link text-dark" asp-controller="News" asp-action="Sport">Sport</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                     <form class="d-flex" role="search">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <button class="btn btn-outline-success" type="submit" asp-controller="News" asp-action="Search">Search</button>
                     </form>
                     <div class="user-icon">👤</div>
                 </div>

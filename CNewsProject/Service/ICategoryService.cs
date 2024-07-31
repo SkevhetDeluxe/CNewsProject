@@ -6,7 +6,7 @@ namespace CNewsProject.Service
     public interface ICategoryService
     {
         public List<Category> GetAllCategory();
-        public Category GetCategoryById(int Id);
+        public Category GetCategoryById(int id);
         public void AddCategory(Category category);
         public void RemoveCategory(Category category);
         public void EditCategory(Category category);

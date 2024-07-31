@@ -1,42 +1,63 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CNewsProject.Models.DataBase;
+using CNewsProject.Service;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CNewsProject.Controllers
 {
-    [Route("news")]
-    public class NewsController : Controller
-    {        
-        [Route("local")]
-        public IActionResult Local()
-        {
-            return View();
-        }
+	public class NewsController : Controller
+	{
+		private readonly IArticleService _articleService;
+		private readonly ICategoryService _categoryService;
 
-        [Route("sweden")]
+		public NewsController(IArticleService articleService, ICategoryService categoryService)
+		{
+			_articleService = articleService;
+			_categoryService = categoryService;
+		}
+		public IActionResult Local()
+		{
+			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			List<Article> localArticles = _articleService.GetArticleListByCategory(category);
+			return View(localArticles);
+		}
 
-        public IActionResult Sweden()
-        {
-            return View();
-        }
+		public IActionResult Sweden()
+		{
+			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			List<Article> swedenArticles = _articleService.GetArticleListByCategory(category);
+			return View(swedenArticles);
+		}
 
-        [Route("world")]
+		public IActionResult World()
+		{
+			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			List<Article> worldArticles = _articleService.GetArticleListByCategory(category);
+			return View(worldArticles);
+		}
 
-        public IActionResult World()
-        {
-            return View();
-        }
+		public IActionResult Economy()
+		{
+			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			List<Article> economyArticles = _articleService.GetArticleListByCategory(category);
+			return View(economyArticles);
+		}
 
-        [Route("economy")]
+		public IActionResult Sport()
+		{
+			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			List<Article> sportArticles = _articleService.GetArticleListByCategory(category);
+			return View(sportArticles);
+		}
 
-        public IActionResult Economy()
-        {
-            return View();
-        }
-
-        [Route("sport")]
-
-        public IActionResult Sport()
-        {
-            return View();
-        }
-    }
+		public IActionResult Search()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Search(string search)
+		{
+			List<Article> searchResults = _articleService.SearchForArticles(search);
+			return View(searchResults);
+		}
+	}
 }
