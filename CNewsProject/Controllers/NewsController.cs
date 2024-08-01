@@ -54,9 +54,9 @@ namespace CNewsProject.Controllers
 			return View();
 		}
 		[HttpPost]
-		public IActionResult Search(string search)
+		public IActionResult Search(string search, string category)
 		{
-			List<Article> searchResults = _articleService.SearchForArticles(search);
+			List<Article> searchResults = _articleService.SearchForArticles(search, category);
 			return View(searchResults);
 		}
 	}
