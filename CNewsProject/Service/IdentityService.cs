@@ -1,7 +1,9 @@
 ﻿using CNewsProject.Data;
 using CNewsProject.Models.Account;
 using CNewsProject.Models.DataBase.Identity;
+using CNewsProject.Models.HelperModels;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Policy;
 
 namespace CNewsProject.Service
 {
@@ -13,15 +15,20 @@ namespace CNewsProject.Service
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly IPasswordHasher<AppUser> passwordHasher;
 
+        private readonly IHttpContextAccessor _accessor;
+        private readonly LinkGenerator _generator;
+
 
         public IdentityService(ApplicationDbContext db, UserManager<AppUser> userMgr, SignInManager<AppUser> signInMgr,
-            RoleManager<IdentityRole> roleMgr, IPasswordHasher<AppUser> passwordHash)
+            RoleManager<IdentityRole> roleMgr, IPasswordHasher<AppUser> passwordHash, IHttpContextAccessor accessor, LinkGenerator generator)
         {
             this.db = db;
             userManager = userMgr;
             signInManager = signInMgr;
             roleManager = roleMgr;
             passwordHasher = passwordHash;
+            _accessor = accessor;
+            _generator = generator;
         }
 
         // AppUser RELATED
@@ -30,7 +37,7 @@ namespace CNewsProject.Service
         // CRUD OPERATIONS AppUser ACCOUNTS
         #region CRUD OPERATIONS AppUser Accounts
         // REGISTER New ACCOUNT
-        public async Task<IdentityResult> CreateAppUserAsync(User user)
+        public async Task<IdentityResultUser> CreateAppUserAsync(User user)
         {
             AppUser appUser = new AppUser
             {
@@ -40,6 +47,20 @@ namespace CNewsProject.Service
 
             IdentityResult result = await userManager.CreateAsync(appUser, user.Password);
 
+            IdentityResultUser resultUser = new(result, appUser);
+
+            return resultUser;
+        }
+
+        public async Task<string> GenerateEmailTokenAsync(AppUser user)
+        {
+            var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
+            return token;
+        }
+
+        public async Task<IdentityResult> ConfirmEmail(AppUser user, string token)
+        {
+            var result = await userManager.ConfirmEmailAsync(user, token);
             return result;
         }
 
@@ -51,6 +72,13 @@ namespace CNewsProject.Service
         public async Task<AppUser> GetAppUserByIdAsync(string id)
         {
             AppUser user = await userManager.FindByIdAsync(id);
+
+            return user;
+        }
+
+        public async Task<AppUser> GetAppUserByEmailAsync(string email)
+        {
+            AppUser user = await userManager.FindByEmailAsync(email);
 
             return user;
         }
@@ -159,8 +187,8 @@ namespace CNewsProject.Service
         // Role RELATED
         #region Role RELATED
 
-        // CRUD OPS
-        #region CRUD OPS 
+        // CRUD OPS ROLES
+        #region CRUD OPS ROLES
 
         public IEnumerable<IdentityRole>? ReadRoles()
         {
@@ -187,7 +215,7 @@ namespace CNewsProject.Service
             return result;
         }
 
-        #endregion
+        #endregion ROLES
 
         public async Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers)
         {
@@ -196,6 +224,11 @@ namespace CNewsProject.Service
                 var list = (await userManager.IsInRoleAsync(user, role.Name)) ? members : nonMembers;
                 list.Add(user);
             }
+        }
+
+        public async Task<bool> UserHasRole(AppUser user, string roleName)
+        {
+            return await userManager.IsInRoleAsync(user, roleName);
         }
 
         public async Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName)

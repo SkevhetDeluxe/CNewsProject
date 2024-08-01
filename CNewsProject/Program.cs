@@ -1,10 +1,19 @@
 using CNewsProject.Data;
+
+using CNewsProject.Helpers;
+
 using CNewsProject.Models.Api.Weather;
+
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Service;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+
+using System.Text.Json;
+
 using Microsoft.OpenApi;
+
 
 
 
@@ -33,7 +42,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    
+    options.SignIn.RequireConfirmedEmail = true;
     options.Password.RequiredLength = 8;
 });
 
@@ -57,10 +66,18 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
+builder.Services.AddTransient<IEmailSender, EmailHelper>();
+
+
 
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc();
+
+var options = new JsonSerializerOptions
+{
+    PropertyNameCaseInsensitive = true
+};
 
 var app = builder.Build();
 
