@@ -19,12 +19,12 @@ namespace CNewsProject.Service
 
         public List<Category> GetAllCategory()
         {
-            return _db.Category.OrderBy(o => o.Id).ToList();
+            return _db.Category.OrderBy(c => c.Id).ToList();
         }
 
         public Category GetCategoryById(int id)
         {
-            return _db.Category.FirstOrDefault(o => o.Id == id);
+            return _db.Category.FirstOrDefault(c => c.Id == id);
         }
 
 
@@ -36,7 +36,7 @@ namespace CNewsProject.Service
         }
         public void RemoveCategory(Category category)
         {
-            _db.Category.Remove(_db.Category.FirstOrDefault(m => m.Id == category.Id));
+            _db.Category.Remove(_db.Category.FirstOrDefault(c => c.Id == category.Id));
             _db.SaveChanges();
 
         }

@@ -1,0 +1,11 @@
+﻿@model CNewsProject.Models.Api.ExchangeRates.ExchangeRates
+
+<div class="exchange-rates">
+    <h2>Exchange Rates</h2>
+    <ul>
+        @foreach (var rate in Model.Rates)
+        {
+            <li>@rate.Currency: @rate.Rate</li>
+        }
+    </ul>
+</div>

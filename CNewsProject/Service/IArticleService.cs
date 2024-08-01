@@ -2,7 +2,7 @@
 using CNewsProject.Models.DataBase;
 using CNewsProject.Models.ViewModels;
 
-namespace CNewsProject.Services
+namespace CNewsProject.Service
 {
     public interface IArticleService
     {
@@ -12,6 +12,7 @@ namespace CNewsProject.Services
         public void RemoveArticle(Article article);
         public void EditArticle(Article article);
         public List<Article> GetArticleListByCategory(Category category);
+        public List<Article> SearchForArticles(string search);
 
         //public List<SelectListItem> GetHeadlineList();
         //public List<SelectListItem> GetCategoryList();

@@ -3,21 +3,21 @@ using CNewsProject.Models.DataBase;
 using CNewsProject.Data;
 using CNewsProject.Models.ViewModels;
 
-namespace CNewsProject.Services
+namespace CNewsProject.Service
 {
     public class ArticleService : IArticleService
     {
         private readonly ApplicationDbContext _db;
-        //private readonly IConfiguration _configuration;
+		private readonly IConfiguration _configuration;
 
-        public ArticleService(ApplicationDbContext db/*, IConfiguration configuration*/)
+		public ArticleService(ApplicationDbContext db, IConfiguration configuration)
         {
             _db = db;
-            //_configuration = configuration;
-        }
+			_configuration = configuration;
+		}
 
-        #region Base_Methods()
-        public List<Article> GetAllArticles()
+		#region Base_Methods()
+		public List<Article> GetAllArticles()
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
@@ -71,6 +71,12 @@ namespace CNewsProject.Services
 
             return articleList;
         }
+
+		public List<Article> SearchForArticles(string search)
+		{
+			List<Article> searchResults = _db.Article.Where(a => a.Headline.ToLower().Contains(search)).ToList();
+			return null;
+		}
 
 		#region Extra shit we wont need. Probably
 		//public List<Article> GetArticleList(ArticleListVM vModel)
