@@ -1,10 +1,8 @@
 ﻿@using CNewsProject.Models.Api.Weather
-
 @model WeatherStats
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,40 +10,45 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
-    
 </head>
-
-
-<body>   
-    <main>
-        <section class="main-article">
-            <img src="main-article-image.jpg" alt="Main Article Image">
-            <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
-            <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
-        </section>
-        <aside>
-            <div class="card">
-                <h2>Weather</h2>
-                <partial name="_WeatherPartial" model="@Model" />
-                <div class="weather-icon">☀️</div>
-                <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
-                
+<body>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <section class="main-article">
+                    <img src="main-article-image.jpg" class="img-fluid" alt="Main Article Image">
+                    <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
+                    <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
+                </section>
             </div>
-            <div class="card">
-                <h2>Exchange rates</h2>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>JPY</li>
-                    <li>CNY</li>
-                    <li>GBP</li>
-                </ul>
-                <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
-                <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
-                <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
+            <div class="col-lg-4 col-md-12">
+                <aside>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="card-title">Weather</h2>
+                            <partial name="_WeatherPartial" model="@Model" />
+                            <div class="weather-icon">☀️</div>
+                            <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h2 class="card-title">Exchange rates</h2>
+                            <ul class="list-unstyled">
+                                <li>USD</li>
+                                <li>EUR</li>
+                                <li>JPY</li>
+                                <li>CNY</li>
+                                <li>GBP</li>
+                            </ul>
+                            <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
+                            <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
+                            <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        </aside>
-    </main>
+        </div>
+    </div>
 </body>
 </html>
-

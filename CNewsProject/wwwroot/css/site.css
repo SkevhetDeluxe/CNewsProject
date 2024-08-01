@@ -145,3 +145,17 @@ nav ul li a:hover {
 .navbar-nav .nav-link {
     font-size: 1.25rem;
 }
+
+        /*this is new for test */
+body {
+    padding-top: 56px;
+}
+
+.main-article img {
+    max-width: 100%;
+    height: auto;
+}
+
+.weather-icon {
+    font-size: 2rem;
+}
