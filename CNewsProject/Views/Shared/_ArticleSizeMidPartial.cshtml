@@ -1,0 +1,19 @@
+﻿@model IEnumerable<CNewsProject.Models.DataBase.Article>
+
+<div class="news-container">
+    <div class="row">
+        @foreach (var article in Model)
+        {
+            <div class="col-md-6 news-article">
+                <div class="card mb-3">
+                    <img src="@article.ImageLink" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@article.Headline</h5>
+                        <p class="card-text">@article.ContentSummary</p>
+                        <a href="@Url.Action("Details", "News", new { id = article.Id })" class="btn btn-primary">Read more</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
