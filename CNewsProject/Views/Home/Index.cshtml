@@ -1,8 +1,13 @@
 @using CNewsProject.Models.Api.Weather
 @model WeatherStats
 
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
+=======
+
+
+>>>>>>> Stashed changes
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,6 +40,7 @@
   </style>
 
 </head>
+<<<<<<< Updated upstream
 <body>
     <div class="container mt-4">
         <div class="row">
@@ -76,3 +82,52 @@
     </div>
 </body>
 </html>
+=======
+
+
+<body>   
+    <main>
+ 
+ <section class="main-article">
+            <img src="main-article-image.jpg" alt="Main Article Image">
+            <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
+            <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
+        </section>
+        <aside>
+            <div class="card">
+                <h2>Weather</h2>
+                <partial name="_WeatherPartial" model="@Model.WeatherStats" />                
+                
+                <div class="weather-icon">☀️</div>
+                <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
+                
+            </div>
+            <div class="card">
+                <h2>Exchange rates</h2>
+                <ul>
+                    @* <div class="card">
+                        <partial name="_ExchangeRatesPartial" model="@Model.ExchangeRates" />
+                    </div> *@
+                    <li>USD</li>
+                    <li>EUR</li>
+                    <li>JPY</li>
+                    <li>CNY</li>
+                    <li>GBP</li>
+                </ul>
+                <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
+                <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
+                <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
+            </div>
+        </aside>
+        <section class="articles">
+            @foreach (var article in Model.Articles)
+            {
+                <partial name="_ArticlePartial" model="article" />
+            }
+        </section>
+    
+    </main>
+</body>
+</html>
+   
+>>>>>>> Stashed changes

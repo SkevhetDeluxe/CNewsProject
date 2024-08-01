@@ -1,5 +1,7 @@
 using CNewsProject.Models;
 using CNewsProject.Models.Api.Weather;
+using CNewsProject.Models.DataBase;
+using CNewsProject.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -22,8 +24,11 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> Index()
         {
+            NewsVM vModel = new NewsVM();
             WeatherStats model = await _weatherApiHandler.GetWeatherAsync("58.25", "15.35");
-            return View(model);
+            vModel.WeatherStats = model;
+            vModel.Articles = new List<Article>();            
+            return View(vModel);
         }
 
         public IActionResult Privacy()
