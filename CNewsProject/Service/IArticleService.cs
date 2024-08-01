@@ -12,7 +12,7 @@ namespace CNewsProject.Service
         public void RemoveArticle(Article article);
         public void EditArticle(Article article);
         public List<Article> GetArticleListByCategory(Category category);
-        public List<Article> SearchForArticles(string search);
+        public List<Article> SearchForArticles(string search, string category);
 
         //public List<SelectListItem> GetHeadlineList();
         //public List<SelectListItem> GetCategoryList();
