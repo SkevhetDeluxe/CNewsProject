@@ -1,6 +1,4 @@
-﻿@using CNewsProject.Models.Api.Weather
-
-@model WeatherStats
+﻿@model CNewsProject.Models.ViewModels.NewsVM
 
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +44,8 @@
         <aside>
             <div class="card">
                 <h2>Weather</h2>
-                <partial name="_WeatherPartial" model="@Model" />
+                <partial name="_WeatherPartial" model="@Model" />                
+                
                 <div class="weather-icon">☀️</div>
                 <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
                 
@@ -54,6 +53,9 @@
             <div class="card">
                 <h2>Exchange rates</h2>
                 <ul>
+                    <div class="card">
+                        <partial name="_ExchangeRatesPartial" model="@Model" />
+                    </div>
                     <li>USD</li>
                     <li>EUR</li>
                     <li>JPY</li>
@@ -65,6 +67,12 @@
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
             </div>
         </aside>
+        <section class="articles">
+            @foreach (var article in Model.Articles)
+            {
+                <partial name="_ArticlePartial" model="article" />
+            }
+        </section>
     </main>
 </body>
 </html>

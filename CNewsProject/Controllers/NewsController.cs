@@ -7,12 +7,16 @@ namespace CNewsProject.Controllers
 	public class NewsController : Controller
 	{
 		private readonly IArticleService _articleService;
-		private readonly ICategoryService _categoryService;
+		private readonly ICategoryService _categoryService;        
+        private readonly IWeatherService _weatherService;
+        private readonly IExchangeRateService _exchangeRateService;
 
-		public NewsController(IArticleService articleService, ICategoryService categoryService)
+        public NewsController(IArticleService articleService, ICategoryService categoryService, IWeatherService weatherService, IExchangeRateService exchangeRateService)
 		{
 			_articleService = articleService;
 			_categoryService = categoryService;
+			_weatherService = weatherService;
+			_exchangeRateService = exchangeRateService;
 		}
 		public IActionResult Local()
 		{
