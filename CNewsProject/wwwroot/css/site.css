@@ -148,13 +148,27 @@ nav ul li a:hover {
     font-size: 1.25rem;
 }
 
+
+        /*this is new for test */
+body {
+    padding-top: 56px;
+}
+
+.main-article img {
+=======
 .item {
     flex: 1 1 200px;
 }
 
 img {
+
     max-width: 100%;
     height: auto;
+}
+
+
+.weather-icon {
+    font-size: 2rem;
 }
 
 @media (max-width: 768px) {
@@ -162,3 +176,4 @@ img {
         flex-direction: column;
     }
 }
+
