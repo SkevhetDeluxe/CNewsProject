@@ -1,8 +1,11 @@
 using CNewsProject.Data;
+using CNewsProject.Helpers;
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Service;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,7 +26,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<A
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.User.RequireUniqueEmail = true;
-    
+    options.SignIn.RequireConfirmedEmail = true;
     options.Password.RequiredLength = 8;
 });
 
@@ -40,9 +43,16 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
+builder.Services.AddTransient<IEmailSender, EmailHelper>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc();
+
+var options = new JsonSerializerOptions
+{
+    PropertyNameCaseInsensitive = true
+};
 
 var app = builder.Build();
 

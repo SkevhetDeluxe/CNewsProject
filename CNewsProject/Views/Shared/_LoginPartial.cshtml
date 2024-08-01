@@ -1,10 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<AppUser> SignInManager
-@inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> signInManager
+@inject UserManager<AppUser> userManager
 
 
 <ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
+    @if (signInManager.IsSignedIn(User))
     {
         <li class="nav-item">
             <a asp-controller="Account" asp-action="Profile">@User.Identity?.Name</a>
