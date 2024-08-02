@@ -2,24 +2,47 @@
 using CNewsProject.Models.DataBase;
 using CNewsProject.Data;
 using CNewsProject.Models.ViewModels;
+using Azure.Storage.Blobs;
 
 namespace CNewsProject.Service
 {
     public class ArticleService : IArticleService
     {
         private readonly ApplicationDbContext _db;
+		private readonly BlobServiceClient _blobServiceClient;
 		private readonly IConfiguration _configuration;
 		private readonly ICategoryService _categoryService;
 
 		public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs)
         {
             _db = db;
+			_blobServiceClient = new BlobServiceClient(configuration["AzureBlobStorage"]);
 			_configuration = configuration;
 			_categoryService = cgs;
 		}
 
-		#region Base_Methods()
-		public List<Article> GetAllArticles()
+		//Blob UPLOADING()
+        #region Blobl_Uploading()
+
+		public string UploadBlob(IFormFile articleImage, string newFileName)
+		{
+			BlobContainerClient containerClient = _blobServiceClient
+				.GetBlobContainerClient("images");
+
+			BlobClient blobClient = containerClient.GetBlobClient(newFileName);
+			
+			using (var stream = articleImage.OpenReadStream())
+			{
+				blobClient.Upload(stream);
+			}
+
+			return blobClient.Uri.AbsoluteUri;
+		}
+
+        #endregion
+
+        #region Base_Methods()
+        public List<Article> GetAllArticles()
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
@@ -31,12 +54,15 @@ namespace CNewsProject.Service
 
         public void WriteArticle(WriteArticleVM newArticle)
         {
+			Random rnd = new();
+			string imgName = "articleimg" + Convert.ToString(DateTime.Now) + Convert.ToString(rnd.Next(2, int.MaxValue));
 			Article article = new()
 			{
 				Headline = newArticle.Headline,
 				Content = newArticle.Content,
 				ContentSummary = newArticle.ContentSummary,
-				LinkText = newArticle.Headline
+				LinkText = newArticle.Headline,
+				ImageLink = UploadBlob(newArticle.ArticleImage, imgName)
             };
 
 			if (_categoryService.CategoryExists(newArticle.CategoryName))
