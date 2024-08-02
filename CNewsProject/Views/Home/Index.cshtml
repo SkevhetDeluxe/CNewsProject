@@ -19,10 +19,10 @@
             </div>
             <div class="card">
                 <h2>Exchange rates</h2>
+                @* <partial name="_CurrencyExchangeRatesPartial" model="@Model.CurrencyExchangeRate" /> *@
+
+            </div>
                 <ul>
-                    @* <div class="card">
-                        <partial name="_ExchangeRatesPartial" model="@Model.ExchangeRates" />
-                    </div> *@
                     <li>USD</li>
                     <li>EUR</li>
                     <li>JPY</li>
@@ -34,12 +34,12 @@
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
             </div>
         </aside>
-        <section class="articles">
+   @*      <section class="articles">
             @foreach (var article in Model.Articles)
             {
                 <partial name="_ArticlePartial" model="article" />
             }
-        </section>    
+        </section>     *@
     </main>
 </body>
 </html>
