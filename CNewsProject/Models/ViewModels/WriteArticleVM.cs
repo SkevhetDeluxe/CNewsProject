@@ -31,6 +31,8 @@ namespace CNewsProject.Models.ViewModels
 
         [Required]
         public string Content { get; set; } = string.Empty;
-        
+
+        [Required]
+        public IFormFile ArticleImage { get; set; }
     }
 }
