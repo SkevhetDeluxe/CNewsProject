@@ -3,18 +3,18 @@ using Azure;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
-namespace CNewsProject.Models.Api.Exchange
+namespace CNewsProject.Models.Api.CurrencyExchangeRate
 {
-    public class ExchangeApiHandler : IExchangeApiHandler
+    public class CurrencyExchangeRateApiHandler : ICurrencyExchangeRateApiHandler
     {
         private readonly HttpClient _client;
 
-        public ExchangeApiHandler(HttpClient client)
+        public CurrencyExchangeRateApiHandler(HttpClient client)
         {
             _client = client;
         }
 
-        public async Task<Exchange> GetExchangeAsync(string country)
+        public async Task<CurrencyExchangeRate> GetExchangeAsync(string country)
         {
             var request = new HttpRequestMessage
             {
@@ -33,7 +33,7 @@ namespace CNewsProject.Models.Api.Exchange
                 {
                     response.EnsureSuccessStatusCode();
                     var body = await response.Content.ReadAsStringAsync();
-                    var exchange = JsonSerializer.Deserialize<Exchange>(body);
+                    var exchange = JsonSerializer.Deserialize<CurrencyExchangeRate>(body);
                     return exchange;
                 }
             }
