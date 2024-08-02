@@ -1,17 +1,16 @@
 ﻿@model CNewsProject.Models.DataBase.Article
 
-<div class="container" style="max-width: 1300px; margin: 0 auto;">
-    <div class="card mb-4" style="width: 100%;">
-        <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
-        <div class="card-body">
-            <h5 class="card-title">@Model.Headline</h5>
-            <p class="card-text">@Model.ContentSummary</p>
-            <a href="@Url.Action("Details", "News", new { id = Model.Id })" class="btn btn-primary">@Model.LinkText</a>
-        </div>
-        <div class="card-footer text-muted">
-            <span>Date: @Model.DateStamp.ToShortDateString()</span>
-            <span>Views: @Model.Views</span>
-            <span>Likes: @Model.Likes</span>
-            <span>Category: @Model.Category.Name</span>
-        </div>
+<div class="card mb-4 w-100">
+    <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Headline</h5>
+        <p class="card-text">@Model.ContentSummary</p>
+        <a href="@Url.Action("Details", "News", new { id = Model.Id })" class="btn btn-primary">@Model.LinkText</a>
     </div>
+    <div class="card-footer text-muted">
+        <span>Date: @Model.DateStamp.ToShortDateString()</span>
+        <span>Views: @Model.Views</span>
+        <span>Likes: @Model.Likes</span>
+        <span>Category: @Model.Category.Name</span>
+    </div>
+</div>
