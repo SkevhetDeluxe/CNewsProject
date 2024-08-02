@@ -1,12 +1,4 @@
 
-using CNewsProject.Models.Account;
-using CNewsProject.Models.DataBase.Identity;
-using CNewsProject.Models.Roles;
-using CNewsProject.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-
 namespace CNewsProject.Controllers
 {
 

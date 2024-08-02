@@ -2,7 +2,7 @@
 
 namespace CNewsProject.Models.DataBase
 {
-    public class Employe
+    public class Employe 
     {
         public int Id { get; set; }
 

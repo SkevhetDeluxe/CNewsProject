@@ -7,9 +7,10 @@ namespace CNewsProject.Service
     {
         public List<Category> GetAllCategory();
         public Category GetCategoryById(int id);
-        public void AddCategory(Category category);
+        public Category GetCategoryByName(string name);
+        public void AddCategory(string name);
         public void RemoveCategory(Category category);
         public void EditCategory(Category category);
-
+        public bool CategoryExists(string name);
     }
 }

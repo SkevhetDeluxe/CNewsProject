@@ -1,14 +1,4 @@
-﻿using CNewsProject.Helpers;
-using CNewsProject.Models.Account;
-using CNewsProject.Models.DataBase.Identity;
-using CNewsProject.Models.HelperModels;
-using CNewsProject.Service;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
-
-namespace CNewsProject.Controllers
+﻿namespace CNewsProject.Controllers
 {
     [Authorize]
     public class AccountController : Controller

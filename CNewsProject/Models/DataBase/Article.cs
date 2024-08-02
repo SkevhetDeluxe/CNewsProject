@@ -5,12 +5,9 @@ namespace CNewsProject.Models.DataBase
     public class Article
     {
         public int Id { get; set; }
+        public DateOnly DateStamp { get; set; } = DateOnly.FromDateTime(DateTime.Now);
 
-        [Required]
-        public DateOnly DateStamp { get; set; }
-
-        [Required]
-        [Display(Name = "Link text")]
+        [Display(Name = "Link text tooltip helt unneccsessarry")]
         public string LinkText { get; set; } = string.Empty;
 
         [Required]
@@ -21,22 +18,12 @@ namespace CNewsProject.Models.DataBase
 
         [Required]
         public string Content { get; set; } = string.Empty;
-
-        [Required]
         public int Views { get; set; }
-
-        [Required]
         public int Likes { get; set; }
 
-        [Required]
         public string ImageLink { get; set; } = string.Empty;
-
-        [Required]
         public Category Category { get; set; } = new();
-
-        [Required]
         public bool IsArchived  { get; set; }
-
-
+        public bool IsPublished { get; set; }
     }
 }

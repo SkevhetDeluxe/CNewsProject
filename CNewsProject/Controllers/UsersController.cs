@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace CNewsProject.Controllers
 {
     public class UsersController : Controller

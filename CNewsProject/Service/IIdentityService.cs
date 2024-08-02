@@ -20,7 +20,7 @@ namespace CNewsProject.Service
         public Task<IdentityResult> DeleteUserByIdAsync(string id);
 
 
-        public Task<SignInResult> LoginAppUserAsync(Login login);
+        public Task<Microsoft.AspNetCore.Identity.SignInResult> LoginAppUserAsync(Login login);
         public Task LogoutAppUserAsync();
 
 

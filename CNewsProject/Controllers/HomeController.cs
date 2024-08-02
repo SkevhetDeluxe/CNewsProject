@@ -1,13 +1,3 @@
-using CNewsProject.Models;
-using CNewsProject.Models.Api.Weather;
-using CNewsProject.Models.DataBase;
-using CNewsProject.Models.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-
-
 
 namespace CNewsProject.Controllers
 {
