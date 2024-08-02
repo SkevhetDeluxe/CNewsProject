@@ -1,7 +1,4 @@
-﻿using CNewsProject.Models.DataBase;
-using CNewsProject.Service;
-using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller

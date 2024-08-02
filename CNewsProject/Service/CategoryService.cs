@@ -16,6 +16,10 @@ namespace CNewsProject.Service
             _configuration = configuration;
         }
 
+        public bool CategoryExists(string name)
+        {
+            return _db.Category.Any(c => c.Name == name);
+        }
 
         public List<Category> GetAllCategory()
         {
@@ -26,11 +30,15 @@ namespace CNewsProject.Service
         {
             return _db.Category.FirstOrDefault(c => c.Id == id);
         }
-
-
-        public void AddCategory(Category category)
+        public Category GetCategoryByName(string name)
         {
-            _db.Category.Add(category);
+            return _db.Category.FirstOrDefault(c => c.Name == name)!;
+        }
+
+        public void AddCategory(string name)
+        {
+            Category newCategory = new() { Name = name };
+            _db.Category.Add(newCategory);
             _db.SaveChanges();
 
         }

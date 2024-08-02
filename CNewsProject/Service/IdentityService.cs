@@ -157,7 +157,7 @@ namespace CNewsProject.Service
         // LOGIN LOGOUT METHOD
         #region LOGIN LOGOUT METHOD
 
-        public async Task<SignInResult> LoginAppUserAsync(Login login)
+        public async Task<Microsoft.AspNetCore.Identity.SignInResult> LoginAppUserAsync(Login login)
         {
             AppUser appUser = await userManager.FindByEmailAsync(login.EmailUsername);
 
@@ -168,12 +168,12 @@ namespace CNewsProject.Service
             {
                 await signInManager.SignOutAsync();
 
-                SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
+                Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(appUser, login.Password, login.RememberMe, false);
 
                 return result;
             }
 
-            return SignInResult.Failed;
+            return Microsoft.AspNetCore.Identity.SignInResult.Failed;
         }
 
         public async Task LogoutAppUserAsync()

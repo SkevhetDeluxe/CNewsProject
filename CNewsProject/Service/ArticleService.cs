@@ -9,11 +9,13 @@ namespace CNewsProject.Service
     {
         private readonly ApplicationDbContext _db;
 		private readonly IConfiguration _configuration;
+		private readonly ICategoryService _categoryService;
 
-		public ArticleService(ApplicationDbContext db, IConfiguration configuration)
+		public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs)
         {
             _db = db;
 			_configuration = configuration;
+			_categoryService = cgs;
 		}
 
 		#region Base_Methods()
@@ -27,8 +29,24 @@ namespace CNewsProject.Service
             return _db.Article.FirstOrDefault(a => a.Id == Id)!;
         }
 
-        public void AddArticle(Article article)
+        public void WriteArticle(WriteArticleVM newArticle)
         {
+			Article article = new()
+			{
+				Headline = newArticle.Headline,
+				Content = newArticle.Content,
+				ContentSummary = newArticle.ContentSummary,
+				LinkText = newArticle.Headline
+            };
+
+			if (_categoryService.CategoryExists(newArticle.CategoryName))
+				article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
+			else
+			{
+                _categoryService.AddCategory(newArticle.CategoryName);
+				article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
+            }
+
             _db.Article.Add(article);
             _db.SaveChanges();
         }
@@ -107,7 +125,7 @@ namespace CNewsProject.Service
             return searchResults;
 		}
 
-		#region Extra shit we wont need. Probably
+		#region Extra shit we cannot possibly not probably definetaly no need bruv. or?
 		//public List<Article> GetArticleList(ArticleListVM vModel)
 		//{
 		//    List<Article> articleList = GetAllArticles();
@@ -193,7 +211,7 @@ namespace CNewsProject.Service
 
 		#region Specifics_For_FrontPage()
 
-		#region Extra shit we wont need. Probably
+		#region Extra shit we dont need. Probably
 		//// These Methods are for displaying TOP Fives on the front page
 
 		////public List<Article> FPMostPopular()

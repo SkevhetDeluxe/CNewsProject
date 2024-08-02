@@ -1,8 +1,4 @@
-﻿using CNewsProject.Models;
-using CNewsProject.Models.DataBase.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-
+﻿
 namespace CNewsProject.CustomTagHelpers
 {
     [HtmlTargetElement("td", Attributes = "i-role")]
