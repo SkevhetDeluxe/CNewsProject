@@ -6,6 +6,8 @@ namespace CNewsProject.Service
 {
     public interface IArticleService
     {
+        public string UploadBlob(IFormFile articleImage, string fileName);
+
         public List<Article> GetAllArticles();
         public Article GetArticleById(int Id);
         public void WriteArticle(WriteArticleVM newArticle);

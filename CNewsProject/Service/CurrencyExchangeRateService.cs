@@ -1,26 +1,26 @@
-﻿using CNewsProject.Models.Api.ExchangeRates;
+﻿using CNewsProject.Models.Api.CurrencyExchangeRate;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace CNewsProject.Service
 {
-    public class ExchangeRateService:IExchangeRateService
+    public class CurrencyExchangeRateService:ICurrencyExchangeRateService
     {
         private readonly HttpClient _httpClient;
 
-        public ExchangeRateService(HttpClient httpClient)
+        public CurrencyExchangeRateService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<ExchangeRates> GetExchangeRatesAsync()
+        public async Task<CurrencyExchangeRate> GetExchangeRatesAsync()
         {
             var response = await _httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/USD"); // Replace with actual API endpoint
             response.EnsureSuccessStatusCode();
 
             var responseContent = await response.Content.ReadAsStringAsync();
-            var exchangeRates = JsonSerializer.Deserialize<ExchangeRates>(responseContent, new JsonSerializerOptions
+            var exchangeRates = JsonSerializer.Deserialize<CurrencyExchangeRate>(responseContent, new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             });

@@ -4,7 +4,12 @@
     ViewData["Title"] = "Write Article";
 }
 
-<form asp-action="CreateArticle" method="post">
+<form asp-action="CreateArticle" method="post" enctype="multipart/form-data">
+
+    <div class="mb-3">
+        <label asp-for="ArticleImage">Select File</label>
+        <input asp-for="ArticleImage" />
+    </div>
 
     <div class="mb-3">
         <label asp-for="Headline">Headline</label>
