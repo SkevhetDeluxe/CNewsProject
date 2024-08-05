@@ -1,5 +1,24 @@
-﻿@model AppUser
+﻿@model CNewsProject.Models.Account.User
 
-Hello @Model.UserName
+<h1>Profile - @Model.UserName</h1>
 
-MAKE THIS FINT LATER
+<button class="btn" id="edit-acc-btn">Edit Account</button>
+
+<div id="edit-acc-form">
+	<form>
+		<label asp-for="UserName">User Name</label><br />
+		<input asp-for="UserName" default="@Model.UserName" /><br />
+
+		<label asp-for="Email">Email Adress</label><br />
+		<input asp-for="Email" default="@Model.Email" /><br />
+
+		<label asp-for="Password">Old Password</label>
+		<input asp-for="Password" placeholder=" Old Password" type="password" /><br />
+
+		<label asp-for="Password">New Password</label><br />
+		<input asp-for="Password" placeholder="New Password" type="password"/><br />
+
+		<label asp-for="Password">Confirm Password</label>
+		<input asp-for="Password" placeholder="Confirm Password" type="password"/>
+	</form>
+</div>
