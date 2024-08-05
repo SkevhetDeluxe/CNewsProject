@@ -141,36 +141,39 @@ namespace CNewsProject.Service
 		public List<Article> SearchForArticles(string search, string category)
 		{
 			List<string> exactSearch = new();
-            
-			while (search.Contains("\""))
-            {
-                int pos1 = search.IndexOf("\"");
-				search = search.Remove(pos1, 1);
-
-				if(search.Contains("\"") == false) 
-					break;				
-
-				int pos2 = search.IndexOf("\"");
-				search = search.Remove(pos2, 1);
-				int length = pos2 - pos1;
-				exactSearch.Add(search.Substring(pos1, length));
-				search = search.Remove(pos1, length);
-            }
-
-            char[] delims = {',', ' ', '.', '/'};
-            List<string> searchSplit = new(search.Trim().ToLower().Split(delims));
-            List<Article> searchResults = new();
-
-            if (category == null)
+            if(search != null)
 			{
-                searchResults = _db.Article.Where(a => a.Headline.ToLower().Contains(exactSearch[0]) || a.Content.ToLower().Contains(exactSearch[0]) && a.Headline.ToLower().Contains(search) || a.Content.ToLower().Contains(search)).ToList();
-            }
-			else
-			{
-                searchResults = _db.Article.Where(a => a.Category.Name == category && (a.Headline.ToLower().Contains(exactSearch[0]) || a.Content.ToLower().Contains(exactSearch[0])) && a.Headline.ToLower().Contains(search) || a.Content.ToLower().Contains(search)).ToList();
-            }
+				while (search.Contains("\""))
+				{
+					int pos1 = search.IndexOf("\"");
+					search = search.Remove(pos1, 1);
 
-            return searchResults;
+					if (search.Contains("\"") == false)
+						break;
+
+					int pos2 = search.IndexOf("\"");
+					search = search.Remove(pos2, 1);
+					int length = pos2 - pos1;
+					exactSearch.Add(search.Substring(pos1, length));
+					search = search.Remove(pos1, length);
+				}
+
+				char[] delims = { ',', ' ', '.', '/' };
+				List<string> searchSplit = new(search.Trim().ToLower().Split(delims));
+				List<Article> searchResults = new();
+
+				if (category == null)
+				{
+					searchResults = _db.Article.Where(a => a.Headline.ToLower().Contains(exactSearch[0]) || a.Content.ToLower().Contains(exactSearch[0]) && a.Headline.ToLower().Contains(search) || a.Content.ToLower().Contains(search)).ToList();
+				}
+				else
+				{
+					searchResults = _db.Article.Where(a => a.Category.Name == category && (a.Headline.ToLower().Contains(exactSearch[0]) || a.Content.ToLower().Contains(exactSearch[0])) && a.Headline.ToLower().Contains(search) || a.Content.ToLower().Contains(search)).ToList();
+				}
+				return searchResults;
+			}
+
+			return null;
 		}
 
 		#region Extra shit we cannot possibly not probably definetaly no need bruv. or?

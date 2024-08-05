@@ -56,5 +56,10 @@ namespace CNewsProject.Controllers
 			List<Article> searchResults = _articleService.SearchForArticles(search, category);
 			return View(searchResults);
 		}
+		public IActionResult Article(int id)
+		{
+			Article article = _articleService.GetArticleById(id);
+			return View(article);
+		}
 	}
 }
