@@ -15,7 +15,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View(User);
         }
 
         public ViewResult CreateArticle() => View(new WriteArticleVM());

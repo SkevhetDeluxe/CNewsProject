@@ -5,7 +5,8 @@ namespace CNewsProject.Models.DataBase
     public class Article
     {
         public int Id { get; set; }
-        public DateOnly DateStamp { get; set; } = DateOnly.FromDateTime(DateTime.Now);
+        public DateTime WrittenDate { get; set; } = DateTime.Now;
+        public DateTime PublishedDate { get; set; } = DateTime.Now; 
 
         [Display(Name = "Link text tooltip helt unneccsessarry")]
         public string LinkText { get; set; } = string.Empty;

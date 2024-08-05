@@ -13,3 +13,4 @@ global using CNewsProject.Models.Api.Weather;
 global using CNewsProject.Models.DataBase;
 global using CNewsProject.Models.ViewModels;
 global using Microsoft.AspNetCore.Razor.TagHelpers;
+global using CNewsProject.Data;

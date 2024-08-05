@@ -92,7 +92,7 @@ namespace CNewsProject.Service
 
         public void EditArticle (Article article)
         {
-            GetArticleById(article.Id).DateStamp = article.DateStamp;
+            GetArticleById(article.Id).PublishedDate= article.PublishedDate;
             GetArticleById(article.Id).LinkText = article.LinkText;
             GetArticleById(article.Id).Headline = article.Headline;
             GetArticleById(article.Id).ContentSummary = article.ContentSummary;
@@ -118,7 +118,7 @@ namespace CNewsProject.Service
 			AuthorArticlesVM ArticleLists = new();
 
 			List<Article> AllAuthorArticles = _db.Article.Where(a => a.AuthorUserName == authorUserName)
-				.OrderByDescending(a => a.DateStamp).ToList();
+				.OrderByDescending(a => a.PublishedDate).ToList();
 
 			ArticleLists.Pending = AllAuthorArticles.Where(a => a.Status == "Pending").ToList();
 			ArticleLists.Approved = AllAuthorArticles.Where(a => a.Status == "Approved").ToList();

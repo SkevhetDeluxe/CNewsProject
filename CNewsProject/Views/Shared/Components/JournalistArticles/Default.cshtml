@@ -1,0 +1,77 @@
+﻿@model AuthorArticlesVM
+
+@*<vc:nameofcomponent parameter=#> </vc:nameofcomponent>*@
+
+
+@{
+    List<string> statuses = new() { "Pending", "Approved", "Declined" };
+    List<Article> list = new();
+
+    for(int i = 0; i < 3; i++)
+    {
+        <h3>@statuses[i]</h3>
+        <div style="overflow:auto; max-height:150px" class="mb-4">
+            @{
+                list = (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!;
+
+                if (list.Count == 0)
+                {
+                    <h4>You have no @statuses[i] Articles</h4>
+                }
+                else
+                {
+                    foreach (var article in (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!)
+                    {
+                        <h4>Article: @article.Headline</h4>
+                    }
+                }
+            }
+        </div>
+    }
+}
+
+@* 
+<h3>Pending</h3>
+<div style="overflow:auto; max-height:150px">
+    @{
+        if (Model.Pending.Count() == 0)
+        {
+            <h4>You have no Pending Articles</h4>
+        }
+        else
+        {
+            foreach (Article article in Model.Pending)
+            {
+                <h4>Article: @article.Headline</h4>
+            }
+        }
+    }
+</div>
+
+<h3>Approved</h3>
+<div style="overflow:auto; max-height:150px">
+    @{
+        if(Model.Approved.Count() == 0)
+        {
+
+        }
+        else
+        {
+            foreach (Article article in Model.Approved)
+            {
+                <h4>Article: @article.Headline</h4>
+            }
+        }
+    }
+</div>
+
+<h3>Declined</h3>
+<div style="overflow:auto; max-height:150px">
+    @{
+        foreach (Article article in Model.Declined)
+        {
+            <h4>Article: @article.Headline</h4>
+        }
+    }
+</div> *@
+

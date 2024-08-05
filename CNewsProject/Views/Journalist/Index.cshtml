@@ -1,4 +1,6 @@
-﻿@{
+﻿@model System.Security.Claims.ClaimsPrincipal
+
+@{
     ViewData["Title"] = "Journalist Page";
 }
 
@@ -10,4 +12,7 @@ Denied Articles
 
 Write new Article
 </pre>
+
+
+<vc:journalist-articles principal="@Model"></vc:journalist-articles>
 
