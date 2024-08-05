@@ -5,10 +5,12 @@ namespace CNewsProject.Controllers
     public class JournalistController : Controller
     {
         private readonly IArticleService _articleService;
+        private readonly IIdentityService _identityService;
 
-        public JournalistController(IArticleService articleService)
+        public JournalistController(IArticleService articleService, IIdentityService identitySrvc)
         {
             _articleService = articleService;
+            _identityService = identitySrvc;
         }
 
         public IActionResult Index()
@@ -19,11 +21,12 @@ namespace CNewsProject.Controllers
         public ViewResult CreateArticle() => View(new WriteArticleVM());
 
         [HttpPost]
-        public IActionResult CreateArticle(WriteArticleVM vModel)
+        public async Task<IActionResult> CreateArticle(WriteArticleVM vModel)
         {
             if (ModelState.IsValid)
             {
-                _articleService.WriteArticle(vModel);
+                AppUser author = await _identityService.GetAppUserByClaimsPrincipal(User);
+                _articleService.WriteArticle(vModel, author.UserName);
 
                 return RedirectToAction("Index");
             }
