@@ -5,7 +5,6 @@ using CNewsProject.Helpers;
 using CNewsProject.Models.Api.Weather;
 
 using CNewsProject.Models.DataBase.Identity;
-using CNewsProject.Service;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 using Microsoft.OpenApi;
+using CNewsProject.Models.Api.CurrencyExchangeRate;
 
 
 
@@ -60,6 +60,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
+builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
 
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
