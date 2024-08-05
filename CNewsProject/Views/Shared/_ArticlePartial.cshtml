@@ -8,7 +8,7 @@
         <a href="@Url.Action("Details", "News", new { id = Model.Id })" class="btn btn-primary">@Model.LinkText</a>
     </div>
     <div class="card-footer text-muted">
-        <span>Date: @Model.DateStamp.ToShortDateString()</span>
+        <span>Date: @Model.PublishedDate.ToShortDateString()</span>
         <span>Views: @Model.Views</span>
         <span>Likes: @Model.Likes</span>
         <span>Category: @Model.Category.Name</span>

@@ -9,16 +9,18 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
     {
         public async Task<Rates> GetExchangeRatesAsync()
         {
-            HttpClient _httpClient = new();
+            Rates? exchangeRates;
 
-            var response = await _httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/SEK");
-            response.EnsureSuccessStatusCode();
+            using (HttpClient _httpClient = new())
+            {
+                var response = await _httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/SEK");
+                response.EnsureSuccessStatusCode();
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var jsonObject = JObject.Parse(responseContent);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var jsonObject = JObject.Parse(responseContent);
 
-            var exchangeRates = jsonObject["rates"].ToObject<Rates>();
-
+                exchangeRates = jsonObject["rates"].ToObject<Rates>();
+            }
             // Assuming the API response directly matches the model structure.
             return exchangeRates ?? new Rates();
         }
