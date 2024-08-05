@@ -12,13 +12,16 @@ namespace CNewsProject.Service
 		private readonly BlobServiceClient _blobServiceClient;
 		private readonly IConfiguration _configuration;
 		private readonly ICategoryService _categoryService;
+		private readonly UserManager<AppUser> _userManager;
 
-		public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs)
+		public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs,
+            UserManager<AppUser> userManager)
         {
             _db = db;
 			_blobServiceClient = new BlobServiceClient(configuration["AzureBlobStorage"]);
 			_configuration = configuration;
 			_categoryService = cgs;
+			_userManager = userManager;
 		}
 
 		//Blob UPLOADING()
@@ -52,7 +55,7 @@ namespace CNewsProject.Service
             return _db.Article.FirstOrDefault(a => a.Id == Id)!;
         }
 
-        public void WriteArticle(WriteArticleVM newArticle)
+        public void WriteArticle(WriteArticleVM newArticle, string authorName)
         {
 			Random rnd = new();
 			string imgName = "articleimg" + Convert.ToString(DateTime.Now) + Convert.ToString(rnd.Next(2, int.MaxValue));
@@ -62,7 +65,8 @@ namespace CNewsProject.Service
 				Content = newArticle.Content,
 				ContentSummary = newArticle.ContentSummary,
 				LinkText = newArticle.Headline,
-				ImageLink = UploadBlob(newArticle.ArticleImage, imgName)
+				ImageLink = UploadBlob(newArticle.ArticleImage, imgName),
+				AuthorUserName = authorName
             };
 
 			if (_categoryService.CategoryExists(newArticle.CategoryName))
@@ -106,6 +110,24 @@ namespace CNewsProject.Service
 
         #endregion
 
+		//Fetch Pending, Approved and Declined Articles for Journalist. VIEEEEEEW COMPONENTO!!!
+        #region Journalist_Fetching_Stuff
+		
+		public AuthorArticlesVM GetArticlesForAuthor(string authorUserName)
+		{
+			AuthorArticlesVM ArticleLists = new();
+
+			List<Article> AllAuthorArticles = _db.Article.Where(a => a.AuthorUserName == authorUserName)
+				.OrderByDescending(a => a.DateStamp).ToList();
+
+			ArticleLists.Pending = AllAuthorArticles.Where(a => a.Status == "Pending").ToList();
+			ArticleLists.Approved = AllAuthorArticles.Where(a => a.Status == "Approved").ToList();
+			ArticleLists.Declined = AllAuthorArticles.Where(a => a.Status == "Declined").ToList();
+
+			return ArticleLists;
+		}
+
+        #endregion
 
         #region Get_Lists_With_Filters()
         // Overload later to take filters and sortings

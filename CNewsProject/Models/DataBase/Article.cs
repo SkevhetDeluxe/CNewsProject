@@ -24,6 +24,7 @@ namespace CNewsProject.Models.DataBase
         public string ImageLink { get; set; } = string.Empty;
         public Category Category { get; set; } = new();
         public bool IsArchived  { get; set; }
-        public bool IsPublished { get; set; }
+        public string AuthorUserName { get; set; } = string.Empty;
+        public string Status { get; set; } = "Pending";
     }
 }

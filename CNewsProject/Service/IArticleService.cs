@@ -10,7 +10,7 @@ namespace CNewsProject.Service
 
         public List<Article> GetAllArticles();
         public Article GetArticleById(int Id);
-        public void WriteArticle(WriteArticleVM newArticle);
+        public void WriteArticle(WriteArticleVM newArticle, string authorName);
         public void RemoveArticle(Article article);
         public void EditArticle(Article article);
         public List<Article> GetArticleListByCategory(Category category);
