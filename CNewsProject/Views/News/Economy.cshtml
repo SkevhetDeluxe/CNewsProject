@@ -1,4 +1,6 @@
-﻿@{
+﻿@* @model CNewsProject.Models.ViewModels.NewsVM *@
+
+@{
     ViewData["Title"] = "Economy News";
 }
 
@@ -17,19 +19,20 @@
             </div>
         </div>
         <div class="card mb-4">
-            <div class="card-body">
+             <div class="card-body"> 
                 <h2>Exchange rates</h2>
-                <ul>
+                @* <partial name="_CurrencyExchangeRatesPartial" model="@Model.CurrencyExchangeRates" /> *@
+                @* <ul>
                     <li>USD</li>
                     <li>EUR</li>
                     <li>JPY</li>
                     <li>CNY</li>
                     <li>GBP</li>
-                </ul>
+                </ul> *@
                 <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
                 <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
                 <h2><a href="@Url.Action("Index", "Home")">Latest news</a></h2>
-            </div>
+             </div>
         </div>
     </aside>
 </main>

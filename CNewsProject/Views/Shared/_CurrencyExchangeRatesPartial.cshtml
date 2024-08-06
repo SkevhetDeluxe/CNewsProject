@@ -1,17 +1,21 @@
-﻿@* @model CNewsProject.Models.Api.CurrencyExchangeRate.CurrencyExchangeRate *@
+﻿@model CNewsProject.Models.Api.CurrencyExchangeRate.Rates
 
 <div class="exchange-rates">
-    <h2>Currency exchange rates</h2>
     
-            <p>Country: @Model.Country: @Model.Valuta</p>
+    @{
+        string usd = string.Format("{0:F2}", Convert.ToDecimal(Model.USD * 100));
+        string eur = string.Format("{0:F2}", Convert.ToDecimal(Model.EUR * 100));
+        string jpy = string.Format("{0:F2}", Convert.ToDecimal(Model.JPY * 100));
+        string cny = string.Format("{0:F2}", Convert.ToDecimal(Model.CNY * 100));
+        string gbp = string.Format("{0:F2}", Convert.ToDecimal(Model.GBP * 100));
+    }
+    <p>100 SEK equels</p>
+        <ul>
+            <li>USD : @usd $</li>
+            <li>EUR : @eur €</li>
+            <li>JPY : @jpy Yen</li>
+            <li>CNY : @cny Yuán</li>
+            <li>GBP : @gbp £</li>
+        </ul>
             
-    </div>
-
-@* 
-    <ul>
-        @foreach (var rate in Model.Country)
-        {
-            <li>@Model.Country : @Model.Valuta</li>
-        }
-    </ul>
-</div> *@
+</div>
