@@ -20,7 +20,9 @@ namespace CNewsProject.Data
 
         public DbSet<SubscriptionType> SubscriptionType { get; set; }
 
-        
+        public DbSet<VisitorCount> VisitorCounts { get; set; }
+
+
 
     }
 }
