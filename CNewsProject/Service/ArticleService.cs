@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Drawing;
+//using static System.Net.Mime.MediaTypeNames;
 
 namespace CNewsProject.Service
 {
@@ -43,10 +44,40 @@ namespace CNewsProject.Service
 				blobClient.Upload(stream);
 			}
 
-			//Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
-			//var newImg = new Bitmap()
-
 			return blobClient.Uri.AbsoluteUri;
+		}
+
+		public string UploadBlobResize(IFormFile articleImage, string newFileName)
+		{
+			BlobContainerClient containerClient = _blobServiceClient
+				.GetBlobContainerClient("images");
+
+			BlobClient blobClient = containerClient.GetBlobClient(newFileName);
+
+			Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
+
+			var newImage = new Bitmap(1024, 768);
+
+            using (var g = Graphics.FromImage(newImage))
+            {
+                g.DrawImage(img, 0, 0, 1024, 768);
+            }
+
+
+            using (var stream = ToMemoryStream(newImage))
+            {
+                blobClient.Upload(stream);
+            }
+
+            return blobClient.Uri.AbsoluteUri;
+		}
+
+		private MemoryStream ToMemoryStream(Bitmap img)
+		{
+			MemoryStream stream = new();
+			img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+			return stream;
 		}
 
         #endregion
@@ -110,22 +141,7 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-		public void UpdateArticle(Article article)
-		{
-			foreach(PropertyInfo property in article.GetType().GetProperties().Where(p => p.Name != "Id"))
-			{
-                property.SetValue(GetArticleById(article.Id), property.GetValue(article));
-            }
-			_db.SaveChanges();
-		}
-
-		public void PublishArticle(int id, string publisherName)
-		{
-			GetArticleById(id).Status = "Approved";
-			GetArticleById(id).ThePublisherUserName = publisherName;
-			GetArticleById(id).PublishedDate = DateTime.Now;
-			_db.SaveChanges();
-		}
+		
 
         public void RemoveArticle(Article article)
         {
@@ -180,6 +196,30 @@ namespace CNewsProject.Service
 		public List<Article> GetPendingArticles()
 		{
 			return _db.Article.Where(a => a.Status == "Pending").OrderBy(a => a.WrittenDate).ToList();
+		}
+
+        public void UpdateArticle(Article article)
+        {
+            foreach (PropertyInfo property in article.GetType().GetProperties().Where(p => p.Name != "Id"))
+            {
+                property.SetValue(GetArticleById(article.Id), property.GetValue(article));
+            }
+            _db.SaveChanges();
+        }
+
+        public void PublishArticle(int id, string publisherName)
+        {
+            GetArticleById(id).Status = "Approved";
+            GetArticleById(id).ThePublisherUserName = publisherName;
+            GetArticleById(id).PublishedDate = DateTime.Now;
+            _db.SaveChanges();
+        }
+
+		public void DeclineArticle(int id, string reason)
+		{
+			GetArticleById(id).Status = "Declined";
+			GetArticleById(id).PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith = reason;
+			_db.SaveChanges();
 		}
 
         #endregion
