@@ -2,10 +2,13 @@
 
 <div class="weather-details">
     <div class="weather-info">
+        <div class="card">
+        <h3>Weather</h3>
         <p>Latitude: @Model.Latitude</p>
         <p>Longitude: @Model.Longitude</p>
         <p>Timezone: @Model.Timezone</p>
         <p>Elevation: @Model.Elevation m</p>
         <p>Temperature: @Model.Hourly.Temperature_2m[DateTime.Now.Hour]°C</p>
+        </div>
     </div>
 </div>
