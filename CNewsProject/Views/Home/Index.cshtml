@@ -9,7 +9,6 @@
         <aside>
             <div class="card">
                 <h2>Weather</h2>
-                @* <partial name="_WeatherPartial" model="@Model.WeatherStats" />    *@    
                 <vc:weather></vc:weather>
                 
                 <div class="weather-icon">☀️</div>
@@ -17,12 +16,11 @@
                 
             </div>
             <vc:exchange></vc:exchange>
-                
 
                 <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
                 <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
-            </div>
+            
         </aside>
         <section class="articles">
             @foreach (var article in Model.NotMainButStillImportantArticles)
@@ -33,6 +31,6 @@
         </section>    
     </main>
 </body>
-</html>
+
    
 
