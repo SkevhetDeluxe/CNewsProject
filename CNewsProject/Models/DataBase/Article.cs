@@ -29,5 +29,6 @@ namespace CNewsProject.Models.DataBase
         public string AuthorUserName { get; set; } = string.Empty;
         public string ThePublisherUserName { get; set; } = string.Empty;
         public string Status { get; set; } = "Pending";
+        public string? PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith { get; set; } = null;
     }
 }

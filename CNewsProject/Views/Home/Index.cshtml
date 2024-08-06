@@ -16,7 +16,7 @@
                 
             </div>
             <vc:exchange></vc:exchange>
-            
+
                 <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
                 <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
@@ -25,6 +25,7 @@
         <section class="articles">
             @foreach (var article in Model.NotMainButStillImportantArticles)
             {
+                <h1>HALLÅ!</h1>
                 <partial name="_ArticlePartial" model="article" />
             }
         </section>    
