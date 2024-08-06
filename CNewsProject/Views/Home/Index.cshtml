@@ -9,7 +9,6 @@
         <aside>
             <div class="card">
                 <h2>Weather</h2>
-                @* <partial name="_WeatherPartial" model="@Model.WeatherStats" />    *@    
                 <vc:weather></vc:weather>
                 
                 <div class="weather-icon">☀️</div>
@@ -17,29 +16,14 @@
                 
             </div>
             <vc:exchange></vc:exchange>
-            <div class="card">
-                <h2>Exchange rates</h2>
-                <partial name="_CurrencyExchangeRatesPartial" model="@Model.CurrencyExchangeRates" /> 
-
-            </div>
-
-               @*  <ul>
-                    <li>USD : @Model.CurrencyExchangeRates.USD</li>
-                    <li>EUR : @Model.CurrencyExchangeRates.EUR</li>
-                    <li>JPY : @Model.CurrencyExchangeRates.JPY</li>
-                    <li>CNY : @Model.CurrencyExchangeRates.CNY</li>
-                    <li>GBP : @Model.CurrencyExchangeRates.GBP</li>
-                </ul> *@
-
-                
-
+            
                 <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
                 <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
-            </div>
+            
         </aside>
         <section class="articles">
-            @foreach (var article in Model.Articles)
+            @foreach (var article in Model.NotMainButStillImportantArticles)
             {
                 <partial name="_ArticlePartial" model="article" />
             }
