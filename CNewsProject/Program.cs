@@ -35,6 +35,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<A
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IVisitorCountService, VisitorCountService>();
 
 
 
@@ -111,7 +112,7 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=News}/{action=Index}/{id?}");
 app.MapRazorPages();
 
 app.Run();

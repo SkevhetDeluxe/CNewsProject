@@ -5,13 +5,21 @@ namespace CNewsProject.Controllers
 	{
 		private readonly IArticleService _articleService;
 		private readonly ICategoryService _categoryService;
+        private readonly IVisitorCountService _visitorCountService;
 
-		public NewsController(IArticleService articleService, ICategoryService categoryService)
+        public NewsController(IArticleService articleService, ICategoryService categoryService, IVisitorCountService visitorCountService)
 		{
 			_articleService = articleService;
 			_categoryService = categoryService;
+			_visitorCountService = visitorCountService;
 		}
-		public IActionResult Local()
+
+        public IActionResult Index()
+        {
+            FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
+            return View(vModel);
+        }
+        public IActionResult Local()
 		{
 			// Hello Guys it's me. I stringified it!
 			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
@@ -49,8 +57,9 @@ namespace CNewsProject.Controllers
 		}
 		public IActionResult Article(int id)
 		{
-			Article article = _articleService.GetArticleById(id);
-			return View(article);
+			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
+
+			return View(vModel);
 		}
 	}
 }

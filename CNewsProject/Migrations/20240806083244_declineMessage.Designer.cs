@@ -4,6 +4,7 @@ using CNewsProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CNewsProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240806083244_declineMessage")]
+    partial class declineMessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,9 +57,6 @@ namespace CNewsProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsntNotFree")
                         .HasColumnType("bit");
 
                     b.Property<int>("Likes")
@@ -270,26 +270,6 @@ namespace CNewsProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SubscriptionType");
-                });
-
-            modelBuilder.Entity("CNewsProject.Models.DataBase.VisitorCount", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("PageName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("VisitCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VisitorCounts");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

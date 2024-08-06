@@ -51,11 +51,13 @@
                                 AppUser user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User);
                                 bool isJournalist;
                                 bool isThePublisher;
+                                bool isAdmin;
 
                                 if (user != null)
                                 {
                                     isJournalist = await userManager.IsInRoleAsync(user, "Journalist");
                                     isThePublisher = await userManager.IsInRoleAsync(user, "The Publisher");
+                                    isAdmin = await userManager.IsInRoleAsync(user, "Admin");
 
                                     if (isJournalist)
                                     {
@@ -68,6 +70,13 @@
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link text-light" asp-controller="ThePublisher" asp-action="Index">The Publisher</a>
+                                        </li>
+                                    }
+
+                                    if (isAdmin)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
                                         </li>
                                     }
                                 }
