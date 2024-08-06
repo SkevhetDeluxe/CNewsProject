@@ -44,5 +44,28 @@ namespace CNewsProject.Models.Api.Weather
             else
                 return new WeatherStats();
         }
+
+        public async Task<WeatherStats> GetWeatherAsync() // Default overload MOTHERFUCKER!
+        {
+            var client = new HttpClient();
+
+            string latVal = "58.25"; string longVal = "15.35";
+
+            string url = BaseUrl + Latitude + latVal + Longitude + longVal + EndUrl;
+
+            var response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(json);
+
+                WeatherStats stats = data.ToObject<WeatherStats>();
+
+                return stats;
+            }
+            else
+                return new WeatherStats();
+        }
     }
 }

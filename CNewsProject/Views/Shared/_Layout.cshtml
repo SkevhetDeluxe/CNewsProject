@@ -238,15 +238,24 @@
                             {
                                 AppUser user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User);
                                 bool isJournalist;
+                                bool isThePublisher;
 
                                 if (user != null)
                                 {
                                     isJournalist = await userManager.IsInRoleAsync(user, "Journalist");
-                                    
+                                    isThePublisher = await userManager.IsInRoleAsync(user, "The Publisher");
+
                                     if (isJournalist)
                                     {
                                         <li class="nav-item">
                                             <a class="nav-link text-dark" asp-controller="Journalist" asp-action="Index">Journalist</a>
+                                        </li>
+                                    }
+
+                                    if (isThePublisher)
+                                    {
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-controller="ThePublisher" asp-action="Index">The Publisher</a>
                                         </li>
                                     }
                                 }
@@ -268,15 +277,15 @@
             @RenderBody()
         </main>
     </div>
-    <footer class="border-top footer mt-auto py-3 bg-light text-muted" aria-label="Footer">
+    @* <footer class="border-top footer mt-auto py-3 bg-light text-muted" aria-label="Footer">
         <div class="container">
             <div class="row fixed-bottom">
                 <div class="col">
                     &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </div>
             </div>
-        </div>
-    </footer>
+        </div> 
+    </footer>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

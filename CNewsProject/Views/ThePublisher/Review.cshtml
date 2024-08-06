@@ -1,0 +1,34 @@
+﻿@model ReviewArticleVM
+
+<form asp-action="Preview" method="get">
+
+    <div class="mb-3">
+        <img width="400" src="@Model.Article.ImageLink" />
+    </div>
+
+    <div>
+        <input type="hidden" asp-for="ArticleId" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Article.Headline">Headline</label>
+        <input type="text" asp-for="Article.Headline" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Article.ContentSummary">Summary</label>
+        <textarea asp-for="Article.ContentSummary" rows="4" cols="50"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Article.Content">Content</label>
+        <textarea asp-for="Article.Content" rows="8" cols="50"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryName">Category</label>
+        <select asp-for="CategoryName" asp-items="Model.CategoryList"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Preview</button>
+</form>

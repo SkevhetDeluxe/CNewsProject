@@ -1,0 +1,6 @@
+﻿@model Article
+
+<partial name="/Views/Shared/FolderedPartials/_PreviewArticlePartial.cshtml" model="Model"/>
+
+
+<a asp-action="Publish" asp-route-id="@Model.Id">Publish</a>

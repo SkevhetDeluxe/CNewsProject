@@ -9,12 +9,18 @@ namespace CNewsProject.Service
         public string UploadBlob(IFormFile articleImage, string fileName);
 
         public List<Article> GetAllArticles();
+        public List<Article> GetAllPublished();
         public Article GetArticleById(int Id);
+        public FrontPageArticlesVM GetFrontPageArticleVM();
+        public List<Article> GetPendingArticles();
         public void WriteArticle(WriteArticleVM newArticle, string authorName);
         public void RemoveArticle(Article article);
         public void EditArticle(Article article);
+        public void UpdateArticle(Article article);
+        public void PublishArticle(int id, string publisherName);
         public List<Article> GetArticleListByCategory(Category category);
         public List<Article> SearchForArticles(string search, string category);
+        public List<Article> GetArticleListByCategoryStringified(string category);
 
         //public List<SelectListItem> GetHeadlineList();
         //public List<SelectListItem> GetCategoryList();

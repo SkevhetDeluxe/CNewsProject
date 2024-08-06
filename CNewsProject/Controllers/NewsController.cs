@@ -13,9 +13,11 @@ namespace CNewsProject.Controllers
 		}
 		public IActionResult Local()
 		{
-			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			List<Article> localArticles = _articleService.GetArticleListByCategory(category);
-			return View(localArticles);
+			//Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
+			//List<Article> localArticles = _articleService.GetArticleListByCategory(category);
+
+			// Hello Guys it's me. I stringified it!
+			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
 		}
 
 		public IActionResult Sweden()

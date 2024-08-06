@@ -14,3 +14,4 @@ global using CNewsProject.Models.DataBase;
 global using CNewsProject.Models.ViewModels;
 global using Microsoft.AspNetCore.Razor.TagHelpers;
 global using CNewsProject.Data;
+global using CNewsProject.Models.Api.CurrencyExchangeRate;

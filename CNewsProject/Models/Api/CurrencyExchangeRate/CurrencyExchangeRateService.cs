@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace CNewsProject.Models.Api.CurrencyExchangeRate
 {
-    public class CurrencyExchangeRateService : ICurrencyExchangeRateService
+    public class CurrencyExchangeRateService  : ICurrencyExchangeRateService 
     {
         public async Task<Rates> GetExchangeRatesAsync()
         {
