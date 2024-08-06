@@ -1,0 +1,12 @@
+﻿@model ArticleLock
+
+@{
+    if (Model.Access == "AccessGranted")
+    {
+        <partial name ="_ArticlePartial" model="Model.Article" />
+    }
+    else
+    {
+        <h1>OBJECTION MY LORD!</h1>
+    }
+}

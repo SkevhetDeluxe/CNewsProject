@@ -20,12 +20,8 @@ namespace CNewsProject.Controllers
             _artchsthiicleSerrwvhicse = articleService;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            FrontPageArticlesVM vModel = _artchsthiicleSerrwvhicse.GetFrontPageArticleVM();
-            return View(vModel);
-        }
 
+        [Authorize(Roles ="Admin")]
         public IActionResult Privacy()
         {
             return View();

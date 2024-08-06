@@ -13,7 +13,13 @@ namespace CNewsProject.Controllers
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
 		}
-		public IActionResult Local()
+
+        public IActionResult Index()
+        {
+            FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
+            return View(vModel);
+        }
+        public IActionResult Local()
 		{
 			//Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
 			//List<Article> localArticles = _articleService.GetArticleListByCategory(category);
@@ -62,8 +68,9 @@ namespace CNewsProject.Controllers
 		}
 		public IActionResult Article(int id)
 		{
-			Article article = _articleService.GetArticleById(id);
-			return View(article);
+			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
+
+			return View(vModel);
 		}
 	}
 }

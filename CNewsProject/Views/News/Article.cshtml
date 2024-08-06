@@ -1,8 +1,3 @@
-﻿@model CNewsProject.Models.DataBase.Article
+﻿@model UserAndArticleIdCarrier
 
-<div>
- <img src="@Model.ImageLink"/>
- <h1>@Model.Headline</h1>
- <div>[Need to get journalist here] - @Model.PublishedDate</div><div>[views symbol]@Model.Views [likes symbol]@Model.Likes</div>
- <div>@Model.Content</div>
-</div>
+<vc:article-locker principal="@Model.Principal" id="@Model.ArticleId"></vc:article-locker>
