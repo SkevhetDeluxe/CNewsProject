@@ -3,35 +3,23 @@
 }
 
 <main class="row">
-    <section class="main-article col-lg-8 col-md-8 col-sm-12">
-        <img src="main-article-image.jpg" alt="Main Article Image" class="img-fluid">
-        <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
-        <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
-    </section>
-    <aside class="col-lg-4 col-md-4 col-sm-12">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2>Weather</h2>
-                <div class="weather-icon" id="weather-icon">☀️</div>
-                <p id="weather-details">Fetching weather details...</p>
-            </div>
+<section class="main-article col-lg-8 col-md-8 col-sm-12">
+    @{
+        foreach (Article artikelJavel in Model)
+        {
+            <partial name="_ArticlePartial" model="artikelJavel" />
+
+        }
+    }
+</section>
+<aside class="col-lg-4 col-md-4 col-sm-12">
+    <div class="card mb-4">
+        <div class="card-body">
+            <vc:weather></vc:weather>
         </div>
-        <div class="card mb-4">
-            <div class="card-body">
-                <h2>Exchange rates</h2>
-                <ul>
-                    <li>USD</li>
-                    <li>EUR</li>
-                    <li>JPY</li>
-                    <li>CNY</li>
-                    <li>GBP</li>
-                </ul>
-                <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
-                <h2><a href="@Url.Action("World", "News")">World news</a></h2>
-                <h2><a href="@Url.Action("Index", "Home")">Latest news</a></h2>
-            </div>
-        </div>
-    </aside>
+    </div>
+    <vc:exchange></vc:exchange>
+</aside>
 </main>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

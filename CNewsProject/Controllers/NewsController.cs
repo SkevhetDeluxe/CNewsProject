@@ -5,11 +5,13 @@ namespace CNewsProject.Controllers
 	{
 		private readonly IArticleService _articleService;
 		private readonly ICategoryService _categoryService;
+        private readonly IVisitorCountService _visitorCountService;
 
-		public NewsController(IArticleService articleService, ICategoryService categoryService)
+        public NewsController(IArticleService articleService, ICategoryService categoryService, IVisitorCountService visitorCountService)
 		{
 			_articleService = articleService;
 			_categoryService = categoryService;
+			_visitorCountService = visitorCountService;
 		}
 		public IActionResult Local()
 		{

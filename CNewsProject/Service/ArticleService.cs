@@ -82,7 +82,19 @@ namespace CNewsProject.Service
 
         #endregion
 
+		//Views and Likes
+        #region Statistics()
+
+		public void IncreaseViews(int id)
+		{
+			GetArticleById(id).Views++;
+			_db.SaveChanges();
+		}
+
+        #endregion
+
         #region Base_Methods()
+
         public List<Article> GetAllArticles()
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
