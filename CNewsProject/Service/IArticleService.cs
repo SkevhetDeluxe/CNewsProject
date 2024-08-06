@@ -18,7 +18,6 @@ namespace CNewsProject.Service
         public void EditArticle(Article article);
         public void UpdateArticle(Article article);
         public void PublishArticle(int id, string publisherName);
-        public List<Article> GetArticleListByCategory(Category category);
         public List<Article> SearchForArticles(string search, string category);
         public List<Article> GetArticleListByCategoryStringified(string category);
         public void DeclineArticle(int id, string reason)
