@@ -156,30 +156,12 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-        public void UpdateArticle(Article article)
-        {
-            foreach (PropertyInfo property in article.GetType().GetProperties().Where(p => p.Name != "Id"))
-            {
-                property.SetValue(GetArticleById(article.Id), property.GetValue(article));
-            }
-            _db.SaveChanges();
-        }
-
-        public void PublishArticle(int id, string publisherName)
-        {
-            GetArticleById(id).Status = "Approved";
-            GetArticleById(id).ThePublisherUserName = publisherName;
-            GetArticleById(id).PublishedDate = DateTime.Now;
-            _db.SaveChanges();
-        }
 
         public void RemoveArticle(Article article)
         {
             _db.Article.Remove(_db.Article.FirstOrDefault(a => a.Id == article.Id)!);
             _db.SaveChanges();
         }
-
-
 
 
         public void EditArticle(Article article)
@@ -197,7 +179,6 @@ namespace CNewsProject.Service
 
             _db.SaveChanges();
         }
-
 
 
         #endregion
