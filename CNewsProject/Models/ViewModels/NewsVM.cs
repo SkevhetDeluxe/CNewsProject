@@ -4,10 +4,10 @@ using CNewsProject.Models.DataBase;
 
 namespace CNewsProject.Models.ViewModels
 {
-    public class NewsVM
+    public class NewsVM // This will be deprecated soon. By Me Myself and I!
     {
-        public WeatherStats WeatherStats { get; set; } = new();
-        public Rates CurrencyExchangeRates { get; set; } = new();
+        public WeatherStats WeatherStats { get; set; } = new(); // <--- Will be made ViewComponents these two ---|
+        public Rates CurrencyExchangeRates { get; set; } = new();// <-------------------------------------------/                                         
         public List<Article> Articles { get; set; } = new List<Article>();
     }
 }

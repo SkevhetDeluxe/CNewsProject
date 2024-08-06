@@ -1,31 +1,38 @@
 ﻿@model List<CNewsProject.Models.DataBase.Article>
 
 @{
-	ViewData["Title"] = "Search";
+    ViewData["Title"] = "Search";
 }
 
 <h1>Search</h1>
 
 <form method="post">
-	<input name="search" /> <button class="btn btn-sm btn-outline-success" type="submit">Search</button><br>
-	<select name="category">
-		<option value="">Category</option>
-		<option value="Local">Local</option>
-		<option value="Sweden">Sweden</option>
-		<option value="World">World</option>
-		<option value="Economy">Economy</option>
-		<option value="Sport">Sport</option>
-	</select>
+    <input name="search" /> <button class="btn btn-sm btn-outline-success" type="submit">Search</button><br>
+    <select name="category">
+        <option value="">Category</option>
+        <option value="Local">Local</option>
+        <option value="Sweden">Sweden</option>
+        <option value="World">World</option>
+        <option value="Economy">Economy</option>
+        <option value="Sport">Sport</option>
+    </select>
 
 </form>
 
 <div>
-@{
-	foreach (var article in Model)
-	{
-		<div class="col-3">
-			<partial name="_ArticlePartial" model="article" />
-		</div>
-	}
-}
+    @{
+        if (Model != null)
+        {
+            foreach (var article in Model)
+            {
+                <div class="col-3">
+                    <partial name="_ArticlePartial" model="article" />
+                </div>
+            }
+        }
+        else if(true)
+        {
+            Console.WriteLine("LOL");
+        }
+    }
 </div>

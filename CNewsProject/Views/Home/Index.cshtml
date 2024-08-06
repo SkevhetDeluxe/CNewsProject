@@ -1,34 +1,34 @@
-@model CNewsProject.Models.ViewModels.NewsVM      
+@model FrontPageArticlesVM  
 
 <body>   
     <main>
  
  <section class="main-article">
-            <img src="main-article-image.jpg" alt="Main Article Image">
-            <h1>HEADLINE - This might take a lot of space like this or something I guess?</h1>
-            <p>Summary here - This article is DEFINITELY worth reading so click me click me click me!!!</p>
+            <partial name="_ArticlePartial" model="@Model.MainArticle" />
         </section>
         <aside>
             <div class="card">
                 <h2>Weather</h2>
-                <partial name="_WeatherPartial" model="@Model.WeatherStats" />                
+                @* <partial name="_WeatherPartial" model="@Model.WeatherStats" />    *@    
+                <vc:weather></vc:weather>
                 
                 <div class="weather-icon">☀️</div>
                 <p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
                 
             </div>
+            <vc:exchange></vc:exchange>
             <div class="card">
                 <h2>Exchange rates</h2>
                 @* <partial name="_CurrencyExchangeRatesPartial" model="@Model.CurrencyExchangeRate" /> *@
 
             </div>
-                <ul>
+               @*  <ul>
                     <li>USD : @Model.CurrencyExchangeRates.USD</li>
                     <li>EUR : @Model.CurrencyExchangeRates.EUR</li>
                     <li>JPY : @Model.CurrencyExchangeRates.JPY</li>
                     <li>CNY : @Model.CurrencyExchangeRates.CNY</li>
                     <li>GBP : @Model.CurrencyExchangeRates.GBP</li>
-                </ul>
+                </ul> *@
                 <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
                 <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                

@@ -3,6 +3,10 @@ using CNewsProject.Models.DataBase;
 using CNewsProject.Data;
 using CNewsProject.Models.ViewModels;
 using Azure.Storage.Blobs;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using System.Drawing;
 
 namespace CNewsProject.Service
 {
@@ -39,6 +43,9 @@ namespace CNewsProject.Service
 				blobClient.Upload(stream);
 			}
 
+			//Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
+			//var newImg = new Bitmap()
+
 			return blobClient.Uri.AbsoluteUri;
 		}
 
@@ -50,9 +57,27 @@ namespace CNewsProject.Service
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
 
+		public List<Article> GetAllPublished()
+		{
+			return _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).ToList();
+		}
+
+		public FrontPageArticlesVM GetFrontPageArticleVM()
+		{
+			if (_db.Article.Any())
+				return new FrontPageArticlesVM()
+				{
+					MainArticle = _db.Article.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
+					NotMainButStillImportantArticles = new(),
+					TheRestLol = new()
+				};
+			else
+				return new FrontPageArticlesVM();
+		}
+
         public Article GetArticleById(int Id)
         {
-            return _db.Article.FirstOrDefault(a => a.Id == Id)!;
+            return _db.Article.Include(c => c.Category).FirstOrDefault(a => a.Id == Id)!;
         }
 
         public void WriteArticle(WriteArticleVM newArticle, string authorName)
@@ -70,16 +95,37 @@ namespace CNewsProject.Service
             };
 
 			if (_categoryService.CategoryExists(newArticle.CategoryName))
+			{
 				article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
+				article.CategoryId = _categoryService.GetCategoryByName(newArticle.CategoryName).Id;
+			}
 			else
 			{
                 _categoryService.AddCategory(newArticle.CategoryName);
 				article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
+                article.CategoryId = _categoryService.GetCategoryByName(newArticle.CategoryName).Id;
             }
 
             _db.Article.Add(article);
             _db.SaveChanges();
         }
+
+		public void UpdateArticle(Article article)
+		{
+			foreach(PropertyInfo property in article.GetType().GetProperties().Where(p => p.Name != "Id"))
+			{
+                property.SetValue(GetArticleById(article.Id), property.GetValue(article));
+            }
+			_db.SaveChanges();
+		}
+
+		public void PublishArticle(int id, string publisherName)
+		{
+			GetArticleById(id).Status = "Approved";
+			GetArticleById(id).ThePublisherUserName = publisherName;
+			GetArticleById(id).PublishedDate = DateTime.Now;
+			_db.SaveChanges();
+		}
 
         public void RemoveArticle(Article article)
         {
@@ -129,7 +175,16 @@ namespace CNewsProject.Service
 
         #endregion
 
-        #region Get_Lists_With_Filters()
+        #region ThePublisher Related
+
+		public List<Article> GetPendingArticles()
+		{
+			return _db.Article.Where(a => a.Status == "Pending").OrderBy(a => a.WrittenDate).ToList();
+		}
+
+        #endregion
+
+        #region Get_Lists_With_Filters_ThisNameOfTheRegionIsOldFromAnotherProject.NewName="SearchFunctionality"()
         // Overload later to take filters and sortings
         public List<Article> GetArticleListByCategory(Category category)
         {
@@ -138,7 +193,17 @@ namespace CNewsProject.Service
             return articleList;
         }
 
-		public List<Article> SearchForArticles(string search, string category)
+        public List<Article> GetArticleListByCategoryStringified(string category)
+        {
+			List<Article> articleList = _db.Article.Include(a => a.Category)
+				.Where(a => a.Category.Name == category && a.Status == "Approved")
+				.OrderByDescending(a => a.PublishedDate)
+				.ToList();
+
+            return articleList;
+        }
+
+        public List<Article> SearchForArticles(string search, string category)
 		{
 			List<string> exactSearch = new();
             if(search != null)
@@ -176,242 +241,6 @@ namespace CNewsProject.Service
 			return null;
 		}
 
-		#region Extra shit we cannot possibly not probably definetaly no need bruv. or?
-		//public List<Article> GetArticleList(ArticleListVM vModel)
-		//{
-		//    List<Article> articleList = GetAllArticles();
-
-		//    if (vModel.Headline != "All")
-		//        articleList = articleList.Where(m => m.Headline == vModel.Headline).ToList();
-
-		//    if (vModel.Category != "All")
-		//        articleList = articleList.Where(m => m.Category == vModel.Category).ToList();
-
-		//    return articleList;
-		//}
-
-
-		//// Get SORTINGS and FILTERS
-		//public List<string> GetHeadlines() // Gets a List<string> of Headlines. No Dupes.
-		//{
-		//    List<string> headlines = new()
-		//    {
-		//        "All"
-		//    };
-
-		//    foreach (Article article in GetAllArticles())
-		//    {
-		//        if (!headlines.Contains(article.Headline))
-		//            headlines.Add(article.Headline);
-		//    }
-
-		//    return headlines;
-		//}
-
-		//public List<string> GetCategories() // Gets a List<string> of Categories. No Dupes.
-		//{
-		//    List<string> categories = new()
-		//    {
-		//        "All"
-		//    };
-
-		//    foreach (Article article in GetAllArticles())
-		//    {
-		//        if (!categories.Contains(article.Category))
-		//            categories.Add(article.Category);
-		//    }
-
-		//    return categories;
-		//}
-
-		//// SELECT LISTS
-		//public List<SelectListItem> GetHeadlineList()
-		//{
-		//    List<SelectListItem> headlineList = new();
-
-		//    foreach (string headline in GetHeadlines())
-		//    {
-		//        headlineList.Add(new SelectListItem
-		//        {
-		//            Value = headline,
-		//            Text = headline
-		//        });
-		//    }
-
-		//    return headlineList;
-		//}
-
-		//public List<SelectListItem> GetCategoryList()
-		//{
-		//    List<SelectListItem> categoryList = new();
-
-		//    foreach (string category in GetCategories())
-		//    {
-		//        categoryList.Add(new SelectListItem
-		//        {
-		//            Value = category,
-		//            Text = category
-		//        });
-		//    }
-
-		//    return categoryList;
-		//}
-		#endregion
-		#endregion
-
-
-		#region Specifics_For_FrontPage()
-
-		#region Extra shit we dont need. Probably
-		//// These Methods are for displaying TOP Fives on the front page
-
-		////public List<Article> FPMostPopular()
-		////{
-		////    var fpmostpopular = _db.OrderRows.GroupBy(or => or.ArticleId)
-		////       .OrderByDescending(g => g.Count())
-		////       .Select(m => new Article()
-		////       {
-		////           Id = m.Key,
-		////           Headline = m.First().Article.Headline,
-		////           Views = m.First().Article.Views,
-		////           Likes = m.First().Article.Likes,
-
-		////       }).Take(5).ToList();
-
-		////    return fpmostpopular;
-		////}
-
-
-		//public List<Article> FPNewest()
-  //      {
-  //          List<Article> articleList = new();
-  //          articleList = GetAllArticles().OrderByDescending(m => m.DateStamp)
-  //              .Take(5).ToList();
-
-  //          return articleList;
-  //      }
-  //      public List<Article> FPOldest()
-  //      {
-  //          List<Article> articleList = new();
-  //      articleList = GetAllArticles().OrderBy(m => m.DateStamp)
-  //              .Take(5).ToList();
-
-  //          return articleList;
-  //      }
-		////public List<Article> FPCheapest()
-		////{
-		////    List<Article> articleList = new();
-		////articleList = GetAllArticles().OrderBy(m => m.Price)
-		////        .Take(5).ToList();
-
-		////    return articleList;
-		////}
-
-		#region SetupVM()_For_FrontPage_Specifics
-
-		// Since FrontPageVM carries a List<List<Movie>> it NEEDS to be
-		// filled and displayed in the same order EVERY time or you will 
-		// get the wrong lists on the wrong places.
-
-		/* Order is
-         * 1. Popular
-         * 2. Newest
-         * 3. Oldest
-         * 4. Cheapest
-         */
-
-		//public FrontPageVM SetupFPVM()
-		//{
-		//    FrontPageVM vModel = new();
-		//    vModel.FrontPageMovieLists = new()
-		//    {
-		//        { FPMostPopular() },
-		//        { FPNewest() },
-		//        { FPOldest() },
-		//        { FPCheapest() }
-		//    };
-
-		//    return vModel;
-		//}
-
-		#endregion
-
-
-		#endregion
-		#endregion
-
-		#region Setups_And_UpdateVM()
-
-		#region Extra shit we wont need. Probably
-		//// UPDATE METHODS, Used for Setting and Updating
-		//public ArticleListVM UpdateVM()
-  //      {
-  //          ArticleListVM vModel = new();
-
-  //          vModel.CategoryList = GetCategoryList();
-  //          vModel.HeadlineList = GetHeadlineList();
-  //          vModel.ArticleList = GetArticleList();
-
-  //          return vModel;
-  //      }
-
-  //      public ArticleListVM UpdateVM(ArticleListVM vModel)
-  //      {
-  //          vModel.CategoryList = GetCategoryList();
-  //          vModel.HeadlineList = GetHeadlineList();
-  //          vModel.ArticleList = GetArticleList(vModel);
-
-  //          return vModel;
-  //      }
-
-  //      public ArticleListVM UpdateVM(int pageNum, int pageSize)
-  //      {
-  //          ArticleListVM vModel = new();
-  //          vModel.SelectedPageSize = Convert.ToString(pageSize);
-
-  //          vModel.CategoryList = GetCategoryList();
-  //          vModel.HeadlineList = GetHeadlineList();
-  //          vModel.ArticleList = GetArticleList()
-  //              .Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
-
-  //          vModel.PageNum = pageNum;
-  //          vModel.PageSize = pageSize;
-
-  //          if (pageSize < GetAllArticles().Count())
-  //          {
-  //              vModel.MaxPage = (GetAllArticles().Count() % pageSize == 0)
-  //                  ? GetAllArticles().Count() / pageSize : GetAllArticles().Count() / pageSize + 1;
-  //          }
-  //          else
-  //              vModel.MaxPage = 1;
-
-  //          return vModel;
-  //      }
-
-  //      public ArticleListVM UpdateVM(int pageNum, int pageSize, ArticleListVM vModel)
-  //      {
-  //          vModel.SelectedPageSize = Convert.ToString(pageSize);
-
-  //          vModel.CategoryList = GetCategoryList();
-  //          vModel.HeadlineList = GetHeadlineList();
-  //          vModel.ArticleList = GetArticleList(vModel)
-  //              .Skip((pageNum - 1) * pageSize).Take(pageSize).ToList();
-
-  //          vModel.PageNum = pageNum;
-  //          vModel.PageSize = pageSize;
-
-  //          if (pageSize < GetAllArticles().Count())
-  //          {
-  //              vModel.MaxPage = (GetAllArticles().Count() % pageSize == 0)
-  //                  ? GetAllArticles().Count() / pageSize : GetAllArticles().Count() / pageSize + 1;
-  //          }
-  //          else
-  //              vModel.MaxPage = 1;
-
-  //          return vModel;
-  //      }
-
-        #endregion
         #endregion
     }
 }

@@ -5,14 +5,8 @@
 }
 
 <h1>Journalist</h1>
-<pre>
-Approved Articles
-Pending Articles
-Denied Articles
 
-Write new Article
-</pre>
-
+<a asp-action="CreateArticle" class="btn btn-primary">Write Article</a>
 
 <vc:journalist-articles principal="@Model"></vc:journalist-articles>
 

@@ -1,4 +1,3 @@
-
 using CNewsProject.Models.Api.CurrencyExchangeRate;
 
 namespace CNewsProject.Controllers
@@ -8,21 +7,22 @@ namespace CNewsProject.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IWeatherApiHandler _weatherApiHandler;
         private readonly ICurrencyExchangeRateService _exchangeService;
+        private readonly IArticleService _artchsthiicleSerrwvhicse;
 
-        public HomeController(ILogger<HomeController> logger, IWeatherApiHandler weatherApiHand, ICurrencyExchangeRateService exchService)
+        public HomeController(ILogger<HomeController> logger,
+            IWeatherApiHandler weatherApiHand, 
+            ICurrencyExchangeRateService exchService,
+            IArticleService articleService)
         {
             _weatherApiHandler = weatherApiHand;
             _logger = logger;
             _exchangeService = exchService;
+            _artchsthiicleSerrwvhicse = articleService;
         }
 
         public async Task<IActionResult> Index()
         {
-            NewsVM vModel = new NewsVM();
-            WeatherStats model = await _weatherApiHandler.GetWeatherAsync("58.25", "15.35");
-            vModel.WeatherStats = model;
-            vModel.CurrencyExchangeRates = _exchangeService.GetExchangeRatesAsync().Result;
-            vModel.Articles = new List<Article>();            
+            FrontPageArticlesVM vModel = _artchsthiicleSerrwvhicse.GetFrontPageArticleVM();
             return View(vModel);
         }
 

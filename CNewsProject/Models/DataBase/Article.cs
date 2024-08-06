@@ -23,9 +23,11 @@ namespace CNewsProject.Models.DataBase
         public int Likes { get; set; }
 
         public string ImageLink { get; set; } = string.Empty;
+        public int CategoryId { get; set; }
         public Category Category { get; set; } = new();
         public bool IsArchived  { get; set; }
         public string AuthorUserName { get; set; } = string.Empty;
+        public string ThePublisherUserName { get; set; } = string.Empty;
         public string Status { get; set; } = "Pending";
     }
 }
