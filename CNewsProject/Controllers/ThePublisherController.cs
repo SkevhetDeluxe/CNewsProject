@@ -63,6 +63,31 @@ namespace CNewsProject.Controllers
             return RedirectToAction("Oops");
         }
 
+        public IActionResult Decline(int id)
+        {
+            DeclineVM vModel = new()
+            {
+                HeadLine = _articleService.GetArticleById(id).Headline,
+                Id = id
+            };
+
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Decline(DeclineVM vModel)
+        {
+            AppUser publisher = await _identityService.GetAppUserByClaimsPrincipal(User);
+
+            if (publisher != null)
+            {
+                _articleService.DeclineArticle(vModel.Id, publisher.UserName!);
+                return View("/Views/ThePublisher/SuccessfullyDeclined.cshtml", vModel);
+            }
+
+            return RedirectToAction("Oops");
+        }
+
         public IActionResult Oops()
         {
             return View();

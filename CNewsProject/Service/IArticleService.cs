@@ -21,6 +21,8 @@ namespace CNewsProject.Service
         public List<Article> GetArticleListByCategory(Category category);
         public List<Article> SearchForArticles(string search, string category);
         public List<Article> GetArticleListByCategoryStringified(string category);
+        public void DeclineArticle(int id, string reason)
+;
 
         //public List<SelectListItem> GetHeadlineList();
         //public List<SelectListItem> GetCategoryList();
