@@ -1,14 +1,28 @@
-﻿@model WeatherStats
+﻿
+@model WeatherStats
+
+
+@{
+    WeatherStats stats = new();
+
+    //Parameter para = stats.timeSeries
+
+    // TempStat temperature = 
+    DateTime testTime = Convert.ToDateTime("2024-08-07 17:00:00");
+    String hourMinute = DateTime.Now.ToString("HH:mm");
+    Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
+}
 
 <div class="weather-details">
     <div class="weather-info">
         <div class="card">
         <h3>Weather</h3>
-        <p>Latitude: @Model.Latitude</p>
-        <p>Longitude: @Model.Longitude</p>
-        <p>Timezone: @Model.Timezone</p>
-        <p>Elevation: @Model.Elevation m</p>
-        <p>Temperature: @Model.Hourly.Temperature_2m[DateTime.Now.Hour]°C</p>
+        
+        <p>Latitude: @Model.geometry.type.Length</p>
+        <p>Longitude: @Model.geometry.type</p>
+        <p>Timezone: @Model.referenceTime.</p>
+        <p>Elevation: @Model.approvedTime.</p>
+        <p>Temperature: @temperature.values[0] °C</p> 
         </div>
     </div>
 </div>

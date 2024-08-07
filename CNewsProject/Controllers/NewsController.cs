@@ -17,7 +17,7 @@ namespace CNewsProject.Controllers
         public IActionResult Index()
         {
             FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
-            return View(vModel);
+			return View(vModel);
         }
         public IActionResult Local()
 		{
