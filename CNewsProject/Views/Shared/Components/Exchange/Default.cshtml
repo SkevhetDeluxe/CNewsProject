@@ -1,12 +1,26 @@
 ﻿@model Rates
 
 <div class="card">
-    <h2>Exchange rates</h2>
+    <h3>Exchange rates</h3>
+    @{
+        string usd = string.Format("{0:F2}", Convert.ToDecimal(Model.USD * 100));
+        string eur = string.Format("{0:F2}", Convert.ToDecimal(Model.EUR * 100));
+        string jpy = string.Format("{0:F2}", Convert.ToDecimal(Model.JPY * 100));
+        string cny = string.Format("{0:F2}", Convert.ToDecimal(Model.CNY * 100));
+        string gbp = string.Format("{0:F2}", Convert.ToDecimal(Model.GBP * 100));
+       
+
+    }
+    <p>100 SEK equels</p>
     <ul>
-        <li>USD : @Model.USD</li>
-        <li>EUR : @Model.EUR</li>
-        <li>JPY : @Model.JPY</li>
-        <li>CNY : @Model.CNY</li>
-        <li>GBP : @Model.GBP</li>
+        <li>USD : @usd $</li>
+        <li>EUR : @eur €</li>
+        <li>JPY : @jpy Yen</li>
+        <li>CNY : @cny Yuán</li>
+        <li>GBP : @gbp £</li>
+       
     </ul>
+
+    
 </div>
+

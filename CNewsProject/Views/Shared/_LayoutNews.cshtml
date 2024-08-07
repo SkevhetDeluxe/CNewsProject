@@ -12,17 +12,10 @@
     @* <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> *@
     <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
     <style>
-        nav ul li a:hover {
+       nav ul li a:hover {
             background-color: #a6a6a6;
             border-radius: 5px;
-        }
-
-        .cookie-consent-banner {
-            z-index: 1000;
-            bottom: 0;
-            width: 100%;
-            text-align: center;
-        }    
+            }               
     </style>
 </head>
 <body>
@@ -93,32 +86,33 @@
                     <partial name="_LoginPartial" />
                     <form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-                        <button class="btn btn-success" type="submit">Search</button>
-                    </form>
+                        <button class="btn btn-success" type="submit" >Search</button>
+                    </form>                  
                 </div>
             </div>
         </nav>
     </header>
     <div class="container row m-auto">
-        <main role="main" class="pb-3" style="margin-top:90px">
+        <main role="main" class="col-9 pb-3" style="margin-top:90px">
             @RenderBody()
         </main>
+        <aside class="col-3" style="margin-top:90px">
+ 
+                <vc:weather></vc:weather>
 
+
+            <vc:exchange></vc:exchange>
+        </aside>
     </div>
-    @*    <footer class="border-top fixed-bottom footer  py-3 bg-light text-muted" aria-label="Footer">
-    <div class="container"> *@
-    <div class="row fixed-bottom">
-        <div class="col">
-            &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </div>
-    @*        </div>
+ @*    <footer class="border-top fixed-bottom footer  py-3 bg-light text-muted" aria-label="Footer">
+        <div class="container"> *@
+            <div class="row fixed-bottom">
+                <div class="col">
+                    &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            </div>
+ @*        </div> 
     </footer> *@
-
-    @await RenderSectionAsync("Scripts", required: false)
-    @* Include the cookie consent partial *@
-    @Html.Partial("_CookieConsentPartial")
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

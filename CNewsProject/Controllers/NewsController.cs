@@ -21,39 +21,28 @@ namespace CNewsProject.Controllers
         }
         public IActionResult Local()
 		{
-			//Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			//List<Article> localArticles = _articleService.GetArticleListByCategory(category);
-
 			// Hello Guys it's me. I stringified it!
 			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
 		}
 
 		public IActionResult Sweden()
 		{
-			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			List<Article> swedenArticles = _articleService.GetArticleListByCategory(category);
-			return View(swedenArticles);
+			return View(_articleService.GetArticleListByCategoryStringified("Sweden"));
 		}
 
 		public IActionResult World()
 		{
-			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			List<Article> worldArticles = _articleService.GetArticleListByCategory(category);
-			return View(worldArticles);
+			return View(_articleService.GetArticleListByCategoryStringified("World"));
 		}
 
 		public IActionResult Economy()
 		{
-			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			List<Article> economyArticles = _articleService.GetArticleListByCategory(category);
-			return View(economyArticles);
+			return View(_articleService.GetArticleListByCategoryStringified("Economy"));
 		}
 
 		public IActionResult Sport()
 		{
-			Category category = _categoryService.GetCategoryById(1); // CHANGE TO THE CORRECT NUMBER LATER WHEN WE HAVE OUR DB
-			List<Article> sportArticles = _articleService.GetArticleListByCategory(category);
-			return View(sportArticles);
+			return View(_articleService.GetArticleListByCategoryStringified("Sport"));
 		}
 
 		public IActionResult Search()

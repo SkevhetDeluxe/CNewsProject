@@ -1,11 +1,18 @@
 ﻿@model WeatherStats
 
-<div class="weather-details">
-    <div class="weather-info">
-        <p>Latitude: @Model.Latitude</p>
-        <p>Longitude: @Model.Longitude</p>
-        <p>Timezone: @Model.Timezone</p>
-        <p>Elevation: @Model.Elevation m</p>
-        <p>Temperature: @Model.Hourly.Temperature_2m[DateTime.Now.Hour]°C</p>
-    </div>
+
+<div class="card">
+	<h2>Weather</h2>
+	<div class="weather-details">
+		<div class="weather-info">
+			<p>Latitude: @Model.Latitude</p>
+			<p>Longitude: @Model.Longitude</p>
+			<p>Timezone: @Model.Timezone</p>
+			<p>Elevation: @Model.Elevation m</p>
+			<p>Temperature: @Model.Hourly.Temperature_2m[DateTime.Now.Hour]°C</p>
+		</div>
+	</div>
+	<div class="weather-icon">☀️</div>
+	<p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
+
 </div>

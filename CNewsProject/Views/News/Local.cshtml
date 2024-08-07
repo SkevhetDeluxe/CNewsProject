@@ -1,26 +1,17 @@
-﻿@model List<Article>
-
+﻿
 @{
-    ViewData["Title"] = "Local News";
+	Layout = "_LayoutNews";
+	ViewData["Title"] = "Local News";
 }
 
-<main class="row">
-    <section class="main-article col-lg-8 col-md-8 col-sm-12">
-        @{
-            foreach(Article artikelJavel in Model)
-            {
-                <partial name="_ArticlePartial" model="artikelJavel"/>
-                
-            }
-        }
-    </section>
-    <aside class="col-lg-4 col-md-4 col-sm-12">
-        <div class="card mb-4">
-            <div class="card-body">
-                <vc:weather></vc:weather>
-            </div>
-        </div>
-        <vc:exchange></vc:exchange>
-    </aside>
-</main>
+<section class="main-article">
+	@{
+		foreach (Article artikelJavel in Model)
+		{
+			<partial name="_ArticlePartial" model="artikelJavel" />
+
+		}
+	}
+</section>
+
 
