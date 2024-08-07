@@ -17,11 +17,7 @@
                 
             </div>
             <vc:exchange></vc:exchange>
-            <div class="card">
-                <h2>Exchange rates</h2>
-                <partial name="_CurrencyExchangeRatesPartial" model="@Model.CurrencyExchangeRates" /> 
-
-            </div>
+         
 
                @*  <ul>
                     <li>USD : @Model.CurrencyExchangeRates.USD</li>
@@ -39,7 +35,7 @@
             </div>
         </aside>
         <section class="articles">
-            @foreach (var article in Model.Articles)
+            @foreach (var article in Model.NotMainButStillImportantArticles)
             {
                 <partial name="_ArticlePartial" model="article" />
             }
