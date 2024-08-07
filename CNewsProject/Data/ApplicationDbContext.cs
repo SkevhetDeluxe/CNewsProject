@@ -22,7 +22,7 @@ namespace CNewsProject.Data
 
         public DbSet<VisitorCount> VisitorCounts { get; set; }
 
-
+        public DbSet<EditorsChoice> EditorsChoice { get; set; }
 
     }
 }

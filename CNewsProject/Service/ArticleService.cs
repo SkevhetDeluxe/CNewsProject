@@ -98,6 +98,21 @@ namespace CNewsProject.Service
 
         #region Base_Methods()
 
+        public void AddToEditorsChoice(int id)
+        {
+            EditorsChoice selectedArticle = new() { Article = GetArticleById(id) };
+            _db.EditorsChoice.Add(selectedArticle);
+            _db.SaveChanges();
+        }
+
+        public List<Article> GetLatestArticles()
+        {
+            return _db.Article.OrderByDescending(a => a.PublishedDate).Take(5).ToList();
+        }
+        public List<Article> GetFiveArticles()
+        {
+            return _db.Article.OrderByDescending(a => a.Views).Take(5).ToList();
+        }
         public List<Article> GetAllArticles()
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
