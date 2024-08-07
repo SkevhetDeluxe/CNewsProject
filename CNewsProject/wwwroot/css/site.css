@@ -1,0 +1,6 @@
+.cookie-consent-banner {
+    z-index: 1000;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}

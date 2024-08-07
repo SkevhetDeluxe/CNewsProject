@@ -107,6 +107,11 @@
     </div>
     @*        </div>
     </footer> *@
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @* Include the cookie consent partial *@
+    @Html.Partial("_CookieConsentPartial")
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
