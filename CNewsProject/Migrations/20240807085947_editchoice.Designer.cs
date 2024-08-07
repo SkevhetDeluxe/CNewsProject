@@ -4,6 +4,7 @@ using CNewsProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CNewsProject.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240807085947_editchoice")]
+    partial class editchoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,6 +47,9 @@ namespace CNewsProject.Migrations
                     b.Property<string>("ContentSummary")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EditorsChoiceId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Headline")
                         .IsRequired()
@@ -89,6 +95,8 @@ namespace CNewsProject.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("EditorsChoiceId");
 
                     b.ToTable("Article");
                 });
@@ -159,12 +167,7 @@ namespace CNewsProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
 
                     b.ToTable("EditorsChoice");
                 });
@@ -451,18 +454,11 @@ namespace CNewsProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CNewsProject.Models.DataBase.EditorsChoice", null)
+                        .WithMany("SelectedArticles")
+                        .HasForeignKey("EditorsChoiceId");
+
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("CNewsProject.Models.DataBase.EditorsChoice", b =>
-                {
-                    b.HasOne("CNewsProject.Models.DataBase.Article", "Article")
-                        .WithMany()
-                        .HasForeignKey("ArticleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Article");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -514,6 +510,11 @@ namespace CNewsProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CNewsProject.Models.DataBase.EditorsChoice", b =>
+                {
+                    b.Navigation("SelectedArticles");
                 });
 #pragma warning restore 612, 618
         }
