@@ -9,9 +9,12 @@ namespace CNewsProject.Service
     {
         public Task<IdentityResultUser> CreateAppUserAsync(User user);
         public Task<string> GenerateEmailTokenAsync(AppUser user);
-        public Task<IdentityResult> ConfirmEmail(AppUser user, string token);
+        public Task<string> GeneratePasswordResetTokenAsync(AppUser user);
+
+		public Task<IdentityResult> ConfirmEmail(AppUser user, string token);
         public Task<AppUser> GetAppUserByIdAsync(string id);
         public Task<AppUser> GetAppUserByEmailAsync(string email);
+        public Task<IdentityResult> ResetPassword(AppUser user, string token, string password);
 
         public Task<AppUser> GetAppUserByClaimsPrincipal(System.Security.Claims.ClaimsPrincipal principal);
 

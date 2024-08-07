@@ -37,7 +37,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IVisitorCountService, VisitorCountService>();
 
-
+builder.Services.Configure<DataProtectionTokenProviderOptions>
+    (opts => opts.TokenLifespan = TimeSpan.FromHours(1));
 
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -68,7 +69,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
-builder.Services.AddTransient<IEmailSender, EmailHelper>();
+//builder.Services.AddTransient<IEmailSender, EmailHelper>();
 
 
 

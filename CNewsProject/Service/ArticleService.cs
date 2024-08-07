@@ -34,6 +34,8 @@ namespace CNewsProject.Service
 
 		public string UploadBlob(IFormFile articleImage, string newFileName)
 		{
+			newFileName = newFileName + ".jpg";
+
 			BlobContainerClient containerClient = _blobServiceClient
 				.GetBlobContainerClient("images");
 
@@ -91,11 +93,17 @@ namespace CNewsProject.Service
 			_db.SaveChanges();
 		}
 
-        #endregion
+		public void IncreaseLike(int id)
+		{
+			GetArticleById(id).Likes++;
+			_db.SaveChanges();
+		}
 
-        #region Base_Methods()
+		#endregion
 
-        public List<Article> GetAllArticles()
+		#region Base_Methods()
+
+		public List<Article> GetAllArticles()
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
