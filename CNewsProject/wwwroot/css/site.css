@@ -4,13 +4,14 @@
     left: 50%;
     font-size: 50px;
     font-family: 'Brush Script MT', cursive;
-    text-shadow: 2px 2px 4px gray;
+    text-shadow: 1px 1px 5px gray;
     transform: translateX(-50%);
+    color: white;
 }
 
 header {
     background-color: #333;
-    box-shadow: 0 4px 2px -5px black;
+    box-shadow: 0 4px 4px -5px black;
 }
 .btn{
     margin: 5px;

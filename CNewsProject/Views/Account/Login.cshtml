@@ -3,7 +3,7 @@
     ViewData["Title"] = "Login";
 }
 
-<h1 class="bg-info text-white">Login</h1>
+<h1>Log in</h1>
 <div class="text-danger" asp-validation-summary="All"></div>
 
 <form asp-action="Login" method="post">
@@ -19,5 +19,5 @@
     <div class="form-group">
         Remember me? <input type="checkbox" asp-for="RememberMe" />
     </div>
-    <button class="btn btn-primary" type="submit">Log In</button>
+    <button class="btn btn-dark" type="submit">Log In</button>
 </form>
