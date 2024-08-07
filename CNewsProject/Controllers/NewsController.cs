@@ -58,6 +58,7 @@ namespace CNewsProject.Controllers
 		public IActionResult Article(int id)
 		{
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
+			
 
 			return View(vModel);
 		}

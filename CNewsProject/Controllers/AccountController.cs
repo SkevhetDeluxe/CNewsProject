@@ -1,4 +1,7 @@
-﻿namespace CNewsProject.Controllers
+﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
+
+namespace CNewsProject.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -44,7 +47,10 @@
                     string token = identityService.GenerateEmailTokenAsync(resultUser.User).Result;
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = resultUser.User.Email }, Request.Scheme);
 
-                    emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.", confirmationLink);
+                    bool emailSent = emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.", confirmationLink!);
+
+                    if (!emailSent)
+                        return RedirectToAction();
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,10 +80,15 @@
         //Single READ ACCOUnt
         public async Task<IActionResult> Profile()
         {
-            AppUser user = await identityService.GetAppUserByClaimsPrincipal(HttpContext.User);
+            AppUser user = await identityService.GetAppUserByClaimsPrincipal(User);
 
             return View(user);
         }
+
+        //Profile RELATED stuff
+        #region Profile RElated shit
+
+        #endregion
 
         // UPDATE ACCOUNT. (We can decide what the Users are allowed to update later.)
         //                 (For now I'm just putting email, user name and password.)
@@ -170,12 +181,86 @@
             return RedirectToAction("Index", "Home");
         }
 
+        [AllowAnonymous]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+		[AllowAnonymous]
+		public async Task<IActionResult> ForgotPassword([Required]string email)
+		{
+            if (!ModelState.IsValid)
+                return View(email);
+
+            AppUser user = await identityService.GetAppUserByEmailAsync(email);
+            if (user == null)
+                return RedirectToAction("ForgotPassword");
+
+            var token = await identityService.GeneratePasswordResetTokenAsync(user);
+            var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme).Trim();
+
+            EmailHelper emailHelper = new(config);
+            bool sentEmail = emailHelper.SendEmailAsync(user.Email!, "Reset Password", link!);
+
+            if (sentEmail)
+			    return View("ForgotPasswordConfirmation");
+
+            return View(email);
+		}
+
+		[AllowAnonymous]
+		public IActionResult ForgotPasswordConfirmation()
+		{
+			return View();
+		}
+
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            PasswordReset model = new() { Token = token, Email = email };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(PasswordReset resetPassword)
+        {
+            if (!ModelState.IsValid)
+                return View(resetPassword);
+
+            var user = await identityService.GetAppUserByEmailAsync(resetPassword.Email);
+            if (user == null)
+                RedirectToAction("ResetPasswordConfirmation");
+
+            IdentityResult result = await identityService.ResetPassword(user, resetPassword.Token, resetPassword.Password);
+
+            if (!result.Succeeded)
+                return View();
+
+            return RedirectToAction("ResetPasswordConfirmation");
+        }
+
+        [AllowAnonymous]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
         #endregion
 
 
 
         [Route("/Door/Bouncer")]
         public IActionResult Denied()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        public IActionResult Error()
         {
             return View();
         }

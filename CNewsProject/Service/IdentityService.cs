@@ -52,6 +52,16 @@ namespace CNewsProject.Service
             return resultUser;
         }
 
+        public async Task<IdentityResult> ResetPassword(AppUser user, string token, string password)
+        {
+            return await userManager.ResetPasswordAsync(user, token, password);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(AppUser user)
+        {
+            return await userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
         public async Task<string> GenerateEmailTokenAsync(AppUser user)
         {
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -234,6 +244,7 @@ namespace CNewsProject.Service
         public async Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName)
         {
             IdentityResult result = await userManager.AddToRoleAsync(user, roleName);
+            signInManager.RefreshSignInAsync(user);
 
             return result;
         }

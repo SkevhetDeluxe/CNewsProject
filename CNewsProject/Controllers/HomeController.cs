@@ -20,6 +20,11 @@ namespace CNewsProject.Controllers
             _artchsthiicleSerrwvhicse = articleService;
         }
 
+        public IActionResult Index()
+        {
+            return RedirectToAction("Index", "News");
+        }
+
 
         [Authorize(Roles ="Admin")]
         public IActionResult Privacy()

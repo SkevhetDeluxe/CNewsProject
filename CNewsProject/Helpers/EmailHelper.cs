@@ -7,7 +7,7 @@ using CNewsProject.Models.DataBase.Identity;
 
 namespace CNewsProject.Helpers
 {
-    public class EmailHelper : IEmailSender
+    public class EmailHelper //: IEmailSender
     {
         private IConfiguration _configuration;
 
@@ -47,7 +47,7 @@ namespace CNewsProject.Helpers
 
         //ROBERTS WAY. VI FÅR SE
         #region ROBERTS WAY. VI FÅR SE
-        public Task SendEmailAsync(string email, string subject, string content)
+        public bool SendEmailAsync(string email, string subject, string content)
         {
             var message = new MimeMessage();
             message.Sender = MailboxAddress.Parse(_configuration["SenderEmail"]);
@@ -86,7 +86,7 @@ namespace CNewsProject.Helpers
                 emailClient.Disconnect(true);
             }
 
-            return Task.CompletedTask;
+            return (errList.Count == 0);
         }
 
     }

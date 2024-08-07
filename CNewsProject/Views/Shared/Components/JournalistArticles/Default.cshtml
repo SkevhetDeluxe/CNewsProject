@@ -32,7 +32,7 @@
 }
 
 
-@* <h3>Pending</h3>
+<h3>Pending</h3>
 <div style="overflow:auto; max-height:150px">
     @{
         if (Model.Pending.Count() == 0)
@@ -69,11 +69,17 @@
 <h3>Declined</h3>
 <div style="overflow:auto; max-height:150px">
     @{
-        foreach (Article article in Model.Declined)
+        if (Model.Declined.Count() == 0)
         {
-            <h4>Article: @article.Headline</h4>
+
+        }
+        else
+        {
+            foreach (Article article in Model.Declined)
+            {
+                <h4>Article: @article.Headline</h4>
+            }
         }
     }
 </div>
 
- *@

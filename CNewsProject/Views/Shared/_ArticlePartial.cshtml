@@ -1,10 +1,11 @@
-﻿@model CNewsProject.Models.DataBase.Article
+@model CNewsProject.Models.DataBase.Article
 
 <div class="card mb-4 w-100" asp-controller="News" asp-action="Article">
     <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
     <div class="card-body">
         <h5 class="card-title">@Model.Headline</h5>
         <p class="card-text">@Model.ContentSummary</p>
+        
 
     </div>
     <div class="card-footer text-muted">
