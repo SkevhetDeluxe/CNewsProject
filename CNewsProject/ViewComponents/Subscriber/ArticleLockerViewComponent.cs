@@ -17,7 +17,7 @@ namespace CNewsProject.ViewComponents.Subscriber
 
         public IViewComponentResult Invoke(ClaimsPrincipal principal, int id)
         {
-            if (principal != null)
+            if (principal.Identity.IsAuthenticated == true)
             {
                 AppUser user = _identityService.GetAppUserByClaimsPrincipal(principal).Result;
 

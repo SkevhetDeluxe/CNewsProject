@@ -1,19 +1,20 @@
 ﻿
 @{
-    ViewData["Title"] = "Economy News";
+	ViewData["Title"] = "Economy News";
 }
 
-<main class="row">
-    <section class="main-article col-lg-8 col-md-8 col-sm-12">
-        @{
-            foreach (Article artikelJavel in Model)
-            {
-                <partial name="_ArticlePartial" model="artikelJavel" />
+
+<div class="row">
+  <section class="main-article col-9">
+	@{
+		foreach (Article artikelJavel in Model)
+		{
+			<partial name="_ArticlePartial" model="artikelJavel" />
 
             }
         }
     </section>
-    <aside class="col-lg-4 col-md-4 col-sm-12">
+    <aside class="col-3">
         <div class="card mb-4">
             <div class="card-body">
                 <vc:weather></vc:weather>
@@ -23,30 +24,8 @@
         <vc:exchange-all></vc:exchange-all>
  
     </aside>
-</main>
+</div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        var apiKey = 'YOUR_API_KEY'; // Replace with your OpenWeatherMap API key
-        var city = 'Atlanta'; // Replace with the desired city
-        var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
-        $.ajax({
-            url: apiUrl,
-            method: 'GET',
-            success: function (data) {
-                var weatherIcon = data.weather[0].icon;
-                var weatherDescription = data.weather[0].description;
-                var temperature = data.main.temp;
-                var weatherDetails = `${weatherDescription}, ${temperature}°C`;
 
-                $('#weather-details').text(weatherDetails);
-            },
-            error: function () {
-                $('#weather-details').text('Unable to fetch weather details.');
-            }
-        });
-    });
-</script>
 

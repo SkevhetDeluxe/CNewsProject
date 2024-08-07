@@ -32,11 +32,13 @@ namespace CNewsProject.Service
         //Blob UPLOADING()
         #region Blobl_Uploading()
 
-        public string UploadBlob(IFormFile articleImage, string newFileName)
-        {
-            BlobContainerClient containerClient = _blobServiceClient
-                .GetBlobContainerClient("images");
+		public string UploadBlob(IFormFile articleImage, string newFileName)
+		{
+			newFileName = newFileName + ".jpg";
 
+			BlobContainerClient containerClient = _blobServiceClient
+				.GetBlobContainerClient("images");
+        
             BlobClient blobClient = containerClient.GetBlobClient(newFileName);
 
             using (var stream = articleImage.OpenReadStream())
@@ -94,11 +96,35 @@ namespace CNewsProject.Service
 			_db.SaveChanges();
 		}
 
-        #endregion
+		public void IncreaseLike(int id)
+		{
+			GetArticleById(id).Likes++;
+			_db.SaveChanges();
+		}
 
-        #region Base_Methods()
+		#endregion
 
+		#region Base_Methods()
+
+		public List<Article> GetAllArticles()
+
+        public void AddToEditorsChoice(int id)
+        {
+            EditorsChoice selectedArticle = new() { Article = GetArticleById(id) };
+            _db.EditorsChoice.Add(selectedArticle);
+            _db.SaveChanges();
+        }
+
+        public List<Article> GetLatestArticles()
+        {
+            return _db.Article.OrderByDescending(a => a.PublishedDate).Take(5).ToList();
+        }
+        public List<Article> GetFiveArticles()
+        {
+            return _db.Article.OrderByDescending(a => a.Views).Take(5).ToList();
+        }
         public List<Article> GetAllArticles()
+
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
@@ -156,30 +182,12 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-        public void UpdateArticle(Article article)
-        {
-            foreach (PropertyInfo property in article.GetType().GetProperties().Where(p => p.Name != "Id"))
-            {
-                property.SetValue(GetArticleById(article.Id), property.GetValue(article));
-            }
-            _db.SaveChanges();
-        }
-
-        public void PublishArticle(int id, string publisherName)
-        {
-            GetArticleById(id).Status = "Approved";
-            GetArticleById(id).ThePublisherUserName = publisherName;
-            GetArticleById(id).PublishedDate = DateTime.Now;
-            _db.SaveChanges();
-        }
 
         public void RemoveArticle(Article article)
         {
             _db.Article.Remove(_db.Article.FirstOrDefault(a => a.Id == article.Id)!);
             _db.SaveChanges();
         }
-
-
 
 
         public void EditArticle(Article article)
@@ -197,7 +205,6 @@ namespace CNewsProject.Service
 
             _db.SaveChanges();
         }
-
 
 
         #endregion

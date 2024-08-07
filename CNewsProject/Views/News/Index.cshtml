@@ -1,10 +1,25 @@
 @model FrontPageArticlesVM
 
+@{
+	Layout = "_LayoutNews";
+}
 
- <section class="main-article">
-            <partial name="_ArticlePartial" model="@Model.MainArticle" />
-        </section>
-        <aside>
+
+
+<section class="main-article">
+	<partial name="_ArticlePartial" model="@Model.MainArticle" />
+</section>
+<section class="articles">
+	@foreach (var article in Model.NotMainButStillImportantArticles)
+	{
+		<h1>HALLÅ!</h1>
+		<partial name="_ArticlePartial" model="article" />
+	}
+</section>
+
+
+
+    <aside>
             <div class="card">
                 
                 <vc:weather></vc:weather>
@@ -20,13 +35,4 @@
                 <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
             
         </aside>
-        <section class="articles">
-    @*    @foreach (var article in Model.NotMainButStillImportantArticles)
-            {
-                <h1>HALLÅ!</h1>
-                <partial name="_ArticlePartial" model="article" />
-            } *@
-        </section>    
-
-   
-
+       
