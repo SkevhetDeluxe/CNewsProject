@@ -117,8 +117,6 @@ namespace CNewsProject.Service
         }
         #region Base_Methods()
 
-        
-
         public void AddToEditorsChoice(int id)
         {
             EditorsChoice selectedArticle = new() { Article = GetArticleById(id) };
