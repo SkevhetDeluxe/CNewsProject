@@ -1,10 +1,16 @@
-﻿@model CategoryPageArticlesVM
 
 @{
-	Layout = "_LayoutNews";
-}
+    if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    {
+        Layout = "_LayoutNewsFire";
+    }
+    else
+    {
+        Layout = "_LayoutNews";
+    }
+    ViewData["Title"] = "Swedish News";
 
-
+@model CategoryPageArticlesVM
 
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />

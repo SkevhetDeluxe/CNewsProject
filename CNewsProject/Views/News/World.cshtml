@@ -1,9 +1,15 @@
-﻿@model CategoryPageArticlesVM
-
+@model CategoryPageArticlesVM
 @{
-	Layout = "_LayoutNews";
+	if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+	{
+		Layout = "_LayoutNewsFire";
+	}
+	else
+	{
+		Layout = "_LayoutNews";
+	}
+	ViewData["Title"] = "World News";
 }
-
 
 
 <section class="main-article">

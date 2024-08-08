@@ -1,9 +1,15 @@
 @model FrontPageArticlesVM
 
 @{
-	Layout = "_LayoutNews";
+	if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+	{
+		Layout = "_LayoutNewsFire";
+	}
+	else
+	{
+		Layout = "_LayoutNews";
+	}
 }
-
 
 
 
@@ -13,7 +19,11 @@
 <section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
+
+		
+
 		<div class="col-6">
+
 		<partial name="_ArticlePartial" model="article" />
 		</div>
 	}

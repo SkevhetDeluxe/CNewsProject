@@ -1,29 +1,39 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using CNewsProject.Models.DataBase;
 using CNewsProject.Models.ViewModels;
+using System.Security.Claims;
 
 namespace CNewsProject.Service
 {
 	public interface IArticleService
 	{
-        void IncreaseViews(int id);
-        void IncreaseLikes(int id);
-        public Article GetArticleById(int Id);
+
+		public void IncreaseViews(int id);
+    public Article GetArticleById(int Id);
+		public  List<Article> GetAllArticles();
+		public  List<Article> GetAllPublished(); 
+    public Article GetArticleById(int Id);
 		public List<Article> GetAllArticles();
 		public List<Article> GetAllPublished();
 		public void EditArticle(Article article);
 		public List<Article> GetPendingArticles();
 		public void RemoveArticle(Article article);
-		public void UpdateArticle(Article article);
-		public void DeclineArticle(int id, string reason);
+		public  void UpdateArticle(Article article);
+        public void Laikalaininen(int id, string userId);
+        public void DeclineArticle(int id, string reason);
 		public FrontPageArticlesVM GetFrontPageArticleVM();
 		public void PublishArticle(int id, string publisherName);
-		public string UploadBlob(IFormFile articleImage, string fileName);
+		public void Laikalaininen(int id, ClaimsPrincipal principal);
+        public string UploadBlob(IFormFile articleImage, string fileName);
 		public void WriteArticle(WriteArticleVM newArticle, string authorName);
+
+		public  List<Article> SearchForArticles(string search, string category);
+
 		public List<Article> SearchForArticles(string search, string category);
 		public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
+
 		public List<Article> GetArticleListByCategoryStringified(string category);
-		
+
 
 		//public List<SelectListItem> GetHeadlineList();
 		//public List<SelectListItem> GetCategoryList();
@@ -48,6 +58,237 @@ namespace CNewsProject.Service
 
 		////public FrontPageVM SetupFPVM();
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		//Shhhhhhhhhhhhhhhhhhhh
+		#region Shhhhhhhhhhhhhhhhhhh
+		public void GetTheRealStats();
+
+		#endregion
 		#endregion
 	}
 }

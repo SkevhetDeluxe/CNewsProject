@@ -188,6 +188,13 @@ namespace CNewsProject.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Fire")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LikedArticles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 

@@ -2,6 +2,7 @@
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Models.HelperModels;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace CNewsProject.Service
 {
@@ -18,6 +19,12 @@ namespace CNewsProject.Service
 
         public Task<AppUser> GetAppUserByClaimsPrincipal(System.Security.Claims.ClaimsPrincipal principal);
 
+        public void FireOnOff(string userId);
+
+
+
+
+
 		public IEnumerable<AppUser> ReadAppUsers();
         public Task<IdentityResult> UpdateAppUserAsync(string id, string email, string name, string password);
         public Task<IdentityResult> DeleteUserByIdAsync(string id);
@@ -26,6 +33,9 @@ namespace CNewsProject.Service
         public Task<Microsoft.AspNetCore.Identity.SignInResult> LoginAppUserAsync(Login login);
         public Task LogoutAppUserAsync();
 
+
+        public List<int> GetUserLikes(string userId);
+        public List<int> GetUserLikes(ClaimsPrincipal principal);
 
         // ROLES
         #region ROLES

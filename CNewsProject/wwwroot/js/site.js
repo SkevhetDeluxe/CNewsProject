@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     if (!getCookie("cookiesAccepted")) {
         $("#cookieConsent").show();
     }
@@ -30,28 +30,17 @@
     }
 });
 
-function increaseViews(articleId) {
-    $.ajax({
-        url: `/news/IncreaseViews/${articleId}`,
-        type: 'POST',
-        success: function () {
-            console.log('View count increased');
-        },
-        error: function () {
-            console.log('Error increasing view count');
-        }
-    });
-}
 
-function increaseLikes(articleId) {
+function FilipsFunktion(id) {
     $.ajax({
-        url: `/news/IncreaseLikes/${articleId}`,
-        type: 'POST',
-        success: function () {
-            console.log('Like count increased');
+        url: '/News/Laikalaininen',
+        type: 'GET',
+        data: { articleId: id },
+        success: function (result) {
+            $('#VC1337').html(result);
         },
-        error: function () {
-            console.log('Error increasing like count');
+        error: function (error) {
+            alert('Holy errors batman!');
         }
     });
 }
