@@ -1,7 +1,14 @@
 ﻿@model List<Article>
 
 @{
-    Layout = "_LayoutNews";
+    if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    {
+        Layout = "_LayoutNewsFire";
+    }
+    else
+    {
+        Layout = "_LayoutNews";
+    }
     ViewData["Title"] = "Sport News";
 }
 

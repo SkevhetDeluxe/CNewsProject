@@ -3,6 +3,7 @@ using CNewsProject.Models.Account;
 using CNewsProject.Models.DataBase.Identity;
 using CNewsProject.Models.HelperModels;
 using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 using System.Security.Policy;
 
 namespace CNewsProject.Service
@@ -33,6 +34,22 @@ namespace CNewsProject.Service
 
         // AppUser RELATED
         #region AppUser RELATED
+
+        //LIKES
+        #region FetchLikes
+
+        public List<int> GetUserLikes(string userId)
+        {
+            return db.Users.Single(u => u.Id == userId).LikedArticles.ToList();
+        }
+        public List<int> GetUserLikes(ClaimsPrincipal principal)
+        {
+            string userId = GetAppUserByClaimsPrincipal(principal).Result.Id;
+
+            return db.Users.Single(u => u.Id == userId).LikedArticles.ToList();
+        }
+
+        #endregion
 
         // CRUD OPERATIONS AppUser ACCOUNTS
         #region CRUD OPERATIONS AppUser Accounts
@@ -150,6 +167,15 @@ namespace CNewsProject.Service
             IdentityResult result = await userManager.UpdateAsync(user);
 
             return result;
+        }
+
+        public void FireOnOff(string userId)
+        {
+            db.Users.Single(u => u.Id == userId).Fire = 
+                db.Users.Single(u => u.Id == userId).Fire == false 
+                ? db.Users.Single(u => u.Id == userId).Fire = true
+                : db.Users.Single(u => u.Id == userId).Fire = false;
+            db.SaveChanges();
         }
 
         public async Task<IdentityResult> DeleteUserByIdAsync(string id)

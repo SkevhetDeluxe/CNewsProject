@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Drawing;
+using System.Security.Claims;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace CNewsProject.Service
@@ -92,21 +93,52 @@ namespace CNewsProject.Service
 
 		public void IncreaseViews(int id)
 		{
-			GetArticleById(id).Views++;
+			 GetArticleById(id).Views++;
 			_db.SaveChanges();
 		}
 
-		public void IncreaseLike(int id)
+		public void Laikalaininen(int id, string userId)
 		{
-			GetArticleById(id).Likes++;
-			_db.SaveChanges();
-		}
+            if(!HasLiked(id, userId))
+            {
+                GetArticleById(id).Likes++;
+                _db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
+                _db.SaveChanges();
+            }
+            else
+            {
+                GetArticleById(id).Likes--;
+                _db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
+                _db.SaveChanges();
+            }
+        }
 
-		#endregion
+        public void Laikalaininen(int id, ClaimsPrincipal principal)
+        {
+            string userId = _userManager.GetUserAsync(principal).Result.Id;
 
-		#region Base_Methods()
+            if (!HasLiked(id, userId))
+            {
+                GetArticleById(id).Likes++;
+                _db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
+                _db.SaveChanges();
+            }
+            else
+            {
+                GetArticleById(id).Likes--;
+                _db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
+                _db.SaveChanges();
+            }
+        }
 
-		public List<Article> GetAllArticles()
+        private bool HasLiked(int id, string userId)
+        {
+            return _db.Users.Single(u => u.Id == userId).LikedArticles.Contains(id);
+        }
+
+        #endregion
+
+        #region Base_Methods()
 
         public void AddToEditorsChoice(int id)
         {
@@ -337,6 +369,25 @@ namespace CNewsProject.Service
             return null;
         }
 
-        #endregion
-    }
+		#endregion
+
+        //Shhhhhhhhhhhhhhhhhhhhhhhhhh
+		#region We Don't talk anbout this one
+
+        public void GetTheRealStats()
+        {
+            Random rnd = new();
+            foreach(var sak in _db.Article)
+            {
+                int temp = rnd.Next(11, 319);
+                int temp2 = rnd.Next(45, 454);
+                sak.Likes += temp;
+                sak.Views += temp + temp2;
+            }
+            _db.SaveChanges();
+        }
+
+		#endregion
+
+	}
 }

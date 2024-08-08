@@ -1,3 +1,11 @@
 ﻿@{
-    Layout = "_Layout";
+
+    if(_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    {
+        Layout = "_LayoutFire";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }

@@ -127,6 +127,13 @@ namespace CNewsProject.Controllers
 
         public ViewResult Claims() => View(User?.Claims);
 
-        #endregion
-    }
+		#endregion
+
+		#region SHhhhhhhhhhhhhhhhhhhhhHhHhhhHhHHHhh
+        public IActionResult SugMinaStats()
+        {
+            return RedirectToAction("SugMinaStats", "News");
+        }
+		#endregion
+	}
 }

@@ -29,3 +29,20 @@
         return null;
     }
 });
+
+
+function FilipsFunktion(id) {
+    $.ajax({
+        url: '/News/Laikalaininen',
+        type: 'GET',
+        data: { articleId: id },
+        success: function (result) {
+            $('#VC1337').html(result);
+        },
+        error: function (error) {
+            alert('Holy errors batman!');
+        }
+    });
+}
+
+

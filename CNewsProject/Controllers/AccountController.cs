@@ -85,6 +85,17 @@ namespace CNewsProject.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public IActionResult Profile(AppUser user)
+        {
+            if (identityService.GetAppUserByIdAsync(user.Id).Result.Fire != user.Fire)
+				identityService.FireOnOff(user.Id);
+
+			user = identityService.GetAppUserByIdAsync(user.Id).Result;
+
+            return View(user);
+        }
+
         //Profile RELATED stuff
         #region Profile RElated shit
 

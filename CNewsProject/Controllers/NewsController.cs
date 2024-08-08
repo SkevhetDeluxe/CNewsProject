@@ -6,12 +6,15 @@ namespace CNewsProject.Controllers
 		private readonly IArticleService _articleService;
 		private readonly ICategoryService _categoryService;
         private readonly IVisitorCountService _visitorCountService;
+		private readonly IIdentityService _identityService;
 
-        public NewsController(IArticleService articleService, ICategoryService categoryService, IVisitorCountService visitorCountService)
+        public NewsController(IArticleService articleService, ICategoryService categoryService,
+			IVisitorCountService visitorCountService, IIdentityService iService)
 		{
 			_articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
+			_identityService = iService;
 		}
 
         public IActionResult Index()
@@ -58,9 +61,25 @@ namespace CNewsProject.Controllers
 		public IActionResult Article(int id)
 		{
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
+			_articleService.IncreaseViews(id);
 			
-
 			return View(vModel);
 		}
+
+		public IActionResult Laikalaininen(int articleId)
+		{
+			_articleService.Laikalaininen(articleId, User);
+			return ViewComponent("ArticleLocker", new { principal = User, id = articleId });
+		}
+
+		[AllowAnonymous]
+		[Authorize(Roles = "Admin")]
+		public IActionResult SugMinaStats()
+		{
+			_articleService.GetTheRealStats();
+
+			return RedirectToAction("Index");
+		}
+
 	}
 }
