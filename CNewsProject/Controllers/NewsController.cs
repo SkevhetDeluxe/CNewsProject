@@ -62,5 +62,19 @@ namespace CNewsProject.Controllers
 
 			return View(vModel);
 		}
-	}
+
+        [HttpPost("IncreaseViews/{id}")]
+        public IActionResult IncreaseViews(int id)
+        {
+            _articleService.IncreaseViews(id);
+            return Ok();
+        }
+
+        [HttpPost("IncreaseLikes/{id}")]
+        public IActionResult IncreaseLikes(int id)
+        {
+            _articleService.IncreaseLikes(id);
+            return Ok();
+        }
+    }
 }

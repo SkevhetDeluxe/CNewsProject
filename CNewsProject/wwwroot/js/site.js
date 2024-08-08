@@ -29,3 +29,29 @@
         return null;
     }
 });
+
+function increaseViews(articleId) {
+    $.ajax({
+        url: `/news/IncreaseViews/${articleId}`,
+        type: 'POST',
+        success: function () {
+            console.log('View count increased');
+        },
+        error: function () {
+            console.log('Error increasing view count');
+        }
+    });
+}
+
+function increaseLikes(articleId) {
+    $.ajax({
+        url: `/news/IncreaseLikes/${articleId}`,
+        type: 'POST',
+        success: function () {
+            console.log('Like count increased');
+        },
+        error: function () {
+            console.log('Error increasing like count');
+        }
+    });
+}
