@@ -1,16 +1,19 @@
-﻿@model List<Article>
+﻿@model CategoryPageArticlesVM
 
 @{
-    Layout = "_LayoutNews";
-    ViewData["Title"] = "Sport News";
+	Layout = "_LayoutNews";
 }
 
-    <section class="main-article">
-        @{
-            foreach (Article artikelJavel in Model)
-            {
-                <partial name="_ArticlePartial" model="artikelJavel" />
 
-            }
-        }
-    </section>
+
+<section class="main-article">
+	<partial name="_ArticlePartial" model="@Model.MainArticle" />
+</section>
+<section class="articles row">
+	@foreach (var article in Model.NotMainButStillImportantArticles)
+	{
+		<div class="col-6">
+			<partial name="_ArticlePartial" model="article" />
+		</div>
+	}
+</section>

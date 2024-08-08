@@ -9,30 +9,11 @@
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
 </section>
-<section class="articles">
+<section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
-		<h1>HALLÅ!</h1>
+		<div class="col-6">
 		<partial name="_ArticlePartial" model="article" />
+		</div>
 	}
 </section>
-
-
-
-    <aside>
-            <div class="card">
-                
-                <vc:weather></vc:weather>
-                
-                <div class="weather-icon">☀️</div>
-                <p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather 1</a></p>
-                
-            </div>
-            <vc:exchange></vc:exchange>
-
-                <h2><a href="@Url.Action("Local", "News")">Local news</a></h2>
-                <h2><a href="@Url.Action("Sweden", "News")">Swedish news</a></h2>
-                <h2><a href="@Url.Action("Economy", "News")">Economy news</a></h2>                
-            
-        </aside>
-       
