@@ -21,6 +21,7 @@ namespace CNewsProject.Service
 		public string UploadBlob(IFormFile articleImage, string fileName);
 		public void WriteArticle(WriteArticleVM newArticle, string authorName);
 		public List<Article> SearchForArticles(string search, string category);
+		public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
 		public List<Article> GetArticleListByCategoryStringified(string category);
 		
 

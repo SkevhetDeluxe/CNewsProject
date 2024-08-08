@@ -105,7 +105,6 @@ namespace CNewsProject.Service
         #endregion
 
         
-
         public void IncreaseLikes(int id)
         {
             var article = GetArticleById(id);
@@ -146,14 +145,33 @@ namespace CNewsProject.Service
         public FrontPageArticlesVM GetFrontPageArticleVM()
         {
             if (_db.Article.Any())
+            {
                 return new FrontPageArticlesVM()
                 {
                     MainArticle = _db.Article.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
-                    NotMainButStillImportantArticles = new(),
+                    NotMainButStillImportantArticles = _db.Article.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
                     TheRestLol = new()
                 };
+            }
+           
             else
                 return new FrontPageArticlesVM();
+        }
+        public CategoryPageArticlesVM GetCategoryPageArticleVM(string category)
+        {
+            List<Article> categoryArticles = GetArticleListByCategoryStringified(category);
+            if (categoryArticles.Any())
+            {
+                return new CategoryPageArticlesVM()
+                {
+                    MainArticle = categoryArticles.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
+                    NotMainButStillImportantArticles = categoryArticles.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
+                    TheRestLol = new()
+                };
+            }
+           
+            else
+                return new CategoryPageArticlesVM();
         }
 
         public Article GetArticleById(int Id)

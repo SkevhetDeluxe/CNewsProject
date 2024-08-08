@@ -21,28 +21,32 @@ namespace CNewsProject.Controllers
         }
         public IActionResult Local()
 		{
-			// Hello Guys it's me. I stringified it!
-			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Local");
+			return View(vModel);
 		}
 
 		public IActionResult Sweden()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sweden"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sweden");
+			return View(vModel);
 		}
 
 		public IActionResult World()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("World"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("World");
+			return View(vModel);
 		}
 
 		public IActionResult Economy()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Economy"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Economy");
+			return View(vModel);
 		}
 
 		public IActionResult Sport()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sport"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sport");
+			return View(vModel);
 		}
 
 		public IActionResult Search()
