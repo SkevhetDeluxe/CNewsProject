@@ -1,29 +1,24 @@
-﻿
-@{
-	ViewData["Title"] = "Economy News";
-}
+﻿	@model CategoryPageArticlesVM
 
 
 <div class="row">
-  <section class="main-article col-9">
-	@{
-		foreach (Article artikelJavel in Model)
-		{
-			<partial name="_ArticlePartial" model="artikelJavel" />
-
-            }
-        }
-    </section>
-    <aside class="col-3">
-        <div class="card mb-4">
-            <div class="card-body">
-                <vc:weather></vc:weather>
-                
-            </div>
-        </div>
-        <vc:exchange-all></vc:exchange-all>
- 
-    </aside>
+	<div class="col-9">
+		<section class="main-article">
+			<partial name="_ArticlePartial" model="@Model.MainArticle" />
+		</section>
+		<section class="articles row">
+			@foreach (var article in Model.NotMainButStillImportantArticles)
+			{
+				<div class="col-6">
+					<partial name="_ArticlePartial" model="article" />
+				</div>
+			}
+		</section>
+	</div>
+	<aside class="col-3">
+		<vc:weather></vc:weather>
+		<vc:exchange-all></vc:exchange-all>
+	</aside>
 </div>
 
 

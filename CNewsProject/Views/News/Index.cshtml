@@ -12,17 +12,20 @@
 }
 
 
+
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
 </section>
-<section class="articles">
+<section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
+
 		
+
+		<div class="col-6">
+
 		<partial name="_ArticlePartial" model="article" />
+		</div>
 	}
 </section>
-
-
-
 

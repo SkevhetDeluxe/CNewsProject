@@ -1,4 +1,4 @@
-﻿$(document).ready(function () {
+$(document).ready(function () {
     if (!getCookie("cookiesAccepted")) {
         $("#cookieConsent").show();
     }
@@ -44,5 +44,3 @@ function FilipsFunktion(id) {
         }
     });
 }
-
-

@@ -1,18 +1,28 @@
-﻿@model WeatherStats
+﻿
+@model WeatherStats
 
 
-<div class="card">
-	<h2>Weather</h2>
-	<div class="weather-details">
-		<div class="weather-info">
-			<p>Latitude: @Model.Latitude</p>
-			<p>Longitude: @Model.Longitude</p>
-			<p>Timezone: @Model.Timezone</p>
-			<p>Elevation: @Model.Elevation m</p>
-			<p>Temperature: @Model.Hourly.Temperature_2m[DateTime.Now.Hour]°C</p>
-		</div>
-	</div>
-	<div class="weather-icon">☀️</div>
-	<p><a href="https://weather.com/sv-SE/weather/today/">Weather</a></p>
+@{
+    WeatherStats stats = new();
 
+    //Parameter para = stats.timeSeries
+    // TempStat temperature = 
+    String hourMinute = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+    DateTime testTime = Convert.ToDateTime(hourMinute);
+    //DateTime testTime = Convert.ToDateTime("2024-08-09 17:00:00");
+    Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
+}
+
+<div class="weather-details">
+    <div class="weather-info">
+        <div class="card">
+        <h3>Weather</h3>
+        
+        <p>Latitude: @Model.geometry.type.Length</p>
+        <p>Longitude: @Model.geometry.type</p>
+        <p>Timezone: @Model.referenceTime.</p>
+        <p>Elevation: @Model.approvedTime.</p>
+        <p>Temperature: @temperature.values[0] °C</p> 
+        </div>
+    </div>
 </div>
