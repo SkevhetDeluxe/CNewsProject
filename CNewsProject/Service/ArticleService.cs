@@ -106,7 +106,7 @@ namespace CNewsProject.Service
 
 		#region Base_Methods()
 
-		public List<Article> GetAllArticles()
+		//public List<Article> GetAllArticles()
 
         public void AddToEditorsChoice(int id)
         {
