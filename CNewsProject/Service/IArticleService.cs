@@ -6,8 +6,9 @@ namespace CNewsProject.Service
 {
 	public interface IArticleService
 	{
-		
-		public Article GetArticleById(int Id);
+        void IncreaseViews(int id);
+        void IncreaseLikes(int id);
+        public Article GetArticleById(int Id);
 		public List<Article> GetAllArticles();
 		public List<Article> GetAllPublished();
 		public void EditArticle(Article article);

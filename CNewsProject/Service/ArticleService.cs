@@ -102,9 +102,19 @@ namespace CNewsProject.Service
 			_db.SaveChanges();
 		}
 
-		#endregion
+        #endregion
 
-		#region Base_Methods()
+        
+        public void IncreaseLikes(int id)
+        {
+            var article = GetArticleById(id);
+            if (article != null)
+            {
+                article.Likes++;
+                _db.SaveChanges();
+            }
+        }
+        #region Base_Methods()
 
         public void AddToEditorsChoice(int id)
         {

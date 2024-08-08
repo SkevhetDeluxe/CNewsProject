@@ -6,10 +6,10 @@
     WeatherStats stats = new();
 
     //Parameter para = stats.timeSeries
-
-    // // TempStat temperature = 
-    DateTime testTime = Convert.ToDateTime("2024-08-09 17:00:00"); // if you get an error here change this to a later date
-    String hourMinute = DateTime.Now.ToString("HH:mm");
+    // TempStat temperature = 
+    String hourMinute = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+    DateTime testTime = Convert.ToDateTime(hourMinute);
+    //DateTime testTime = Convert.ToDateTime("2024-08-09 17:00:00");
     Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
 }
 
