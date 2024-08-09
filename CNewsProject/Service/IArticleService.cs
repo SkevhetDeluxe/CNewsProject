@@ -9,9 +9,7 @@ namespace CNewsProject.Service
 	{
 
 		public void IncreaseViews(int id);
-    public Article GetArticleById(int Id);
-		public  List<Article> GetAllArticles();
-		public  List<Article> GetAllPublished(); 
+    
     public Article GetArticleById(int Id);
 		public List<Article> GetAllArticles();
 		public List<Article> GetAllPublished();
@@ -27,7 +25,7 @@ namespace CNewsProject.Service
         public string UploadBlob(IFormFile articleImage, string fileName);
 		public void WriteArticle(WriteArticleVM newArticle, string authorName);
 
-		public  List<Article> SearchForArticles(string search, string category);
+		
 
 		public List<Article> SearchForArticles(string search, string category);
 		public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
