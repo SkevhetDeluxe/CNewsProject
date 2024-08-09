@@ -3,13 +3,12 @@
 
 
 @{
+    
     WeatherStats stats = new();
 
-    //Parameter para = stats.timeSeries
-    // TempStat temperature = 
-    String hourMinute = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
-    DateTime testTime = Convert.ToDateTime(hourMinute);
-    //DateTime testTime = Convert.ToDateTime("2024-08-09 17:00:00");
+    String hourMin = DateTime.Now.ToString("HH:mm");
+    String weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+    DateTime testTime = Convert.ToDateTime(weatherTime); 
     Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
 }
 
@@ -19,10 +18,13 @@
         <h3>Weather</h3>
         
         <p>Latitude: @Model.geometry.type.Length</p>
-        <p>Longitude: @Model.geometry.type</p>
-        <p>Timezone: @Model.referenceTime.</p>
-        <p>Elevation: @Model.approvedTime.</p>
-        <p>Temperature: @temperature.values[0] °C</p> 
+        @* <p>Longitude: @Model.geometry.type</p>
+        <p>Timezone: @Model.referenceTime.</p> *@
+        <p>Time: @hourMin</p>
+        <p>Temperature: @temperature.values[0] °C</p>
+
+            <div class="weather-icon">☀️</div>
+            <p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
         </div>
     </div>
 </div>
