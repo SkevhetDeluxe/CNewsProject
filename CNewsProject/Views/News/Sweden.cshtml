@@ -1,14 +1,25 @@
-﻿@{
-    Layout = "_LayoutNews";
+
+@{
+    if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    {
+        Layout = "_LayoutNewsFire";
+    }
+    else
+    {
+        Layout = "_LayoutNews";
+    }
     ViewData["Title"] = "Swedish News";
-}
+
+@model CategoryPageArticlesVM
 
 <section class="main-article">
-    @{
-        foreach (Article artikelJavel in Model)
-        {
-            <partial name="_ArticlePartial" model="artikelJavel" />
-
-        }
-    }
+	<partial name="_ArticlePartial" model="@Model.MainArticle" />
+</section>
+<section class="articles row">
+	@foreach (var article in Model.NotMainButStillImportantArticles)
+	{
+		<div class="col-6">
+			<partial name="_ArticlePartial" model="article" />
+		</div>
+	}
 </section>

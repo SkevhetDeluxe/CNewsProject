@@ -5,9 +5,10 @@
 @{
     
     WeatherStats stats = new();
+
     String hourMin = DateTime.Now.ToString("HH:mm");
     String weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
-    DateTime testTime = Convert.ToDateTime(weatherTime);
+    DateTime testTime = Convert.ToDateTime(weatherTime); 
     Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
 }
 

@@ -1,4 +1,4 @@
-﻿
+
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -6,12 +6,15 @@ namespace CNewsProject.Controllers
 		private readonly IArticleService _articleService;
 		private readonly ICategoryService _categoryService;
         private readonly IVisitorCountService _visitorCountService;
+		private readonly IIdentityService _identityService;
 
-        public NewsController(IArticleService articleService, ICategoryService categoryService, IVisitorCountService visitorCountService)
+        public NewsController(IArticleService articleService, ICategoryService categoryService,
+			IVisitorCountService visitorCountService, IIdentityService iService)
 		{
 			_articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
+			_identityService = iService;
 		}
 
         public IActionResult Index()
@@ -21,28 +24,32 @@ namespace CNewsProject.Controllers
         }
         public IActionResult Local()
 		{
-			// Hello Guys it's me. I stringified it!
-			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Local");
+			return View(vModel);
 		}
 
 		public IActionResult Sweden()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sweden"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sweden");
+			return View(vModel);
 		}
 
 		public IActionResult World()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("World"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("World");
+			return View(vModel);
 		}
 
 		public IActionResult Economy()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Economy"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Economy");
+			return View(vModel);
 		}
 
 		public IActionResult Sport()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sport"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sport");
+			return View(vModel);
 		}
 
 		public IActionResult Search()
@@ -58,23 +65,26 @@ namespace CNewsProject.Controllers
 		public IActionResult Article(int id)
 		{
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
+			_articleService.IncreaseViews(id);
 			
-
 			return View(vModel);
 		}
 
-        [HttpPost("IncreaseViews/{id}")]
-        public IActionResult IncreaseViews(int id)
-        {
-          //  _articleService.IncreaseViews(id);
-            return Ok();
-        }
+		public IActionResult Laikalaininen(int articleId)
+		{
+			_articleService.Laikalaininen(articleId, User);
+			return ViewComponent("ArticleLocker", new { principal = User, id = articleId });
+		}
 
-        [HttpPost("IncreaseLikes/{id}")]
-        public IActionResult IncreaseLikes(int id)
-        {
-          //  _articleService.IncreaseLikes(id);
-            return Ok();
-        }
-    }
+		[AllowAnonymous]
+		[Authorize(Roles = "Admin")]
+		public IActionResult SugMinaStats()
+		{
+			_articleService.GetTheRealStats();
+
+			return RedirectToAction("Index");
+		}
+
+	}
+
 }

@@ -21,7 +21,7 @@ namespace CNewsProject.Models.Api.Weather
         
 
 
-    public WeatherApiHandler()
+        public WeatherApiHandler()
         {
         //BaseUrl = "https:// api.open-meteo.com/v1/forecast?";
         // EndUrl = "&hourly=temperature_2m";

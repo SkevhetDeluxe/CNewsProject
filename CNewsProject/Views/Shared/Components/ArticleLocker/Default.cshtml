@@ -1,9 +1,35 @@
 ﻿@model ArticleLock
 
 @{
-    if (Model.Access == "AccessGranted")
+    if (Model.Access)
     {
-        <partial name ="_ArticlePartial" model="Model.Article" />
+        //Vars
+
+        string btnColour = "btn-outline-primary";
+        string btnText = "Like";
+
+        if (Model.UserLikes.Contains(Model.Article.Id))
+        {
+            btnColour = "btn-primary";
+            btnText = "Remove your Like from this.article";
+        }
+        // asp-controller="News" asp-action="Article">
+        <div class="card mb-4 w-100">
+            <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Article.Headline</h5>
+                <p class="card-text">@Model.Article.Content</p>
+
+
+            </div>
+            <div class="card-footer text-muted">
+                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                <span>Views: @Model.Article.Views</span>
+                <span>Likes: @Model.Article.Likes</span>
+                <span>Category: @Model.Article.Category.Name</span>
+                <span><button class="btn @btnColour" onclick="FilipsFunktion(@Model.Article.Id)">@btnText</button></span>
+            </div>
+        </div>
     }
     else
     {

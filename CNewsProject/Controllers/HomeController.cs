@@ -26,13 +26,14 @@ namespace CNewsProject.Controllers
         }
 
 
+        
         [Authorize(Roles ="Admin")]
         public IActionResult Privacy()
         {
             return View();
         }
 
-
+        [Authorize(Roles = "Admin, Journalist, The Publisher")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
