@@ -23,11 +23,11 @@ namespace CNewsProject.Models.Api.Weather
 
     public WeatherApiHandler()
         {
-            //BaseUrl = "https:// api.open-meteo.com/v1/forecast?";
-            // EndUrl = "&hourly=temperature_2m";
-            //Latitude = "latitude=";
-            //Longitude = "&longitude=";
-
+        //BaseUrl = "https:// api.open-meteo.com/v1/forecast?";
+        // EndUrl = "&hourly=temperature_2m";
+        //Latitude = "latitude=";
+        //Longitude = "&longitude=";
+        
             //For Reference https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
             BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
