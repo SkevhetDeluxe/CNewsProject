@@ -12,6 +12,8 @@ namespace CNewsProject.Service
         public void AddSubscription(Subscription supscription);
         public void RemoveSubscription(Subscription supscription);
         public void EditSubscription(Subscription supscription);
-       
+
+        // for Payment 
+        bool IsUserSubscribed(string userId);
     }
 }
