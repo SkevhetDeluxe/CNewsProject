@@ -1,4 +1,10 @@
 ﻿@{
-    var appUser = await _iService.GetAppUserByClaimsPrincipal(User);
-    Layout = appUser?.Fire == true ? "_LayoutFire" : "_Layout";
+    if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    {
+        Layout = "_LayoutFire";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }
