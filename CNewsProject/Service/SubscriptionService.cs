@@ -14,7 +14,13 @@ namespace CNewsProject.Service
             _db = db;
             _configuration = configuration;
         }
-
+        // sh
+        public bool IsuserSubscribed(string userId)
+        {
+            var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == Convert.ToInt32(userId) && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
+            return subscription != null && subscription.PaymentComplete;
+        }
+        // sh
        
         public List<Subscription> GetAllSubscription()
         {
@@ -52,7 +58,10 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-
+        public bool IsUserSubscribed(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

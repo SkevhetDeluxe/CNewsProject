@@ -1,4 +1,6 @@
 
+using CNewsProject.Service;
+
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -7,16 +9,35 @@ namespace CNewsProject.Controllers
 		private readonly ICategoryService _categoryService;
         private readonly IVisitorCountService _visitorCountService;
 		private readonly IIdentityService _identityService;
+        private readonly ISubscriptionService _subscriptionService;
+        private ISubscriptionService? subscriptionService;
 
         public NewsController(IArticleService articleService, ICategoryService categoryService,
 			IVisitorCountService visitorCountService, IIdentityService iService)
 		{
-			_articleService = articleService;
+            _subscriptionService = subscriptionService;
+            _articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
 			_identityService = iService;
 		}
 
+        // sh
+        public IActionResult Details(int id)
+        {
+            var article = _articleService.GetArticleById(id);
+            var userId = User.Identity.Name;
+
+            var isUserSubscribed = _subscriptionService.IsUserSubscribed(userId);
+
+            if (!isUserSubscribed)
+            {
+                return RedirectToAction("Subscribe", "Subscription");
+            }
+
+            return View(article);
+        }
+		// sh
         public IActionResult Index()
         {
             FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
