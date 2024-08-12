@@ -12,9 +12,7 @@ namespace CNewsProject.Service
     public Article GetArticleById(int Id);
 		public  List<Article> GetAllArticles();
 		public  List<Article> GetAllPublished(); 
-    public Article GetArticleById(int Id);
-		public List<Article> GetAllArticles();
-		public List<Article> GetAllPublished();
+    
 		public void EditArticle(Article article);
 		public List<Article> GetPendingArticles();
 		public void RemoveArticle(Article article);
@@ -29,7 +27,7 @@ namespace CNewsProject.Service
 
 		public  List<Article> SearchForArticles(string search, string category);
 
-		public List<Article> SearchForArticles(string search, string category);
+		
 		public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
 
 		public List<Article> GetArticleListByCategoryStringified(string category);
