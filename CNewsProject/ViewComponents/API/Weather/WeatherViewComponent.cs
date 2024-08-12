@@ -11,6 +11,7 @@
 
         public IViewComponentResult Invoke()
         {
+            WeatherStats Position = _weatherHandler.GetPositionAsync().Result;
             WeatherStats reportagetOmDetFinaVadret = _weatherHandler.GetWeatherAsync().Result;
 
             return View(reportagetOmDetFinaVadret);

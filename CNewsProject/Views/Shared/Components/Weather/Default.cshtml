@@ -3,26 +3,29 @@
 
 
 @{
-    
-    WeatherStats stats = new();
 
+    WeatherStats stats = new();
+    string city ="Stockholm";
     String hourMin = DateTime.Now.ToString("HH:mm");
     String weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
     DateTime testTime = Convert.ToDateTime(weatherTime); 
     Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
+
 }
 
 <div class="weather-details">
     <div class="weather-info">
         <div class="card">
-            <h3>Weather</h3>     
-            <div class="row mg">
+            <h3>Weather</h3> 
+            <form>
+            <div class="row mg-3">
                 <label>City</label>
-                <input id="city" type="text" />
+                <input id="city" type="text" default="@city" />
             </div>
             <div class="btn">
                 <input class="offset-md-2" type="submit" value="Find" />
             </div>
+            </form>
             <p>Latitude: @Model.geometry.type.Length</p>
             @* <p>Longitude: @Model.geometry.type</p>
             <p>Timezone: @Model.referenceTime.</p> *@
