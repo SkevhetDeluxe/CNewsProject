@@ -7,9 +7,7 @@ namespace CNewsProject.Service
 {
 	public interface IArticleService
 	{
-
 		public void IncreaseViews(int id);
-    
     public Article GetArticleById(int Id);
 		public List<Article> GetAllArticles();
 		public List<Article> GetAllPublished();
@@ -17,19 +15,14 @@ namespace CNewsProject.Service
 		public List<Article> GetPendingArticles();
 		public void RemoveArticle(Article article);
 		public  void UpdateArticle(Article article);
-        public void Laikalaininen(int id, string userId);
-        public void DeclineArticle(int id, string reason);
+    public void Laikalaininen(int id, string userId);
+    public void DeclineArticle(int id, string reason);
 		public FrontPageArticlesVM GetFrontPageArticleVM();
 		public void PublishArticle(int id, string publisherName);
 		public void Laikalaininen(int id, ClaimsPrincipal principal);
-        public string UploadBlob(IFormFile articleImage, string fileName);
+    public string UploadBlob(IFormFile articleImage, string fileName);
 		public void WriteArticle(WriteArticleVM newArticle, string authorName);
-
-		
-
-		public List<Article> SearchForArticles(string search, string category);
 		public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
-
 		public List<Article> GetArticleListByCategoryStringified(string category);
 
 

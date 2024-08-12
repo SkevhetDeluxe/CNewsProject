@@ -139,7 +139,7 @@ namespace CNewsProject.Service
 
         #endregion
 
-        
+
   
         #region Base_Methods()
 
