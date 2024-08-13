@@ -21,7 +21,6 @@ namespace CNewsProject.ViewComponents.API.Weather
             lon = lon.Replace(',','.');
 
             WeatherStats reportagetOmDetFinaVadret = _weatherHandler.GetWeatherAsync(lon, lat).Result;
-
             return View(reportagetOmDetFinaVadret);
         }
     }

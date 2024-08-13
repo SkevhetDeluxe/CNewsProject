@@ -24,7 +24,7 @@ namespace CNewsProject.Service
         public List<Article> SearchForArticles(string search, string category);
         public void WriteArticle(WriteArticleVM newArticle, string authorName);
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
-        public List<Article> GetArticleListByCategoryStringified(string category);
+        public List<Article> GetArticleListByCategoryStringified(string category, int count);
 
 
         //public List<SelectListItem> GetHeadlineList();
