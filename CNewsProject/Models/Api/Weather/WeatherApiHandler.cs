@@ -40,80 +40,72 @@ namespace CNewsProject.Models.Api.Weather
             Longitude = "lon/";
             Latitude = "/lat/";
 
-            PosUrl = "https://www.openstreetmap.org/search?query=";
-            // PosUrl = "https://www.google.se/maps/place/";
-
-
-
-
+            PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";       
 
         }
 
-        public async Task<WeatherStats> GetPositionAsync(string Place)
+        public async Task<GeoLocation> GetPositionAsync(string Place)
+        {
+            var client = new HttpClient();
+            //string cor;
+            string url = PosUrl + Place;
+
+            var response = await client.GetAsync(url);
+            var resp = await client.GetStringAsync(url);
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(json);
+
+                GeoLocation gps = data.ToObject<GeoLocation>();
+                //string[] latlog = json;
+                //int i = 0, j = 0;
+                //for (i = 0; i <= latlog.Length; i++)
+                //    if (latlog[i] == ("1 to 9"))
+                //        j = i;
+                //for (j = i; j <= latlog.Length; j++)
+                //       cor = cor + latlog[j];
+
+
+
+
+
+
+
+                return null;
+            }
+            else
+                return new GeoLocation();
+        }
+
+        public async Task<GeoLocation> GetPositionAsync() /// Default
         {
             var client = new HttpClient();
 
-            string url = PosUrl + Place + '/';
-
+            string url = PosUrl + "Stockholm";
+           
             var response = await client.GetAsync(url);
-
-
 
             if (response.IsSuccessStatusCode)
             {
                 var json = await response.Content.ReadAsStringAsync();
                 var data = JObject.Parse(json);
 
-                WeatherStats gps = data.ToObject<WeatherStats>();
+                GeoLocation gps = data.ToObject<GeoLocation>();
 
-                return gps;
-            }
-            else
-                return new WeatherStats();
-        }
-
-        public async Task<WeatherStats> GetPositionAsync() /// Default
-        {
-            var client = new HttpClient();
-
-            string url = PosUrl + "Stockholm/";
-
-            //string url4 = uri.AbsoluteUri;
-            //string r3 = Request.Url.GetLeftPart(UriPartial.Authority)
-            //string r1 = HttpContext.Current.Request.Url.AbsoluteUri;
-            //string r2 = HttpContext.Current.Request.Url.AbsolutePath;
-
-            var response = await client.GetAsync(url);
-            var resp = await client.GetStringAsync (url);
-            
-
-
-
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var data = JObject.Parse(json);
-
-                WeatherStats gps = data.ToObject<WeatherStats>();
-                int i = 0;
-                while (i< 100)
-                {
-                    i++;
-
-                }
 
 
                 return gps;
             }
             else
-                return new WeatherStats();
+                return new GeoLocation();
         }
 
-        public async Task<WeatherStats> GetWeatherAsync(string latVal, string longVal)
+        public async Task<WeatherStats> GetWeatherAsync(string longVal, string latVal)
         {
             var client = new HttpClient();
 
-            string url = BaseUrl + Latitude + latVal + Longitude + longVal + EndUrl;
+            string url = BaseUrl + Longitude + longVal + Latitude + latVal + EndUrl;
 
             var response = await client.GetAsync(url);
 
