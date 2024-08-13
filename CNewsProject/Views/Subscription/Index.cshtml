@@ -1,4 +1,4 @@
-﻿@model SubscriptionViewModel
+﻿@* @model SubscriptionViewModel
 
 <h2>Select a Subscription Plan</h2>
 
@@ -6,3 +6,4 @@
     <select asp-for="SelectedSubscriptionId" asp-items="@(new SelectList(Model.AvailableSubscriptions, "Id", "SubscriptionType"))"></select>
     <button type="submit">Subscribe</button>
 </form>
+ *@

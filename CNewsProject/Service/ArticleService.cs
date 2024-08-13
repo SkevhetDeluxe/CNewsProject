@@ -33,13 +33,13 @@ namespace CNewsProject.Service
         //Blob UPLOADING()
         #region Blobl_Uploading()
 
-		public string UploadBlob(IFormFile articleImage, string newFileName)
-		{
-			newFileName = newFileName + ".jpg";
+        public string UploadBlob(IFormFile articleImage, string newFileName)
+        {
+            newFileName = newFileName + ".jpg";
 
-			BlobContainerClient containerClient = _blobServiceClient
-				.GetBlobContainerClient("images");
-        
+            BlobContainerClient containerClient = _blobServiceClient
+                .GetBlobContainerClient("images");
+
             BlobClient blobClient = containerClient.GetBlobClient(newFileName);
 
             using (var stream = articleImage.OpenReadStream())
@@ -53,16 +53,16 @@ namespace CNewsProject.Service
             return blobClient.Uri.AbsoluteUri;
         }
 
-		public string UploadBlobResize(IFormFile articleImage, string newFileName)
-		{
-			BlobContainerClient containerClient = _blobServiceClient
-				.GetBlobContainerClient("images");
+        public string UploadBlobResize(IFormFile articleImage, string newFileName)
+        {
+            BlobContainerClient containerClient = _blobServiceClient
+                .GetBlobContainerClient("images");
 
-			BlobClient blobClient = containerClient.GetBlobClient(newFileName);
+            BlobClient blobClient = containerClient.GetBlobClient(newFileName);
 
-			Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
+            Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
 
-			var newImage = new Bitmap(1024, 768);
+            var newImage = new Bitmap(1024, 768);
 
             using (var g = Graphics.FromImage(newImage))
             {
@@ -76,30 +76,30 @@ namespace CNewsProject.Service
             }
 
             return blobClient.Uri.AbsoluteUri;
-		}
+        }
 
-		private MemoryStream ToMemoryStream(Bitmap img)
-		{
-			MemoryStream stream = new();
-			img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
+        private MemoryStream ToMemoryStream(Bitmap img)
+        {
+            MemoryStream stream = new();
+            img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
 
-			return stream;
-		}
+            return stream;
+        }
 
         #endregion
 
-		//Views and Likes
+        //Views and Likes
         #region Statistics()
 
-		public void IncreaseViews(int id)
-		{
-			 GetArticleById(id).Views++;
-			_db.SaveChanges();
-		}
+        public void IncreaseViews(int id)
+        {
+            GetArticleById(id).Views++;
+            _db.SaveChanges();
+        }
 
-		public void Laikalaininen(int id, string userId)
-		{
-            if(!HasLiked(id, userId))
+        public void Laikalaininen(int id, string userId)
+        {
+            if (!HasLiked(id, userId))
             {
                 GetArticleById(id).Likes++;
                 _db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
@@ -140,7 +140,7 @@ namespace CNewsProject.Service
         #endregion
 
 
-  
+
         #region Base_Methods()
 
         public void AddToEditorsChoice(int id)
@@ -175,28 +175,28 @@ namespace CNewsProject.Service
             {
                 return new FrontPageArticlesVM()
                 {
-                    MainArticle = _db.Article.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
-                    NotMainButStillImportantArticles = _db.Article.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
+                    MainArticle = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).FirstOrDefault()!,
+                    NotMainButStillImportantArticles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
                     TheRestLol = new()
                 };
             }
-           
+
             else
                 return new FrontPageArticlesVM();
         }
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category)
         {
-            List<Article> categoryArticles = GetArticleListByCategoryStringified(category);
+            List<Article> categoryArticles = GetArticleListByCategoryStringified(category,0);
             if (categoryArticles.Any())
             {
                 return new CategoryPageArticlesVM()
                 {
-                    MainArticle = categoryArticles.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
+                    MainArticle = categoryArticles.OrderByDescending(a => a.PublishedDate).FirstOrDefault()!,
                     NotMainButStillImportantArticles = categoryArticles.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
                     TheRestLol = new()
                 };
             }
-           
+
             else
                 return new CategoryPageArticlesVM();
         }
@@ -306,12 +306,12 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-		public void DeclineArticle(int id, string reason)
-		{
-			GetArticleById(id).Status = "Declined";
-			GetArticleById(id).PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith = reason;
-			_db.SaveChanges();
-		}
+        public void DeclineArticle(int id, string reason)
+        {
+            GetArticleById(id).Status = "Declined";
+            GetArticleById(id).PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith = reason;
+            _db.SaveChanges();
+        }
 
         #endregion
 
@@ -324,9 +324,20 @@ namespace CNewsProject.Service
         //    return articleList;
         //}
 
-        public List<Article> GetArticleListByCategoryStringified(string category)
+        public List<Article> GetArticleListByCategoryStringified(string category, int count)
         {
-            List<Article> articleList = _db.Article.Include(a => a.Category)
+            List<Article> articleList = new();
+            if (count != 0)
+            {
+                articleList = _db.Article.Include(a => a.Category)
+                .Where(a => a.Category.Name == category && a.Status == "Approved")
+                .OrderByDescending(a => a.PublishedDate).Take(count)
+                .ToList();
+
+                return articleList;
+            }
+
+            articleList = _db.Article.Include(a => a.Category)
                 .Where(a => a.Category.Name == category && a.Status == "Approved")
                 .OrderByDescending(a => a.PublishedDate)
                 .ToList();
@@ -363,7 +374,7 @@ namespace CNewsProject.Service
                 {
                     if (searchSplit[i].StartsWith("-"))
                     {
-                        excludeSearch.Add(searchSplit[i].Remove(0,1));
+                        excludeSearch.Add(searchSplit[i].Remove(0, 1));
                         searchSplit.RemoveAt(i);
                     }
                 }
@@ -391,15 +402,15 @@ namespace CNewsProject.Service
             return null;
         }
 
-		#endregion
+        #endregion
 
         //Shhhhhhhhhhhhhhhhhhhhhhhhhh
-		#region We Don't talk anbout this one
+        #region We Don't talk anbout this one
 
         public void GetTheRealStats()
         {
             Random rnd = new();
-            foreach(var sak in _db.Article)
+            foreach (var sak in _db.Article)
             {
                 int temp = rnd.Next(11, 319);
                 int temp2 = rnd.Next(45, 454);
@@ -409,7 +420,7 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-		#endregion
+        #endregion
 
-	}
+    }
 }
