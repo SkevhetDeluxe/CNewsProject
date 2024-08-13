@@ -2,20 +2,26 @@
 
 @{
     // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-    // if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-    // {
-    //     Layout = "_LayoutNewsFire";
-    // }                                                // LET FILIP FIX THIS LATER
-    // else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+    if (User.Identity.IsAuthenticated)
     {
-        Layout = "_LayoutNews";
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+            ViewData["Title"] = "Sport Fire News";
+        }
+        else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+        {
+            Layout = "_Layout";
+            ViewData["Title"] = "Sport News";
+        }
+    }
+    else
+    {
+        Layout = "_Layout";
+        ViewData["Title"] = "Sport News";
     }
     // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
-    ViewData["Title"] = "Sport News";
-
 }
-
-
 
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />

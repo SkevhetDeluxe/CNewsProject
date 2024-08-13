@@ -1,21 +1,28 @@
 @model CategoryPageArticlesVM
 
 @{
-	// vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-	// if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-	// {
-	// 	Layout = "_LayoutNewsFire";
-	// }                                                // LET FILIP FIX THIS LATER
-	// else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
-	{
-		Layout = "_LayoutNews";
-	}
-	// ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
-	ViewData["Title"] = "Local News";
+    // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
+    if (User.Identity.IsAuthenticated)
+    {
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+            ViewData["Title"] = "Local Fire News";
+        }
+        else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+        {
+            Layout = "_Layout";
+            ViewData["Title"] = "Local News";
+        }
+    }
+    else
+    {
+        Layout = "_Layout";
+        ViewData["Title"] = "Local News";
+    }
+    // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }
-
-
-
+	
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
 </section>
