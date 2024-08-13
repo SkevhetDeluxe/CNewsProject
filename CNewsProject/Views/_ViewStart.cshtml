@@ -1,11 +1,12 @@
 ﻿@{
+    // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
     if (User.Identity.IsAuthenticated)
     {
         if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
         {
             Layout = "_LayoutFire";
         }
-        else
+        else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
         {
             Layout = "_Layout";
         }
@@ -14,4 +15,5 @@
     {
         Layout = "_Layout";
     }
+    // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }

@@ -1,4 +1,6 @@
-﻿
+
+using CNewsProject.Service;
+
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -7,45 +9,68 @@ namespace CNewsProject.Controllers
 		private readonly ICategoryService _categoryService;
         private readonly IVisitorCountService _visitorCountService;
 		private readonly IIdentityService _identityService;
+        private readonly ISubscriptionService _subscriptionService;
 
         public NewsController(IArticleService articleService, ICategoryService categoryService,
-			IVisitorCountService visitorCountService, IIdentityService iService)
+			IVisitorCountService visitorCountService, IIdentityService iService, ISubscriptionService subService)
 		{
-			_articleService = articleService;
+			_subscriptionService = subService;
+            _articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
 			_identityService = iService;
-		}
+            _articleService = articleService;
+        }
 
+        // sh
+        public IActionResult Details(int id)
+        {
+            var article = _articleService.GetArticleById(id);
+			var userId = _identityService.GetAppUserByClaimsPrincipal(User).Result.Id;
+
+            bool isUserSubscribed = _subscriptionService.IsUserSubscribed(userId);
+
+            if (!isUserSubscribed)
+            {
+                return RedirectToAction("Subscribe", "Subscription");
+            }
+
+            return View(article);
+        }
+		// sh
         public IActionResult Index()
         {
             FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
-            return View(vModel);
+			return View(vModel);
         }
         public IActionResult Local()
 		{
-			// Hello Guys it's me. I stringified it!
-			return View(_articleService.GetArticleListByCategoryStringified("Local")); 
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Local");
+			return View(vModel);
 		}
 
 		public IActionResult Sweden()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sweden"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sweden");
+			return View(vModel);
 		}
 
 		public IActionResult World()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("World"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("World");
+			return View(vModel);
 		}
 
 		public IActionResult Economy()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Economy"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Economy");
+			return View(vModel);
 		}
 
 		public IActionResult Sport()
 		{
-			return View(_articleService.GetArticleListByCategoryStringified("Sport"));
+			CategoryPageArticlesVM vModel = _articleService.GetCategoryPageArticleVM("Sport");
+			return View(vModel);
 		}
 
 		public IActionResult Search()
@@ -88,6 +113,8 @@ namespace CNewsProject.Controllers
 
 			return RedirectToAction("Index");
 		}
+       
 
-	}
+    }
+
 }

@@ -1,6 +1,7 @@
-﻿@model List<Article>
+@model CategoryPageArticlesVM
 
 @{
+    // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
     if (User.Identity.IsAuthenticated)
     {
         if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
@@ -8,9 +9,10 @@
             Layout = "_LayoutFire";
             ViewData["Title"] = "Sport Fire News";
         }
-        else
+        else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
         {
             Layout = "_Layout";
+            ViewData["Title"] = "Sport News";
         }
     }
     else
@@ -18,14 +20,17 @@
         Layout = "_Layout";
         ViewData["Title"] = "Sport News";
     }
+    // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }
 
-    <section class="main-article">
-        @{
-            foreach (Article artikelJavel in Model)
-            {
-                <partial name="_ArticlePartial" model="artikelJavel" />
-
-            }
-        }
-    </section>
+<section class="main-article">
+	<partial name="_ArticlePartial" model="@Model.MainArticle" />
+</section>
+<section class="articles row">
+	@foreach (var article in Model.NotMainButStillImportantArticles)
+	{
+		<div class="col-6">
+			<partial name="_ArticlePartial" model="article" />
+		</div>
+	}
+</section>

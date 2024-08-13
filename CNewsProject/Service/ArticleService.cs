@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using CNewsProject.Models.DataBase;
 using CNewsProject.Data;
 using CNewsProject.Models.ViewModels;
@@ -113,6 +113,7 @@ namespace CNewsProject.Service
             }
         }
 
+
         public void Laikalaininen(int id, ClaimsPrincipal principal)
         {
             string userId = _userManager.GetUserAsync(principal).Result.Id;
@@ -138,6 +139,8 @@ namespace CNewsProject.Service
 
         #endregion
 
+
+  
         #region Base_Methods()
 
         public void AddToEditorsChoice(int id)
@@ -169,14 +172,33 @@ namespace CNewsProject.Service
         public FrontPageArticlesVM GetFrontPageArticleVM()
         {
             if (_db.Article.Any())
+            {
                 return new FrontPageArticlesVM()
                 {
                     MainArticle = _db.Article.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
-                    NotMainButStillImportantArticles = new(),
+                    NotMainButStillImportantArticles = _db.Article.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
                     TheRestLol = new()
                 };
+            }
+           
             else
                 return new FrontPageArticlesVM();
+        }
+        public CategoryPageArticlesVM GetCategoryPageArticleVM(string category)
+        {
+            List<Article> categoryArticles = GetArticleListByCategoryStringified(category);
+            if (categoryArticles.Any())
+            {
+                return new CategoryPageArticlesVM()
+                {
+                    MainArticle = categoryArticles.OrderByDescending(a => a.PublishedDate).FirstOrDefault(),
+                    NotMainButStillImportantArticles = categoryArticles.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
+                    TheRestLol = new()
+                };
+            }
+           
+            else
+                return new CategoryPageArticlesVM();
         }
 
         public Article GetArticleById(int Id)
