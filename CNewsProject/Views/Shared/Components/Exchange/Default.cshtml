@@ -20,6 +20,17 @@
         let jjpy = @jpy;
         let jcny = @cny;
         let jgbp = @gbp;
+        document.getElementById('amountInSek').addEventListener('change', updateExchangeRates);
+
+        function updateExchangeRates() {
+            const amountInSek = parseFloat(document.getElementById('amountInSek').value);
+            document.getElementById('liusd').textContent = `USD: $${(amountInSek * jusd).toFixed(2)}`;
+            document.getElementById('lieur').textContent = `EUR: €${(amountInSek * jeur).toFixed(2)}`;
+            document.getElementById('lijpy').textContent = `JPY: ${jjpy * amountInSek} Yen`;
+            document.getElementById('licny').textContent = `CNY: ${jcny * amountInSek} Yuán`;
+            document.getElementById('ligbp').textContent = `GBP: £${(amountInSek * jgbp).toFixed(2)}`;
+        }
+
     </script>
     <ul>
         <li id="liusd">USD : @usd $</li>
