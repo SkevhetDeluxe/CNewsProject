@@ -31,6 +31,7 @@
 });
 
 
+// For Likes!
 function FilipsFunktion(id) {
     $.ajax({
         url: '/News/Laikalaininen',
@@ -40,7 +41,7 @@ function FilipsFunktion(id) {
             $('#VC1337').html(result);
         },
         error: function (error) {
-            alert('Holy errors batman!');
+            alert('Houston we got a probn lem!');
         }
     });
 }

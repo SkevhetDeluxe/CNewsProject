@@ -1,8 +1,14 @@
 ﻿@{
-
-    if(_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    if (User.Identity.IsAuthenticated)
     {
-        Layout = "_LayoutFire";
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+        }
+        else
+        {
+            Layout = "_Layout";
+        }
     }
     else
     {

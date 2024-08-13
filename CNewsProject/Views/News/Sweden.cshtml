@@ -1,13 +1,21 @@
 ﻿@{
-    if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+    if (User.Identity.IsAuthenticated)
     {
-        Layout = "_LayoutNewsFire";
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+            ViewData["Title"] = "Sweden Fire News";
+        }
+        else
+        {
+            Layout = "_Layout";
+        }
     }
     else
     {
-        Layout = "_LayoutNews";
+        Layout = "_Layout";
+        ViewData["Title"] = "Sweden News";
     }
-    ViewData["Title"] = "Swedish News";
 }
 
 <section class="main-article">

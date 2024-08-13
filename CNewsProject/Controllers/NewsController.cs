@@ -60,6 +60,9 @@ namespace CNewsProject.Controllers
 		}
 		public IActionResult Article(int id)
 		{
+			if (id == 0)
+				return RedirectToAction("Missing");
+
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
 			_articleService.IncreaseViews(id);
 			
@@ -70,6 +73,11 @@ namespace CNewsProject.Controllers
 		{
 			_articleService.Laikalaininen(articleId, User);
 			return ViewComponent("ArticleLocker", new { principal = User, id = articleId });
+		}
+
+		public IActionResult Missing()
+		{
+			return View();
 		}
 
 		[AllowAnonymous]

@@ -1,15 +1,24 @@
 ﻿
 @{
-	if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-	{
-		Layout = "_LayoutNewsFire";
-	}
-	else
-	{
-		Layout = "_LayoutNews";
-	}
-	ViewData["Title"] = "Local News";
+    if (User.Identity.IsAuthenticated)
+    {
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+            ViewData["Title"] = "Local Fire News";
+        }
+        else
+        {
+            Layout = "_Layout";
+        }
+    }
+    else
+    {
+        Layout = "_Layout";
+        ViewData["Title"] = "Local News";
+    }
 }
+	
 
 <section class="main-article">
 	@{

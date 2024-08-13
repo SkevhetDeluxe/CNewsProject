@@ -1,14 +1,21 @@
 @model FrontPageArticlesVM
 
 @{
-	if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-	{
-		Layout = "_LayoutNewsFire";
-	}
-	else
-	{
-		Layout = "_LayoutNews";
-	}
+    if (User.Identity.IsAuthenticated)
+    {
+        if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
+        {
+            Layout = "_LayoutFire";
+        }
+        else
+        {
+            Layout = "_Layout";
+        }
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }
 
 
