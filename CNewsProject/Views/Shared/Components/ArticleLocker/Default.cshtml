@@ -19,7 +19,7 @@
             <div class="card-body">
                 <h5 class="card-title">@Model.Article.Headline</h5>
                 <p class="card-text">@Model.Article.Content</p>
-
+                <a href="@Url.Action("Details", "News", new { id = Model.Article.Id })" class="btn btn-success">Read More</a> <!-- Read More Button -->
 
             </div>
             <div class="card-footer text-muted">
@@ -32,7 +32,22 @@
         </div>
     }
     else
-    {
+    {       // Here 
         <h1>OBJECTION MY LORD!</h1>
+        <p>You must be registered and subscribed to read more.</p>
+        <div class="card mb-4 w-100" onclick="LoadArticle(@Model.Article.Id)">
+            <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Article.Headline</h5>
+                <p class="card-text">@Model.Article.ContentSummary</p>
+            </div>
+            <div class="card-footer text-muted">
+                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                <span>Views: @Model.Article.Views</span>
+                <span>Likes: @Model.Article.Likes</span>
+                <span>Category: @Model.Article.Category.Name</span>
+                <button class="btn btn-success" onclick="increaseLikes(@Model.Article.Id)">Like</button>
+            </div>
+        </div>
     }
 }
