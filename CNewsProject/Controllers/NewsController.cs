@@ -10,25 +10,25 @@ namespace CNewsProject.Controllers
         private readonly IVisitorCountService _visitorCountService;
 		private readonly IIdentityService _identityService;
         private readonly ISubscriptionService _subscriptionService;
-        private ISubscriptionService? subscriptionService;
 
         public NewsController(IArticleService articleService, ICategoryService categoryService,
-			IVisitorCountService visitorCountService, IIdentityService iService)
+			IVisitorCountService visitorCountService, IIdentityService iService, ISubscriptionService subService)
 		{
-            _subscriptionService = subscriptionService;
+			_subscriptionService = subService;
             _articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
 			_identityService = iService;
-		}
+            _articleService = articleService;
+        }
 
         // sh
         public IActionResult Details(int id)
         {
             var article = _articleService.GetArticleById(id);
-            var userId = User.Identity.Name;
+			var userId = _identityService.GetAppUserByClaimsPrincipal(User).Result.Id;
 
-            var isUserSubscribed = _subscriptionService.IsUserSubscribed(userId);
+            bool isUserSubscribed = _subscriptionService.IsUserSubscribed(userId);
 
             if (!isUserSubscribed)
             {
@@ -85,6 +85,9 @@ namespace CNewsProject.Controllers
 		}
 		public IActionResult Article(int id)
 		{
+			if (id == 0)
+				return RedirectToAction("Missing");
+
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
 			_articleService.IncreaseViews(id);
 			
@@ -97,6 +100,11 @@ namespace CNewsProject.Controllers
 			return ViewComponent("ArticleLocker", new { principal = User, id = articleId });
 		}
 
+		public IActionResult Missing()
+		{
+			return View();
+		}
+
 		[AllowAnonymous]
 		[Authorize(Roles = "Admin")]
 		public IActionResult SugMinaStats()
@@ -105,7 +113,8 @@ namespace CNewsProject.Controllers
 
 			return RedirectToAction("Index");
 		}
+       
 
-	}
+    }
 
 }

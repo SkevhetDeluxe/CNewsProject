@@ -23,11 +23,26 @@ namespace CNewsProject.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> AdminEdit(string id)
+        {
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            return View(user);
+        }
 
-        // ROLES
-        #region ROLES
+        [HttpPost]
+		public async Task<IActionResult> AdminEdit(string id, string email,string userName, string password)
+		{
+			AppUser user = await identityService.GetAppUserByIdAsync(id);
 
-        public IActionResult Roles()
+            await identityService.UpdateAppUserAsync(id, email, userName, password);
+
+			return RedirectToAction("Index");
+		}
+
+		// ROLES
+		#region ROLES
+
+		public IActionResult Roles()
         {
             IEnumerable<IdentityRole> roles = identityService.ReadRoles();
 

@@ -11,14 +11,34 @@
        
 
     }
+ 
     <p>100 SEK equels</p>
+    <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates()" />
+    <script type="text/javascript">
+        let jusd = @usd;
+        let jeur = @eur;
+        let jjpy = @jpy;
+        let jcny = @cny;
+        let jgbp = @gbp;
+        document.getElementById('amountInSek').addEventListener('change', updateExchangeRates);
+
+        function updateExchangeRates() {
+            const amountInSek = parseFloat(document.getElementById('amountInSek').value);
+            document.getElementById('liusd').textContent = `USD: $${(amountInSek * jusd).toFixed(2)}`;
+            document.getElementById('lieur').textContent = `EUR: €${(amountInSek * jeur).toFixed(2)}`;
+            document.getElementById('lijpy').textContent = `JPY: ${jjpy * amountInSek} Yen`;
+            document.getElementById('licny').textContent = `CNY: ${jcny * amountInSek} Yuán`;
+            document.getElementById('ligbp').textContent = `GBP: £${(amountInSek * jgbp).toFixed(2)}`;
+        }
+
+    </script>
     <ul>
-        <li>USD : @usd $</li>
-        <li>EUR : @eur €</li>
-        <li>JPY : @jpy Yen</li>
-        <li>CNY : @cny Yuán</li>
-        <li>GBP : @gbp £</li>
-       
+        <li id="liusd">USD : @usd $</li>
+        <li id="lieur">EUR : @eur €</li>
+        <li id="lijpy">JPY : @jpy Yen</li>
+        <li id="licny">CNY : @cny Yuán</li>
+        <li id="ligbp">GBP : @gbp £</li>
+
     </ul>
 
     

@@ -1,4 +1,6 @@
-﻿namespace CNewsProject.ViewComponents.API.Weather
+﻿using System.Globalization;
+
+namespace CNewsProject.ViewComponents.API.Weather
 {
     public class WeatherViewComponent : ViewComponent
     {
@@ -11,9 +13,14 @@
 
         public IViewComponentResult Invoke()
         {
-            //WeatherStats Position = _weatherHandler.GetPositionAsync().Result;
-            WeatherStats reportagetOmDetFinaVadret = _weatherHandler.GetWeatherAsync().Result;
+            GeoLocation Position = _weatherHandler.GetPositionAsync().Result;
+            
+            string lon = string.Format("{0:F2}", Convert.ToDecimal(Position.lon));
+            string lat = string.Format("{0:F2}", Convert.ToDecimal(Position.lat));
+            lat = lat.Replace(',','.');
+            lon = lon.Replace(',','.');
 
+            WeatherStats reportagetOmDetFinaVadret = _weatherHandler.GetWeatherAsync(lon, lat).Result;
             return View(reportagetOmDetFinaVadret);
         }
     }

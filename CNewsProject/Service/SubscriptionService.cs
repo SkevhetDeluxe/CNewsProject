@@ -15,10 +15,18 @@ namespace CNewsProject.Service
             _configuration = configuration;
         }
         // sh
-        public bool IsuserSubscribed(string userId)
+        public bool IsUserSubscribed(string userId)
         {
-            var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == Convert.ToInt32(userId) && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
-            return subscription != null && subscription.PaymentComplete;
+            try
+            {
+                var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == Convert.ToInt32(userId) && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
+                return subscription != null && subscription.PaymentComplete;
+
+            }
+            catch
+            {
+                return false;
+            }
         }
         // sh
        
@@ -58,10 +66,7 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-        public bool IsUserSubscribed(string userId)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 
 }
