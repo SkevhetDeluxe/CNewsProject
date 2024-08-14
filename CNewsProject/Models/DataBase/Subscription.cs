@@ -7,18 +7,19 @@ namespace CNewsProject.Models.DataBase
         public int Id { get; set; }
 
         [Required]
-        public string SubscriptionType { get; set; } = string.Empty;
+        public SubscriptionType SubscriptionType { get; set; } = new();
 
         public decimal HistoricalPrice { get; set; }
 
         [Required]
-        public DateOnly CreateDate { get; set; }
+        public DateTime RenewedDate { get; set; } = DateTime.Now;
 
         [Required]
         public DateOnly ExpiresDate { get; set; }
 
         [Required]
-        public int UserId { get; set; }
+        public string UserId { get; set; } = "No UserId";
+        public AppUser User { get; set; } = new();
 
         [Required]
         public bool PaymentComplete { get; set; }

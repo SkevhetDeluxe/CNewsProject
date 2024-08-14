@@ -23,14 +23,20 @@ namespace CNewsProject.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> AdminEdit(string id)
+        public async Task<IActionResult> ManageUser(string id)
+        {
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            return View(user);
+        }
+
+        public async Task<IActionResult> EditUser(string id)
         {
             AppUser user = await identityService.GetAppUserByIdAsync(id);
             return View(user);
         }
 
         [HttpPost]
-		public async Task<IActionResult> AdminEdit(string id, string email,string userName, string password)
+		public async Task<IActionResult> EditUser(string id, string email,string userName, string password)
 		{
 			AppUser user = await identityService.GetAppUserByIdAsync(id);
 

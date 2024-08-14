@@ -6,7 +6,7 @@
     // onclick="LoadArticle(@Model.Id)"
 }
 
-<a class="card mb-4 w-100" asp-controller="News" asp-action="Article" asp-route-id="@Model.Id">
+<a class="card mb-4 w-100 hoverable unlink" asp-controller="News" asp-action="Article" asp-route-id="@Model.Id">
     <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline" >
     <div class="card-body">
         <h5 class="card-title">@Model.Headline</h5>

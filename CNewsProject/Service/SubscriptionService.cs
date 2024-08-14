@@ -14,12 +14,14 @@ namespace CNewsProject.Service
             _db = db;
             _configuration = configuration;
         }
+
+
         // sh
         public bool IsUserSubscribed(string userId)
         {
             try
             {
-                var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == Convert.ToInt32(userId) && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
+                var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == userId && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
                 return subscription != null && subscription.PaymentComplete;
 
             }
@@ -58,7 +60,7 @@ namespace CNewsProject.Service
         {
             GetSubscriptionById(subscription.Id).SubscriptionType = subscription.SubscriptionType;
             GetSubscriptionById(subscription.Id).HistoricalPrice = subscription.HistoricalPrice;
-            GetSubscriptionById(subscription.Id).CreateDate = subscription.CreateDate;
+            //GetSubscriptionById(subscription.Id).CreateDate = subscription.CreateDate;
             GetSubscriptionById(subscription.Id).ExpiresDate = subscription.ExpiresDate;
             GetSubscriptionById(subscription.Id).UserId = subscription.UserId;
             GetSubscriptionById(subscription.Id).PaymentComplete = subscription.PaymentComplete; 
