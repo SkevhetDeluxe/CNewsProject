@@ -45,3 +45,21 @@ function FilipsFunktion(id) {
         }
     });
 }
+
+
+// Search New Geo Location "City"
+function FindNewCity(cityName) {
+    $.ajax({
+        url: '/Home/SearchCity',
+        type: 'GET',
+        data: { city: cityName },
+        success: function (result) {
+            $('#VCWeather').html(result);
+        },
+        error: function (error) {
+            alert('Houston we got a HUGE probn lem!');
+        }
+    });
+}
+
+

@@ -64,6 +64,7 @@ namespace CNewsProject.Models.Api.Weather
         public DateTime referenceTime { get; set; }
         public Geometry geometry { get; set; }
         public List<Timesery> timeSeries { get; set; }
+        public string NameOfCity { get; set; } = "Stockholm";
     }
 
     public class Geometry

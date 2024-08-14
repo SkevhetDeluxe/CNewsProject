@@ -26,7 +26,13 @@ namespace CNewsProject.Controllers
         }
 
 
-        
+        public IActionResult SearchCity(string city)
+        {
+            return ViewComponent("Weather", new { nameOfCity = city });
+        }
+
+
+
         [Authorize(Roles ="Admin")]
         public IActionResult Privacy()
         {

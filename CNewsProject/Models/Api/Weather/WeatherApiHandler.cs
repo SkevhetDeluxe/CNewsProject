@@ -28,11 +28,7 @@ namespace CNewsProject.Models.Api.Weather
 
         public WeatherApiHandler()
         {
-        //BaseUrl = "https:// api.open-meteo.com/v1/forecast?";
-        // EndUrl = "&hourly=temperature_2m";
-        //Latitude = "latitude=";
-        //Longitude = "&longitude=";
-        
+                
             //For Reference https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
             BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
@@ -47,7 +43,6 @@ namespace CNewsProject.Models.Api.Weather
         public async Task<GeoLocation> GetPositionAsync(string Place)
         {
             var client = new HttpClient();
-            //string cor;
             string url = PosUrl + Place;
 
             var response = await client.GetAsync(url);
@@ -58,21 +53,8 @@ namespace CNewsProject.Models.Api.Weather
                 var data = JObject.Parse(json);
 
                 GeoLocation gps = data.ToObject<GeoLocation>();
-                //string[] latlog = json;
-                //int i = 0, j = 0;
-                //for (i = 0; i <= latlog.Length; i++)
-                //    if (latlog[i] == ("1 to 9"))
-                //        j = i;
-                //for (j = i; j <= latlog.Length; j++)
-                //       cor = cor + latlog[j];
-
-
-
-
-
-
-
-                return null;
+                
+                return gps;
             }
             else
                 return new GeoLocation();

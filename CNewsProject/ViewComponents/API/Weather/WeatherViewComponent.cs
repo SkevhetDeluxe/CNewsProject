@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 
 namespace CNewsProject.ViewComponents.API.Weather
 {
@@ -11,9 +12,15 @@ namespace CNewsProject.ViewComponents.API.Weather
             _weatherHandler = weath;
         }
 
-        public IViewComponentResult Invoke()
+		
+		public IViewComponentResult Invoke(string? nameOfCity)
         {
-            GeoLocation Position = _weatherHandler.GetPositionAsync().Result;
+            if (nameOfCity.IsNullOrEmpty())
+				nameOfCity = "Stockholm";
+
+            nameOfCity = nameOfCity[0].ToString().ToUpper() + nameOfCity.Substring(1);
+
+            GeoLocation Position = _weatherHandler.GetPositionAsync(nameOfCity).Result;
             
             string lon = string.Format("{0:F2}", Convert.ToDecimal(Position.lon));
             string lat = string.Format("{0:F2}", Convert.ToDecimal(Position.lat));
@@ -21,6 +28,9 @@ namespace CNewsProject.ViewComponents.API.Weather
             lon = lon.Replace(',','.');
 
             WeatherStats reportagetOmDetFinaVadret = _weatherHandler.GetWeatherAsync(lon, lat).Result;
+
+            reportagetOmDetFinaVadret.NameOfCity = nameOfCity;
+
             return View(reportagetOmDetFinaVadret);
         }
     }
