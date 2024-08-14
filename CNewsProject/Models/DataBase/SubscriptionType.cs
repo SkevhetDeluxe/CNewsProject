@@ -12,5 +12,19 @@ namespace CNewsProject.Models.DataBase
         public string Description { get; set; } = string.Empty;
 
         public decimal Price { get; set; }
+
+        public SubscriptionType()
+        {
+
+        }
+
+        public SubscriptionType(string name)
+        {
+
+        }
+        public SubscriptionType(string name, string desc) : this(name)
+        {
+
+        }
     }
 }

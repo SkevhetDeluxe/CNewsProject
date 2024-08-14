@@ -32,7 +32,7 @@
         if (Model != null)
         {
 
-            @foreach (var role in Model.Where(r => r.Name == "Admin" || r.Name == "Subscriber" || r.Name == "The Publisher" || r.Name == "Journalist"))
+            @foreach (var role in Model.Where(r => r.Name == "Admin" || r.Name == "The Publisher" || r.Name == "Journalist"))
             {
                 <tr>
                     <td>@role.Id</td>
@@ -50,7 +50,7 @@
             }
 
 
-            @foreach (var role in Model.Where(r => r.Name != "Admin" && r.Name != "Subscriber" && r.Name != "The Publisher" && r.Name != "Journalist"))
+            @foreach (var role in Model.Where(r => r.Name != "Admin" &&  r.Name != "The Publisher" && r.Name != "Journalist"))
             {
                 <tr>
                     <td>@role.Id</td>

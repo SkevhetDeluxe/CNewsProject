@@ -1,0 +1,43 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f8f2ed;
+}
+
+nav {
+    background-color: #00b3b3;
+}
+
+
+.hovernow {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+    .hovernow:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    }
+
+/*  Colours mate
+    Background: #f8f2ed
+    Nav : #00b3b3
+
+*/

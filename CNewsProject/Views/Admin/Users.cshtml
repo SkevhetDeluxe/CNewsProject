@@ -13,6 +13,7 @@
         <th>ID</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Manage</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -23,7 +24,12 @@
             <td>@user.UserName</td>
             <td>@user.Email</td>
             <td>
-                <a class="btn btn-sm btn-primary" asp-action="AdminEdit" asp-route-id="@user.Id">
+                <a class="btn btn-sm btn-primary" asp-action="ManageUser" asp-route-id="@user.Id">
+                    Manage
+                </a>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-primary" asp-action="EditUser" asp-route-id="@user.Id">
                     Edit
                 </a>
             </td>

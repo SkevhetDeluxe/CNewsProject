@@ -1,0 +1,24 @@
+﻿
+@{
+    int number = 5;
+    string codeForCard = "<div class=\"card mb-4 w-100\"> \"img class=\"card-img-top\" src=\"@Model.ImageLink\" alt=\"@Model.Headline\"><div class=\"card-body\"><h5 class=\"card-title\">@Model.Headline</h5><p class=\"card-text\">@Model.ContentSummary</p></div><div class=\"card-footer text-muted\"><span>Date: @Model.PublishedDate.ToShortDateString()</span><span>Views: @Model.Views</span><span>Likes: @Model.Likes</span><span>Category: @Model.Category.Name</span></div></div>";
+    // onclick="LoadArticle(@Model.Id)"
+
+    string headline = "This is a SICK fucking Headline mate. It goess like Thizzzz";
+    string summary = "So about the summary. It goes something like this. Its kinda like it's summarizing or something. I don't really know. It's supposde to be kinda long I guess so it shahahhahas to tha syo to be something like this len gth. I ckoant efen read it at this point without scrolling to the right like crazy batman mate.";
+    string content = "Lorem ipsum odor amet, consectetuer adipiscing elit. Ipsum quis finibus magna penatibus pharetra proin risus. Est metus elementum viverra semper lorem praesent nisl odio. Mauris efficitur et ornare finibus scelerisque vestibulum. Magnis sapien curabitur nostra ad eget sit viverra. Sit pharetra molestie rutrum nascetur eleifend, luctus ligula. Nostra tristique nisi porttitor euismod suscipit duis id.";
+}
+
+<a class="card mb-4 w-100" asp-controller="Home" asp-action="Article">
+    <img class="card-img-top" src="/content/images/placehold-3129447776.jpg" alt="Nothing">
+    <div class="card-body">
+        <h5 class="card-title">@headline</h5>
+        <p class="card-text">@summary</p>
+    </div>
+    <div class="card-footer text-muted">
+        <span>Date: @DateTime.Now.ToShortDateString()</span>
+        <span>Views: 263</span>
+        <span>Likes: 12</span>
+        <span>Category: The ONLY Category</span>
+    </div>
+</a>
