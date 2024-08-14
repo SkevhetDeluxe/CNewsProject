@@ -22,15 +22,26 @@
     }
     // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }
+
+<div class="row">
+    <div class="col-9>
+        <section class="main-article">
+            <partial name="_ArticlePartial" model="@Model.MainArticle" />
+        </section>
+        <section class="articles row">
+            @foreach (var article in Model.NotMainButStillImportantArticles)
+            {
+                <div class="col-6">
+                    <partial name="_ArticlePartial" model="article" />
+                </div>
+            }
+        </section>
+    </div>
+    <aside class="col-3">
+        <div id="VCWeather">
+            <vc:weather name-of-city=""></vc:weather>
+        </div>
+        <vc:exchange></vc:exchange>
+    </aside>
+</div>
 	
-<section class="main-article">
-	<partial name="_ArticlePartial" model="@Model.MainArticle" />
-</section>
-<section class="articles row">
-	@foreach (var article in Model.NotMainButStillImportantArticles)
-	{
-		<div class="col-6">
-			<partial name="_ArticlePartial" model="article" />
-		</div>
-	}
-</section>
