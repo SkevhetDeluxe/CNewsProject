@@ -10,8 +10,6 @@
 	DateTime testTime = Convert.ToDateTime(weatherTime);
 	Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
 
-
-
 }
 
 <div class="weather-details">
@@ -38,6 +36,7 @@
 			<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
 		</div>
 	</div>
+
 </div>
 
 <script type="text/javascript">
