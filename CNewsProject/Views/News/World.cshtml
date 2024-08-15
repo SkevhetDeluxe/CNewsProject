@@ -6,18 +6,18 @@
     {
         if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
         {
-            Layout = "_LayoutFire";
+            Layout = "_LayoutNewsFire";
             ViewData["Title"] = "World Fire News";
         }
         else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
         {
-            Layout = "_Layout";
+            Layout = "_LayoutNews";
             ViewData["Title"] = "World News";
         }
     }
     else
     {
-        Layout = "_Layout";
+        Layout = "_LayoutNews";
         ViewData["Title"] = "World News";
     }
     // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
@@ -29,7 +29,7 @@
 <section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
-		<div class="col-6">
+		<div class="col-md-6 col-12">
 			<partial name="_ArticlePartial" model="article" />
 		</div>
 	}
