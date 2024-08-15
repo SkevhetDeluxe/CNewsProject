@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    if (!getCookie("cookiesAccepted")) {
+    if (!getCookie("cookiesAccepted") && sessionStorage.getItem('cookie')!='no') {
         $("#cookieConsent").show();
     }
 
@@ -8,15 +8,10 @@ $(document).ready(function () {
         $("#cookieConsent").hide();
     });
 
-    function setCookie(name, value, days) {
-        var expires = "";
-        if (days) {
-            var date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = "; expires=" + date.toUTCString();
-        }
-        document.cookie = name + "=" + (value || "") + expires + "; path=/";
-    }
+    $("#declineCookies").click(function () {
+        sessionStorage.setItem('cookie', 'no');
+        $("#cookieConsent").hide();
+    });
 
     function getCookie(name) {
         var nameEQ = name + "=";
@@ -27,6 +22,16 @@ $(document).ready(function () {
             if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    }
+
+    function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
 });
 

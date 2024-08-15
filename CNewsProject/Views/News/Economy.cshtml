@@ -2,23 +2,23 @@
 
 
 <div class="row">
-	<div class="col-9">
+	<div class="col-md-9 col-12">
 		<section class="main-article">
 			<partial name="_ArticlePartial" model="@Model.MainArticle" />
 		</section>
 		<section class="articles row">
 			@foreach (var article in Model.NotMainButStillImportantArticles)
 			{
-				<div class="col-6">
+				<div class="col-md-6 col-12">
 					<partial name="_ArticlePartial" model="article" />
 				</div>
 			}
 		</section>
 	</div>
-	<aside class="col-3">
+	<aside class="col-3 d-none d-md-block">
 		<div id="VCWeather">
 			<vc:weather name-of-city=""></vc:weather>
-		</div>
+		</div><br />
 		<vc:exchange-all></vc:exchange-all>
 	</aside>
 </div>
