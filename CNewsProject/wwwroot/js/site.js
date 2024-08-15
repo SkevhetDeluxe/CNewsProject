@@ -8,7 +8,6 @@ $(document).ready(function () {
     }
 
     $("#acceptCookies").click(function () {
-        mums.play();
         setCookie("cookiesAccepted", "true", 365);
         $("#cookieConsent").hide();
         PlayMums();
