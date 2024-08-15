@@ -20,7 +20,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #b2b2b2">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #737373">
 			<div class="container-fluid">
 				<a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
 					<img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
@@ -93,25 +93,22 @@
 		</nav>
 	</header>
 	<div class="container row m-auto">
-		<main role="main" class="col-9 pb-3" style="margin-top:90px">
+		<main role="main" class="col-md-9 col-12 pb-3" style="margin-top:90px">
 			@RenderBody()
 		</main>
-		<aside class="col-3" style="margin-top:90px">
+		<aside class="col-3 d-none d-md-block" style="margin-top:90px">
 
-			<vc:weather></vc:weather><br />
+			<div id="VCWeather">
+				<vc:weather name-of-city=""></vc:weather>
+			</div><br />
 			<vc:exchange></vc:exchange><br />
 			<vc:sidebar-headlines></vc:sidebar-headlines>
 		</aside>
 	</div>
-	@*    <footer class="border-top fixed-bottom footer  py-3 bg-light text-muted" aria-label="Footer">
-	<div class="container"> *@
-	<div class="row fixed-bottom">
-		<div class="col">
-			&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
+	<div class="fixed-bottom d-none d-md-block">
+		&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 	</div>
-	@*        </div>
-	</footer> *@
+
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
