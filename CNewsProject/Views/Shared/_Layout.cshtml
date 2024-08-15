@@ -108,9 +108,7 @@
 		&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 	</div>
 
-	@await RenderSectionAsync("Scripts", required: false)
-	@* Include the cookie consent partial *@
-	@Html.Partial("_CookieConsentPartial")
+	<partial name="_CookieConsentPartial" />
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
