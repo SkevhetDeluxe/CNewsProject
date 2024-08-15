@@ -26,7 +26,7 @@ namespace CNewsProject.Controllers
             if (ModelState.IsValid)
             {
                 AppUser author = await _identityService.GetAppUserByClaimsPrincipal(User);
-                _articleService.WriteArticle(vModel, author.UserName);
+                _articleService.WriteArticle(vModel, author.UserName!);
 
                 return RedirectToAction("Index");
             }
