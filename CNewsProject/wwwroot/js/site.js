@@ -1,16 +1,22 @@
 $(document).ready(function () {
+
+    LoadMums();
+
     if (!getCookie("cookiesAccepted") && sessionStorage.getItem('cookie')!='no') {
         $("#cookieConsent").show();
+        //eatCookie("Oreo", 0);
     }
 
     $("#acceptCookies").click(function () {
         setCookie("cookiesAccepted", "true", 365);
         $("#cookieConsent").hide();
+        PlayMums();
     });
 
     $("#declineCookies").click(function () {
         sessionStorage.setItem('cookie', 'no');
         $("#cookieConsent").hide();
+        PlayMums();
     });
 
     function getCookie(name) {
@@ -32,6 +38,25 @@ $(document).ready(function () {
             expires = "; expires=" + date.toUTCString();
         }
         document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    function PlayMums() {
+        document.getElementById("mumsaudio").play();
+    }
+
+    function LoadMums() {
+        document.getElementById("mumsaudio").load();
+    }
+
+    function eatCookie(name, amount) {
+        if (amount > 0) {
+            for (let i = amount; i > 0; i--) {
+                alert(`User used mums on ${name}. It was very effective!`);
+                PlayMums();
+            }
+        }
+        else {
+            alert('No cookies left. You feel the sadness creeping up on you.');
+        }
     }
 });
 
@@ -58,7 +83,9 @@ function AjaxRedirect(controller, action, elem) {
         type: 'GET',
         success: function (result) {
             $('#' + elem).html(result);
-            console.log(`Redirect to /${controller}/${action} success`)
+            console.log(`Redirect to /${controller}/${action} success`);
+            console.log("Reloading Listeners");
+            GenerateListeners();
         },
         error: function (error) {
             console.log('Huge error');
