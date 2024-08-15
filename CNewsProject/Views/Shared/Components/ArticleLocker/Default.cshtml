@@ -11,43 +11,49 @@
         if (Model.UserLikes.Contains(Model.Article.Id))
         {
             btnColour = "btn-primary";
-            btnText = "Remove your Like from this.article";
+            btnText = "Unlike";
         }
         // asp-controller="News" asp-action="Article">
         <div class="card mb-4 w-100 hoverable">
             <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
             <div class="card-body">
                 <h5 class="card-title">@Model.Article.Headline</h5>
+                <span style="color:dimgrey">
+                <span>by @Model.Article.AuthorUserName</span>
+                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                </span>
+                <span class="float-end">
+                <span>Views: @Model.Article.Views</span>
+                    <span>Likes: @Model.Article.Likes</span>
+                    <button class="btn @btnColour" onclick="FilipsFunktion(@Model.Article.Id)">@btnText</button>
+                </span>
+                <br />
+                <br />
                 <p class="card-text">@Model.Article.Content</p>
-                <a href="@Url.Action("Details", "News", new { id = Model.Article.Id })" class="btn btn-success">Read More</a> <!-- Read More Button -->
 
             </div>
             <div class="card-footer text-muted">
-                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
-                <span>Views: @Model.Article.Views</span>
-                <span>Likes: @Model.Article.Likes</span>
                 <span>Category: @Model.Article.Category.Name</span>
-                <span><button class="btn @btnColour" onclick="FilipsFunktion(@Model.Article.Id)">@btnText</button></span>
+                
             </div>
         </div>
     }
     else
     {       // Here 
-        <h1>OBJECTION MY LORD!</h1>
-        <p>You must be registered and subscribed to read more.</p>
-        <div class="card mb-4 w-100" onclick="LoadArticle(@Model.Article.Id)">
+        <div class="card mb-4 w-100">
             <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
             <div class="card-body">
                 <h5 class="card-title">@Model.Article.Headline</h5>
+                <span style="color:dimgrey">
+                    <span>by @Model.Article.AuthorUserName</span>
+                    <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                </span>
+                <br />
+                <br />
                 <p class="card-text">@Model.Article.ContentSummary</p>
             </div>
-            <div class="card-footer text-muted">
-                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
-                <span>Views: @Model.Article.Views</span>
-                <span>Likes: @Model.Article.Likes</span>
-                <span>Category: @Model.Article.Category.Name</span>
-                <button class="btn btn-success" onclick="increaseLikes(@Model.Article.Id)">Like</button>
-            </div>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-success">Read More</a> <!-- Read More Button -->
+ 
         </div>
     }
 }

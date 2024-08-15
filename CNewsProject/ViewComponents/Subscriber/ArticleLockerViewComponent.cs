@@ -36,7 +36,7 @@ namespace CNewsProject.ViewComponents.Subscriber
                 }
             }
 
-            return View(new ArticleLock() { Access = false });
+            return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = false });
         }
 
     }
