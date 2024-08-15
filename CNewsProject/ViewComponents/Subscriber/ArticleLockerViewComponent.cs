@@ -25,7 +25,7 @@ namespace CNewsProject.ViewComponents.Subscriber
             {
                 AppUser user = _identityService.GetAppUserByClaimsPrincipal(principal).Result;
 
-                if (_identityService.UserHasRole(user, "Subscriber").Result)
+                if (_identityService.UserHasRole(user, "Admin").Result)
                 {
                     return View(new ArticleLock()
                     {

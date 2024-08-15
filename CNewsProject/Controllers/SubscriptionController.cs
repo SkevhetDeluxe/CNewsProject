@@ -11,7 +11,7 @@ namespace CNewsProject.Controllers
             _subscriptionService = subscriptionService;
         }
 
-        //public ViewResult Index() => View(_subscriptionService.AvailableTypes());
+        public ViewResult Index() => View(_subscriptionService.GetAllTypes());
 
         public IActionResult Subscribe()
         {
@@ -31,7 +31,7 @@ namespace CNewsProject.Controllers
 
             //subscription.UserId = userId;
             //subscription.CreateDate = DateOnly.FromDateTime(DateTime.Now);
-            subscription.ExpiresDate = DateOnly.FromDateTime(DateTime.Now).AddMonths(1); //  1 month subscription
+            subscription.ExpiresDate = DateTime.Now.AddMonths(1); //  1 month subscription
             subscription.PaymentComplete = true; // payment is done
 
             _subscriptionService.AddSubscription(subscription);

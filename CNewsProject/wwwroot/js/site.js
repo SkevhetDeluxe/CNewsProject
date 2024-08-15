@@ -52,6 +52,70 @@ function FilipsFunktion(id) {
 }
 
 
+function AjaxRedirect(controller, action, elem) {
+    $.ajax({
+        url: `/${controller}/${action}`,
+        type: 'GET',
+        success: function (result) {
+            $('#' + elem).html(result);
+            console.log(`Redirect to /${controller}/${action} success`)
+        },
+        error: function (error) {
+            console.log('Huge error');
+        }
+    });
+}
+
+function TryDeleteType(id) {
+
+    console.log("TryDeleteType has entered the chat")
+
+    $.ajax({
+        url: '/Admin/TypeHasUsers',
+        type: 'GET',
+        data: { id: id },
+        success: function (result) {
+            console.log(result);
+            console.log(result.hasUsers);
+            if (result.hasUsers == true) {
+                console.log("result.hasUsers is realised as true");
+                alert('Type could not be deleted. Active Subscriptions exists with this Type, Batman!');
+            }
+            else {
+                console.log(`result.hasUsers was realised as ${result.hasUsers}`);
+                DeleteType(id);
+            }
+        },
+        error: function (error) {
+             console.log('Brrrrrrrrrrrrrrr');
+            console.log(error);
+        }
+    });
+
+    function DeleteType(id) {
+        $.ajax({
+            url: '/Admin/DeleteType',
+            type: 'GET',
+            data: { id: id },
+            success: function (result) {
+                if (result.succeeded == true) {
+                    console.log("Success");
+                    AjaxRedirect("Admin", "RevokeSubTypes", "VC420");
+                }
+                else {
+                    console.log(`result.succeeded == ${result.succeeded}`);
+                }
+            },
+            error: function (error) {
+                console.log('Brrrrrrrrrrrrrrr');
+            }
+        })
+    }
+}
+
+
+
+
 // Search New Geo Location "City"
 function FindNewCity(cityName) {
     $.ajax({
@@ -66,5 +130,3 @@ function FindNewCity(cityName) {
         }
     });
 }
-
-

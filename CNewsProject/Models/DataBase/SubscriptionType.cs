@@ -17,14 +17,9 @@ namespace CNewsProject.Models.DataBase
         {
 
         }
-
-        public SubscriptionType(string name)
+        public SubscriptionType(string name, string desc, decimal price)
         {
-
-        }
-        public SubscriptionType(string name, string desc) : this(name)
-        {
-
+            TypeName = name; Description = desc; Price = price;
         }
     }
 }

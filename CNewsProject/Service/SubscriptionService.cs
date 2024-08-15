@@ -15,13 +15,93 @@ namespace CNewsProject.Service
             _configuration = configuration;
         }
 
+        // Filips Domän!
+        #region Filips DOMAIN!
+
+        // TYPES
+        #region TYPES
+        public List<SubscriptionType> GetAllTypes()
+        {
+            return _db.SubscriptionType.OrderBy(s => s.Id).ToList();
+        }
+
+        public SubscriptionType GetTypeById(int id)
+        {
+            return _db.SubscriptionType.Single(t => t.Id == id);
+        }
+
+        public bool TypeHasUsers(int id)
+        {
+            return _db.Subscription.Any(s => s.SubscriptionType == _db.SubscriptionType.Single(t => t.Id == id));
+        }
+
+        public bool AddType(SubscriptionType type)
+        {
+            try
+            {
+                _db.SubscriptionType.Add(type);
+                _db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool RemoveType(int id)
+        {
+            try
+            {
+                _db.SubscriptionType.Remove(GetTypeById(id));
+                _db.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+        // SUBSCRIPTIONS
+        #region SUBSCRIPTIONS
+
+        public bool AdminGiveSub(AppUser user, int typeId, double days)
+        {
+            try
+            {
+                Subscription newSub = new()
+                {
+                    SubscriptionType = GetTypeById(typeId),
+                    HistoricalPrice = GetTypeById(typeId).Price,
+                    ExpiresDate = DateTime.Now.AddDays(days),
+                    User = user,
+                    PaymentComplete = true
+                };
+
+                _db.Subscription.Add(newSub);
+                _db.SaveChanges();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
 
         // sh
         public bool IsUserSubscribed(string userId)
         {
             try
             {
-                var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == userId && s.ExpiresDate > DateOnly.FromDateTime(DateTime.Now));
+                var subscription = _db.Subscription.FirstOrDefault(s => s.UserId == userId && s.ExpiresDate > DateTime.Now);
                 return subscription != null && subscription.PaymentComplete;
 
             }
