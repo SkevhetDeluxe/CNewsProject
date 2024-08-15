@@ -35,7 +35,7 @@ namespace CNewsProject.Service
 
         public string UploadBlob(IFormFile articleImage, string newFileName)
         {
-            newFileName = newFileName + ".jpg";
+            newFileName = newFileName.Replace("/", "-") + ".jpg";
 
             BlobContainerClient containerClient = _blobServiceClient
                 .GetBlobContainerClient("images");

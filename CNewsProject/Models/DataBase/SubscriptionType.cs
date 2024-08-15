@@ -13,6 +13,8 @@ namespace CNewsProject.Models.DataBase
 
         public decimal Price { get; set; }
 
+        public int AccessLevel { get; set; }
+
         public SubscriptionType()
         {
 

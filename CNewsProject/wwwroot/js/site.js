@@ -153,7 +153,7 @@ function FindNewCity(cityName) {
             $('#VCWeather').html(result);
         },
         error: function (error) {
-            alert('Houston we got a HUGE probn lem!');
+            console.log('Houston we got a HUGE probn lem!');
         }
     });
 }

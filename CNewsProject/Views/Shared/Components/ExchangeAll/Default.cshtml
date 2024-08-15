@@ -1,9 +1,21 @@
-﻿@model Rates
+﻿@using System.Reflection
+@model Rates
 
 <div class="card">
     <div class="card-body">
     <h3>Exchange rates</h3>
     
+        @{
+            Dictionary<string, string> formatedRates = new();
+
+            foreach (PropertyInfo propInfo in Model.GetType().GetProperties().Where(p => p.Name != "SEK"))
+            {
+                string temp = string.Format("{0:F2}", Convert.ToDecimal(propInfo.GetValue(Model)) * 100);
+
+                formatedRates.Add(propInfo.Name, temp);
+            }
+    }
+
     @{
         string aed = string.Format("{0:F2}", Convert.ToDecimal(Model.AED * 100));
         string afn = string.Format("{0:F2}", Convert.ToDecimal(Model.AFN * 100));
@@ -171,7 +183,14 @@
     <p>100 SEK equels</p>
     </div>
     <ul class="row">
-
+        @{
+            foreach(KeyValuePair<string, string> nyckelPar in formatedRates)
+            {
+                string temp = nyckelPar.Key + " : " + nyckelPar.Value;
+                <li class="col-6 ps-0">@temp</li>
+            }
+        }
+@* 
         <li class="col-6 ps-0">AED : @aed </li>
         <li class="col-6 ps-0">AFN : @afn </li>
         <li class="col-6 ps-0">ALL : @all </li>
@@ -332,7 +351,7 @@
         <li class="col-6 ps-0">YER : @yer </li>
         <li class="col-6 ps-0">ZAR : @zar </li>
         <li class="col-6 ps-0">ZMW : @zmw </li>
-        <li class="col-6 ps-0">ZWL : @zwl </li>
+        <li class="col-6 ps-0">ZWL : @zwl </li> *@
     </ul>              
                 
 </div>                 
