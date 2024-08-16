@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Drawing;
 using System.Security.Claims;
+using MailKit.Search;
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace CNewsProject.Service
@@ -186,7 +187,7 @@ namespace CNewsProject.Service
         }
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category)
         {
-            List<Article> categoryArticles = GetArticleListByCategoryStringified(category,0);
+            List<Article> categoryArticles = GetArticleListByCategoryStringified(category, 0);
             if (categoryArticles.Any())
             {
                 return new CategoryPageArticlesVM()
@@ -345,6 +346,84 @@ namespace CNewsProject.Service
             return articleList;
         }
 
+        internal class QueryLists
+        {
+            internal List<string> Exact { get; set; } = new();
+            internal List<string> Split { get; set; } = new();
+            internal List<string> Exclude { get; set; } = new();
+        }
+
+        internal QueryLists GenerateQueryLists(string query)
+        {
+            QueryLists qLists = new();
+
+            while (query.Contains('\"'))
+            {
+                int pos1 = query.IndexOf("\"");
+                query = query.Remove(pos1, 1);
+
+                if (query.Contains("\"") == false)
+                    break;
+
+                int pos2 = query.IndexOf("\"");
+                query = query.Remove(pos2, 1);
+                int length = pos2 - pos1;
+                qLists.Exact.Add(query.ToLower().Substring(pos1, length));
+                query = query.Remove(pos1, length);
+            }
+
+            char[] delims = { ',', ' ', '.', '/' };
+            qLists.Split = new(query.Trim().ToLower().Split(delims));
+
+            for (int i = 0; i < qLists.Split.Count; i++)
+            {
+                if (qLists.Split[i].StartsWith("-"))
+                {
+                    qLists.Split.Add(qLists.Split[i].Remove(0, 1));
+                    qLists.Split.RemoveAt(i);
+                }
+            }
+
+            return qLists;
+        }
+        
+        internal List<Article>? QuerySearch(string? query)
+        {
+            List<Article>? result = null;
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                result = GetAllPublished();
+                QueryLists qLists = GenerateQueryLists(query);
+
+                if (qLists.Exact != null)
+                    for (int i = 0; i < qLists.Exact.Count; i++)
+                        result = result.Where(a => a.Headline.ToLower().Contains(qLists.Exact[i]) || a.Content.ToLower().Contains(qLists.Exact[i])).ToList();
+
+                if (qLists.Split != null)
+                    for (int i = 0; i < qLists.Split.Count; i++)
+                        result = result.Where(a => a.Headline.ToLower().Contains(qLists.Split[i]) || a.Content.ToLower().Contains(qLists.Split[i])).ToList();
+
+                if (qLists.Exclude != null)
+                    result = result.Where(a => !qLists.Exclude.Any(h => a.Headline.ToLower().Contains(h))).ToList();
+
+            }
+
+            return result;
+        }
+
+        public SearchResult SearchForArticles(string? searchQuery)
+        {
+            SearchResult result = new();
+
+            result.Articles = QuerySearch(searchQuery);
+
+            if (result.Articles != null)
+                result.Succeeded = true;
+
+            return result;
+        }
+
         public List<Article> SearchForArticles(string search, string category)
         {
             List<string> exactSearch = new();
@@ -422,5 +501,11 @@ namespace CNewsProject.Service
 
         #endregion
 
+    }
+
+    public class SearchResult
+    {
+        public bool Succeeded { get; set; }
+        public List<Article>? Articles { get; set; }
     }
 }

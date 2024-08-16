@@ -3,6 +3,7 @@ using CNewsProject.Models.DataBase;
 using CNewsProject.Models.ViewModels;
 using System.Security.Claims;
 
+
 namespace CNewsProject.Service
 {
     public interface IArticleService
@@ -18,10 +19,10 @@ namespace CNewsProject.Service
         public void Laikalaininen(int id, string userId);
         public void DeclineArticle(int id, string reason);
         public FrontPageArticlesVM GetFrontPageArticleVM();
+        public SearchResult SearchForArticles(string search);
         public void PublishArticle(int id, string publisherName);
         public void Laikalaininen(int id, ClaimsPrincipal principal);
         public string UploadBlob(IFormFile articleImage, string fileName);
-        public List<Article> SearchForArticles(string search, string category);
         public void WriteArticle(WriteArticleVM newArticle, string authorName);
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
         public List<Article> GetArticleListByCategoryStringified(string category, int count);
