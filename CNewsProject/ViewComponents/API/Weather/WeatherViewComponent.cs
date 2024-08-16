@@ -13,14 +13,25 @@ namespace CNewsProject.ViewComponents.API.Weather
         }
 
 		
-		public IViewComponentResult Invoke(string? nameOfCity)
+		public async Task<IViewComponentResult> InvokeAsync(string? nameOfCity)
         {
             if (nameOfCity.IsNullOrEmpty())
 				nameOfCity = "Stockholm";
 
             nameOfCity = nameOfCity[0].ToString().ToUpper() + nameOfCity.Substring(1);
 
-            GeoLocation Position = _weatherHandler.GetPositionAsync(nameOfCity).Result;
+            GeoLocation Position = new();
+
+            try
+            {
+                Position = await _weatherHandler.GetPositionAsync(nameOfCity);
+            }
+            catch
+            {
+                Position = await _weatherHandler.GetPositionAsync();
+                nameOfCity = "Stockholm";
+            }
+            
             
             string lon = string.Format("{0:F2}", Convert.ToDecimal(Position.lon));
             string lat = string.Format("{0:F2}", Convert.ToDecimal(Position.lat));

@@ -13,18 +13,15 @@ namespace CNewsProject.Models.DataBase
 
         public decimal Price { get; set; }
 
+        public int AccessLevel { get; set; }
+
         public SubscriptionType()
         {
 
         }
-
-        public SubscriptionType(string name)
+        public SubscriptionType(string name, string desc, decimal price)
         {
-
-        }
-        public SubscriptionType(string name, string desc) : this(name)
-        {
-
+            TypeName = name; Description = desc; Price = price;
         }
     }
 }

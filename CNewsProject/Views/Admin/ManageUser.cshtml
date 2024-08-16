@@ -10,3 +10,17 @@
 <tr>
     <td></td>
 </tr>
+
+<form asp-action="GiveSub">
+
+    <label for="userId">User ID</label>
+    <input readonly="readonly" name="userId" value="@Model.Id" />
+
+    <label for="typeId">Type ID</label>
+    <input name="typeId" />
+
+    <label for="days">Amount of days</label>
+    <input name="days" />
+
+    <button class="btn btn-primary" type="submit">Accept</button>
+</form>

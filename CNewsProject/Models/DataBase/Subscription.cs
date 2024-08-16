@@ -6,6 +6,8 @@ namespace CNewsProject.Models.DataBase
     {
         public int Id { get; set; }
 
+        public int SubscriptionTypeId { get; set; }
+
         [Required]
         public SubscriptionType SubscriptionType { get; set; } = new();
 
@@ -15,7 +17,7 @@ namespace CNewsProject.Models.DataBase
         public DateTime RenewedDate { get; set; } = DateTime.Now;
 
         [Required]
-        public DateOnly ExpiresDate { get; set; }
+        public DateTime ExpiresDate { get; set; }
 
         [Required]
         public string UserId { get; set; } = "No UserId";
