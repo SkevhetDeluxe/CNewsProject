@@ -17,7 +17,7 @@
             @foreach (var article in monthGroup)
             {
                 <li>
-                    <a href="@Url.Action("Details", "Articles", new { id = article.Id })">
+                    <a href="@Url.Action("Details", "News", new { id = article.Id })">
                         @article.Headline
                     </a>
                     <small>(@article.PublishedDate.ToShortDateString())</small>

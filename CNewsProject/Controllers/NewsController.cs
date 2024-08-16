@@ -120,13 +120,16 @@ namespace CNewsProject.Controllers
 
         public IActionResult Archive()
         {
-            var archivedArticles = _context.Article
-                .Where(a => a.IsArchived)
-                .GroupBy(a => a.PublishedDate.Year)
-                .OrderByDescending(g => g.Key)
-                .Select(g => g.GroupBy(a => a.PublishedDate.Month));
+            var articles = _context.Article
+            .FromSqlRaw("SELECT * FROM Article WHERE IsArchived = 1")
+			.AsNoTracking()
+			.ToList();
 
-            return View(archivedArticles);
+            var groupedArticles = articles
+                .GroupBy(a => new { a.PublishedDate.Year, a.PublishedDate.Month })
+                .ToList();
+
+            return View(groupedArticles);
         }
 
 		public IActionResult ArchiveOldArticles()
