@@ -26,17 +26,17 @@
 
             foreach (SubscriptionType subType in Model)
             {
-                        <tr>
-                            <td>@subType.Id</td>
-                            <td>@subType.TypeName</td>
-                            <td>@subType.Price</td>
-                            <td>
-                                <a class="btn btn-sm btn-primary" asp-action="ManageType" asp-route-id="@subType.Id">
-                                    Manage
-                                </a>
-                            </td>
-                            <td>
-                                @{
+                                    <tr>
+                                        <td>@subType.Id</td>
+                                        <td>@subType.TypeName</td>
+                                        <td>@subType.Price</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary" asp-action="ManageType" asp-route-id="@subType.Id">
+                                                Manage
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @{
                             string tempId = "tryDelete" + Convert.ToString(count);
                             if (typeIds == "" || string.IsNullOrEmpty(typeIds))
                             {
@@ -46,19 +46,19 @@
                             {
                                 typeIds += "," + subType.Id;
                             }
-                                }
+                                            }
 
-                                @{
+                                            @{
                             //id="@tempId"
-                                }
+                                            }
 
-                                <button id="@tempId" class="btn btn-sm btn-primary">
-                                    Delete
-                                </button>
+                                            <button id="@tempId" class="btn btn-sm btn-primary">
+                                                Delete
+                                            </button>
 
 
-                            </td>
-                        </tr>
+                                        </td>
+                                    </tr>
                 count++;
             }
         }
@@ -78,8 +78,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         console.log("Document loaded, or whatever DOMContentLoaded means.");
         GenerateListeners();
-
     });
+    
 
     function GenerateListeners() {
 

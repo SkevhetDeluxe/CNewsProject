@@ -77,15 +77,15 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		public IActionResult Search()
-		{
-			return View();
-		}
+		//public IActionResult Search() // REWORKING SEARCH
+		//{
+		//	return View();
+		//}
 		[HttpPost]
-		public IActionResult Search(string search, string category)
+		public IActionResult Search(string search)
 		{
-			List<Article> searchResults = _articleService.SearchForArticles(search, category);
-			return View(searchResults);
+			SearchResult result = _articleService.SearchForArticles(search);
+			return View(result.Articles);
 		}
 		public IActionResult Article(int id)
 		{
