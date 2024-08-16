@@ -45,6 +45,9 @@
 						<li class="nav-item">
 							<a class="nav-link text-light" asp-controller="News" asp-action="Sport">Sport</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-controller="Articles" asp-action="Archive">Archive</a>
+						</li>
 						@{
 							if (httpContextAccessor.HttpContext.User != null)
 							{
