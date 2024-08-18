@@ -1,6 +1,6 @@
 ﻿@using CNewsProject.Service
-@inject UserManager<AppUser> userManager
-@inject IHttpContextAccessor httpContextAccessor;
+@inject UserManager<AppUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,6 @@
 	<title>@ViewData["Title"] - CNewsProject</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
 	<style>
 		nav ul li a:hover {
 			background-color: #a6a6a6;
@@ -56,19 +55,17 @@
 							<a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
 						</li>
 						@{
-							if (httpContextAccessor.HttpContext.User != null)
+							if (HttpContextAccessor.HttpContext.User != null)
 							{
-								AppUser user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User);
-								bool isJournalist;
-								bool isThePublisher;
-								bool isAdmin;
+								AppUser user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User);
+								
 
 
 								if (user != null)
 								{
-									isJournalist = await userManager.IsInRoleAsync(user, "Journalist");
-									isThePublisher = await userManager.IsInRoleAsync(user, "The Publisher");
-									isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+									var isJournalist = await UserManager.IsInRoleAsync(user, "Journalist");
+									var isThePublisher = await UserManager.IsInRoleAsync(user, "The Publisher");
+									var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
 
 									if (isJournalist)
 									{

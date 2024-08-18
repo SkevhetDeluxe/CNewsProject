@@ -42,7 +42,7 @@ namespace CNewsProject.Controllers
             return View(article);
         }
 		// sh
-        public IActionResult Index()
+        public IActionResult Index() //This action AVG at 6000 ms. It should NOT go above 500 ms. We need to take a look at this.
         {
             FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
 			return View(vModel);

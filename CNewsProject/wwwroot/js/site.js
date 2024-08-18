@@ -142,7 +142,6 @@ function TryDeleteType(id) {
 
 
 
-
 // Search New Geo Location "City"
 function FindNewCity(cityName) {
     $.ajax({
