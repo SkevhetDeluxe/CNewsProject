@@ -101,7 +101,10 @@
 			<div id="VCWeather">
 				<vc:weather name-of-city=""></vc:weather>
 			</div><br />
-			<vc:exchange></vc:exchange><br />
+			
+			<div id="ExchangeVCDiv"> @*Guys we need to make this LOAD ASYNCHRONOUSLY*@
+				@* This Needs to be empty I think. Set all HEAVY ViewComponents to load via JavaScript (AJAX Request) *@
+			</div>
 			<vc:sidebar-headlines></vc:sidebar-headlines>
 		</aside>
 	</div>
@@ -115,5 +118,28 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
-</body>
+	
+	<script type="text/javascript">
+		
+		console.log("Realised Local JAVASCRIPT");
+		document.addEventListener('DOMContentLoaded', function() {
+			console.log("Document Loaded");
+			LoadExchangeVCAjax();
+		});
+		
+		function LoadExchangeVCAjax(){
+			$.ajax({
+				url: '@Url.Action("LoadViewComponent", "LoadExchange")',
+				type: 'GET',
+				success: function (result) {
+					$('#ExchangeVCDiv').html(result);
+				},
+				error: function (error){
+					console.log('Failed to load ExchangeVC');
+				}
+			});
+		}
+		
+	</script>
+	</body>
 </html>

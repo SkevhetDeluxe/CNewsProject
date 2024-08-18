@@ -1,20 +1,10 @@
-﻿using CNewsProject.Models.Api.CurrencyExchangeRate;
-using System.Security.Claims;
-
-namespace CNewsProject.ViewComponents.API.Exchange
+﻿namespace CNewsProject.ViewComponents.API.Exchange
 {
-    public class ExchangeViewComponent : ViewComponent
+    public class ExchangeViewComponent(ICurrencyExchangeRateService exchangeRates) : ViewComponent
     {
-        private readonly ICurrencyExchangeRateService _ExchangeService;
-
-        public ExchangeViewComponent(ICurrencyExchangeRateService exch)
+        public IViewComponentResult Invoke()  // This should not go ABOVE 300 ms. Right now it AVERAGES at 4784 ms xD
         {
-            _ExchangeService = exch;
-        }
-
-        public IViewComponentResult Invoke()
-        {
-            Rates rates = _ExchangeService.GetExchangeRatesAsync().Result;
+            var rates = exchangeRates.GetExchangeRatesAsync().Result;
 
             return View(rates);
         }

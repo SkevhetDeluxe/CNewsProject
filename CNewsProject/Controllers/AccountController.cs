@@ -1,22 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CNewsProject.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController(IIdentityService identitySrvc, IConfiguration config) : Controller
     {
-        private readonly IIdentityService identityService;
-        private readonly IConfiguration config;
-
-        private EmailHelper emailSender;
-
-        public AccountController(IIdentityService identitySrvc, IConfiguration config)
-        {
-            identityService = identitySrvc;
-            this.config = config;
-            emailSender = new EmailHelper(config);            
-        }
+        private readonly EmailHelper _emailSender = new(config);
 
         public IActionResult Index()
         {
@@ -40,14 +29,14 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResultUser resultUser = await identityService.CreateAppUserAsync(user);
+                IdentityResultUser resultUser = await identitySrvc.CreateAppUserAsync(user);
 
                 if (resultUser.Result.Succeeded)
                 {
-                    string token = identityService.GenerateEmailTokenAsync(resultUser.User).Result;
+                    string token = identitySrvc.GenerateEmailTokenAsync(resultUser.User).Result;
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = resultUser.User.Email }, Request.Scheme);
 
-                    bool emailSent = emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.", confirmationLink!);
+                    bool emailSent = _emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.", confirmationLink!);
 
                     if (!emailSent)
                         return RedirectToAction();
@@ -67,12 +56,9 @@ namespace CNewsProject.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
-            AppUser user = await identityService.GetAppUserByEmailAsync(email);
+            AppUser user = await identitySrvc.GetAppUserByEmailAsync(email);
 
-            if (user == null)
-                return View("Error");
-
-            IdentityResult result = await identityService.ConfirmEmail(user, token);
+            IdentityResult result = await identitySrvc.ConfirmEmail(user, token);
 
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
@@ -80,18 +66,19 @@ namespace CNewsProject.Controllers
         //Single READ ACCOUnt
         public async Task<IActionResult> Profile()
         {
-            AppUser user = await identityService.GetAppUserByClaimsPrincipal(User);
+            AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
 
             return View(user);
         }
 
+        [Route("/Account/MyAccount")]
         [HttpPost]
         public IActionResult Profile(AppUser user)
         {
-            if (identityService.GetAppUserByIdAsync(user.Id).Result.Fire != user.Fire)
-				identityService.FireOnOff(user.Id);
+            if (identitySrvc.GetAppUserByIdAsync(user.Id).Result.Fire != user.Fire)
+				identitySrvc.FireOnOff(user.Id);
 
-			user = identityService.GetAppUserByIdAsync(user.Id).Result;
+			user = identitySrvc.GetAppUserByIdAsync(user.Id).Result;
 
             return View(user);
         }
@@ -108,7 +95,7 @@ namespace CNewsProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
             if (user != null)
                 return View(user);
             else
@@ -120,9 +107,9 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Update(string id, string email, string userName, string password)
         {
-            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
 
-            IdentityResult result = await identityService.UpdateAppUserAsync(id, email, userName, password);
+            IdentityResult result = await identitySrvc.UpdateAppUserAsync(id, email, userName, password);
 
             if (result.Succeeded)
                 return RedirectToAction("Index");
@@ -132,7 +119,7 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> DeleteMyAccount()
         {
-            AppUser user = await identityService.GetAppUserByClaimsPrincipal(HttpContext.User);
+            AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(HttpContext.User);
 
             return View(user);
         }
@@ -140,7 +127,7 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteMyAccount(string id)
         {
-            IdentityResult result = await identityService.DeleteUserByIdAsync(id);
+            IdentityResult result = await identitySrvc.DeleteUserByIdAsync(id);
 
             if (result.Succeeded)
                 return RedirectToAction("Index", "Home");
@@ -172,14 +159,14 @@ namespace CNewsProject.Controllers
             if (ModelState.IsValid)
             {
 
-                Microsoft.AspNetCore.Identity.SignInResult result = await identityService.LoginAppUserAsync(login);
+                Microsoft.AspNetCore.Identity.SignInResult result = await identitySrvc.LoginAppUserAsync(login);
 
                 if (result.Succeeded)
                     return Redirect(login.ReturnUrl ?? "/");
 
                 ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
 
-                identityService.LoginAppUserAsync(login);
+                identitySrvc.LoginAppUserAsync(login);
 
             }
 
@@ -188,7 +175,7 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await identityService.LogoutAppUserAsync();
+            await identitySrvc.LogoutAppUserAsync();
             return RedirectToAction("Index", "Home");
         }
 
@@ -205,11 +192,11 @@ namespace CNewsProject.Controllers
             if (!ModelState.IsValid)
                 return View(email);
 
-            AppUser user = await identityService.GetAppUserByEmailAsync(email);
+            AppUser user = await identitySrvc.GetAppUserByEmailAsync(email);
             if (user == null)
                 return RedirectToAction("ForgotPassword");
 
-            var token = await identityService.GeneratePasswordResetTokenAsync(user);
+            var token = await identitySrvc.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme).Trim();
 
             EmailHelper emailHelper = new(config);
@@ -242,11 +229,11 @@ namespace CNewsProject.Controllers
             if (!ModelState.IsValid)
                 return View(resetPassword);
 
-            var user = await identityService.GetAppUserByEmailAsync(resetPassword.Email);
+            var user = await identitySrvc.GetAppUserByEmailAsync(resetPassword.Email);
             if (user == null)
                 RedirectToAction("ResetPasswordConfirmation");
 
-            IdentityResult result = await identityService.ResetPassword(user, resetPassword.Token, resetPassword.Password);
+            IdentityResult result = await identitySrvc.ResetPassword(user, resetPassword.Token, resetPassword.Password);
 
             if (!result.Succeeded)
                 return View();
