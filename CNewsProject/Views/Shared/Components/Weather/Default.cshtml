@@ -37,18 +37,19 @@
 				<p>Condition: @Model.Condition</p>
 
 				@* <div class="weather-icon">☀️</div> *@
-			@* 	@if (Model.Condition.ToLower().Contains("sun") || Model.Condition.ToLower().Contains("clear"))
+				@if (Model?.Condition?.ToLower().Contains("sun") == true || Model?.Condition?.ToLower().Contains("clear") == true)
 				{
 					<span>☀️ Sunny</span>
 				}
-				else if (Model.Condition.ToLower().Contains("rain"))
+				else if (Model?.Condition?.ToLower().Contains("rain") == true)
 				{
 					<span>🌧️ Rainy</span>
 				}
 				else
 				{
 					<span>🌤️ @Model.Condition</span> <!-- Fallback to showing the actual condition -->
-				} *@
+				}
+			
 				<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
 			</div>
 		</div>
