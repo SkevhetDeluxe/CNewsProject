@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CNewsProject.StaticTempData;
 using Newtonsoft.Json.Linq;
 
 namespace CNewsProject.Models.Api.CurrencyExchangeRate

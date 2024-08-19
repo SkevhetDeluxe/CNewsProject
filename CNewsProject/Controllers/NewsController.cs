@@ -129,6 +129,7 @@ namespace CNewsProject.Controllers
                 .GroupBy(a => new { a.PublishedDate.Year, a.PublishedDate.Month })
                 .ToList();
 
+            // This DataType is not MATCHING the @model; WILL give EXCEPTION
             return View(groupedArticles);
         }
 

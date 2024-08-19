@@ -5,5 +5,6 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
     public interface ICurrencyExchangeRateService
     {
         Task<Rates> GetExchangeRatesAsync();
+
     }
 }
