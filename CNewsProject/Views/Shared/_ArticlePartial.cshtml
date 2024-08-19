@@ -4,8 +4,8 @@
     int number = 5;
     string codeForCard = "<div class=\"card mb-4 w-100\"> \"img class=\"card-img-top\" src=\"@Model.ImageLink\" alt=\"@Model.Headline\"><div class=\"card-body\"><h5 class=\"card-title\">@Model.Headline</h5><p class=\"card-text\">@Model.ContentSummary</p></div><div class=\"card-footer text-muted\"><span>Date: @Model.PublishedDate.ToShortDateString()</span><span>Views: @Model.Views</span><span>Likes: @Model.Likes</span><span>Category: @Model.Category.Name</span></div></div>";
 }
-
-<div class="card mb-4 w-100" onclick="LoadArticle(@Model.Id)">                          @* Copy from Here *@
+     @* Sh *@
+<div class="card mb-4 w-100" onclick="LoadArticle(@Model.Id)">                        
     <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
     <div class="card-body">
         <h5 class="card-title">@Model.Headline</h5>
@@ -15,8 +15,7 @@
         <span>Date: @Model.PublishedDate.ToShortDateString()</span>
         <span>Views: @Model.Views</span>
         <span>Likes: @Model.Likes</span>
-        <span>Category: @Model.Category.Name</span>
-       @*  <button class="btn btn-success" onclick="increaseLikes(@Model.Id)">Like</button> *@
+        <span>Category: @Model.Category.Name</span>      
     </div>
 </div>
 <script type="text/javascript">
