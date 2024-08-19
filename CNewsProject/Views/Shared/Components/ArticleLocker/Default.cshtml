@@ -30,7 +30,6 @@
                 <br />
                 <br />
                 <p class="card-text">@Model.Article.Content</p>
-
             </div>
             <div class="card-footer text-muted">
                 <span>Category: @Model.Article.Category.Name</span>
@@ -39,21 +38,17 @@
         </div>
     }
     else
-    {       // Here 
-        <div class="card mb-4 w-100">
-            <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
-            <div class="card-body">
-                <h5 class="card-title">@Model.Article.Headline</h5>
-                <span style="color:dimgrey">
-                    <span>by @Model.Article.AuthorUserName</span>
-                    <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
-                </span>
-                <br />
-                <br />
-                <p class="card-text">@Model.Article.ContentSummary</p>
+
+    { 
+        <p>You must be registered and subscribed to read more!</p>
+        <div>
+            <img src="@Model.Article.ImageLink" alt="@Model.Article.Headline" />
+            <div>
+                <h5>@Model.Article.Headline</h5>
+                <p>@Model.Article.ContentSummary</p>
+                <a href="@Url.Action("Detials", "News", new {id = Model.Article.Id})" class="btn btn-success">Read More</a>
             </div>
-            <a asp-controller="Account" asp-action="Login" class="btn btn-success">Read More</a> <!-- Read More Button -->
- 
+
         </div>
     }
 }
