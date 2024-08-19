@@ -31,6 +31,8 @@ namespace CNewsProject.Models.Api.Weather
         public string? CurrentTime { get; set; }
         public double CurrentTemperature { get; set; }
 
+        public string Condition { get; set; }
+
         public string NameOfCity { get; set; } = "Stockholm";
 
     }
