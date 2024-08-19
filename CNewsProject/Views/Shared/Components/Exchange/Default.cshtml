@@ -1,4 +1,5 @@
-﻿@model Rates
+﻿@using CNewsProject.StaticTempData
+@model Rates
 
 <div class="card">
     <div class="card-body">
@@ -17,20 +18,20 @@
     <p>Enter the amount in SEK:</p>
     <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates()" />
     <ul>
-        <li id="liusd">USD : @usd $</li>
-        <li id="lieur">EUR : @eur €</li>
-        <li id="lijpy">JPY : @jpy Yen</li>
-        <li id="licny">CNY : @cny Yuán</li>
-        <li id="ligbp">GBP : @gbp £</li>
+        <li id="liusd">USD : @ExchangeRateData.USD $</li>
+        <li id="lieur">EUR : @ExchangeRateData.EUR €</li>
+        <li id="lijpy">JPY : @ExchangeRateData.JPY Yen</li>
+        <li id="licny">CNY : @ExchangeRateData.CNY Yuán</li>
+        <li id="ligbp">GBP : @ExchangeRateData.GBP £</li>
     </ul>
 
     <script type="text/javascript">
         // Parsing Razor variables as floats in JavaScript
-        let usdRate = parseFloat('@(Model.USD.ToString(System.Globalization.CultureInfo.InvariantCulture))');
-        let eurRate = parseFloat('@(Model.EUR.ToString(System.Globalization.CultureInfo.InvariantCulture))');
-        let jpyRate = parseFloat('@(Model.JPY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
-        let cnyRate = parseFloat('@(Model.CNY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
-        let gbpRate = parseFloat('@(Model.GBP.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let usdRate = parseFloat('@(ExchangeRateData.USD.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let eurRate = parseFloat('@(ExchangeRateData.EUR.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let jpyRate = parseFloat('@(ExchangeRateData.JPY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let cnyRate = parseFloat('@(ExchangeRateData.CNY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let gbpRate = parseFloat('@(ExchangeRateData.GBP.ToString(System.Globalization.CultureInfo.InvariantCulture))');
 
         function updateExchangeRates() {
             const amountInSek = parseFloat(document.getElementById('amountInSek').value);
