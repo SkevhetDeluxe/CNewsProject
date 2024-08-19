@@ -13,7 +13,7 @@ namespace CNewsProject.Models.Api.Weather
     {
 
         // FOR REFERENCE
-        // https:// api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
+        //https:// api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
         // https:// api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
         public string BaseUrl { get; set; } 
@@ -28,26 +28,30 @@ namespace CNewsProject.Models.Api.Weather
 
         public WeatherApiHandler()
         {
-        //BaseUrl = "https:// api.open-meteo.com/v1/forecast?";
-        // EndUrl = "&hourly=temperature_2m";
-        //Latitude = "latitude=";
-        //Longitude = "&longitude=";
-        
+
             //For Reference https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
-            BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
-            EndUrl = "/data.json";
-            Longitude = "lon/";
-            Latitude = "/lat/";
+            //BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
+            //EndUrl = "/data.json";
+            //Longitude = "lon/";
+            //Latitude = "/lat/";
 
-            PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";       
+            //PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";
+
+            // For Referens https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
+
+            BaseUrl = "https://api.open-meteo.com/v1/forecast?";
+            EndUrl = "&hourly=temperature_2m";
+            Longitude = "&longitude=";
+            Latitude = "latitude=";
+
+            PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";
 
         }
 
         public async Task<GeoLocation> GetPositionAsync(string Place)
         {
             var client = new HttpClient();
-            //string cor;
             string url = PosUrl + Place;
 
             var response = await client.GetAsync(url);
@@ -58,21 +62,8 @@ namespace CNewsProject.Models.Api.Weather
                 var data = JObject.Parse(json);
 
                 GeoLocation gps = data.ToObject<GeoLocation>();
-                //string[] latlog = json;
-                //int i = 0, j = 0;
-                //for (i = 0; i <= latlog.Length; i++)
-                //    if (latlog[i] == ("1 to 9"))
-                //        j = i;
-                //for (j = i; j <= latlog.Length; j++)
-                //       cor = cor + latlog[j];
-
-
-
-
-
-
-
-                return null;
+                
+                return gps;
             }
             else
                 return new GeoLocation();
@@ -101,11 +92,11 @@ namespace CNewsProject.Models.Api.Weather
                 return new GeoLocation();
         }
 
-        public async Task<WeatherStats> GetWeatherAsync(string longVal, string latVal)
+        public async Task<WeatherStats> GetWeatherAsync(string latVal, string longVal)
         {
             var client = new HttpClient();
 
-            string url = BaseUrl + Longitude + longVal + Latitude + latVal + EndUrl;
+            string url = BaseUrl + Latitude + latVal + Longitude + longVal + EndUrl;
 
             var response = await client.GetAsync(url);
 

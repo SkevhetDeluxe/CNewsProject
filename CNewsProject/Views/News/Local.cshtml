@@ -1,20 +1,21 @@
 @model CategoryPageArticlesVM
+@inject IIdentityService IdentityService
 
 @{
 	// vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-	// if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-	// {
-	// 	Layout = "_LayoutNewsFire";
-	// }                                                // LET FILIP FIX THIS LATER
-	// else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+	if (User.Identity.IsAuthenticated)
+	{
+		Layout = IdentityService.GetAppUserByClaimsPrincipal(User).Result.Fire ? "_LayoutNewsFire" :
+			// << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+			"_LayoutNews";
+	}
+	else
 	{
 		Layout = "_LayoutNews";
+		ViewData["Title"] = "Local News";
 	}
 	// ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
-	ViewData["Title"] = "Local News";
 }
-
-
 
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
@@ -22,8 +23,9 @@
 <section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
-		<div class="col-6">
+		<div class="col-md-6 col-12">
 			<partial name="_ArticlePartial" model="article" />
 		</div>
 	}
 </section>
+

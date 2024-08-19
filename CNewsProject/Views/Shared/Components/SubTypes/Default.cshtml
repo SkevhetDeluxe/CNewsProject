@@ -1,0 +1,118 @@
+﻿@model List<SubscriptionType>
+
+
+<div class="row">
+    <h1 class="bg-info text-white">All Sub Types</h1>
+
+    <div class="row">
+        <a asp-action="Index" class="col-1 btn btn-secondary">Back</a>
+        <a asp-action="AddType" class="col-1 offset-10 btn btn-primary">Create</a>
+    </div>
+    
+
+    <table class="table table-sm table-bordered">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Manage</th>
+            <th>Delete</th>
+        </tr>
+        @{
+            string typeIds = "";
+            int count = 0;
+
+
+
+            foreach (SubscriptionType subType in Model)
+            {
+                                    <tr>
+                                        <td>@subType.Id</td>
+                                        <td>@subType.TypeName</td>
+                                        <td>@subType.Price</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary" asp-action="ManageType" asp-route-id="@subType.Id">
+                                                Manage
+                                            </a>
+                                        </td>
+                                        <td>
+                                            @{
+                            string tempId = "tryDelete" + Convert.ToString(count);
+                            if (typeIds == "" || string.IsNullOrEmpty(typeIds))
+                            {
+                                typeIds += subType.Id;
+                            }
+                            else
+                            {
+                                typeIds += "," + subType.Id;
+                            }
+                                            }
+
+                                            @{
+                            //id="@tempId"
+                                            }
+
+                                            <button id="@tempId" class="btn btn-sm btn-primary">
+                                                Delete
+                                            </button>
+
+
+                                        </td>
+                                    </tr>
+                count++;
+            }
+        }
+    </table>
+   
+
+</div>
+
+
+<script type="text/javascript">
+
+    var typeIds;
+    var elemIds;
+    var elem;
+    var elems = [];
+
+    document.addEventListener('DOMContentLoaded', function () {
+        console.log("Document loaded, or whatever DOMContentLoaded means.");
+        GenerateListeners();
+    });
+    
+
+    function GenerateListeners() {
+
+        console.log("Entered GenerateListeners()");
+
+        typeIds = [@typeIds];
+
+        console.log(typeIds);
+
+        elemIds = String('@typeIds').split(",");
+        console.log(elemIds);
+        console.log(typeof (elemIds));
+
+        console.log(`elemIds length is ${elemIds.length}`);
+
+        for (let down = 0; down < elemIds.length; down++) {
+            elem = document.getElementById("tryDelete" + down);
+            elems.push(elem);
+
+            console.log(`${elem} with id tryDelete${down} created. I think.`);
+
+            if (typeof window.addEventListener === 'function') {
+
+                console.log(typeof window.addEventListener + "Realised.");
+
+                (function (_elem) {
+                    elems[down].addEventListener('click', function () {
+                        console.log(_elem + "Clicked");
+                        console.log(`Name is Hopefully ${elems[down].id}`);
+                        TryDeleteType(typeIds[down]);
+                    });
+                })(elems[down]);
+            }
+        }
+    }
+</script>

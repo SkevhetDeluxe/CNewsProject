@@ -1,8 +1,8 @@
-﻿
-<h2>Select a Subscription Plan</h2>
+@model List<SubscriptionType>
 
-@* <form asp-action="Subscribe" method="post">
-    <select asp-for="SelectedSubscriptionId" asp-items="@(new SelectList(Model.AvailableSubscriptions, "Id", "SubscriptionType"))"></select>
-    <button type="submit">Subscribe</button>
-</form>
- *@
+<h2>Available Subscriptions</h2>
+
+@foreach (SubscriptionType subType in Model)
+{
+    <p>@subType</p>
+}

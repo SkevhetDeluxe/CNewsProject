@@ -1,66 +1,48 @@
-﻿
-@model WeatherStats
+﻿@model WeatherStats
 
 
 @{
 
-    WeatherStats stats = new();
-    string city ="Stockholm";
-    String hourMin = DateTime.Now.ToString("HH:mm");
-    String weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
-    DateTime testTime = Convert.ToDateTime(weatherTime); 
-    Parameter temperature = Model.timeSeries.FirstOrDefault(ts => ts.validTime == testTime).parameters.FirstOrDefault(p => p.name == "t");
+	WeatherStats stats = new();
+	string city = "Stockholm";
+	string hourMin = DateTime.Now.ToString("HH:mm");
+	int hour = DateTime.Now.Hour;
+	hour++;
+	string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+	DateTime testTime = Convert.ToDateTime(weatherTime);
 
 }
 
 <div class="weather-details">
-    <div class="weather-info">
-        <div class="card">
-            <h3>Weather</h3> 
-            <form>
-            <div class="row mg-3">
-                <label>City</label>
-                <input id="city" type="text" default="@city" />
-            </div>
-            <div class="btn">
-                <input class="offset-md-2" type="submit" value="Find" />
-            </div>
-            </form>
-            <p>Latitude: @Model.geometry.type.Length</p>
-            @* <p>Longitude: @Model.geometry.type</p>
-            <p>Timezone: @Model.referenceTime.</p> *@
-            <p>Time: @hourMin</p>
-            <p>Temperature: @temperature.values[0] °C</p>
-            <div class="weather-icon">☀️</div>
-            <p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
-        </div>
-    </div>
+	<div class="weather-info">
+		<div class="card">
+			<div class="card-body">
+				<div style="background-color:#dee6ef;">
+					<h3 id="place" >Weather: @Model.NameOfCity</h3>
+				</div>
+				<form>
+					<div class="mt-3">
+						<label for=" City" class="form-label">City:</label><br />
+						<input type="text" class="form-control" id="city" placeholder="@Model.NameOfCity" default="@city" />
+					</div>
+				</form>
+
+				<div class="p-2 ps-0">
+					<button class="btn-sm" id="searchcity" onclick="FindNewCity(Search())">Find</button>
+				</div>
+			
+				<p>Time: @hourMin</p>
+				<p>Temperature: @Model.Hourly.Temperature_2m[hour] °C</p>
+				@* <div class="weather-icon">☀️</div> *@
+				<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
+			</div>
+		</div>
+	</div>
+
 </div>
 
-@*
-    Find City
-
-    Use :  Stockholm/ Stockholm är ett defaultvärde, ska ersättas med "City" så vi kan välja stad.
-    Och då får vi latitud och longitud "@59.326142,17.9820525 (Stockholm)"
-
-    city = id"city"
-    BaseUrl = "https://www.google.se/maps/place/ + "city"+/ 
-        Longitude = https://www.google.se/maps/place/city/ +"lon/" - https://www.google.se/maps/place/city/
-        Latitude =  https://www.google.se/maps/place/city/@59.326142/ +"lat" - https://www.google.se/maps/place/city/@59.326142/
-
-    EndUrl = ",11z/data=!3m1!4b1!4m6!3m5!1s0x465f763119640bcb:0xa80d27d3679d7766!8m2!3d59.3293235!4d18.0685808!16zL20vMDZteHM!5m1!1e1?entry=ttu"
-
-        }
-
-        public async Task<WeatherStats> GetWeatherAsync(string latVal, string longVal)
-        {
-            var client = new HttpClient();
-
-            string url = BaseUrl + Latitude + latVal + Longitude + longVal + EndUrl;
-
-            var response = await client.GetAsync(url);
-    
-
-
-*@ 
-
+<script type="text/javascript">
+	function Search() {
+		return document.getElementById('city').value;
+	}
+</script>

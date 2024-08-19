@@ -1,7 +1,23 @@
-﻿@model Rates
+﻿@using System.Reflection
+@model Rates
 
 <div class="card">
+    <div class="card-body">
+        <div style="background-color:#dee6ef;">
     <h3>Exchange rates</h3>
+        </div>
+    
+        @{
+            Dictionary<string, string> formatedRates = new();
+
+            foreach (PropertyInfo propInfo in Model.GetType().GetProperties().Where(p => p.Name != "SEK"))
+            {
+                string temp = string.Format("{0:F2}", Convert.ToDecimal(propInfo.GetValue(Model)) * 100);
+
+                formatedRates.Add(propInfo.Name, temp);
+            }
+    }
+
     @{
         string aed = string.Format("{0:F2}", Convert.ToDecimal(Model.AED * 100));
         string afn = string.Format("{0:F2}", Convert.ToDecimal(Model.AFN * 100));
@@ -167,168 +183,193 @@
     
         }
     <p>100 SEK equels</p>
+    </div>
     <ul class="row">
-
-        <li class="col-6">AED : @aed </li>
-        <li class="col-6">AFN : @afn </li>
-        <li class="col-6">ALL : @all </li>
-        <li class="col-6">AMD : @amd </li>
-        <li class="col-6">ANG : @ang </li>
-        <li class="col-6">AOA : @aoa </li>
-        <li class="col-6">ARS : @ars </li>
-        <li class="col-6">AUD : @aud </li>
-        <li class="col-6">AWG : @awg </li>
-        <li class="col-6">AZN : @azn </li>
-        <li class="col-6">BAM : @bam </li>
-        <li class="col-6">BBD : @bbd </li>
-        <li class="col-6">BDT : @bdt </li>
-        <li class="col-6">BGN : @bgn </li>
-        <li class="col-6">BHD : @bhd </li>
-        <li class="col-6">BIF : @bif </li>
-        <li class="col-6">BMD : @bmd </li>
-        <li class="col-6">BND : @bnd </li>
-        <li class="col-6">BOB : @bob </li>
-        <li class="col-6">BRL : @brl </li>
-        <li class="col-6">BSD : @bsd </li>
-        <li class="col-6">BTN : @btn </li>
-        <li class="col-6">BWP : @bwp </li>
-        <li class="col-6">BYN : @byn </li>
-        <li class="col-6">BZD : @bzd </li>
-        <li class="col-6">CAD : @cad </li>
-        <li class="col-6">CDF : @cdf </li>
-        <li class="col-6">CHF : @chf </li>
-        <li class="col-6">CLP : @clp </li>
-        <li class="col-6">CNY : @cny </li>
-        <li class="col-6">COP : @cop </li>
-        <li class="col-6">CRC : @crc </li>
-        <li class="col-6">CUP : @cup </li>
-        <li class="col-6">CVE : @cve </li>
-        <li class="col-6">CZK : @czk </li>
-        <li class="col-6">DJF : @djf </li>
-        <li class="col-6">DKK : @dkk </li>
-        <li class="col-6">DOP : @dop </li>
-        <li class="col-6">DZD : @dzd </li>
-        <li class="col-6">EGP : @egp </li>
-        <li class="col-6">ERN : @ern </li>
-        <li class="col-6">ETB : @etb </li>
-        <li class="col-6">EUR : @eur </li>
-        <li class="col-6">FJD : @fjd </li>
-        <li class="col-6">FKP : @fkp </li>
-        <li class="col-6">FOK : @fok </li>
-        <li class="col-6">GBP : @gbp </li>
-        <li class="col-6">GEL : @gel </li>
-        <li class="col-6">GGP : @ggp </li>
-        <li class="col-6">GHS : @ghs </li>
-        <li class="col-6">GIP : @gip </li>
-        <li class="col-6">GMD : @gmd </li>
-        <li class="col-6">GNF : @gnf </li>
-        <li class="col-6">GTQ : @gtq </li>
-        <li class="col-6">GYD : @gyd </li>
-        <li class="col-6">HKD : @hkd </li>
-        <li class="col-6">HNL : @hnl </li>
-        <li class="col-6">HRK : @hrk </li>
-        <li class="col-6">HTG : @htg </li>
-        <li class="col-6">HUF : @huf </li>
-        <li class="col-6">IDR : @idr </li>
-        <li class="col-6">ILS : @ils </li>
-        <li class="col-6">IMP : @imp </li>
-        <li class="col-6">INR : @inr </li>
-        <li class="col-6">IQD : @iqd </li>
-        <li class="col-6">IRR : @irr </li>
-        <li class="col-6">ISK : @isk </li>
-        <li class="col-6">JEP : @jep </li>
-        <li class="col-6">JMD : @jmd </li>
-        <li class="col-6">JOD : @jod </li>
-        <li class="col-6">JPY : @jpy </li>
-        <li class="col-6">KES : @kes </li>
-        <li class="col-6">KGS : @kgs </li>
-        <li class="col-6">KHR : @khr </li>
-        <li class="col-6">KID : @kid </li>
-        <li class="col-6">KMF : @kmf </li>
-        <li class="col-6">KRW : @krw </li>
-        <li class="col-6">KWD : @kwd </li>
-        <li class="col-6">KYD : @kyd </li>
-        <li class="col-6">KZT : @kzt </li>
-        <li class="col-6">LAK : @lak </li>
-        <li class="col-6">LBP : @lbp </li>
-        <li class="col-6">LKR : @lkr </li>
-        <li class="col-6">LRD : @lrd </li>
-        <li class="col-6">LSL : @lsl </li>
-        <li class="col-6">LYD : @lyd </li>
-        <li class="col-6">MAD : @mad </li>
-        <li class="col-6">MDL : @mdl </li>
-        <li class="col-6">MGA : @mga </li>
-        <li class="col-6">MKD : @mkd </li>
-        <li class="col-6">MMK : @mmk </li>
-        <li class="col-6">MNT : @mnt </li>
-        <li class="col-6">MOP : @mop </li>
-        <li class="col-6">MRU : @mru </li>
-        <li class="col-6">MUR : @mur </li>
-        <li class="col-6">MVR : @mvr </li>
-        <li class="col-6">MWK : @mwk </li>
-        <li class="col-6">MXN : @mxn </li>
-        <li class="col-6">MYR : @myr </li>
-        <li class="col-6">MZN : @mzn </li>
-        <li class="col-6">NAD : @nad </li>
-        <li class="col-6">NGN : @ngn </li>
-        <li class="col-6">NIO : @nio </li>
-        <li class="col-6">NOK : @nok </li>
-        <li class="col-6">NPR : @npr </li>
-        <li class="col-6">NZD : @nzd </li>
-        <li class="col-6">OMR : @omr </li>
-        <li class="col-6">PAB : @pab </li>
-        <li class="col-6">PEN : @pen </li>
-        <li class="col-6">PGK : @pgk </li>
-        <li class="col-6">PHP : @php </li>
-        <li class="col-6">PKR : @pkr </li>
-        <li class="col-6">PLN : @pln </li>
-        <li class="col-6">PYG : @pyg </li>
-        <li class="col-6">QAR : @qar </li>
-        <li class="col-6">RON : @ron </li>
-        <li class="col-6">RSD : @rsd </li>
-        <li class="col-6">RUB : @rub </li>
-        <li class="col-6">RWF : @rwf </li>
-        <li class="col-6">SAR : @sar </li>
-        <li class="col-6">SBD : @sbd </li>
-        <li class="col-6">SCR : @scr </li>
-        <li class="col-6">SDG : @sdg </li>
-        <li class="col-6">SGD : @sgd </li>
-        <li class="col-6">SHP : @shp </li>
-        <li class="col-6">SLE : @sle </li>
-        <li class="col-6">SLL : @sll </li>
-        <li class="col-6">SOS : @sos </li>
-        <li class="col-6">SRD : @srd </li>
-        <li class="col-6">SSP : @ssp </li>
-        <li class="col-6">STN : @stn </li>
-        <li class="col-6">SYP : @syp </li>
-        <li class="col-6">SZL : @szl </li>
-        <li class="col-6">THB : @thb </li>
-        <li class="col-6">TJS : @tjs </li>
-        <li class="col-6">TMT : @tmt </li>
-        <li class="col-6">TND : @tnd </li>
-        <li class="col-6">TOP : @top </li>
-        <li class="col-6">TRY : @trya </li>
-        <li class="col-6">TTD : @ttd </li>
-        <li class="col-6">TVD : @tvd </li>
-        <li class="col-6">TWD : @twd </li>
-        <li class="col-6">TZS : @tzs </li>
-        <li class="col-6">UAH : @uah </li>
-        <li class="col-6">UGX : @ugx </li>
-        <li class="col-6">USD : @usd </li>
-        <li class="col-6">UYU : @uyu </li>
-        <li class="col-6">UZS : @uzs </li>
-        <li class="col-6">VES : @ves </li>
-        <li class="col-6">VND : @vnd </li>
-        <li class="col-6">VUV : @vuv </li>
-        <li class="col-6">WST : @wst </li>
-        <li class="col-6">XAF : @xaf </li>
-        <li class="col-6">XCD : @xcd </li>
-        <li class="col-6">XDR : @xdr</li>
-        <li class="col-6">XOF : @xof </li>
-        <li class="col-6">XPF : @xpf </li>
-        <li class="col-6">YER : @yer </li>
-        <li class="col-6">ZAR : @zar </li>
-        <li class="col-6">ZMW : @zmw </li>
-        <li class="col-6">ZWL : @zwl </li>
-    </ul>
-</div>
+        @{
+            foreach(KeyValuePair<string, string> nyckelPar in formatedRates)
+            {
+                string temp = nyckelPar.Key + " : " + nyckelPar.Value;
+                <li class="col-6 ps-0">@temp</li>
+            }
+        }
+@* 
+        <li class="col-6 ps-0">AED : @aed </li>
+        <li class="col-6 ps-0">AFN : @afn </li>
+        <li class="col-6 ps-0">ALL : @all </li>
+        <li class="col-6 ps-0">AMD : @amd </li>
+        <li class="col-6 ps-0">ANG : @ang </li>
+        <li class="col-6 ps-0">AOA : @aoa </li>
+        <li class="col-6 ps-0">ARS : @ars </li>
+        <li class="col-6 ps-0">AUD : @aud </li>
+        <li class="col-6 ps-0">AWG : @awg </li>
+        <li class="col-6 ps-0">AZN : @azn </li>
+        <li class="col-6 ps-0">BAM : @bam </li>
+        <li class="col-6 ps-0">BBD : @bbd </li>
+        <li class="col-6 ps-0">BDT : @bdt </li>
+        <li class="col-6 ps-0">BGN : @bgn </li>
+        <li class="col-6 ps-0">BHD : @bhd </li>
+        <li class="col-6 ps-0">BIF : @bif </li>
+        <li class="col-6 ps-0">BMD : @bmd </li>
+        <li class="col-6 ps-0">BND : @bnd </li>
+        <li class="col-6 ps-0">BOB : @bob </li>
+        <li class="col-6 ps-0">BRL : @brl </li>
+        <li class="col-6 ps-0">BSD : @bsd </li>
+        <li class="col-6 ps-0">BTN : @btn </li>
+        <li class="col-6 ps-0">BWP : @bwp </li>
+        <li class="col-6 ps-0">BYN : @byn </li>
+        <li class="col-6 ps-0">BZD : @bzd </li>
+        <li class="col-6 ps-0">CAD : @cad </li>
+        <li class="col-6 ps-0">CDF : @cdf </li>
+        <li class="col-6 ps-0">CHF : @chf </li>
+        <li class="col-6 ps-0">CLP : @clp </li>
+        <li class="col-6 ps-0">CNY : @cny </li>
+        <li class="col-6 ps-0">COP : @cop </li>
+        <li class="col-6 ps-0">CRC : @crc </li>
+        <li class="col-6 ps-0">CUP : @cup </li>
+        <li class="col-6 ps-0">CVE : @cve </li>
+        <li class="col-6 ps-0">CZK : @czk </li>
+        <li class="col-6 ps-0">DJF : @djf </li>
+        <li class="col-6 ps-0">DKK : @dkk </li>
+        <li class="col-6 ps-0">DOP : @dop </li>
+        <li class="col-6 ps-0">DZD : @dzd </li>
+        <li class="col-6 ps-0">EGP : @egp </li>
+        <li class="col-6 ps-0">ERN : @ern </li>
+        <li class="col-6 ps-0">ETB : @etb </li>
+        <li class="col-6 ps-0">EUR : @eur </li>
+        <li class="col-6 ps-0">FJD : @fjd </li>
+        <li class="col-6 ps-0">FKP : @fkp </li>
+        <li class="col-6 ps-0">FOK : @fok </li>
+        <li class="col-6 ps-0">GBP : @gbp </li>
+        <li class="col-6 ps-0">GEL : @gel </li>
+        <li class="col-6 ps-0">GGP : @ggp </li>
+        <li class="col-6 ps-0">GHS : @ghs </li>
+        <li class="col-6 ps-0">GIP : @gip </li>
+        <li class="col-6 ps-0">GMD : @gmd </li>
+        <li class="col-6 ps-0">GNF : @gnf </li>
+        <li class="col-6 ps-0">GTQ : @gtq </li>
+        <li class="col-6 ps-0">GYD : @gyd </li>
+        <li class="col-6 ps-0">HKD : @hkd </li>
+        <li class="col-6 ps-0">HNL : @hnl </li>
+        <li class="col-6 ps-0">HRK : @hrk </li>
+        <li class="col-6 ps-0">HTG : @htg </li>
+        <li class="col-6 ps-0">HUF : @huf </li>
+        <li class="col-6 ps-0">IDR : @idr </li>
+        <li class="col-6 ps-0">ILS : @ils </li>
+        <li class="col-6 ps-0">IMP : @imp </li>
+        <li class="col-6 ps-0">INR : @inr </li>
+        <li class="col-6 ps-0">IQD : @iqd </li>
+        <li class="col-6 ps-0">IRR : @irr </li>
+        <li class="col-6 ps-0">ISK : @isk </li>
+        <li class="col-6 ps-0">JEP : @jep </li>
+        <li class="col-6 ps-0">JMD : @jmd </li>
+        <li class="col-6 ps-0">JOD : @jod </li>
+        <li class="col-6 ps-0">JPY : @jpy </li>
+        <li class="col-6 ps-0">KES : @kes </li>
+        <li class="col-6 ps-0">KGS : @kgs </li>
+        <li class="col-6 ps-0">KHR : @khr </li>
+        <li class="col-6 ps-0">KID : @kid </li>
+        <li class="col-6 ps-0">KMF : @kmf </li>
+        <li class="col-6 ps-0">KRW : @krw </li>
+        <li class="col-6 ps-0">KWD : @kwd </li>
+        <li class="col-6 ps-0">KYD : @kyd </li>
+        <li class="col-6 ps-0">KZT : @kzt </li>
+        <li class="col-6 ps-0">LAK : @lak </li>
+        <li class="col-6 ps-0">LBP : @lbp </li>
+        <li class="col-6 ps-0">LKR : @lkr </li>
+        <li class="col-6 ps-0">LRD : @lrd </li>
+        <li class="col-6 ps-0">LSL : @lsl </li>
+        <li class="col-6 ps-0">LYD : @lyd </li>
+        <li class="col-6 ps-0">MAD : @mad </li>
+        <li class="col-6 ps-0">MDL : @mdl </li>
+        <li class="col-6 ps-0">MGA : @mga </li>
+        <li class="col-6 ps-0">MKD : @mkd </li>
+        <li class="col-6 ps-0">MMK : @mmk </li>
+        <li class="col-6 ps-0">MNT : @mnt </li>
+        <li class="col-6 ps-0">MOP : @mop </li>
+        <li class="col-6 ps-0">MRU : @mru </li>
+        <li class="col-6 ps-0">MUR : @mur </li>
+        <li class="col-6 ps-0">MVR : @mvr </li>
+        <li class="col-6 ps-0">MWK : @mwk </li>
+        <li class="col-6 ps-0">MXN : @mxn </li>
+        <li class="col-6 ps-0">MYR : @myr </li>
+        <li class="col-6 ps-0">MZN : @mzn </li>
+        <li class="col-6 ps-0">NAD : @nad </li>
+        <li class="col-6 ps-0">NGN : @ngn </li>
+        <li class="col-6 ps-0">NIO : @nio </li>
+        <li class="col-6 ps-0">NOK : @nok </li>
+        <li class="col-6 ps-0">NPR : @npr </li>
+        <li class="col-6 ps-0">NZD : @nzd </li>
+        <li class="col-6 ps-0">OMR : @omr </li>
+        <li class="col-6 ps-0">PAB : @pab </li>
+        <li class="col-6 ps-0">PEN : @pen </li>
+        <li class="col-6 ps-0">PGK : @pgk </li>
+        <li class="col-6 ps-0">PHP : @php </li>
+        <li class="col-6 ps-0">PKR : @pkr </li>
+        <li class="col-6 ps-0">PLN : @pln </li>
+        <li class="col-6 ps-0">PYG : @pyg </li>
+        <li class="col-6 ps-0">QAR : @qar </li>
+        <li class="col-6 ps-0">RON : @ron </li>
+        <li class="col-6 ps-0">RSD : @rsd </li>
+        <li class="col-6 ps-0">RUB : @rub </li>
+        <li class="col-6 ps-0">RWF : @rwf </li>
+        <li class="col-6 ps-0">SAR : @sar </li>
+        <li class="col-6 ps-0">SBD : @sbd </li>
+        <li class="col-6 ps-0">SCR : @scr </li>
+        <li class="col-6 ps-0">SDG : @sdg </li>
+        <li class="col-6 ps-0">SGD : @sgd </li>
+        <li class="col-6 ps-0">SHP : @shp </li>
+        <li class="col-6 ps-0">SLE : @sle </li>
+        <li class="col-6 ps-0">SLL : @sll </li>
+        <li class="col-6 ps-0">SOS : @sos </li>
+        <li class="col-6 ps-0">SRD : @srd </li>
+        <li class="col-6 ps-0">SSP : @ssp </li>
+        <li class="col-6 ps-0">STN : @stn </li>
+        <li class="col-6 ps-0">SYP : @syp </li>
+        <li class="col-6 ps-0">SZL : @szl </li>
+        <li class="col-6 ps-0">THB : @thb </li>
+        <li class="col-6 ps-0">TJS : @tjs </li>
+        <li class="col-6 ps-0">TMT : @tmt </li>
+        <li class="col-6 ps-0">TND : @tnd </li>
+        <li class="col-6 ps-0">TOP : @top </li>
+        <li class="col-6 ps-0">TRY : @trya </li>
+        <li class="col-6 ps-0">TTD : @ttd </li>
+        <li class="col-6 ps-0">TVD : @tvd </li>
+        <li class="col-6 ps-0">TWD : @twd </li>
+        <li class="col-6 ps-0">TZS : @tzs </li>
+        <li class="col-6 ps-0">UAH : @uah </li>
+        <li class="col-6 ps-0">UGX : @ugx </li>
+        <li class="col-6 ps-0">USD : @usd </li>
+        <li class="col-6 ps-0">UYU : @uyu </li>
+        <li class="col-6 ps-0">UZS : @uzs </li>
+        <li class="col-6 ps-0">VES : @ves </li>
+        <li class="col-6 ps-0">VND : @vnd </li>
+        <li class="col-6 ps-0">VUV : @vuv </li>
+        <li class="col-6 ps-0">WST : @wst </li>
+        <li class="col-6 ps-0">XAF : @xaf </li>
+        <li class="col-6 ps-0">XCD : @xcd </li>
+        <li class="col-6 ps-0">XDR : @xdr </li>
+        <li class="col-6 ps-0">XOF : @xof </li>
+        <li class="col-6 ps-0">XPF : @xpf </li>
+        <li class="col-6 ps-0">YER : @yer </li>
+        <li class="col-6 ps-0">ZAR : @zar </li>
+        <li class="col-6 ps-0">ZMW : @zmw </li>
+        <li class="col-6 ps-0">ZWL : @zwl </li> *@
+    </ul>              
+                
+</div>                 
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       

@@ -1,0 +1,80 @@
+﻿@model SidebarHeadlinesVM
+
+<style>
+	td {
+		border-bottom: solid lightgray 1px;
+		border-top: solid lightgray 1px;
+		/* padding-left: 5px; */
+		height: 30px;
+	}
+
+		td > a {
+			color: black;
+			text-decoration: none;
+			display:block;
+		}
+
+		td:hover {
+			background-color: lightgray;
+		}
+</style>
+
+<div class="card">
+	<div class="card-body">
+	<br />
+		<div style="background-color:#dee6ef;">
+		<a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local"><h2>Local News</h2></a>
+		</div>
+	<table>
+		@{
+			foreach (var item in Model.localArticles)
+			{
+				<tr><td><a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a></td></tr>
+			}
+		}
+	</table><br />
+		<div style="background-color:#dee6ef;">
+	<a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local"><h2>Sweden News</h2></a>
+		</div>
+	<table>
+		@{
+			foreach (var item in Model.swedenArticles)
+			{
+				<tr><td><a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a></td></tr>
+			}
+		}
+	</table><br />
+			<div style="background-color:#dee6ef;">
+	<a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local"><h2>World News</h2></a>
+			</div><table>
+		@{
+			foreach (var item in Model.worldArticles)
+			{
+				<tr><td><a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a></td></tr>
+			}
+		}
+	</table><br />
+				<div style="background-color:#dee6ef;">
+	<a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local"><h2>Economy News</h2></a>
+				</div>
+	<table>
+		@{
+			foreach (var item in Model.economyArticles)
+			{
+				<tr><td><a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a></td></tr>
+			}
+		}
+	</table><br />
+					<div style="background-color:#dee6ef;">
+	<a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local"><h2>Sport News</h2></a>
+					</div>
+	<table>
+		@{
+			foreach (var item in Model.sportArticles)
+			{
+				<tr><td><a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a></td></tr>
+			}
+		}
+	</table>
+	</div>
+</div>

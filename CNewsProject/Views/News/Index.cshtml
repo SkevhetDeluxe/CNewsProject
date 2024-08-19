@@ -1,20 +1,24 @@
 @model FrontPageArticlesVM
-
+@inject IIdentityService IdentityService
 @{
-
-    // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-    // if (_iService.GetAppUserByClaimsPrincipal(User).Result.Fire)
-    // {
-    //     Layout = "_LayoutNewsFire";
-    // }                                                // LET FILIP FIX THIS LATER
-    // else                                             // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
-    {
-        Layout = "_LayoutNews";
-    }
-    // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
-    ViewData["Title"] = "Sport News";
-
+	// vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
+	if (User.Identity.IsAuthenticated)
+	{
+		Layout = IdentityService.GetAppUserByClaimsPrincipal(User).Result.Fire ? "_LayoutNewsFire" :
+			// << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
+			"_LayoutNews";
+	}
+	else
+	{
+		Layout = "_LayoutNews";
+		ViewData["Title"] = "Local News";
+	}
+	// ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }
+
+<audio hidden id="mumsaudio" controls="controls">
+    <source src="~/content/audio/mums.mp3" type="audio/mpeg" />
+</audio>
 
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
@@ -22,13 +26,8 @@
 <section class="articles row">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
-
-		
-
-		<div class="col-6">
-
-		<partial name="_ArticlePartial" model="article" />
+		<div class="col-md-6 col-12">
+			<partial name="_ArticlePartial" model="article" />
 		</div>
 	}
 </section>
-

@@ -1,6 +1,9 @@
-
-using CNewsProject.Service;
-
+using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
+using CNewsProject.Data;
+using CNewsProject.Models.DataBase;
+using Microsoft.EntityFrameworkCore;
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -9,17 +12,18 @@ namespace CNewsProject.Controllers
 		private readonly ICategoryService _categoryService;
         private readonly IVisitorCountService _visitorCountService;
 		private readonly IIdentityService _identityService;
-        private readonly ISubscriptionService _subscriptionService;
+        private readonly ISubscriptionService _subscriptionService;		
+		private readonly ApplicationDbContext _context;
 
-        public NewsController(IArticleService articleService, ICategoryService categoryService,
-			IVisitorCountService visitorCountService, IIdentityService iService, ISubscriptionService subService)
+		public NewsController(IArticleService articleService, ICategoryService categoryService,
+			IVisitorCountService visitorCountService, IIdentityService iService, ISubscriptionService subService, ApplicationDbContext context)
 		{
 			_subscriptionService = subService;
             _articleService = articleService;
 			_categoryService = categoryService;
 			_visitorCountService = visitorCountService;
-			_identityService = iService;
-            _articleService = articleService;
+			_identityService = iService;            
+			_context = context;
         }
 
         // sh
@@ -38,7 +42,7 @@ namespace CNewsProject.Controllers
             return View(article);
         }
 		// sh
-        public IActionResult Index()
+        public IActionResult Index() //This action AVG at 6000 ms. It should NOT go above 500 ms. We need to take a look at this.
         {
             FrontPageArticlesVM vModel = _articleService.GetFrontPageArticleVM();
 			return View(vModel);
@@ -73,18 +77,21 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		public IActionResult Search()
-		{
-			return View();
-		}
+		//public IActionResult Search() // REWORKING SEARCH
+		//{
+		//	return View();
+		//}
 		[HttpPost]
-		public IActionResult Search(string search, string category)
+		public IActionResult Search(string search)
 		{
-			List<Article> searchResults = _articleService.SearchForArticles(search, category);
-			return View(searchResults);
+			SearchResult result = _articleService.SearchForArticles(search);
+			return View(result.Articles);
 		}
 		public IActionResult Article(int id)
 		{
+			if (id == 0)
+				return RedirectToAction("Missing");
+
 			UserAndArticleIdCarrier vModel = new() { ArticleId = id, Principal = User };
 			_articleService.IncreaseViews(id);
 			
@@ -97,6 +104,11 @@ namespace CNewsProject.Controllers
 			return ViewComponent("ArticleLocker", new { principal = User, id = articleId });
 		}
 
+		public IActionResult Missing()
+		{
+			return View();
+		}
+
 		[AllowAnonymous]
 		[Authorize(Roles = "Admin")]
 		public IActionResult SugMinaStats()
@@ -105,8 +117,37 @@ namespace CNewsProject.Controllers
 
 			return RedirectToAction("Index");
 		}
-       
 
-    }
+        public IActionResult Archive()
+        {
+            var articles = _context.Article
+            .FromSqlRaw("SELECT * FROM Article WHERE IsArchived = 1")
+			.AsNoTracking()
+			.ToList();
+
+            var groupedArticles = articles
+                .GroupBy(a => new { a.PublishedDate.Year, a.PublishedDate.Month })
+                .ToList();
+
+            return View(groupedArticles);
+        }
+
+		public IActionResult ArchiveOldArticles()
+		{
+			var archiveDate = DateTime.Now.AddMonths(-6); // Archive articles older than 6 months
+
+			var oldArticles = _context.Article
+				.Where(a => a.PublishedDate < archiveDate && !a.IsArchived);
+
+			foreach (var article in oldArticles)
+			{
+				article.IsArchived = true;
+			}
+
+			_context.SaveChanges();
+
+			return RedirectToAction("Archive");
+		}
+	}
 
 }

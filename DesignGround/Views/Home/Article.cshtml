@@ -1,0 +1,41 @@
+﻿
+
+@{
+    // Whatever
+}
+
+<div class="row">
+    @{
+        for (int i = 0; i != 12; i++)
+        {
+                    <div class="col-1" style="background-color: rebeccapurple;"> 
+                        <span>Hej</span>
+                    </div>
+        }
+    }
+</div>
+
+<div class="card mb-4 w-auto hovernow" asp-controller="Home" asp-action="Article">
+    <img class="card-img-top" src="/content/images/placehold-3129447776.jpg" alt="Nothing">
+    <div class="card-body">
+        <h5 class="card-title">CardTitleMate</h5>
+        <p class="card-text">CardTextMate</p>
+    </div>
+    <div class="card-footer text-muted">
+        <span>Date: @DateTime.Now.ToShortDateString()</span>
+        <span>Views: 263</span>
+        <span>Likes: 12</span>
+        <span>Category: The ONLY Category</span>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    let test = 40;
+    let lengthX = window.innerWidth;
+    let lengthY = window.innerHeight;
+
+    function SetSize() {
+
+    }
+</script>

@@ -6,15 +6,18 @@ namespace CNewsProject.Controllers
     public class AdminController : Controller
     {
         private readonly IIdentityService identityService;
+        private readonly ISubscriptionService subService;
 
-        public AdminController(IIdentityService identitySrvc)
+        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ)
         {
             identityService = identitySrvc;
+            subService = subServ;
         }
 
         public ViewResult Index() => View();
 
-
+        // USERS
+        #region USERS
         //[Route("Admin/Users")]
         public IActionResult Users()
         {
@@ -23,6 +26,28 @@ namespace CNewsProject.Controllers
             return View(users);
         }
 
+        public async Task<IActionResult> ManageUser(string id)
+        {
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            return View(user);
+        }
+
+        public async Task<IActionResult> AdminEdit(string id)
+        {
+            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            return View(user);
+        }
+
+        [HttpPost]
+		public async Task<IActionResult> AdminEdit(string id, string email, string userName, string password)
+		{
+			AppUser user = await identityService.GetAppUserByIdAsync(id);
+
+            await identityService.UpdateAppUserAsync(id, email, userName, password);
+
+			return RedirectToAction("Index");
+		}
+        #endregion
 
         // ROLES
         #region ROLES
@@ -127,9 +152,70 @@ namespace CNewsProject.Controllers
 
         public ViewResult Claims() => View(User?.Claims);
 
-		#endregion
+        #endregion
 
-		#region SHhhhhhhhhhhhhhhhhhhhhHhHhhhHhHHHhh
+        //SUBSCRIPTIONS
+        #region
+
+        public IActionResult RevokeSubTypes()
+        {
+            return ViewComponent("SubTypes", subService.GetAllTypes());
+        }
+
+        public ViewResult SubscriptionTypes() => View(subService.GetAllTypes());
+
+        public IActionResult AddType()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddType(SubscriptionType type)
+        {
+            if (ModelState.IsValid)
+            {
+                if (subService.AddType(type))
+                {
+                    return RedirectToAction("SubscriptionTypes");
+                }
+            }
+            return View(type);
+        }
+
+        public IActionResult DeleteType(int id)
+        {
+            bool result = subService.RemoveType(id);
+
+            if (result)
+                return Json(new { succeeded = true });
+            else
+                return Json(new { succeeded = false });
+        }
+
+        public async Task<IActionResult> GiveSub(string userId, int typeId, double days)
+        {
+            AppUser user = await identityService.GetAppUserByIdAsync(userId);
+
+            bool succeded = subService.AdminGiveSub(user, typeId, days);
+
+            return RedirectToAction("ManageUser", new { id = userId });
+        }
+
+        public IActionResult ManageType(int id)
+        {
+            return View(subService.GetTypeById(id));
+        }
+
+        public IActionResult TypeHasUsers(int id)
+        {
+            if (subService.TypeHasUsers(id))
+                return Json(new { hasUsers = true });
+            else
+                return Json(new { hasUsers = false });
+        }
+
+        #endregion
+
+        #region SHhhhhhhhhhhhhhhhhhhhhHhHhhhHhHHHhh
         public IActionResult SugMinaStats()
         {
             return RedirectToAction("SugMinaStats", "News");
