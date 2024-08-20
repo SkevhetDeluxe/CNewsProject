@@ -9,6 +9,7 @@ using System.Reflection;
 using System.Drawing;
 using System.Security.Claims;
 using MailKit.Search;
+
 //using static System.Net.Mime.MediaTypeNames;
 
 namespace CNewsProject.Service
@@ -32,6 +33,7 @@ namespace CNewsProject.Service
         }
 
         //Blob UPLOADING()
+
         #region Blobl_Uploading()
 
         public string UploadBlob(IFormFile articleImage, string newFileName)
@@ -90,6 +92,7 @@ namespace CNewsProject.Service
         #endregion
 
         //Views and Likes
+
         #region Statistics()
 
         public void IncreaseViews(int id)
@@ -141,7 +144,6 @@ namespace CNewsProject.Service
         #endregion
 
 
-
         #region Base_Methods()
 
         public void AddToEditorsChoice(int id)
@@ -155,10 +157,12 @@ namespace CNewsProject.Service
         {
             return _db.Article.OrderByDescending(a => a.PublishedDate).Take(5).ToList();
         }
+
         public List<Article> GetFiveArticles()
         {
             return _db.Article.OrderByDescending(a => a.Views).Take(5).ToList();
         }
+
         public List<Article> GetAllArticles()
 
         {
@@ -185,6 +189,7 @@ namespace CNewsProject.Service
             else
                 return new FrontPageArticlesVM();
         }
+
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category)
         {
             List<Article> categoryArticles = GetArticleListByCategoryStringified(category, 0);
@@ -261,10 +266,10 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-
         #endregion
 
         //Fetch Pending, Approved and Declined Articles for Journalist. VIEEEEEEW COMPONENTO!!!
+
         #region Journalist_Fetching_Stuff
 
         public AuthorArticlesVM GetArticlesForAuthor(string authorUserName)
@@ -296,6 +301,7 @@ namespace CNewsProject.Service
             {
                 property.SetValue(GetArticleById(article.Id), property.GetValue(article));
             }
+
             _db.SaveChanges();
         }
 
@@ -317,6 +323,7 @@ namespace CNewsProject.Service
         #endregion
 
         #region Get_Lists_With_Filters_ThisNameOfTheRegionIsOldFromAnotherProject.NewName="SearchFunctionality"()
+
         // Overload later to take filters and sortings
         //public List<Article> GetArticleListByCategory(Category category)
         //{
@@ -331,9 +338,9 @@ namespace CNewsProject.Service
             if (count != 0)
             {
                 articleList = _db.Article.Include(a => a.Category)
-                .Where(a => a.Category.Name == category && a.Status == "Approved")
-                .OrderByDescending(a => a.PublishedDate).Take(count)
-                .ToList();
+                    .Where(a => a.Category.Name == category && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList();
 
                 return articleList;
             }
@@ -359,13 +366,13 @@ namespace CNewsProject.Service
 
             while (query.Contains('\"'))
             {
-                int pos1 = query.IndexOf("\"");
+                int pos1 = query.IndexOf('\"');
                 query = query.Remove(pos1, 1);
 
-                if (query.Contains("\"") == false)
+                if (query.Contains('\"') == false)
                     break;
 
-                int pos2 = query.IndexOf("\"");
+                int pos2 = query.IndexOf('\"');
                 query = query.Remove(pos2, 1);
                 int length = pos2 - pos1;
                 qLists.Exact.Add(query.ToLower().Substring(pos1, length));
@@ -386,14 +393,11 @@ namespace CNewsProject.Service
 
             return qLists;
         }
-        
-        internal List<Article>? QuerySearch(string? query)
-        {
-            List<Article>? result = null;
 
+        internal List<Article>? QuerySearch(string? query, List<Article> result)
+        {
             if (!string.IsNullOrEmpty(query))
             {
-                result = GetAllPublished();
                 QueryLists qLists = GenerateQueryLists(query);
 
                 if (qLists.Exact != null)
@@ -406,17 +410,23 @@ namespace CNewsProject.Service
 
                 if (qLists.Exclude != null)
                     result = result.Where(a => !qLists.Exclude.Any(h => a.Headline.ToLower().Contains(h))).ToList();
-
             }
 
             return result;
         }
 
-        public SearchResult SearchForArticles(string? searchQuery)
+        public SearchResult SearchForArticles(string? searchQuery, string? category)
         {
             SearchResult result = new();
+            List<Article> articleList = new();
 
-            result.Articles = QuerySearch(searchQuery);
+            if (category == null)
+                articleList = GetAllPublished();
+
+            else
+                articleList = GetArticleListByCategoryStringified(category,0); // 0 gives all
+
+            result.Articles = QuerySearch(searchQuery, articleList);
 
             if (result.Articles != null)
                 result.Succeeded = true;
@@ -424,66 +434,67 @@ namespace CNewsProject.Service
             return result;
         }
 
-        public List<Article> SearchForArticles(string search, string category)
-        {
-            List<string> exactSearch = new();
-            if (search != null)
-            {
-                while (search.Contains("\""))
-                {
-                    int pos1 = search.IndexOf("\"");
-                    search = search.Remove(pos1, 1);
-
-                    if (search.Contains("\"") == false)
-                        break;
-
-                    int pos2 = search.IndexOf("\"");
-                    search = search.Remove(pos2, 1);
-                    int length = pos2 - pos1;
-                    exactSearch.Add(search.ToLower().Substring(pos1, length));
-                    search = search.Remove(pos1, length);
-                }
-
-                char[] delims = { ',', ' ', '.', '/' };
-                List<string> searchSplit = new(search.Trim().ToLower().Split(delims));
-                List<Article> searchResults = new();
-                List<string> excludeSearch = new();
-
-                for (int i = 0; i < searchSplit.Count; i++)
-                {
-                    if (searchSplit[i].StartsWith("-"))
-                    {
-                        excludeSearch.Add(searchSplit[i].Remove(0, 1));
-                        searchSplit.RemoveAt(i);
-                    }
-                }
-
-                if (category == null)
-                    searchResults = _db.Article.Where(a => a.Status == "Approved").ToList();
-
-                else
-                    searchResults = _db.Article.Where(a => a.Category.Name == category).ToList();
-
-                if (exactSearch != null)
-                    for (int i = 0; i < exactSearch.Count; i++)
-                        searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(exactSearch[i]) || a.Content.ToLower().Contains(exactSearch[i])).ToList();
-
-                if (searchSplit != null)
-                    for (int i = 0; i < searchSplit.Count; i++)
-                        searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(searchSplit[i]) || a.Content.ToLower().Contains(searchSplit[i])).ToList();
-
-                if (excludeSearch != null)
-                    searchResults = searchResults.Where(a => !excludeSearch.Any(h => a.Headline.ToLower().Contains(h))).ToList();
-
-                return searchResults;
-            }
-
-            return null;
-        }
+        // public List<Article> SearchForArticles(string search)
+        // {
+        //     List<string> exactSearch = new();
+        //     if (search != null)
+        //     {
+        //         while (search.Contains("\""))
+        //         {
+        //             int pos1 = search.IndexOf("\"");
+        //             search = search.Remove(pos1, 1);
+        //
+        //             if (search.Contains("\"") == false)
+        //                 break;
+        //
+        //             int pos2 = search.IndexOf("\"");
+        //             search = search.Remove(pos2, 1);
+        //             int length = pos2 - pos1;
+        //             exactSearch.Add(search.ToLower().Substring(pos1, length));
+        //             search = search.Remove(pos1, length);
+        //         }
+        //
+        //         char[] delims = { ',', ' ', '.', '/' };
+        //         List<string> searchSplit = new(search.Trim().ToLower().Split(delims));
+        //         List<Article> searchResults = new();
+        //         List<string> excludeSearch = new();
+        //
+        //         for (int i = 0; i < searchSplit.Count; i++)
+        //         {
+        //             if (searchSplit[i].StartsWith("-"))
+        //             {
+        //                 excludeSearch.Add(searchSplit[i].Remove(0, 1));
+        //                 searchSplit.RemoveAt(i);
+        //             }
+        //         }
+        //
+        //         if (category == null)
+        //             searchResults = _db.Article.Where(a => a.Status == "Approved").ToList();
+        //
+        //         else
+        //             searchResults = _db.Article.Where(a => a.Category.Name == category).ToList();
+        //
+        //         if (exactSearch != null)
+        //             for (int i = 0; i < exactSearch.Count; i++)
+        //                 searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(exactSearch[i]) || a.Content.ToLower().Contains(exactSearch[i])).ToList();
+        //
+        //         if (searchSplit != null)
+        //             for (int i = 0; i < searchSplit.Count; i++)
+        //                 searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(searchSplit[i]) || a.Content.ToLower().Contains(searchSplit[i])).ToList();
+        //
+        //         if (excludeSearch != null)
+        //             searchResults = searchResults.Where(a => !excludeSearch.Any(h => a.Headline.ToLower().Contains(h))).ToList();
+        //
+        //         return searchResults;
+        //     }
+        //
+        //     return null;
+        // }
 
         #endregion
 
         //Shhhhhhhhhhhhhhhhhhhhhhhhhh
+
         #region We Don't talk anbout this one
 
         public void GetTheRealStats()
@@ -496,11 +507,11 @@ namespace CNewsProject.Service
                 sak.Likes += temp;
                 sak.Views += temp + temp2;
             }
+
             _db.SaveChanges();
         }
 
         #endregion
-
     }
 
     public class SearchResult
