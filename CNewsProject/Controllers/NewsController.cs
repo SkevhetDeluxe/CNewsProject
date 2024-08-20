@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using CNewsProject.Data;
-using CNewsProject.Models.DataBase;
-using Microsoft.EntityFrameworkCore;
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -77,14 +71,14 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		//public IActionResult Search() // REWORKING SEARCH
-		//{
-		//	return View();
-		//}
-		[HttpPost]
-		public IActionResult Search(string search)
+		public IActionResult Search() // REWORKING SEARCH
 		{
-			SearchResult result = _articleService.SearchForArticles(search);
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Search(string search, string category)
+		{
+			SearchResult result = _articleService.SearchForArticles(search, category);
 			return View(result.Articles);
 		}
 		public IActionResult Article(int id)
