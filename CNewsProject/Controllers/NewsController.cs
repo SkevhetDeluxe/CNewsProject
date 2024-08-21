@@ -30,13 +30,7 @@ namespace CNewsProject.Controllers
         public IActionResult Details(int id)
         {
             var article = _articleService.GetArticleById(id);
-			var user = _identityService.GetAppUserByClaimsPrincipal(User).Result;
-			string userId;
-
-			if (user == null)
-				return RedirectToAction("Subscribe", "Subscription");
-
-			userId = user.Id;
+			var userId = _identityService.GetAppUserByClaimsPrincipal(User).Result.Id;
 
             bool isUserSubscribed = _subscriptionService.IsUserSubscribed(userId);
 

@@ -8,7 +8,7 @@ using CNewsProject.Models.DataBase.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Stripe;
+
 using System.Text.Json;
 
 using Microsoft.OpenApi;
@@ -20,22 +20,16 @@ using CNewsProject.Models.Api.CurrencyExchangeRate;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 var connectionString = builder.Configuration.GetConnectionString("GlobalConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
 
 // THIS isn't needed
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 //Using this 
-
-//builder.Services.AddControllersWithViews();
-//builder.Services.AddMvc();
-
 builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -69,13 +63,14 @@ builder.Services.AddScoped<IAppUserService, AppUserService>();
 
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
-builder.Services.AddScoped<ISubscriptionService, CNewsProject.Service.SubscriptionService>();
+builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 
 //builder.Services.AddTransient<IEmailSender, EmailHelper>();
+
 
 
 builder.Services.AddControllersWithViews();
