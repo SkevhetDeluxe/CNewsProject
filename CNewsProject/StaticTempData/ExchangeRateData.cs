@@ -2,6 +2,7 @@ namespace CNewsProject.StaticTempData;
 
 public static class ExchangeRateData
 {
+    public static DateOnly TimeUpdated { get; set; } = DateOnly.MinValue;
     public static int SEK { get; set; } = 1;
     public static double AED { get; set; }
     public static double AFN { get; set; }
