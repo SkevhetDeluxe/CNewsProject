@@ -178,10 +178,11 @@ namespace CNewsProject.Service
         {
             if (_db.Article.Any())
             {
+                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate);
                 return new FrontPageArticlesVM()
                 {
-                    MainArticle = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).FirstOrDefault()!,
-                    NotMainButStillImportantArticles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
+                    MainArticle = articles.First(),
+                    NotMainButStillImportantArticles = articles.Skip(1).ToList(),
                     TheRestLol = new()
                 };
             }

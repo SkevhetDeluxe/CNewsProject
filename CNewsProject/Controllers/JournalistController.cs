@@ -21,7 +21,7 @@ namespace CNewsProject.Controllers
         public ViewResult CreateArticle() => View(new WriteArticleVM());
 
         [HttpPost]
-        public async Task<IActionResult> CreateArticle(WriteArticleVM vModel)
+        public async Task<IActionResult> CreateArticle(WriteArticleVM vModel) 
         {
             if (ModelState.IsValid)
             {

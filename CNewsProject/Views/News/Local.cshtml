@@ -1,3 +1,4 @@
+@using System.Web
 @model CategoryPageArticlesVM
 @inject IIdentityService IdentityService
 
@@ -16,6 +17,7 @@
 	}
 	// ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
 }
+
 
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />

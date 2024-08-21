@@ -108,8 +108,8 @@
 				<vc:weather name-of-city=""></vc:weather>
 			</div><br />
 			
-			<div id="ExchangeVCDiv"> @*Guys we need to make this LOAD ASYNCHRONOUSLY*@
-				@* This Needs to be empty I think. Set all HEAVY ViewComponents to load via JavaScript (AJAX Request) *@
+			<div id="ExchangeVCDiv"> @*This Is Now Updated. Only loads data from API if data is old*@
+				<vc:exchange></vc:exchange>
 			</div>
 			<vc:sidebar-headlines></vc:sidebar-headlines>
 		</aside>
@@ -125,27 +125,28 @@
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	
-	<script type="text/javascript">
-		
-		console.log("Realised Local JAVASCRIPT");
-		document.addEventListener('DOMContentLoaded', function() {
-			console.log("Document Loaded");
-			LoadExchangeVCAjax();
-		});
-		
-		function LoadExchangeVCAjax(){
-			$.ajax({
-				url: '@Url.Action("LoadViewComponent", "LoadExchange")',
-				type: 'GET',
-				success: function (result) {
-					$('#ExchangeVCDiv').html(result);
-				},
-				error: function (error){
-					console.log('Failed to load ExchangeVC');
-				}
-			});
-		}
-		
-	</script>
+	@* Script no longer needed *@
+	@* <script type="text/javascript"> *@
+	@* 	 *@
+	@* 	console.log("Realised Local JAVASCRIPT"); *@
+	@* 	document.addEventListener('DOMContentLoaded', function() { *@
+	@* 		console.log("Document Loaded"); *@
+	@* 		LoadExchangeVCAjax(); *@
+	@* 	}); *@
+	@* 	 *@
+	@* 	function LoadExchangeVCAjax(){ *@
+	@* 		$.ajax({ *@
+	@* 			url: '@Url.Action("LoadViewComponent", "LoadExchange")', *@
+	@* 			type: 'GET', *@
+	@* 			success: function (result) { *@
+	@* 				$('#ExchangeVCDiv').html(result); *@
+	@* 			}, *@
+	@* 			error: function (error){ *@
+	@* 				console.log('Failed to load ExchangeVC'); *@
+	@* 			} *@
+	@* 		}); *@
+	@* 	} *@
+	@* 	 *@
+	@* </script> *@
 	</body>
 </html>

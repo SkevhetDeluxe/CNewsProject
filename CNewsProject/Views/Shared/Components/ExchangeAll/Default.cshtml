@@ -1,5 +1,5 @@
 ﻿@using System.Reflection
-@model Rates
+@using CNewsProject.StaticTempData
 
 <div class="card">
     <div class="card-body">
@@ -11,29 +11,19 @@
     
         <ul class="row">
             @{
-                Dictionary<string, string> formatedRates = new();
+                
+                Type type = typeof(ExchangeRateData);
+                var listOfProps = type.GetProperties(BindingFlags.Static | BindingFlags.Public).Where(p => p.Name != "SEK" && p.Name != "TimeUpdated").ToList();
 
-                foreach (PropertyInfo propInfo in Model.GetType().GetProperties().Where(p => p.Name != "SEK"))
+                foreach (var prop in listOfProps)
                 {
-                    string temp = string.Format("{0:F2}", Convert.ToDecimal(propInfo.GetValue(Model)) * 100);
-
-                    formatedRates.Add(propInfo.Name, temp);
-                    string liItem = propInfo.Name + " : " + temp;
+                    string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(null)) * 100);
+                    var value = prop.GetValue(null);
+                    string liItem = prop.Name + " : " + temp;
                     
                     <li class="col-6 ps-0">@liItem</li>
                 }
+                
             }
         </ul>
-
-    
-    @* <ul class="row"> *@
-    @*     @{ *@
-    @*         foreach (KeyValuePair<string, string> nyckelPar in formatedRates) *@
-    @*         { *@
-    @*             string temp = nyckelPar.Key + " : " + nyckelPar.Value; *@
-    @*             <li class="col-6 ps-0">@temp</li> *@
-    @*         } *@
-    @*     } *@
-    @* </ul> *@
-
 </div>
