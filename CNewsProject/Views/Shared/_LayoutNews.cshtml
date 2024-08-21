@@ -20,7 +20,7 @@
 </head>
 <body>
 	<header>
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #b2b2b2">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #a6a6a6">
 			<div class="container-fluid">
 				<a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
 					<img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
@@ -47,6 +47,9 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
 						</li>
 						@{
 							if (httpContextAccessor.HttpContext.User != null)
