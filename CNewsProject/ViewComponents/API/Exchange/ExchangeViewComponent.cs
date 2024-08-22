@@ -1,17 +1,14 @@
-﻿using CNewsProject.StaticTempData;
-using static CNewsProject.StaticTempData.ExchangeRateData;
+﻿using static CNewsProject.StaticTempData.CTempData;
 
 namespace CNewsProject.ViewComponents.API.Exchange
 {
-    public class ExchangeViewComponent(ICurrencyExchangeRateService exchangeRates, IFillStaticHelper staticHelper) : ViewComponent
+    public class ExchangeViewComponent(ICurrencyExchangeRateService exchangeRates, IFillObjectHelper fillHelper) : ViewComponent
     {
-        public IViewComponentResult Invoke()  // This should not go ABOVE 300 ms. Right now it AVERAGES at 4784 ms xD
+        public async Task<IViewComponentResult> InvokeAsync()  // This should not go ABOVE 300 ms. Right now it AVERAGES at 4784 ms xD
         {
-            if (TimeUpdated != DateOnly.FromDateTime(DateTime.Now))
+            if (ExchangeRates.DateUpdated != DateOnly.FromDateTime(DateTime.Now))
             {
-                var rates = exchangeRates.GetExchangeRatesAsync().Result;
-                staticHelper.MapRatesToStaticClass(rates);
-                TimeUpdated = DateOnly.FromDateTime(DateTime.Now);
+                await exchangeRates.GetExchangeRatesAsync();
             }
             
             return View();

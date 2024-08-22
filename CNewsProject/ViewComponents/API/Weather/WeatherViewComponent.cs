@@ -15,6 +15,9 @@ namespace CNewsProject.ViewComponents.API.Weather
 		// This Method AVERAGES at 8754 ms on my laptop guys. I think we might need to investigate how much calculations are done here he-he
 		public async Task<IViewComponentResult> InvokeAsync(string? nameOfCity)
         {
+            if (nameOfCity == "Placeholder")
+                return View(new WeatherStats(){IsPlaceholder = true});
+            
             if (nameOfCity.IsNullOrEmpty())
 				nameOfCity = "Stockholm";
 

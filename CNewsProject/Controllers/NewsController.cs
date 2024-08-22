@@ -116,15 +116,10 @@ namespace CNewsProject.Controllers
         {
             var articles = _context.Article
             .FromSqlRaw("SELECT * FROM Article WHERE IsArchived = 1")
-			.AsNoTracking()
 			.ToList();
-
-            var groupedArticles = articles
-                .GroupBy(a => new { a.PublishedDate.Year, a.PublishedDate.Month })
-                .ToList();
-
+            
             // This DataType is not MATCHING the @model; WILL give EXCEPTION
-            return View(groupedArticles);
+            return View(articles);
         }
 
 		public IActionResult ArchiveOldArticles()

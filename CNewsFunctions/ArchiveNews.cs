@@ -5,13 +5,13 @@ using Microsoft.Extensions.Logging;
 
 namespace CNewsFunctions;
 
-public class ArchiveNews(ILogger<ArchiveNews> logger, ApplicationDbContext db)
+public class ArchiveNews(ILogger<ArchiveNews> logger, FunctionDbContext db)
 {
     [Function("ArchiveNews")] // Assign False to RunOnStartup Parameter before PUBLISHING
-    public void Run([TimerTrigger("0/30 * * * * *", RunOnStartup = true)] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 0 * * 5", RunOnStartup = true)] TimerInfo myTimer)
     {
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-        
+
         var articles = db.Article.ToList();
         var toArchive = articles.Where(a => a.PublishedDate <= DateTime.Now.AddDays(-30)).ToList();
         var toArchiveIds = toArchive.Select(a => a.Id).ToList();
@@ -22,13 +22,12 @@ public class ArchiveNews(ILogger<ArchiveNews> logger, ApplicationDbContext db)
         }
 
         db.SaveChanges();
-        
+
         logger.LogInformation($"Articles archived: {toArchiveIds.Count()}");
-        
+
         if (myTimer.ScheduleStatus is not null)
         {
             logger.LogInformation($"Next timer schedule at: {myTimer.ScheduleStatus.Next}");
-            
         }
     }
 }

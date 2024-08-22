@@ -3,11 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CNewsProject.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class FunctionDbContext(DbContextOptions<FunctionDbContext> options) : DbContext(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        { }
         public DbSet<Article> Article { get; set; }
     }
 }
