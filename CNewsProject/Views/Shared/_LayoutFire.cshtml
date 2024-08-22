@@ -16,18 +16,11 @@
 			background-color: #a6a6a6;
 			border-radius: 5px;
 		}
-
-		.cookie-consent-banner {
-			z-index: 1000;
-			bottom: 0;
-			width: 100%;
-			text-align: center;
-		}
 	</style>
 </head>
 <body>
 	<header>
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark navfire" style="background-color: #a6a6a6">
+		<nav class="navbar fixed-top navbar-expand-lg navbar-dark navfire" style="background-color: #999999">
 			<div class="container-fluid">
 				<a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
 					<img src="/content/images/cnewslogofire.png" alt="News Logo" style="height: 50px;">
@@ -104,10 +97,12 @@
 			@RenderBody()
 		</main>
 	</div>
-	<div class="fixed-bottom d-none d-md-block">
+	<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
 		&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
 	</div>
-
+	<audio hidden id="mumsaudio" controls="controls">
+		<source src="~/content/audio/mums.mp3" type="audio/mpeg" />
+	</audio>
 	<partial name="_CookieConsentPartial" />
 
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>

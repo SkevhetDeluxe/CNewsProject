@@ -178,7 +178,7 @@ namespace CNewsProject.Service
         {
             if (_db.Article.Any())
             {
-                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate);
+                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).AsNoTracking();
                 return new FrontPageArticlesVM()
                 {
                     MainArticle = articles.First(),
@@ -337,16 +337,16 @@ namespace CNewsProject.Service
         {
             List<Article> articleList = new();
             if (count != 0)
-            {
-                articleList = _db.Article.Include(a => a.Category)
+            {//.Include(a => a.Category)
+                articleList = _db.Article
                     .Where(a => a.Category.Name == category && a.Status == "Approved")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList();
 
                 return articleList;
             }
-
-            articleList = _db.Article.Include(a => a.Category)
+            //.Include(a => a.Category) ONLY needed if you want to mess with the CATEGORY
+            articleList = _db.Article
                 .Where(a => a.Category.Name == category && a.Status == "Approved")
                 .OrderByDescending(a => a.PublishedDate)
                 .ToList();

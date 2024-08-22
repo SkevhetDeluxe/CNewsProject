@@ -11,14 +11,10 @@
     
         <ul class="row">
             @{
-                
-                Type type = typeof(ExchangeRateData);
-                var listOfProps = type.GetProperties(BindingFlags.Static | BindingFlags.Public).Where(p => p.Name != "SEK" && p.Name != "TimeUpdated").ToList();
 
-                foreach (var prop in listOfProps)
+                foreach (var prop in CTempData.ExchangeRates.GetType().GetProperties().Where(p => p.Name != "SEK" && p.Name != "DateUpdated"))
                 {
-                    string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(null)) * 100);
-                    var value = prop.GetValue(null);
+                    string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(CTempData.ExchangeRates)) * 100);
                     string liItem = prop.Name + " : " + temp;
                     
                     <li class="col-6 ps-0">@liItem</li>

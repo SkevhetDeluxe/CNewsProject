@@ -67,7 +67,7 @@ builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IFillStaticHelper, FillStaticHelper>();
+builder.Services.AddScoped<IFillObjectHelper, FillObjectHelper>();
 
 
 //builder.Services.AddTransient<IEmailSender, EmailHelper>();

@@ -76,7 +76,7 @@ function FilipsFunktion(id) {
     });
 }
 
-
+// For Better Deleting SubTypes
 function AjaxRedirect(controller, action, elem) {
     $.ajax({
         url: `/${controller}/${action}`,
@@ -140,6 +140,24 @@ function TryDeleteType(id) {
     }
 }
 
+
+// Loading Weather ASYNC
+
+function LoadWeather(name)
+{
+    console.log("Loading Weather");
+    $.ajax({
+        url: `/LoadViewComponent/LoadViewComponent`,
+        type: 'GET',
+        data: { name: name },
+        success: function (result) {
+            $('#VCWeather').html(result);
+        },
+        error(error){
+            console.log(error);
+        }
+    })
+}
 
 
 // Search New Geo Location "City"

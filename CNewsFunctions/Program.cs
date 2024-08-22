@@ -15,7 +15,7 @@ var host = new HostBuilder()
     {
         services.AddApplicationInsightsTelemetryWorkerService();
         services.ConfigureFunctionsApplicationInsights();
-        services.AddDbContext<ApplicationDbContext>(options => 
+        services.AddDbContext<FunctionDbContext>(options => 
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
     })
     .Build();

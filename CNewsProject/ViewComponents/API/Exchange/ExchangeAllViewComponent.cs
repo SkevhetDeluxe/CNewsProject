@@ -1,27 +1,23 @@
 ﻿using CNewsProject.Models.Api.CurrencyExchangeRate;
 using System.Security.Claims;
-using static CNewsProject.StaticTempData.ExchangeRateData;
+using static CNewsProject.StaticTempData.CTempData;
 
 namespace CNewsProject.ViewComponents.API.Exchange
 {
     public class ExchangeAllViewComponent : ViewComponent
     {
         private readonly ICurrencyExchangeRateService _ExchangeService;
-        private readonly IFillStaticHelper _staticHelper;
 
-        public ExchangeAllViewComponent(ICurrencyExchangeRateService exch, IFillStaticHelper staticHelper)
+        public ExchangeAllViewComponent(ICurrencyExchangeRateService exch)
         {
             _ExchangeService = exch;
-            _staticHelper = staticHelper;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            if (TimeUpdated != DateOnly.FromDateTime(DateTime.Now))
+            if (ExchangeRates.DateUpdated != DateOnly.FromDateTime(DateTime.Now))
             {
-                Rates rates = _ExchangeService.GetExchangeRatesAsync().Result;
-                _staticHelper.MapRatesToStaticClass(rates);
-                TimeUpdated = DateOnly.FromDateTime(DateTime.Now);
+                await _ExchangeService.GetExchangeRatesAsync();
             }
             
             return View();

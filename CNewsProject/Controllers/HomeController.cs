@@ -30,10 +30,7 @@ namespace CNewsProject.Controllers
         {
             return ViewComponent("Weather", new { nameOfCity = city });
         }
-
-
-
-        [Authorize(Roles ="Admin")]
+        
         public IActionResult Privacy()
         {
             return View();
