@@ -1,0 +1,28 @@
+﻿@model IEnumerable<IGrouping<int, IGrouping<int, Article>>>
+
+@{
+    ViewData["Title"] = "Article Archive";
+}
+
+<h2>Article Archive</h2>
+
+@foreach (var yearGroup in Model)
+{
+    <h3>@yearGroup.Key</h3>
+
+    @foreach (var monthGroup in yearGroup)
+    {
+        <h4>@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(monthGroup.Key)</h4>
+        <ul>
+            @foreach (var article in monthGroup)
+            {
+                <li>
+                    <a href="@Url.Action("Details", "News", new { id = article.Id })">
+                        @article.Headline
+                    </a>
+                    <small>(@article.PublishedDate.ToShortDateString())</small>
+                </li>
+            }
+        </ul>
+    }
+}

@@ -1,0 +1,20 @@
+
+.navfire {
+    background-image: url(/content/images/highqualitynavbar.png);
+    background-repeat: repeat;
+    background-size: 166px 75px;
+}
+
+
+.hoverable {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.1s ease-in-out;
+}
+    .hoverable:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    }
+
+.unlink {
+    text-decoration: none;
+    color:black;
+}

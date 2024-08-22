@@ -1,6 +1,8 @@
 ﻿using System.Net.Http;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using CNewsProject.StaticTempData;
 using Newtonsoft.Json.Linq;
 
 namespace CNewsProject.Models.Api.CurrencyExchangeRate
@@ -9,11 +11,15 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
     {
         public async Task<Rates> GetExchangeRatesAsync()
         {
+            // This thing takes a lot of time. We might not be able to solve that.
+            // My suggestion is make the ViewComponent load via Javascript and run this asynchronously in the background.
+            // So we don't bottleneck the START PAGE
+            
             Rates? exchangeRates;
 
-            using (HttpClient _httpClient = new())
+            using (HttpClient httpClient = new())
             {
-                var response = await _httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/SEK");
+                var response = await httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/SEK");
                 response.EnsureSuccessStatusCode();
 
                 var responseContent = await response.Content.ReadAsStringAsync();

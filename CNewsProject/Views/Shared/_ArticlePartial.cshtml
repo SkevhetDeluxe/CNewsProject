@@ -1,18 +1,33 @@
-@model CNewsProject.Models.DataBase.Article
+@model Article
 
-<div class="card mb-4 w-100" asp-controller="News" asp-action="Article">
-    <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
+@{
+    int number = 5;
+    string codeForCard = "<div class=\"card mb-4 w-100\"> \"img class=\"card-img-top\" src=\"@Model.ImageLink\" alt=\"@Model.Headline\"><div class=\"card-body\"><h5 class=\"card-title\">@Model.Headline</h5><p class=\"card-text\">@Model.ContentSummary</p></div><div class=\"card-footer text-muted\"><span>Date: @Model.PublishedDate.ToShortDateString()</span><span>Views: @Model.Views</span><span>Likes: @Model.Likes</span><span>Category: @Model.Category.Name</span></div></div>";
+    // onclick="LoadArticle(@Model.Id)"
+}
+
+
+<a class="card mb-4 w-100 hoverable unlink" asp-controller="News" asp-action="Article" asp-route-id="@Model.Id">
+    <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline" >
+
     <div class="card-body">
         <h5 class="card-title">@Model.Headline</h5>
         <p class="card-text">@Model.ContentSummary</p>
-        
-
     </div>
     <div class="card-footer text-muted">
         <span>Date: @Model.PublishedDate.ToShortDateString()</span>
         <span>Views: @Model.Views</span>
         <span>Likes: @Model.Likes</span>
-        <span>Category: @Model.Category.Name</span>
-        <button class="btn btn-success" onclick="increaseLikes(@Model.Id)">Like</button>
+
+        <span>Category: @Model.Category.Name</span>      
+
     </div>
-</div>
+</a>
+
+<script type="text/javascript">
+  
+    function LoadArticle(id) {
+        let cUrl = '@Url.Content("/News/Article/")';
+        window.location.href = cUrl + id;
+    }
+</script>

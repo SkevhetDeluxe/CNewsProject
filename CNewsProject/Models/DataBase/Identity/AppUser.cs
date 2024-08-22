@@ -4,5 +4,8 @@ namespace CNewsProject.Models.DataBase.Identity
 {
     public class AppUser : IdentityUser
     {
+        public List<int> LikedArticles { get; set; } = new();
+        public bool Fire { get; set; }
+
     }
 }

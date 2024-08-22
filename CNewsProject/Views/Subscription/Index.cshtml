@@ -1,0 +1,8 @@
+@model List<SubscriptionType>
+
+<h2>Available Subscriptions</h2>
+
+@foreach (SubscriptionType subType in Model)
+{
+    <p>@subType</p>
+}

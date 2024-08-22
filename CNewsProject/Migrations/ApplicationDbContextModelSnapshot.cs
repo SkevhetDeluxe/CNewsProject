@@ -188,6 +188,13 @@ namespace CNewsProject.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Fire")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LikedArticles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -242,11 +249,8 @@ namespace CNewsProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("CreateDate")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("ExpiresDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("ExpiresDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("HistoricalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -254,14 +258,21 @@ namespace CNewsProject.Migrations
                     b.Property<bool>("PaymentComplete")
                         .HasColumnType("bit");
 
-                    b.Property<string>("SubscriptionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("RenewedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("SubscriptionTypeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SubscriptionTypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Subscription");
                 });
@@ -273,6 +284,9 @@ namespace CNewsProject.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AccessLevel")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -463,6 +477,25 @@ namespace CNewsProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Article");
+                });
+
+            modelBuilder.Entity("CNewsProject.Models.DataBase.Subscription", b =>
+                {
+                    b.HasOne("CNewsProject.Models.DataBase.SubscriptionType", "SubscriptionType")
+                        .WithMany()
+                        .HasForeignKey("SubscriptionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CNewsProject.Models.DataBase.Identity.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubscriptionType");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

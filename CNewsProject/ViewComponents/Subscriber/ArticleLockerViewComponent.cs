@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using CNewsProject.Models.Account;
+using System.Reflection;
+using System.Security.Claims;
 
 namespace CNewsProject.ViewComponents.Subscriber
 {
@@ -8,7 +10,9 @@ namespace CNewsProject.ViewComponents.Subscriber
         private readonly IArticleService _articleService;
         private readonly ApplicationDbContext _db;
 
-        public ArticleLockerViewComponent(IIdentityService saouirhawurhwaouirhawoirjeioa, ApplicationDbContext deebee, IArticleService aosijr)
+
+        public ArticleLockerViewComponent(IIdentityService saouirhawurhwaouirhawoirjeioa,
+            ApplicationDbContext deebee, IArticleService aosijr)
         {
             _identityService = saouirhawurhwaouirhawoirjeioa;
             _articleService = aosijr;
@@ -21,17 +25,19 @@ namespace CNewsProject.ViewComponents.Subscriber
             {
                 AppUser user = _identityService.GetAppUserByClaimsPrincipal(principal).Result;
 
-                if (_identityService.UserHasRole(user, "Subscriber").Result)
+                if (_identityService.UserHasRole(user, "Admin").Result)
                 {
-                    return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = "AccessGranted" });
+                    return View(new ArticleLock()
+                    {
+                        Article = _articleService.GetArticleById(id),
+                        Access = true,
+                        UserLikes = user.LikedArticles
+                    });
                 }
-                else
-                    return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = "ObjectionMyLord" });
             }
-            else
-            {
-                return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = "ThisUserHasntFuckingPaidForTheSubscriptionServiceSoHeWillNotGetTheNewArticles" });
-            }
+
+            return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = false });
         }
+
     }
 }

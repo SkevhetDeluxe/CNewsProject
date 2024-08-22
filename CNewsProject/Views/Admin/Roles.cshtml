@@ -4,6 +4,8 @@
 }
 
 <h1 class="bg-info text-white">All Roles</h1>
+
+<a asp-action="Index" class="btn btn-secondary">Back to Base</a>
 <a asp-action="CreateRole" class="btn btn-secondary">Create a Role</a>
 
 <table class="table table-sm table-bordered table-bordered">
@@ -30,7 +32,7 @@
         if (Model != null)
         {
 
-            @foreach (var role in Model.Where(r => r.Name == "Admin" || r.Name == "Subscriber" || r.Name == "The Publisher" || r.Name == "Journalist"))
+            @foreach (var role in Model.Where(r => r.Name == "Admin" || r.Name == "The Publisher" || r.Name == "Journalist"))
             {
                 <tr>
                     <td>@role.Id</td>
@@ -48,7 +50,7 @@
             }
 
 
-            @foreach (var role in Model.Where(r => r.Name != "Admin" && r.Name != "Subscriber" && r.Name != "The Publisher" && r.Name != "Journalist"))
+            @foreach (var role in Model.Where(r => r.Name != "Admin" &&  r.Name != "The Publisher" && r.Name != "Journalist"))
             {
                 <tr>
                     <td>@role.Id</td>
