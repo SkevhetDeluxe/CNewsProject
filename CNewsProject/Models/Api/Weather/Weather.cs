@@ -35,6 +35,8 @@ namespace CNewsProject.Models.Api.Weather
 
         public string NameOfCity { get; set; } = "Stockholm";
 
+        public bool IsPlaceholder { get; set; } = false;
+
     }
     #endregion
 

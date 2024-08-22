@@ -13,7 +13,8 @@
 
     public class Rates
     {
-        public int SEK { get; set; }
+        public DateOnly DateUpdated { get; set; } = DateOnly.FromDateTime(DateTime.MinValue);
+        public int SEK { get; set; } = 1;
         public float AED { get; set; }
         public float AFN { get; set; }
         public float ALL { get; set; }
