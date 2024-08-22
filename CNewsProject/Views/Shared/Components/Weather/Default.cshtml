@@ -1,5 +1,5 @@
 ﻿@model WeatherStats
-
+@inject IWeatherApiHandler _handler
 
 @{
 
@@ -7,11 +7,13 @@
 	string city = "Stockholm";
 	string hourMin = DateTime.Now.ToString("HH:mm");
 	int hour = DateTime.Now.Hour;
-	int condition = 0;
+
+	int condition;
 	string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
 	DateTime testTime = Convert.ToDateTime(weatherTime);
-	condition = Model.hourly.weather_code[condition]; //"Condition not available"
+	condition = Model.hourly.weather_code[hour]; //"Condition not available"
 
+	string conditionStr = _handler.GetConditionFromInt(condition);
 }
 
 <div class="weather-details">
@@ -34,8 +36,8 @@
 			
 				<p>Time: @hourMin</p>
 				<p>Temperature: @Model.current.temperature_2m °C</p>
-				@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> 
-				<p>Condition: @Model.hourly.weather_code</p>*@
+				@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@
+				<p>Condition: @conditionStr</p>
 
 				@* <div class="weather-icon">☀️</div> *@
 				@* @if (Model.hourly.weather_code?.ToLower().Contains("sun") == true || Model?.Condition?.ToLower().Contains("clear") == true)

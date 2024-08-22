@@ -10,6 +10,6 @@
 
         public Task<WeatherStats> GetWeatherAsync(); // Default overload MOTHERFUCKER!
 
-
-    }
+        public string GetConditionFromInt(int condition);
+	}
 }
