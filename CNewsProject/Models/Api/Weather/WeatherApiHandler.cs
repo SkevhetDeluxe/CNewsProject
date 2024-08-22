@@ -29,19 +29,20 @@ namespace CNewsProject.Models.Api.Weather
         public WeatherApiHandler()
         {
 
-            //For Reference https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
+			//For Reference https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
-            //BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
-            //EndUrl = "/data.json";
-            //Longitude = "lon/";
-            //Latitude = "/lat/";
+			//BaseUrl = "https://opendata-download-metfcst.smhi.se/api/category/pmp3g/version/2/geotype/point/";
+			//EndUrl = "/data.json";
+			//Longitude = "lon/";
+			//Latitude = "/lat/";
 
-            //PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";
+			//PosUrl = "https://weatherapi.dreammaker-it.se/GeoLocation?query=";
 
-            // For Referens https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
+			// For Referens https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
+			// For Referens2 https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,weather_code&timezone=Europe%2FBerlin
 
-            BaseUrl = "https://api.open-meteo.com/v1/forecast?";
-            EndUrl = "&hourly=temperature_2m";
+			BaseUrl = "https://api.open-meteo.com/v1/forecast?";
+            EndUrl = "&current=temperature_2m&hourly=temperature_2m,weather_code&timezone=Europe%2FBerlin";
             Longitude = "&longitude=";
             Latitude = "latitude=";
 
@@ -69,28 +70,7 @@ namespace CNewsProject.Models.Api.Weather
                 return new GeoLocation();
         }
 
-        public async Task<GeoLocation> GetPositionAsync() /// Default
-        {
-            var client = new HttpClient();
 
-            string url = PosUrl + "Stockholm";
-           
-            var response = await client.GetAsync(url);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var json = await response.Content.ReadAsStringAsync();
-                var data = JObject.Parse(json);
-
-                GeoLocation gps = data.ToObject<GeoLocation>();
-
-
-
-                return gps;
-            }
-            else
-                return new GeoLocation();
-        }
 
         public async Task<WeatherStats> GetWeatherAsync(string latVal, string longVal)
         {
@@ -113,6 +93,30 @@ namespace CNewsProject.Models.Api.Weather
             }
             else
                 return new WeatherStats();
+        }
+
+
+        public async Task<GeoLocation> GetPositionAsync() /// Default
+		{
+            var client = new HttpClient();
+
+            string url = PosUrl + "Stockholm";
+
+            var response = await client.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                var data = JObject.Parse(json);
+
+                GeoLocation gps = data.ToObject<GeoLocation>();
+
+
+
+                return gps;
+            }
+            else
+                return new GeoLocation();
         }
 
         public async Task<WeatherStats> GetWeatherAsync() // Default overload MOTHERFUCKER!
