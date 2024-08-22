@@ -7,6 +7,7 @@ namespace CNewsProject.Controllers
     {
         private readonly IIdentityService identityService;
         private readonly ISubscriptionService subService;
+        private readonly ISubscriptionStatisticsService _statisticsService;
 
         public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ)
         {
@@ -14,7 +15,27 @@ namespace CNewsProject.Controllers
             subService = subServ;
         }
 
-        public ViewResult Index() => View();
+		public AdminController(ISubscriptionStatisticsService statisticsService)
+		{
+			_statisticsService = statisticsService;
+		}
+
+		public IActionResult SubscriptionStats()
+		{
+			var startDate = DateTime.Today.AddDays(-7); // Last week
+			var endDate = DateTime.Today;
+
+			var viewModel = new SubscriptionStatisticsViewModel
+			{
+				TotalSubscribers = _statisticsService.GetTotalSubscribers(),
+				NewSubscribersLastWeek = _statisticsService.GetNewSubscribers(startDate, endDate),
+				DailySubscriptions = _statisticsService.GetDailySubscriptions(startDate, endDate)
+			};
+
+			return View(viewModel);
+		}
+
+		public ViewResult Index() => View();
 
         // USERS
         #region USERS
