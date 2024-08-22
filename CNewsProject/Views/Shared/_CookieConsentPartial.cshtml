@@ -1,5 +1,14 @@
 ﻿@* Partial view for the cookies consent banner *@
-<div id="cookieConsent" class="cookie-consent-banner bg-dark text-white p-3 fixed-bottom" style="display: none;">
+
+<style>
+    .cookie-consent-banner {
+        z-index: 2;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    } 
+</style>
+<div id="cookieConsent" class="cookie-consent-banner bg-dark text-white p-3 fixed-bottom" style="display: none">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-8">
