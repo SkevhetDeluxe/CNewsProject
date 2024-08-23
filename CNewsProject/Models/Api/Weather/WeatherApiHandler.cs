@@ -9,7 +9,7 @@ using System.Security.Policy;
 
 namespace CNewsProject.Models.Api.Weather
 {
-	public class WeatherApiHandler : IWeatherApiHandler
+    public class WeatherApiHandler : IWeatherApiHandler
 	{
 
 		// FOR REFERENCE
