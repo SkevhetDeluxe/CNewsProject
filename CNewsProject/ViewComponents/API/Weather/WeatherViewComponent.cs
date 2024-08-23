@@ -1,9 +1,10 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using CNewsProject.Models.Api.Weather;
+using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
 
 namespace CNewsProject.ViewComponents.API.Weather
 {
-	public class WeatherViewComponent : ViewComponent
+    public class WeatherViewComponent : ViewComponent
 	{
 		private readonly IWeatherApiHandler _weatherHandler;
 
