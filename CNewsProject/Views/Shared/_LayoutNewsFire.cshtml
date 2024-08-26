@@ -45,6 +45,9 @@
 						<li class="nav-item">
 							<a class="nav-link text-light" asp-controller="News" asp-action="Sport">Sport</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
+						</li>
 						@{
 							if (httpContextAccessor.HttpContext.User != null)
 							{
@@ -93,14 +96,16 @@
 		</nav>
 	</header>
 	<div class="container row m-auto">
-		<main role="main" class="col-9 col-12 pb-3" style="margin-top:90px">
+		<main role="main" class="col-md-9 col-12 pb-3" style="margin-top:90px">
 			@RenderBody()
 		</main>
 		<aside class="col-3 d-none d-md-block" style="margin-top:90px">
 			<div id="VCWeather">
 				<vc:weather name-of-city=""></vc:weather>
 			</div><br />
-			<vc:exchange></vc:exchange><br />
+			<div id="ExchangeVCDiv">	@*This Is Now Updated. Only loads data from API if data is old*@
+				<vc:exchange></vc:exchange>
+			</div>
 			<vc:sidebar-headlines></vc:sidebar-headlines>
 		</aside>
 	</div>
@@ -112,9 +117,21 @@
 	</audio>
 	<partial name="_CookieConsentPartial" />
 
+	<script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+	<div class="elfsight-app-51d13b44-4d2c-44a9-873b-2b7b0b3e9db9" data-elfsight-app-lazy></div>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
+
+	<script type="text/javascript">
+
+		console.log("Realised Local JAVASCRIPT");
+		document.addEventListener('DOMContentLoaded', function () {
+			console.log("Document Loaded");
+			LoadWeather("Weather");
+		});
+
+	</script>
 </body>
 </html>
