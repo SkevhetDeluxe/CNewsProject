@@ -2,18 +2,27 @@
 @inject IWeatherApiHandler _handler
 
 @{
-
 	WeatherStats stats = new();
 	string city = "Stockholm";
 	string hourMin = DateTime.Now.ToString("HH:mm");
 	int hour = DateTime.Now.Hour;
 
 	int condition;
-	string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
-	DateTime testTime = Convert.ToDateTime(weatherTime);
-	condition = Model.hourly.weather_code[hour]; //"Condition not available"
+	string conditionStr;
+	//string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+	//DateTime testTime = Convert.ToDateTime(weatherTime);
 
-	string conditionStr = _handler.GetConditionFromInt(condition);
+	if (!Model.IsPlaceholder)
+	{
+		condition = Model.hourly.weather_code[hour]; //"Condition not available"
+
+		conditionStr = _handler.GetConditionFromInt(condition);
+	}
+	else
+	{
+		conditionStr = "Loading";
+		Model.NameOfCity = "Stockholm";
+	}
 }
 
 <div class="weather-details">
@@ -35,7 +44,12 @@
 				</div>
 			
 				<p>Time: @hourMin</p>
-				<p>Temperature: @Model.current.temperature_2m °C</p>
+				<p>Temperature:  @{
+						if(!Model.IsPlaceholder)
+						{
+							@Model.current.temperature_2m
+						}
+					} °C</p>
 				@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@
 				<p>Condition: @conditionStr</p>
 
