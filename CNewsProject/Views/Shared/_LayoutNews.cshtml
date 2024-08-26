@@ -100,12 +100,10 @@
 			@RenderBody()
 		</main>
 		<aside class="col-3 d-none d-md-block" style="margin-top:90px">
-
 			<div id="VCWeather">
-				
+				<vc:weather name-of-city=""></vc:weather>
 			</div><br />
-			
-			<div id="ExchangeVCDiv"> @*This Is Now Updated. Only loads data from API if data is old*@
+			<div id="ExchangeVCDiv">	@*This Is Now Updated. Only loads data from API if data is old*@
 				<vc:exchange></vc:exchange>
 			</div>
 			<vc:sidebar-headlines></vc:sidebar-headlines>
@@ -126,7 +124,6 @@
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 	
-	Script no longer needed
 	<script type="text/javascript">
 		
 		console.log("Realised Local JAVASCRIPT");
@@ -134,19 +131,6 @@
 			console.log("Document Loaded");
 			LoadWeather("Weather");
 		});
-		
-		@*function LoadExchangeVCAjax(){
-			$.ajax({
-				url: '@Url.Action("LoadViewComponent", "LoadExchange")',
-				type: 'GET',
-				success: function (result) {
-					$('#ExchangeVCDiv').html(result);
-				},
-				error: function (error){
-					console.log('Failed to load ExchangeVC');
-				}
-			});
-		}*@
 		
 	</script>
 	</body>

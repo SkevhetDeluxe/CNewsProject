@@ -2,16 +2,15 @@
 @inject IWeatherApiHandler _handler
 
 @{
+	//string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
+	//DateTime testTime = Convert.ToDateTime(weatherTime);
 	WeatherStats stats = new();
 	string city = "Stockholm";
 	string hourMin = DateTime.Now.ToString("HH:mm");
 	int hour = DateTime.Now.Hour;
-
 	int condition;
 	string conditionStr;
-	//string weatherTime = DateTime.Now.ToString("yyyy-MM-dd HH:00:00");
-	//DateTime testTime = Convert.ToDateTime(weatherTime);
-
+	
 	if (!Model.IsPlaceholder)
 	{
 		condition = Model.hourly.weather_code[hour]; //"Condition not available"
@@ -52,21 +51,6 @@
 					} °C</p>
 				@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@
 				<p>Condition: @conditionStr</p>
-
-				@* <div class="weather-icon">☀️</div> *@
-				@* @if (Model.hourly.weather_code?.ToLower().Contains("sun") == true || Model?.Condition?.ToLower().Contains("clear") == true)
-				{
-					<span>☀️ Sunny</span>
-				}
-				else if (Model.hourly.weather_code.ToLower().Contains("rain") == true)
-				{
-					<span>🌧️ Rainy</span>
-				}
-				else
-				{
-					<span>🌤️ @Model.hourly.weather_code</span> <!-- Fallback to showing the actual condition -->
-				} *@
-			
 				<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
 			</div>
 		</div>
