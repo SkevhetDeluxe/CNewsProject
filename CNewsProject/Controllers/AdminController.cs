@@ -9,14 +9,10 @@ namespace CNewsProject.Controllers
         private readonly ISubscriptionService subService;
         private readonly ISubscriptionStatisticsService _statisticsService;
 
-        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ)
+        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ, ISubscriptionStatisticsService statisticsService)
         {
             identityService = identitySrvc;
             subService = subServ;
-        }
-
-		public AdminController(ISubscriptionStatisticsService statisticsService)
-		{
 			_statisticsService = statisticsService;
 		}
 

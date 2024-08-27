@@ -64,6 +64,7 @@ builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatisticsService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
