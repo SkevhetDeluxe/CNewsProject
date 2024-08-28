@@ -6,11 +6,21 @@ using System;
 using System.Text.Json.Nodes;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Policy;
+using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 namespace CNewsProject.Models.Api.Weather
 {
     public class WeatherApiHandler : IWeatherApiHandler
 	{
+		private readonly ApplicationDbContext _dbContext;
+		private readonly HttpClient _httpClient;
+
+		public WeatherApiHandler(ApplicationDbContext dbContext, HttpClient httpClient)
+		{
+			_dbContext = dbContext;
+			_httpClient = httpClient;
+		}
 
 		// FOR REFERENCE
 		//https:// api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
@@ -117,6 +127,32 @@ namespace CNewsProject.Models.Api.Weather
 			}
 			else
 				return new GeoLocation();
+		}
+
+		public async Task FetchAndStoreHistoricalWeatherAsync(string city, DateTime date)
+		{
+			string apiUrl = $"https://api.weatherapi.com/v1/history.json?key=YOUR_API_KEY&q={city}&dt={date:yyyy-MM-dd}";
+			var response = await _httpClient.GetAsync(apiUrl);
+
+			if (response.IsSuccessStatusCode)
+			{
+				var jsonContent = await response.Content.ReadAsStringAsync();
+				var jsonObject = JObject.Parse(jsonContent);
+
+				var temperature = jsonObject["forecast"]["forecastday"][0]["day"]["avgtemp_c"].Value<float>();
+				var condition = jsonObject["forecast"]["forecastday"][0]["day"]["condition"]["text"].Value<string>();
+
+				var historicalWeather = new HistoricalWeather
+				{
+					Date = date,
+					City = city,
+					Temperature = temperature,
+					Condition = condition
+				};
+
+				_dbContext.HistoricalWeathers.Add(historicalWeather);
+				await _dbContext.SaveChangesAsync();
+			}
 		}
 
 		public async Task<WeatherStats> GetWeatherAsync() // Default overload MOTHERFUCKER!
