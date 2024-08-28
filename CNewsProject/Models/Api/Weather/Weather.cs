@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
+
 namespace CNewsProject.Models.Api.Weather
 {
-	//Old Api
-	#region Old_API
+
 	public class WeatherStats
 	{
 		public float latitude { get; set; }
@@ -17,8 +17,10 @@ namespace CNewsProject.Models.Api.Weather
 		public Current current { get; set; }
 		public Hourly_Units hourly_units { get; set; }
 		public Hourly hourly { get; set; }
+		public Daily_Units daily_units { get; set; }
+		public Daily daily { get; set; }
 
-		public string NameOfCity { get; set; } = "Stockholm";
+		public string NameOfCity { get; set; } 
 		public bool IsPlaceholder { get; set; }
 	}
 
@@ -40,19 +42,41 @@ namespace CNewsProject.Models.Api.Weather
 	{
 		public string time { get; set; }
 		public string temperature_2m { get; set; }
+		public string relative_humidity_2m { get; set; }
+		public string precipitation { get; set; }
 		public string weather_code { get; set; }
+		public string wind_speed_10m { get; set; }
+		public string wind_direction_10m { get; set; }
+		public string wind_gusts_10m { get; set; }
 	}
 
 	public class Hourly
 	{
 		public string[] time { get; set; }
 		public float[] temperature_2m { get; set; }
+		public int[] relative_humidity_2m { get; set; }
+		public float[] precipitation { get; set; }
 		public int[] weather_code { get; set; }
+		public float[] wind_speed_10m { get; set; }
+		public int[] wind_direction_10m { get; set; }
+		public float[] wind_gusts_10m { get; set; }
 	}
 
+	public class Daily_Units
+	{
+		public string time { get; set; }
+		public string sunrise { get; set; }
+		public string sunset { get; set; }
+	}
+
+	public class Daily
+	{
+		public string[] time { get; set; }
+		public string[] sunrise { get; set; }
+		public string[] sunset { get; set; }
+	}
 
 }
-#endregion
 
 #region SMHI API
 
