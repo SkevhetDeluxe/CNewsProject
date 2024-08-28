@@ -1,4 +1,7 @@
-﻿namespace CNewsProject.Models.Api.CurrencyExchangeRate
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace CNewsProject.Models.Api.CurrencyExchangeRate
 {
     //public class Rootobject
     //{
@@ -13,6 +16,8 @@
 
     public class Rates
     {
+        [Key]
+        public int Id { get; set; }
         public DateOnly DateUpdated { get; set; } = DateOnly.FromDateTime(DateTime.MinValue);
         public int SEK { get; set; } = 1;
         public float AED { get; set; }

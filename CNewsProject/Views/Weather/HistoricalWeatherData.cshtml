@@ -1,0 +1,25 @@
+﻿@model IEnumerable<HistoricalWeather>
+
+<h2>Historical Weather Data</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>City</th>
+            <th>Temperature (°C)</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var weather in Model)
+        {
+            <tr>
+                <td>@weather.Date.ToShortDateString()</td>
+                <td>@weather.City</td>
+                <td>@weather.Temperature</td>
+                <td>@weather.Condition</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -24,5 +24,9 @@ namespace CNewsProject.Data
 
         public DbSet<EditorsChoice> EditorsChoice { get; set; }
 
-    }
+		public DbSet<Rates> ExchangeRates { get; set; }
+
+		public DbSet<HistoricalWeather> HistoricalWeathers { get; set; }
+
+	}
 }
