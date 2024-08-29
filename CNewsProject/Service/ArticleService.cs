@@ -56,39 +56,6 @@ namespace CNewsProject.Service
             return blobClient.Uri.AbsoluteUri;
         }
 
-        public string UploadBlobResize(IFormFile articleImage, string newFileName)
-        {
-            BlobContainerClient containerClient = _blobServiceClient
-                .GetBlobContainerClient("images");
-
-            BlobClient blobClient = containerClient.GetBlobClient(newFileName);
-
-            Image img = Image.FromStream(articleImage.OpenReadStream(), true, true);
-
-            var newImage = new Bitmap(1024, 768);
-
-            using (var g = Graphics.FromImage(newImage))
-            {
-                g.DrawImage(img, 0, 0, 1024, 768);
-            }
-
-
-            using (var stream = ToMemoryStream(newImage))
-            {
-                blobClient.Upload(stream);
-            }
-
-            return blobClient.Uri.AbsoluteUri;
-        }
-
-        private MemoryStream ToMemoryStream(Bitmap img)
-        {
-            MemoryStream stream = new();
-            img.Save(stream, System.Drawing.Imaging.ImageFormat.Jpeg);
-
-            return stream;
-        }
-
         #endregion
 
         //Views and Likes
@@ -213,17 +180,16 @@ namespace CNewsProject.Service
             return _db.Article.Include(c => c.Category).FirstOrDefault(a => a.Id == Id)!;
         }
 
+       
+
         public void WriteArticle(WriteArticleVM newArticle, string authorName)
         {
-            Random rnd = new();
-            string imgName = "articleimg" + Convert.ToString(DateTime.Now) + Convert.ToString(rnd.Next(2, int.MaxValue));
             Article article = new()
             {
                 Headline = newArticle.Headline,
                 Content = newArticle.Content,
                 ContentSummary = newArticle.ContentSummary,
                 LinkText = newArticle.Headline,
-                ImageLink = UploadBlob(newArticle.ArticleImage, imgName),
                 AuthorUserName = authorName
             };
 
@@ -240,6 +206,16 @@ namespace CNewsProject.Service
             }
 
             _db.Article.Add(article);
+            _db.SaveChanges();
+            
+            // Now UpBlob
+            
+            var recentArticle = _db.Article.Single(a => a.Content == newArticle.Content);
+            
+            string imgName = "Article" + Convert.ToString(recentArticle.Id) + "Original";
+
+            string imgUrl = UploadBlob(newArticle.ArticleImage, imgName);
+            _db.Article.Single(a => a.Content == newArticle.Content).ImageLink = imgUrl;
             _db.SaveChanges();
         }
 

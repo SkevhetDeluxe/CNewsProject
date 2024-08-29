@@ -5,21 +5,16 @@ namespace CNewsProject.Controllers
     [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
-        private readonly IIdentityService identityService;
-        private readonly ISubscriptionService subService;
+        private readonly IIdentityService _identityService;
+        private readonly ISubscriptionService _subService;
         private readonly ISubscriptionStatisticsService _statisticsService;
 
-        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ)
+        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ,ISubscriptionStatisticsService statisticsService)
         {
-            identityService = identitySrvc;
-            subService = subServ;
+            _identityService = identitySrvc;
+            _subService = subServ;
+            _statisticsService = statisticsService;
         }
-
-		public AdminController(ISubscriptionStatisticsService statisticsService)
-		{
-			_statisticsService = statisticsService;
-		}
-
 		public IActionResult SubscriptionStats()
 		{
 			var startDate = DateTime.Today.AddDays(-7); // Last week
@@ -42,29 +37,29 @@ namespace CNewsProject.Controllers
         //[Route("Admin/Users")]
         public IActionResult Users()
         {
-            IEnumerable<AppUser> users = identityService.ReadAppUsers();
+            IEnumerable<AppUser> users = _identityService.ReadAppUsers();
 
             return View(users);
         }
 
         public async Task<IActionResult> ManageUser(string id)
         {
-            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            AppUser user = await _identityService.GetAppUserByIdAsync(id);
             return View(user);
         }
 
         public async Task<IActionResult> AdminEdit(string id)
         {
-            AppUser user = await identityService.GetAppUserByIdAsync(id);
+            AppUser user = await _identityService.GetAppUserByIdAsync(id);
             return View(user);
         }
 
         [HttpPost]
 		public async Task<IActionResult> AdminEdit(string id, string email, string userName, string password)
 		{
-			AppUser user = await identityService.GetAppUserByIdAsync(id);
+			AppUser user = await _identityService.GetAppUserByIdAsync(id);
 
-            await identityService.UpdateAppUserAsync(id, email, userName, password);
+            await _identityService.UpdateAppUserAsync(id, email, userName, password);
 
 			return RedirectToAction("Index");
 		}
@@ -75,7 +70,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult Roles()
         {
-            IEnumerable<IdentityRole> roles = identityService.ReadRoles();
+            IEnumerable<IdentityRole> roles = _identityService.ReadRoles();
 
             return View(roles);
         }
@@ -90,7 +85,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await identityService.CreateRoleAsync(name);
+                IdentityResult result = await _identityService.CreateRoleAsync(name);
                 if (result.Succeeded)
                     return RedirectToAction("Roles");
                 
@@ -100,14 +95,14 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> UpdateRole(string id)
         {
-            IdentityRole role = await identityService.GetRoleByIdAsync(id);
+            IdentityRole role = await _identityService.GetRoleByIdAsync(id);
 
             List<AppUser> members = new();
             List<AppUser> nonMembers = new();
 
             if (role != null)
             {
-                await identityService.SplitUsersByRoleAsync(role, members, nonMembers);
+                await _identityService.SplitUsersByRoleAsync(role, members, nonMembers);
 
                 return View(new RoleEdit
                 {
@@ -128,20 +123,20 @@ namespace CNewsProject.Controllers
             {
                 foreach (string userId in model.AddIds ?? new string[] { })
                 {
-                    AppUser user = await identityService.GetAppUserByIdAsync(userId);
+                    AppUser user = await _identityService.GetAppUserByIdAsync(userId);
                     
                     if (user != null)
                     {
-                        result = await identityService.GrantUserRoleAsync(user, model.RoleName);
+                        result = await _identityService.GrantUserRoleAsync(user, model.RoleName);
                     }
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
-                    AppUser user = await identityService.GetAppUserByIdAsync(userId);
+                    AppUser user = await _identityService.GetAppUserByIdAsync(userId);
 
                     if (user != null)
                     {
-                        result = await identityService.PurgeUserRoleAsync(user, model.RoleName);
+                        result = await _identityService.PurgeUserRoleAsync(user, model.RoleName);
                     }
                 }
 
@@ -153,11 +148,11 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> DeleteRole(string id)
         {
-            IdentityRole role = await identityService.GetRoleByIdAsync(id);
+            IdentityRole role = await _identityService.GetRoleByIdAsync(id);
 
             if (role != null)
             {
-                IdentityResult result = await identityService.DeleteRoleAsync(role);
+                IdentityResult result = await _identityService.DeleteRoleAsync(role);
                 if (result.Succeeded)
                     return RedirectToAction("Roles");
             }
@@ -180,10 +175,10 @@ namespace CNewsProject.Controllers
 
         public IActionResult RevokeSubTypes()
         {
-            return ViewComponent("SubTypes", subService.GetAllTypes());
+            return ViewComponent("SubTypes", _subService.GetAllTypes());
         }
 
-        public ViewResult SubscriptionTypes() => View(subService.GetAllTypes());
+        public ViewResult SubscriptionTypes() => View(_subService.GetAllTypes());
 
         public IActionResult AddType()
         {
@@ -194,7 +189,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (subService.AddType(type))
+                if (_subService.AddType(type))
                 {
                     return RedirectToAction("SubscriptionTypes");
                 }
@@ -204,7 +199,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult DeleteType(int id)
         {
-            bool result = subService.RemoveType(id);
+            bool result = _subService.RemoveType(id);
 
             if (result)
                 return Json(new { succeeded = true });
@@ -214,21 +209,21 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> GiveSub(string userId, int typeId, double days)
         {
-            AppUser user = await identityService.GetAppUserByIdAsync(userId);
+            AppUser user = await _identityService.GetAppUserByIdAsync(userId);
 
-            bool succeded = subService.AdminGiveSub(user, typeId, days);
+            bool succeded = _subService.AdminGiveSub(user, typeId, days);
 
             return RedirectToAction("ManageUser", new { id = userId });
         }
 
         public IActionResult ManageType(int id)
         {
-            return View(subService.GetTypeById(id));
+            return View(_subService.GetTypeById(id));
         }
 
         public IActionResult TypeHasUsers(int id)
         {
-            if (subService.TypeHasUsers(id))
+            if (_subService.TypeHasUsers(id))
                 return Json(new { hasUsers = true });
             else
                 return Json(new { hasUsers = false });

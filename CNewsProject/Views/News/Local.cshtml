@@ -1,22 +1,5 @@
 @using System.Web
 @model CategoryPageArticlesVM
-@inject IIdentityService IdentityService
-
-@{
-	// vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-	if (User.Identity.IsAuthenticated)
-	{
-		Layout = IdentityService.GetAppUserByClaimsPrincipal(User).Result.Fire ? "_LayoutNewsFire" :
-			// << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
-			"_LayoutNews";
-	}
-	else
-	{
-		Layout = "_LayoutNews";
-		ViewData["Title"] = "Local News";
-	}
-	// ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
-}
 
 
 <section class="main-article">

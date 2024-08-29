@@ -5,12 +5,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - CNewsProject</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - CNewsProject</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <style>
 		nav ul li a:hover {
 			background-color: #a6a6a6;
 			border-radius: 5px;
@@ -18,94 +18,93 @@
 	</style>
 </head>
 <body>
-	<header>
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #999999">
-			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
-					<img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
-				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Local">Local</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Sweden">Sweden</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="World">World</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Economy">Economy</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Sport">Sport</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
-						</li>
-						@{
-							if (HttpContextAccessor.HttpContext.User != null)
-							{
-								AppUser user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User);
-								
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark c-gradient-90 c-nav-sticky">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
+            <img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="News" asp-action="Local">Local</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="News" asp-action="Sweden">Sweden</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="News" asp-action="World">World</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="News" asp-action="Economy">Economy</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-controller="News" asp-action="Sport">Sport</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
+                </li>
+                @{
+                    if (HttpContextAccessor.HttpContext.User != null)
+                    {
+                        AppUser user = await UserManager.GetUserAsync(HttpContextAccessor.HttpContext?.User);
 
 
-								if (user != null)
-								{
-									var isJournalist = await UserManager.IsInRoleAsync(user, "Journalist");
-									var isThePublisher = await UserManager.IsInRoleAsync(user, "The Publisher");
-									var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+                        if (user != null)
+                        {
+                            var isJournalist = await UserManager.IsInRoleAsync(user, "Journalist");
+                            var isThePublisher = await UserManager.IsInRoleAsync(user, "The Publisher");
+                            var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
 
-									if (isJournalist)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="Journalist" asp-action="Index">Journalist</a>
-										</li>
-									}
+                            if (isJournalist)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="Journalist" asp-action="Index">Journalist</a>
+                                </li>
+                            }
 
-									if (isThePublisher)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="ThePublisher" asp-action="Index">The Publisher</a>
-										</li>
-									}
+                            if (isThePublisher)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="ThePublisher" asp-action="Index">The Publisher</a>
+                                </li>
+                            }
 
-									if (isAdmin)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Admin</a>
-										</li>
-									}
-								}
-							}
-						}
-					</ul>
-					<partial name="_LoginPartial" />
-					<partial name="_SearchBarPartial" />
-				</div>
-			</div>
-		</nav>
-	</header>
-	<div class="container row m-auto">
-		<main role="main" class="pb-3" style="margin-top:90px">
-			@RenderBody()
-		</main>
-	</div>
-	<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
-		&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-	</div>
-	<audio hidden id="mumsaudio" controls="controls">
-		<source src="~/content/audio/mums.mp3" type="audio/mpeg" />
-	</audio>
-	<partial name="_CookieConsentPartial" />
+                            if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Admin</a>
+                                </li>
+                            }
+                        }
+                    }
+                }
+            </ul>
+            <partial name="_LoginPartial"/>
+            <partial name="_SearchBarPartial"/>
+        </div>
+    </div>
+</nav>
 
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
+<div class="container row m-auto">
+    <main role="main" class="pb-3" style="margin-top:90px">
+        @RenderBody()
+    </main>
+</div>
+<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
+    &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+</div>
+<audio hidden id="mumsaudio" controls="controls">
+    <source src="~/content/audio/mums.mp3" type="audio/mpeg"/>
+</audio>
+<partial name="_CookieConsentPartial"/>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,3 +1,4 @@
+using System.Reflection;
 using CNewsProject.Data;
 
 using CNewsProject.Helpers;
@@ -68,6 +69,7 @@ builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IFillObjectHelper, FillObjectHelper>();
+builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatisticsService>();
 
 
 //builder.Services.AddTransient<IEmailSender, EmailHelper>();

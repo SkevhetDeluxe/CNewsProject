@@ -1,151 +1,136 @@
-﻿@using CNewsProject.Service
-@inject UserManager<AppUser> userManager
-@inject IHttpContextAccessor httpContextAccessor;
+﻿@{
+    // This keeps track of which action and controller the User is currently at!
+    string currentAction = ViewContext.RouteData.Values["action"]!.ToString()!.ToLower();
+    string currentController = ViewContext.RouteData.Values["controller"]!.ToString()!.ToLower();
+}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - CNewsProject</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true" />
-	<style>
-		nav ul li a:hover {
-			background-color: #a6a6a6;
-			border-radius: 5px;
-		}
-	</style>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - CNewsProject</title>
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    @* <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true"/> *@
 </head>
-<body>
-	<header>
-		<nav class="navbar fixed-top navbar-expand-lg navbar-dark" style="background-color: #999999">
-			<div class="container-fluid">
-				<a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index">
-					<img src="/content/images/cnewslogo.png" alt="News Logo" style="height: 50px;">
-				</a>
-				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-				</button>
-				<div class="collapse navbar-collapse" id="navbarNav">
-					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Local">Local</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Sweden">Sweden</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="World">World</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Economy">Economy</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-light" asp-controller="News" asp-action="Sport">Sport</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" asp-controller="News" asp-action="Archive">Archive</a>
-						</li>
-						@{
-							if (httpContextAccessor.HttpContext.User != null)
-							{
-								AppUser user = await userManager.GetUserAsync(httpContextAccessor.HttpContext?.User);
-								bool isJournalist;
-								bool isThePublisher;
-								bool isAdmin;
+<body class="c-body">
 
-								if (user != null)
-								{
-									isJournalist = await userManager.IsInRoleAsync(user, "Journalist");
-									isThePublisher = await userManager.IsInRoleAsync(user, "The Publisher");
-									isAdmin = await userManager.IsInRoleAsync(user, "Admin");
+@{
+    // This makes the Jumbo image ONLY appear on News Index
+}
+@if (currentAction == "index" && currentController == "news")
+{
+    <div class="c-nav-hat c-gradient-90 c-container-img-center container-fluid">
+        <img class="c-img-jumbo" src="Content/svg/DuckLOGOFinal.svg" alt="It's a rubber duck reading the newspaper on a wave."/>
+    </div>
+}
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark  c-gradient-90 c-nav-sticky" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index" asp-fragment="top">
+            <img src="/Content/svg/SeaNewsWaveFinal.svg" alt="News Logo" style="height: 50px;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-									if (isJournalist)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="Journalist" asp-action="Index">Journalist</a>
-										</li>
-									}
+                <partial name="_CategoriesDropdownPartial"/>
+                <partial name="_RoleBasedLinksPartial"></partial>
+            </ul>
+            <partial name="_LoginPartial"/>
+            <form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
 
-									if (isThePublisher)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="ThePublisher" asp-action="Index">The Publisher</a>
-										</li>
-									}
+@{ // For Debugging Only
 
-									if (isAdmin)
-									{
-										<li class="nav-item">
-											<a class="nav-link text-light" asp-controller="Admin" asp-action="Index">Admin</a>
-										</li>
-									}
-								}
-							}
-						}
-					</ul>
-					<partial name="_LoginPartial" />
-					<form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
-						<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
-						<button class="btn btn-success" type="submit">Search</button>
-					</form>
-				</div>
-			</div>
-		</nav>
-	</header>
-	<div class="container row m-auto">
-		<main role="main" class="col-md-9 col-12 pb-3" style="margin-top:90px">
-			@RenderBody()
-		</main>
-		<aside class="col-3 d-none d-md-block" style="margin-top:90px">
+    @* <div> *@
+    @*     <p>Controller: @currentController</p> *@
+    @*     <p>Action: @currentAction</p> *@
+    @* </div> *@
 
-			<div id="VCWeather">
-				
-			</div><br />
-			
-			<div id="ExchangeVCDiv"> @*This Is Now Updated. Only loads data from API if data is old*@
-				<vc:exchange></vc:exchange>
-			</div>
-			<vc:sidebar-headlines></vc:sidebar-headlines>
-		</aside>
-	</div>
-	<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
-		&copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-	</div>
-	<audio hidden id="mumsaudio" controls="controls">
-		<source src="~/content/audio/mums.mp3" type="audio/mpeg" />
-	</audio>
-	<partial name="_CookieConsentPartial" />
+}
+<div id="top" class="container row m-auto">
+    <main role="main" class="col-md-9 col-12 pb-3 pt-5">
+        @RenderBody()
+    </main>
+    <aside class="col-3 d-none d-md-block pt-5">
 
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="~/js/site.js" asp-append-version="true"></script>
-	@await RenderSectionAsync("Scripts", required: false)
-	
-	Script no longer needed
-	<script type="text/javascript">
+        @* <div id="VCWeather"> *@
+        @* *@
+        @* </div><br/> *@
+
+        @{
+            if (currentController != "news" || currentAction != "economy")
+            {
+                <div id="ExchangeVCDiv">
+                    @*This Is Now Updated. Only loads data from API if data is old*@
+                    <vc:exchange></vc:exchange>
+                </div>
+                <vc:sidebar-headlines></vc:sidebar-headlines>
+            }
+        }
+
+    </aside>
+</div>
+<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
+    &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+</div>
+<audio hidden id="mumsaudio" controls="controls">
+    <source src="~/content/audio/mums.mp3" type="audio/mpeg"/>
+</audio>
+<partial name="_CookieConsentPartial"/>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+
+@{
+    string actionToJs = currentAction;
+    string ctrlToJs = currentController;
+    
+    if (ctrlToJs != "news")
+        actionToJs = "NoAction";
+}
+
+<script type="text/javascript">
 		
 		console.log("Realised Local JAVASCRIPT");
 		document.addEventListener('DOMContentLoaded', function() {
 			console.log("Document Loaded");
 			LoadWeather("Weather");
+
+            SetSelectedNavActionItem();
+            SetSelectedNavCtrlItem();
 		});
 		
-		@*function LoadExchangeVCAjax(){
-			$.ajax({
-				url: '@Url.Action("LoadViewComponent", "LoadExchange")',
-				type: 'GET',
-				success: function (result) {
-					$('#ExchangeVCDiv').html(result);
-				},
-				error: function (error){
-					console.log('Failed to load ExchangeVC');
-				}
-			});
-		}*@
-		
+		function SetSelectedNavActionItem(){
+		    let elem = "@actionToJs";
+		    
+		    if (elem !== "NoAction"){
+		        elem = @actionToJs;
+                elem.style.backgroundColor = 'rgba(255, 255, 255, 25%)';//"#595959";
+                elem.style.color = "white";
+		    }
+		}
+
+        function SetSelectedNavCtrlItem(){
+            let elem = "@ctrlToJs";
+
+            if (elem !== "NoCtrl"){
+                elem = @ctrlToJs;
+                elem.style.backgroundColor = 'rgba(255, 255, 255, 25%)';
+                elem.style.color = "white";
+            }
+        }
+        
 	</script>
-	</body>
+</body>
 </html>

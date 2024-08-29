@@ -1,5 +1,12 @@
 ﻿@model ArticleLock
 
+<style>
+    .padlock {
+        z-index: 1;
+        box-shadow: rgba(0, 0, 0, 0.35) 5px 15px;
+    }
+</style>
+
 @{
     if (Model.Access)
     {
@@ -33,22 +40,39 @@
             </div>
             <div class="card-footer text-muted">
                 <span>Category: @Model.Article.Category.Name</span>
+                @{
+                    if (Model.Roles.Contains("The Publisher") || Model.Roles.Contains("Admin"))
+                    {
+                        <a asp-controller="ThePublisher" asp-action="TakeDown" class="float-end btn btn-outline-danger">Take down article</a>
+                    }
+                }
                 
             </div>
         </div>
     }
     else
-
     { 
-        <p>You must be registered and subscribed to read more!</p>
-        <div>
-            <img src="@Model.Article.ImageLink" alt="@Model.Article.Headline" />
-            <div>
-                <h5>@Model.Article.Headline</h5>
-                <p>@Model.Article.ContentSummary</p>
-                <a href="@Url.Action("Login", "Account", new {id = Model.Article.Id})" class="btn btn-success">Read More</a>
+        <div class="card mb-4 w-100 hoverable">
+            <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Article.Headline</h5>
+                <span style="color:dimgrey">
+                    <span>by @Model.Article.AuthorUserName</span>
+                    <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                </span>
+                <span class="float-end">
+                    <span>Views: @Model.Article.Views</span>
+                    <span>Likes: @Model.Article.Likes</span>
+                </span>
+                <br />
+                <br />
+                <div class="padlock">
+                    <partial name="_PadLockPartial"/>
+                </div>
             </div>
-
+            <div class="card-footer text-muted">
+                <span>Category: @Model.Article.Category.Name</span>
+            </div>
         </div>
     }
 }

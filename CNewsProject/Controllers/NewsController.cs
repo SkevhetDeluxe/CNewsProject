@@ -81,6 +81,8 @@ namespace CNewsProject.Controllers
 			SearchResult result = _articleService.SearchForArticles(search, category);
 			return View(result.Articles);
 		}
+		
+		[Authorize]
 		public IActionResult Article(int id)
 		{
 			if (id == 0)
