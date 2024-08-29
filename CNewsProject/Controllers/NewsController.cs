@@ -140,6 +140,17 @@ namespace CNewsProject.Controllers
 
 			return RedirectToAction("Archive");
 		}
-	}
+
+        //public async Task TranslateDocuments()
+        //{
+        //    var translationService = new DocumentTranslationService();
+
+        //    string inputContainerUri = "https://<your-input-container-url>";
+        //    string outputContainerUri = "https://<your-output-container-url>";
+        //    string targetLanguage = "es";
+
+        //    await translationService.TranslateDocumentAsync(inputContainerUri, outputContainerUri, targetLanguage);
+        //}
+    }
 
 }

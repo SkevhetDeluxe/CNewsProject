@@ -15,6 +15,7 @@ namespace CNewsProject.Controllers
             _subService = subServ;
             _statisticsService = statisticsService;
         }
+
 		public IActionResult SubscriptionStats()
 		{
 			var startDate = DateTime.Today.AddDays(-7); // Last week

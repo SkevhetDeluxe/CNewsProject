@@ -1,4 +1,5 @@
-﻿namespace CNewsProject.Models.Api.Weather
+﻿
+namespace CNewsProject.Models.Api.Weather
 {
     public interface IWeatherApiHandler
     {
@@ -10,6 +11,6 @@
 
         public Task<WeatherStats> GetWeatherAsync(); // Default overload MOTHERFUCKER!
 
-
-    }
+        
+	}
 }
