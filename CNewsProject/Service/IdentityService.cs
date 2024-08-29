@@ -267,6 +267,12 @@ namespace CNewsProject.Service
             return await userManager.IsInRoleAsync(user, roleName);
         }
 
+        public async Task<IList<string>> GetUsersRolesAsync(AppUser user)
+        {
+            var roles = await userManager.GetRolesAsync(user);
+            return roles;
+        }
+
         public async Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName)
         {
             IdentityResult result = await userManager.AddToRoleAsync(user, roleName);

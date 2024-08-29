@@ -31,7 +31,8 @@ namespace CNewsProject.ViewComponents.Subscriber
                     {
                         Article = _articleService.GetArticleById(id),
                         Access = true,
-                        UserLikes = user.LikedArticles
+                        UserLikes = user.LikedArticles,
+                        Roles = _identityService.GetUsersRolesAsync(user).Result
                     });
                 }
             }

@@ -18,4 +18,18 @@ public class BlobResize(ILogger<BlobResize> logger)
         logger.LogInformation($"C# Blob trigger function Processed blob\n Name: {name} \n Data: {content}");
         
     }
+    /*
+     
+     
+ |\/\/\/|  
+ |      |  
+ | (o)(o)  
+ C      _) 
+  |  ___|  
+  |   /    
+ /____\    
+/      \
+
+
+     */
 }
