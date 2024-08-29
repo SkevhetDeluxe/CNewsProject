@@ -14,6 +14,8 @@
 	int humidity = Model.hourly.relative_humidity_2m[hour];
 	int windDir = Model.hourly.wind_direction_10m[direction];
 	float windStr = Model.hourly.wind_speed_10m[hour];
+	double tempFaren = 32 + 1.8 * Model.current.temperature_2m;
+
 
 	Tables tables = new();
 	int condition;
@@ -58,7 +60,7 @@
 						{
 							@Model.current.temperature_2m
 						}
-					} °C
+					} °C @tempFaren °F
 				</p>	@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@	
 				<p>Condition: @conditionStr</p>
 				<p>Humidity: @humidity%</p>
