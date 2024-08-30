@@ -46,6 +46,7 @@ namespace CNewsProject.Service
 
         public Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers);
         public Task<bool> UserHasRole(AppUser user, string roleName);
+        public Task<IList<string>> GetUsersRolesAsync(AppUser user);
         public Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName);
         public Task<IdentityResult> PurgeUserRoleAsync(AppUser user, string roleName);
 
