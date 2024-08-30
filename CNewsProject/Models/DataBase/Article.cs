@@ -29,7 +29,7 @@ namespace CNewsProject.Models.DataBase
         public string AuthorUserName { get; set; } = string.Empty;
         public string ThePublisherUserName { get; set; } = string.Empty;
         public string Status { get; set; } = "Pending";
-        public string? PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith { get; set; }
+        public string? DeclineMessage { get; set; } = null;
 
         // I don't know what this says actually but the -->
         // intended meaning is that false means you have to pay for this.

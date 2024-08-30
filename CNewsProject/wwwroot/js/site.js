@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    
+    // Cookies Stuff
     LoadMums();
 
     if (!getCookie("cookiesAccepted") && sessionStorage.getItem('cookie')!='no') {
@@ -58,6 +59,16 @@ $(document).ready(function () {
             alert('No cookies left. You feel the sadness creeping up on you.');
         }
     }
+    
+    // Edit Account Stuff
+    $(".edit-acc-btn").click(function (){
+        $("#edit-acc-form").toggle();
+    });
+    
+    $("#save-edit-acc").click(function (){
+        $("#edit-acc-form").toggle();
+        $("#edit-acc-confirmation").toggle();
+    });
 });
 
 
