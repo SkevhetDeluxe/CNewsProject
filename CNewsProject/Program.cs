@@ -1,21 +1,4 @@
-using CNewsProject.Data;
-
-using CNewsProject.Helpers;
-
-using CNewsProject.Models.Api.Weather;
-
-using CNewsProject.Models.DataBase.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-
 using System.Text.Json;
-
-using Microsoft.OpenApi;
-using CNewsProject.Models.Api.CurrencyExchangeRate;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 

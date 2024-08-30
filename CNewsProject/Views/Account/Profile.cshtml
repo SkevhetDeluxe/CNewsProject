@@ -1,35 +1,16 @@
 ﻿@model AppUser
 
 @{
-	//Vars
-	string profileName = Model.UserName + "'s Profile";
+    //Vars
+    string profileName = Model.UserName + "'s Profile";
 }
 
 <h1>@profileName</h1>
 
-<button class="btn" id="edit-acc-btn">Edit Account</button>
+<vc:edit-account></vc:edit-account>
 
+<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
 
-<form asp-action="Profile" method="post">
-	<input asp-for="Id" type="hidden" />
-
-	<label asp-for="UserName"></label>
-	<input disabled asp-for="UserName" />
-
-	<label asp-for="Email"></label>
-	<input disabled asp-for="Email" />
-
-	<div class="form-group">
-		Fire Mode? <input type="checkbox" asp-for="Fire" />
-	</div>
-
-	<button type="submit" class="btn btn-primary">Save</button>
-</form>
-
-
-<li class="nav-item">
-	<a class="nav-link btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
-</li>
 
 @*I'm thinking a View Component here so you don't have to refresh page on EDIT*@
 
