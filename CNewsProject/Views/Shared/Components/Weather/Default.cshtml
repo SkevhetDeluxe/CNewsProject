@@ -15,7 +15,7 @@
 	int humidity = Model.hourly.relative_humidity_2m[hour];
 	int windDir = Model.hourly.wind_direction_10m[direction];
 	float windStr = Model.hourly.wind_speed_10m[hour];
-	double tempFaren = 32 + 1.8 * Model.current.temperature_2m;
+	int tempFaren = Convert.ToInt32 (32 + 1.8 * Model.current.temperature_2m);
 
 
 	Tables tables = new();
