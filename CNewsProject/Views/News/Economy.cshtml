@@ -1,27 +1,36 @@
 ﻿	@model CategoryPageArticlesVM
 
 
-<div class="row">
-	<div class="col-md-9 col-12">
-		<section class="main-article">
-			<partial name="_ArticlePartial" model="@Model.MainArticle" />
-		</section>
-		<section class="articles row">
-			@foreach (var article in Model.NotMainButStillImportantArticles)
-			{
-				<div class="col-md-6 col-12">
-					<partial name="_ArticlePartial" model="article" />
-				</div>
-			}
-		</section>
+	<div class="row">
+		<div class="col-md-9 col-12">
+			<section class="main-article">
+				<partial name="_ArticlePartial" model="@Model.MainArticle" />
+			</section>
+			<section class="articles row">
+				@foreach (var article in Model.NotMainButStillImportantArticles)
+				{
+					<div class="col-md-6 col-12">
+						<partial name="_ArticlePartial" model="article" />
+					</div>
+				}
+			</section>
+		</div>
+		<aside class="col-3 d-none d-md-block">
+			<div id="VCWeather">
+				<vc:weather name-of-city="Placeholder"></vc:weather>
+			</div><br />
+			<vc:exchange-all></vc:exchange-all>
+		</aside>
 	</div>
-	<aside class="col-3 d-none d-md-block">
-		<div id="VCWeather">
-			<vc:weather name-of-city=""></vc:weather>
-		</div><br />
-		<vc:exchange-all></vc:exchange-all>
-	</aside>
-</div>
+
+	<script type="text/javascript">
+
+	document.addEventListener("DOMContentLoaded", function () {
+		LoadWeather("Weather")
+	});
+
+	
+	</script>
 
 
 

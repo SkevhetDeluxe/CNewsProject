@@ -38,5 +38,10 @@ namespace CNewsProject.Controllers
 
             return RedirectToAction("Details", "News");
         }
-    }
+
+		public IActionResult ThankYou()
+		{
+			return View();
+		}
+	}
 }

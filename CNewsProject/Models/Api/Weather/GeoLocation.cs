@@ -32,6 +32,5 @@
         public string hy { get; set; }
         public string ka { get; set; }
     }
-
-
+	
 }

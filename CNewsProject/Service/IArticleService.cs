@@ -19,7 +19,7 @@ namespace CNewsProject.Service
         public void Laikalaininen(int id, string userId);
         public void DeclineArticle(int id, string reason);
         public FrontPageArticlesVM GetFrontPageArticleVM();
-        public SearchResult SearchForArticles(string search);
+        public SearchResult SearchForArticles(string search, string category);
         public void PublishArticle(int id, string publisherName);
         public void Laikalaininen(int id, ClaimsPrincipal principal);
         public string UploadBlob(IFormFile articleImage, string fileName);

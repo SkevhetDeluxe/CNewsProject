@@ -1,0 +1,27 @@
+﻿@model SubscriptionStatisticsViewModel
+
+<h2>Subscription Statistics</h2>
+
+<div class="stats-overview">
+    <p>Total Subscribers: @Model.TotalSubscribers</p>
+    <p>New Subscribers in the Last Week: @Model.NewSubscribersLastWeek</p>
+</div>
+
+<h3>Daily Subscriptions</h3>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Subscriptions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dailyStat in Model.DailySubscriptions)
+        {
+            <tr>
+                <td>@dailyStat.Date.ToShortDateString()</td>
+                <td>@dailyStat.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>

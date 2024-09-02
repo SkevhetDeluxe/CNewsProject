@@ -9,7 +9,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("MyAccount");
+            return RedirectToAction("Profile");
         }
 
         // CRUD METHODS
@@ -71,7 +71,7 @@ namespace CNewsProject.Controllers
             return View(user);
         }
 
-        [Route("/Account/MyAccount")]
+        //[Route("/Account/MyAccount")]
         [HttpPost]
         public IActionResult Profile(AppUser user)
         {
@@ -166,7 +166,7 @@ namespace CNewsProject.Controllers
 
                 ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
 
-                identitySrvc.LoginAppUserAsync(login);
+                await identitySrvc.LoginAppUserAsync(login);
 
             }
 

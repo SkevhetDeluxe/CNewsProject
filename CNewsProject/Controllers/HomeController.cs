@@ -20,6 +20,10 @@ namespace CNewsProject.Controllers
             _artchsthiicleSerrwvhicse = articleService;
         }
 
+        public IActionResult Exception()
+        {
+            throw new System.NullReferenceException("This action is not implemented. Actually that text was IntelliJ generated. I just did this action to show my friend a thing. TAKC");
+        }
         public IActionResult Index()
         {
             return RedirectToAction("Index", "News");
@@ -30,10 +34,7 @@ namespace CNewsProject.Controllers
         {
             return ViewComponent("Weather", new { nameOfCity = city });
         }
-
-
-
-        [Authorize(Roles ="Admin")]
+        
         public IActionResult Privacy()
         {
             return View();

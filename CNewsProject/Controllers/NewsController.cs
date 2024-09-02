@@ -1,9 +1,3 @@
-using System;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using CNewsProject.Data;
-using CNewsProject.Models.DataBase;
-using Microsoft.EntityFrameworkCore;
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -77,16 +71,18 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		//public IActionResult Search() // REWORKING SEARCH
-		//{
-		//	return View();
-		//}
-		[HttpPost]
-		public IActionResult Search(string search)
+		public IActionResult Search() // REWORKING SEARCH
 		{
-			SearchResult result = _articleService.SearchForArticles(search);
+			return View();
+		}
+		[HttpPost]
+		public IActionResult Search(string search, string category)
+		{
+			SearchResult result = _articleService.SearchForArticles(search, category);
 			return View(result.Articles);
 		}
+		
+		[Authorize]
 		public IActionResult Article(int id)
 		{
 			if (id == 0)
@@ -122,15 +118,10 @@ namespace CNewsProject.Controllers
         {
             var articles = _context.Article
             .FromSqlRaw("SELECT * FROM Article WHERE IsArchived = 1")
-			.AsNoTracking()
 			.ToList();
-
-            var groupedArticles = articles
-                .GroupBy(a => new { a.PublishedDate.Year, a.PublishedDate.Month })
-                .ToList();
-
+            
             // This DataType is not MATCHING the @model; WILL give EXCEPTION
-            return View(groupedArticles);
+            return View(articles);
         }
 
 		public IActionResult ArchiveOldArticles()
@@ -149,6 +140,17 @@ namespace CNewsProject.Controllers
 
 			return RedirectToAction("Archive");
 		}
-	}
+
+        //public async Task TranslateDocuments()
+        //{
+        //    var translationService = new DocumentTranslationService();
+
+        //    string inputContainerUri = "https://<your-input-container-url>";
+        //    string outputContainerUri = "https://<your-output-container-url>";
+        //    string targetLanguage = "es";
+
+        //    await translationService.TranslateDocumentAsync(inputContainerUri, outputContainerUri, targetLanguage);
+        //}
+    }
 
 }

@@ -1,21 +1,4 @@
-using CNewsProject.Data;
-
-using CNewsProject.Helpers;
-
-using CNewsProject.Models.Api.Weather;
-
-using CNewsProject.Models.DataBase.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-
 using System.Text.Json;
-
-using Microsoft.OpenApi;
-using CNewsProject.Models.Api.CurrencyExchangeRate;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,10 +47,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatisticsService>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddScoped<IFillStaticHelper, FillStaticHelper>();
+builder.Services.AddScoped<IFillObjectHelper, FillObjectHelper>();
+builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatisticsService>();
 
 
 //builder.Services.AddTransient<IEmailSender, EmailHelper>();

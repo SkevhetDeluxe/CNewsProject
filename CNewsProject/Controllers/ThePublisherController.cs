@@ -1,7 +1,7 @@
 ﻿
 namespace CNewsProject.Controllers
 {
-    [Authorize(Roles = "The Publisher")]
+    [Authorize(Roles = "The Publisher, Admin")]
     public class ThePublisherController : Controller
     {
         private readonly IArticleService _articleService;
@@ -52,7 +52,7 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> Publish(int id)
         {
-            AppUser publisher = await _identityService.GetAppUserByClaimsPrincipal(User);
+            var publisher = await _identityService.GetAppUserByClaimsPrincipal(User);
 
             if (publisher != null)
             {
@@ -86,6 +86,19 @@ namespace CNewsProject.Controllers
             }
 
             return RedirectToAction("Oops");
+        }
+
+        public IActionResult TakeDown(int id) // TODO
+        {
+            var article = _articleService.GetArticleById(id);
+
+            return View(article);
+        }
+
+        [HttpPost]
+        public IActionResult TakeDown(Article article)
+        {
+            return View(article);
         }
 
         public IActionResult Oops()

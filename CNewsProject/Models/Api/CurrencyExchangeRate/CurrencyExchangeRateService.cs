@@ -2,19 +2,21 @@
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
-using CNewsProject.StaticTempData;
 using Newtonsoft.Json.Linq;
+using static CNewsProject.StaticTempData.CTempData;
 
 namespace CNewsProject.Models.Api.CurrencyExchangeRate
 {
     public class CurrencyExchangeRateService  : ICurrencyExchangeRateService 
     {
-        public async Task<Rates> GetExchangeRatesAsync()
+		private readonly ApplicationDbContext _dbContext;
+
+		public CurrencyExchangeRateService(ApplicationDbContext dbContext)
+		{
+			_dbContext = dbContext;
+		}
+		public async Task GetExchangeRatesAsync()
         {
-            // This thing takes a lot of time. We might not be able to solve that.
-            // My suggestion is make the ViewComponent load via Javascript and run this asynchronously in the background.
-            // So we don't bottleneck the START PAGE
-            
             Rates? exchangeRates;
 
             using (HttpClient httpClient = new())
@@ -27,8 +29,31 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
 
                 exchangeRates = jsonObject["rates"].ToObject<Rates>();
             }
-            // Assuming the API response directly matches the model structure.
-            return exchangeRates ?? new Rates();
+            ExchangeRates = exchangeRates ?? ExchangeRates;
+            ExchangeRates.DateUpdated = DateOnly.FromDateTime(DateTime.Now);
         }
-    }
+
+		public async Task StoreExchangeRatesAsync()
+		{
+			Rates? exchangeRates;
+
+			using (HttpClient httpClient = new())
+			{
+				var response = await httpClient.GetAsync("https://api.exchangerate-api.com/v4/latest/SEK");
+				response.EnsureSuccessStatusCode();
+
+				var responseContent = await response.Content.ReadAsStringAsync();
+				var jsonObject = JObject.Parse(responseContent);
+
+				exchangeRates = jsonObject["rates"].ToObject<Rates>();
+			}
+
+			if (exchangeRates != null)
+			{
+				exchangeRates.DateUpdated = DateOnly.FromDateTime(DateTime.Now);
+				_dbContext.ExchangeRates.Add(exchangeRates);
+				await _dbContext.SaveChangesAsync();
+			}
+		}
+	}
 }

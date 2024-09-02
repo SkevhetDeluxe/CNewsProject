@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    
+    // Cookies Stuff
     LoadMums();
 
     if (!getCookie("cookiesAccepted") && sessionStorage.getItem('cookie')!='no') {
@@ -58,6 +59,16 @@ $(document).ready(function () {
             alert('No cookies left. You feel the sadness creeping up on you.');
         }
     }
+    
+    // Edit Account Stuff
+    $(".edit-acc-btn").click(function (){
+        $("#edit-acc-form").toggle();
+    });
+    
+    $("#save-edit-acc").click(function (){
+        $("#edit-acc-form").toggle();
+        $("#edit-acc-confirmation").toggle();
+    });
 });
 
 
@@ -76,7 +87,7 @@ function FilipsFunktion(id) {
     });
 }
 
-
+// For Better Deleting SubTypes
 function AjaxRedirect(controller, action, elem) {
     $.ajax({
         url: `/${controller}/${action}`,
@@ -140,6 +151,26 @@ function TryDeleteType(id) {
     }
 }
 
+
+
+
+// Loading Weather ASYNC
+
+function LoadWeather(name)
+{
+    console.log("Loading Weather");
+    $.ajax({
+        url: `/LoadViewComponent/LoadViewComponent`,
+        type: 'GET',
+        data: { name: name },
+        success: function (result) {
+            $('#VCWeather').html(result);
+        },
+        error(error){
+            console.log(error);
+        }
+    })
+}
 
 
 // Search New Geo Location "City"

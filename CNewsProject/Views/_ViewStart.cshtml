@@ -1,17 +1,5 @@
 ﻿
-@inject IIdentityService IdentityService
 
 @{
-    // vv DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX vv
-    if (User.Identity.IsAuthenticated)
-    {
-        Layout = IdentityService.GetAppUserByClaimsPrincipal(User).Result.Fire ? "_LayoutFire" :
-            // << DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX
-            "_Layout";
-    }
-    else
-    {
-        Layout = "_Layout";
-    }
-    // ^^ DONT REMOVE THIS PLEASE YOU WILL CAUSE MORE ERRORS THAN YOU FIX ^^
+    Layout = "_LayoutNews";
 }
