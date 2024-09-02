@@ -43,7 +43,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
