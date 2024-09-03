@@ -23,7 +23,7 @@ namespace CNewsProject.Models.Api.Weather
 					kindOfWeather = "Partly cloudy";
 					break;
 				case 3:
-					kindOfWeather = "Overcast"; ;
+					kindOfWeather = "Overcast";
 					break;
 				case 45:
 					kindOfWeather = "Fog";
@@ -101,7 +101,8 @@ namespace CNewsProject.Models.Api.Weather
 					kindOfWeather = "Unable to Fetch WeatherConditions";
 					break;
 			}
-			return kindOfWeather;
+			
+			return kindOfWeather ;
 
 		}
 
@@ -205,5 +206,200 @@ namespace CNewsProject.Models.Api.Weather
 
 		}
 
+		public string GetWeatherPicFromInt(int condition , int sun)
+		{
+			string weatherPic ="";
+			
+			//Code	 Description
+			if (sun == 1)
+			{ 
+				switch (condition)
+				{
+				case 0:
+					weatherPic = "day/Clear.png";
+					break;
+				case 1:
+					weatherPic = "day/MainlyClear.png";
+					break;
+				case 2:
+					weatherPic = "day/SemiClear.png";
+					break;
+				case 3:
+					weatherPic = "day/ALotOfCloud.png"; 
+					break;
+				case 45:
+					weatherPic = "day/Fog.png";
+					break;
+				case 48:
+					weatherPic = "day/Fog.png";
+					break;
+				case 51:
+					weatherPic = "day/LightRainShower.png";
+					break;
+				case 53:
+					weatherPic = "day/RainShower.png";
+					break;
+				case 55:
+					weatherPic = "day/HeavyRainShower.png";
+					break;
+				case 56:
+					weatherPic = "day/LightRainShower.png";		// Cold snow + rain
+					break;
+				case 57:
+					weatherPic = "day/HeavyRainShower.png";     // Cold snow + rain
+						break;
+				case 61:
+					weatherPic = "day/LightRain.png.png";
+					break;
+				case 63:
+					weatherPic = "day/Rain.png";
+					break;
+				case 65:
+					weatherPic = "day/HeavyRain.png";
+						break;
+				case 66:
+					weatherPic = "day/LightRain.png";           // Cold snow + rain
+						break;
+				case 67:
+					weatherPic = "day/HeavyRain.png";           // Cold snow + rain
+						break;
+				case 71:
+					weatherPic = "Snow fall: Slight";
+					break;
+				case 73:
+					weatherPic = "Snow fall: Moderate";
+					break;
+				case 75:
+					weatherPic = "Snow fall: Heavy intensity";
+					break;
+				case 77:
+					weatherPic = "Snow grains";
+					break;
+				case 80:
+					weatherPic = "day/LightRainShower.png";
+					break;
+				case 81:
+					weatherPic = "day/RainShower.png";
+					break;
+				case 82:
+					weatherPic = "day/HeavyRainShower.png";
+					break;
+				case 85:
+					weatherPic = "Snow showers slight";
+					break;
+				case 86:
+					weatherPic = "Snow showers heavy";
+					break;
+				case 95:
+					weatherPic = "Thunderstorm: Slight to Moderate";
+					break;
+				case 96:
+					weatherPic = "Thunderstorm with slight hail";
+					break;
+				case 99:
+					weatherPic = "Thunderstorm with heavy hail";
+					break;
+				default:
+					weatherPic = "Unable to Fetch WeatherConditions";
+					break;
+				}
+				
+			}
+			else if (sun == 2)
+			{
+				switch (condition)
+				{
+					case 0:
+						weatherPic = "night/ClearNight.png";
+						break;
+					case 1:
+						weatherPic = "night/MainlyClear.png";
+						break;
+					case 2:
+						weatherPic = "night/PartlyCloudyNight.png";
+						break;
+					case 3:
+						weatherPic = "night/Overcast.png";
+						break;
+					case 45:
+						weatherPic = "day/Fog.png";
+						break;
+					case 48:
+						weatherPic = "day/Fog.png";
+						break;
+					case 51:
+						weatherPic = "night/CloudyNight.png";
+						break;
+					case 53:
+						weatherPic = "Drizzle: Moderate";
+						break;
+					case 55:
+						weatherPic = "Drizzle: Dense intensity";
+						break;
+					case 56:
+						weatherPic = "Freezing Drizzle: Light";
+						break;
+					case 57:
+						weatherPic = "Freezing Drizzle: Dense intensity";
+						break;
+					case 61:
+						weatherPic = "Rain: Slight";
+						break;
+					case 63:
+						weatherPic = "Rain: Moderate";
+						break;
+					case 65:
+						weatherPic = "Rain: Heavy intensity";
+						break;
+					case 66:
+						weatherPic = "Freezing Rain: Light";
+						break;
+					case 67:
+						weatherPic = "Freezing Rain: Heavy intensity";
+						break;
+					case 71:
+						weatherPic = "Snow fall: Slight";
+						break;
+					case 73:
+						weatherPic = "Snow fall: Moderate";
+						break;
+					case 75:
+						weatherPic = "Snow fall: Heavy intensity";
+						break;
+					case 77:
+						weatherPic = "Snow grains";
+						break;
+					case 80:
+						weatherPic = "Rain showers: Slight";
+						break;
+					case 81:
+						weatherPic = "night/RainShowerNight.png";
+						break;
+					case 82:
+						weatherPic = "Rain showers: Violent";
+						break;
+					case 85:
+						weatherPic = "Snow showers slight";
+						break;
+					case 86:
+						weatherPic = "Snow showers heavy";
+						break;
+					case 95:
+						weatherPic = "Thunderstorm: Slight to Moderate";
+						break;
+					case 96:
+						weatherPic = "Thunderstorm with slight hail";
+						break;
+					case 99:
+						weatherPic = "Thunderstorm with heavy hail";
+						break;
+					default:
+						weatherPic = "Unable to Fetch WeatherConditions";
+						break;
+				}
+				
+			}
+			return weatherPic;
+		}
 	}
 }
