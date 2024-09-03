@@ -16,10 +16,8 @@
 	int windDir = Model.hourly.wind_direction_10m[direction];
 	float windStr = Model.hourly.wind_speed_10m[hour];
 	int tempFaren = Convert.ToInt32 (32 + 1.8 * Model.current.temperature_2m);
-
-
 	Tables tables = new();
-	int condition;
+	int condition = 0;
 	string conditionStr;
 	if (!Model.IsPlaceholder)
 	{
@@ -34,6 +32,14 @@
 	}
 	string windDirection = tables.GetDirectionFromInt(windDir);
 	string windSpeed = tables.GetSpeedFromFloat(windStr);
+
+	int sun = 1;
+	if (DateTime.Now < sunUpTime || DateTime.Now > sunDownTime)
+	{
+		sun = 2;		
+	}
+	
+	string weatherPic = tables.GetWeatherPicFromInt(condition,sun );    //<img src="~/content/images/Clear.png"/>;
 }
 
 <div class="weather-details">
@@ -59,11 +65,11 @@
 				<p>Temperature:  @{
 						if(!Model.IsPlaceholder)
 						{
-							@Model.current.temperature_2m
+							@Model.current.temperature_2m		// <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p>
 						}
 					} °C @tempFaren °F
-				</p>	@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@	
-				<p>Condition: @conditionStr</p>
+				</p>	
+				<p>Condition: @conditionStr <img src="~/content/images/weatherpics/@weatherPic" /></p>
 				<p>Humidity: @humidity%</p>
 				<p>Windspeed: @windSpeed @windStr m/s </p>
 				<p>Winddirection: @windDirection @windDir°</p>				
