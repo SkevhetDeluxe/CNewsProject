@@ -234,19 +234,19 @@ namespace CNewsProject.Models.Api.Weather
 					weatherPic = "day/Fog.png";
 					break;
 				case 51:
-					weatherPic = "day/LightRainShower.png";
+					weatherPic = "day/LightRainShower.png";		//Duggregn : Drizzle
 					break;
 				case 53:
-					weatherPic = "day/RainShower.png";
-					break;
+					weatherPic = "day/RainShower.png";          //Duggregn : Drizzle
+						break;
 				case 55:
-					weatherPic = "day/HeavyRainShower.png";
-					break;
+					weatherPic = "day/HeavyRainShower.png";     //Duggregn : Drizzle
+						break;
 				case 56:
-					weatherPic = "day/LightRainShower.png";		// Cold snow + rain
-					break;
+					weatherPic = "day/LightRainShower.png";     //Duggregn : Drizzle cold
+						break;
 				case 57:
-					weatherPic = "day/HeavyRainShower.png";     // Cold snow + rain
+					weatherPic = "day/HeavyRainShower.png";     //Duggregn : Drizzle cold
 						break;
 				case 61:
 					weatherPic = "day/LightRain.png.png";
@@ -258,23 +258,23 @@ namespace CNewsProject.Models.Api.Weather
 					weatherPic = "day/HeavyRain.png";
 						break;
 				case 66:
-					weatherPic = "day/LightRain.png";           // Cold snow + rain
+					weatherPic = "day/LightSleet.png";           // Snöblandat regn
 						break;
 				case 67:
-					weatherPic = "day/HeavyRain.png";           // Cold snow + rain
+					weatherPic = "day/HeavySleet.png";           // Snöblandat regn
 						break;
 				case 71:
-					weatherPic = "Snow fall: Slight";
+					weatherPic = "day/LightSnowfall.png";
 					break;
 				case 73:
-					weatherPic = "Snow fall: Moderate";
+					weatherPic = "day/Snowfall.png";
 					break;
 				case 75:
-					weatherPic = "Snow fall: Heavy intensity";
-					break;
+					weatherPic = "day/HeavySnowfall.png";
+						break;
 				case 77:
-					weatherPic = "Snow grains";
-					break;
+					weatherPic = "Snow grains";                     //--
+						break;
 				case 80:
 					weatherPic = "day/LightRainShower.png";
 					break;
@@ -285,20 +285,20 @@ namespace CNewsProject.Models.Api.Weather
 					weatherPic = "day/HeavyRainShower.png";
 					break;
 				case 85:
-					weatherPic = "Snow showers slight";
-					break;
+					weatherPic = "day/SnowShower.png";
+						break;
 				case 86:
-					weatherPic = "Snow showers heavy";
-					break;
+					weatherPic = "day/HeavySnowShower.png";
+						break;
 				case 95:
-					weatherPic = "Thunderstorm: Slight to Moderate";
-					break;
+					weatherPic = "day/ThunderShower.png";
+						break;
 				case 96:
-					weatherPic = "Thunderstorm with slight hail";
-					break;
+					weatherPic = "Thunderstorm with slight hail";           //--
+						break;
 				case 99:
-					weatherPic = "Thunderstorm with heavy hail";
-					break;
+					weatherPic = "Thunderstorm with heavy hail";            //--
+						break;
 				default:
 					weatherPic = "Unable to Fetch WeatherConditions";
 					break;
@@ -331,67 +331,67 @@ namespace CNewsProject.Models.Api.Weather
 						weatherPic = "night/CloudyNight.png";
 						break;
 					case 53:
-						weatherPic = "Drizzle: Moderate";
+						weatherPic = "Drizzle: Moderate";               //--
 						break;
 					case 55:
-						weatherPic = "Drizzle: Dense intensity";
+						weatherPic = "Drizzle: Dense intensity";        //--
 						break;
 					case 56:
-						weatherPic = "Freezing Drizzle: Light";
+						weatherPic = "Freezing Drizzle: Light";         //--
 						break;
 					case 57:
-						weatherPic = "Freezing Drizzle: Dense intensity";
+						weatherPic = "Freezing Drizzle: Dense intensity";       //--
 						break;
 					case 61:
-						weatherPic = "Rain: Slight";
+						weatherPic = "day/LightRain.png.png";
 						break;
 					case 63:
-						weatherPic = "Rain: Moderate";
+						weatherPic = "day/Rain.png";
 						break;
 					case 65:
-						weatherPic = "Rain: Heavy intensity";
+						weatherPic = "day/HeavyRain.png";
 						break;
 					case 66:
-						weatherPic = "Freezing Rain: Light";
+						weatherPic = "day/LightSleet.png";           // Snöblandat regn
 						break;
 					case 67:
-						weatherPic = "Freezing Rain: Heavy intensity";
+						weatherPic = "day/HeavySleet.png";           // Snöblandat regn
 						break;
 					case 71:
-						weatherPic = "Snow fall: Slight";
+						weatherPic = "night/LightSnowfall.png";
 						break;
 					case 73:
-						weatherPic = "Snow fall: Moderate";
+						weatherPic = "day/Snowfall.png";
 						break;
 					case 75:
-						weatherPic = "Snow fall: Heavy intensity";
+						weatherPic = "day/HeavySnowfall.png";         
 						break;
 					case 77:
-						weatherPic = "Snow grains";
+						weatherPic = "Snow grains";                         //--
 						break;
 					case 80:
-						weatherPic = "Rain showers: Slight";
+						weatherPic = "night/LightRainShowerNight.png";				//"Rain showers: Slight";
 						break;
 					case 81:
 						weatherPic = "night/RainShowerNight.png";
 						break;
 					case 82:
-						weatherPic = "Rain showers: Violent";
+						weatherPic = "Rain showers: Violent";               //--
 						break;
 					case 85:
-						weatherPic = "Snow showers slight";
+						weatherPic = "night/LightSnowFallNight.png";
 						break;
 					case 86:
-						weatherPic = "Snow showers heavy";
+						weatherPic = "Snow showers heavy";                  //--
 						break;
 					case 95:
-						weatherPic = "Thunderstorm: Slight to Moderate";
+						weatherPic = "night/ThunderShower.png";				//"Thunderstorm: Slight to Moderate";
 						break;
 					case 96:
-						weatherPic = "Thunderstorm with slight hail";
+						weatherPic = "Thunderstorm with slight hail";       //--
 						break;
 					case 99:
-						weatherPic = "Thunderstorm with heavy hail";
+						weatherPic = "Thunderstorm with heavy hail";        //--
 						break;
 					default:
 						weatherPic = "Unable to Fetch WeatherConditions";

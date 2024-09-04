@@ -53,21 +53,20 @@
 					<div class="mt-3">
 						<input type="text" class="form-control" id="city" placeholder="Change City" default="@city" />
 					</div>
-					
 				</form>
 				<div class="p-2 ps-0">
 					<button class="btn-sm" id="searchcity" onclick="FindNewCity(Search())">Find</button>
 				</div>
 				<div class="col-6 ps-0">
 				<p>Time: @hourMin </p>
-				<p>Sun  Up: @sunUp   Down: @sunDown</p>
+				<p>Sun Up: @sunUp   Down: @sunDown</p>
 				</div>	 
-				<p>Temperature:  @{
+				<p>Temperature: @{
 						if(!Model.IsPlaceholder)
 						{
 							@Model.current.temperature_2m		// <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p>
 						}
-					} °C @tempFaren °F
+					}°C or @tempFaren°F
 				</p>	
 				<p>Condition: @conditionStr <img src="~/content/images/weatherpics/@weatherPic" /></p>
 				<p>Humidity: @humidity%</p>
