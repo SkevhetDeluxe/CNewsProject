@@ -4,7 +4,6 @@ namespace CNewsProject.Models.Api.Weather
 {
 	public class Tables
 	{
-
 		public string GetConditionFromInt(int condition)
 		{
 			string kindOfWeather;
@@ -101,9 +100,7 @@ namespace CNewsProject.Models.Api.Weather
 					kindOfWeather = "Unable to Fetch WeatherConditions";
 					break;
 			}
-			
 			return kindOfWeather ;
-
 		}
 
 		public string GetDirectionFromInt(int windDir)
@@ -156,7 +153,6 @@ namespace CNewsProject.Models.Api.Weather
 					windDirection = "North";
 			}
 			return windDirection;
-
 		}
 
 		public string GetSpeedFromFloat(float windStr)
@@ -200,10 +196,7 @@ namespace CNewsProject.Models.Api.Weather
 				else if (windStr >= 32.7)
 					windSpeed = "Hurricane";
 			}
-
 			return windSpeed;
-
-
 		}
 
 		public string GetWeatherPicFromInt(int condition , int sun)
@@ -243,10 +236,10 @@ namespace CNewsProject.Models.Api.Weather
 					weatherPic = "day/HeavyRainShower.png";     //Duggregn : Drizzle
 						break;
 				case 56:
-					weatherPic = "day/LightRainShower.png";     //Duggregn : Drizzle cold
+					weatherPic = "day/DrizzleLightCold.png";     //Duggregn : Drizzle cold
 						break;
 				case 57:
-					weatherPic = "day/HeavyRainShower.png";     //Duggregn : Drizzle cold
+					weatherPic = "day/DrizzleCold.png";     //Duggregn : Drizzle cold
 						break;
 				case 61:
 					weatherPic = "day/LightRain.png.png";
@@ -331,16 +324,16 @@ namespace CNewsProject.Models.Api.Weather
 						weatherPic = "night/CloudyNight.png";
 						break;
 					case 53:
-						weatherPic = "Drizzle: Moderate";               //--
+						weatherPic = "night/LightRainShowerNight.png";
 						break;
 					case 55:
-						weatherPic = "Drizzle: Dense intensity";        //--
+						weatherPic = "night/RainShowerNight.png";               //"Drizzle: Dense intensity"
 						break;
 					case 56:
-						weatherPic = "Freezing Drizzle: Light";         //--
+						weatherPic = "night/DrizzleLightColdNight.png";
 						break;
 					case 57:
-						weatherPic = "Freezing Drizzle: Dense intensity";       //--
+						weatherPic = "night/DrizzleColdNight.png";
 						break;
 					case 61:
 						weatherPic = "day/LightRain.png.png";
@@ -376,13 +369,13 @@ namespace CNewsProject.Models.Api.Weather
 						weatherPic = "night/RainShowerNight.png";
 						break;
 					case 82:
-						weatherPic = "Rain showers: Violent";               //--
+						weatherPic = "night/RainShowersHeavyNight.png";
 						break;
 					case 85:
-						weatherPic = "night/LightSnowFallNight.png";
+						weatherPic = "night/LightSnowShowerNight.png";
 						break;
 					case 86:
-						weatherPic = "Snow showers heavy";                  //--
+						weatherPic = "night/SnowShowerHeavyNight.png";
 						break;
 					case 95:
 						weatherPic = "night/ThunderShower.png";				//"Thunderstorm: Slight to Moderate";
