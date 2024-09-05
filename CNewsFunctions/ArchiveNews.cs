@@ -14,16 +14,16 @@ public class ArchiveNews(ILogger<ArchiveNews> logger, FunctionDbContext db)
 
         var articles = db.Article.ToList();
         var toArchive = articles.Where(a => a.PublishedDate <= DateTime.Now.AddDays(-30)).ToList();
-        var toArchiveIds = toArchive.Select(a => a.Id).ToList();
+        //var toArchiveIds = toArchive.Select(a => a.Id).ToList();
 
-        foreach (var id in toArchiveIds)
+        foreach (var article in toArchive)
         {
-            db.Article.Find(id)!.IsArchived = true;
+            article.Status = "Archived";
         }
 
         db.SaveChanges();
 
-        logger.LogInformation($"Articles archived: {toArchiveIds.Count()}");
+        logger.LogInformation($"Articles archived: {toArchive.Count()}");
 
         if (myTimer.ScheduleStatus is not null)
         {
