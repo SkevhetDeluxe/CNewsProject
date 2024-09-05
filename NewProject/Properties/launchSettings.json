@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "NewProject": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7050",
+      "launchBrowser": false
+    }
+  }
+}
