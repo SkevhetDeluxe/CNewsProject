@@ -25,8 +25,8 @@ namespace CNewsFunctions
 
         public RatesForArchive(DateTime dateUpdated)
         {
-            PartitionKey = "RatesArchive";  // Could be a fixed partition
-            RowKey = dateUpdated.ToString("yyyyMMdd"); // RowKey based on date for uniqueness
+            PartitionKey = "RatesArchive";  
+            RowKey = dateUpdated.ToString("yyyyMMdd"); 
             DateUpdated = DateOnly.FromDateTime(dateUpdated);
         }
     }
