@@ -300,12 +300,6 @@ namespace CNewsProject.Service
         #region Get_Lists_With_Filters_ThisNameOfTheRegionIsOldFromAnotherProject.NewName="SearchFunctionality"()
 
         // Overload later to take filters and sortings
-        //public List<Article> GetArticleListByCategory(Category category)
-        //{
-        //    List<Article> articleList = _db.Article.Where(a => a.Category ==  category).ToList();
-
-        //    return articleList;
-        //}
 
         public List<Article> GetArticleListByCategoryStringified(string category, int count)
         {
@@ -403,63 +397,6 @@ namespace CNewsProject.Service
 
             return result;
         }
-
-        // public List<Article> SearchForArticles(string search)
-        // {
-        //     List<string> exactSearch = new();
-        //     if (search != null)
-        //     {
-        //         while (search.Contains("\""))
-        //         {
-        //             int pos1 = search.IndexOf("\"");
-        //             search = search.Remove(pos1, 1);
-        //
-        //             if (search.Contains("\"") == false)
-        //                 break;
-        //
-        //             int pos2 = search.IndexOf("\"");
-        //             search = search.Remove(pos2, 1);
-        //             int length = pos2 - pos1;
-        //             exactSearch.Add(search.ToLower().Substring(pos1, length));
-        //             search = search.Remove(pos1, length);
-        //         }
-        //
-        //         char[] delims = { ',', ' ', '.', '/' };
-        //         List<string> searchSplit = new(search.Trim().ToLower().Split(delims));
-        //         List<Article> searchResults = new();
-        //         List<string> excludeSearch = new();
-        //
-        //         for (int i = 0; i < searchSplit.Count; i++)
-        //         {
-        //             if (searchSplit[i].StartsWith("-"))
-        //             {
-        //                 excludeSearch.Add(searchSplit[i].Remove(0, 1));
-        //                 searchSplit.RemoveAt(i);
-        //             }
-        //         }
-        //
-        //         if (category == null)
-        //             searchResults = _db.Article.Where(a => a.Status == "Approved").ToList();
-        //
-        //         else
-        //             searchResults = _db.Article.Where(a => a.Category.Name == category).ToList();
-        //
-        //         if (exactSearch != null)
-        //             for (int i = 0; i < exactSearch.Count; i++)
-        //                 searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(exactSearch[i]) || a.Content.ToLower().Contains(exactSearch[i])).ToList();
-        //
-        //         if (searchSplit != null)
-        //             for (int i = 0; i < searchSplit.Count; i++)
-        //                 searchResults = searchResults.Where(a => a.Headline.ToLower().Contains(searchSplit[i]) || a.Content.ToLower().Contains(searchSplit[i])).ToList();
-        //
-        //         if (excludeSearch != null)
-        //             searchResults = searchResults.Where(a => !excludeSearch.Any(h => a.Headline.ToLower().Contains(h))).ToList();
-        //
-        //         return searchResults;
-        //     }
-        //
-        //     return null;
-        // }
 
         #endregion
 

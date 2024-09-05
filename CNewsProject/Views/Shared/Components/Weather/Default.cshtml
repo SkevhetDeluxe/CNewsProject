@@ -15,11 +15,9 @@
 	int humidity = Model.hourly.relative_humidity_2m[hour];
 	int windDir = Model.hourly.wind_direction_10m[direction];
 	float windStr = Model.hourly.wind_speed_10m[hour];
-	double tempFaren = 32 + 1.8 * Model.current.temperature_2m;
-
-
+	int tempFaren = Convert.ToInt32 (32 + 1.8 * Model.current.temperature_2m);
 	Tables tables = new();
-	int condition;
+	int condition = 0;
 	string conditionStr;
 	if (!Model.IsPlaceholder)
 	{
@@ -34,6 +32,14 @@
 	}
 	string windDirection = tables.GetDirectionFromInt(windDir);
 	string windSpeed = tables.GetSpeedFromFloat(windStr);
+
+	int sun = 1;
+	if (DateTime.Now < sunUpTime || DateTime.Now > sunDownTime)
+	{
+		sun = 2;		
+	}
+	
+	string weatherPic = tables.GetWeatherPicFromInt(condition,sun );    //<img src="~/content/images/Clear.png"/>;
 }
 
 <div class="weather-details">
@@ -47,27 +53,27 @@
 					<div class="mt-3">
 						<input type="text" class="form-control" id="city" placeholder="Change City" default="@city" />
 					</div>
-					
 				</form>
 				<div class="p-2 ps-0">
 					<button class="btn-sm" id="searchcity" onclick="FindNewCity(Search())">Find</button>
 				</div>
 				<div class="col-6 ps-0">
 				<p>Time: @hourMin </p>
-				<p>Sun  Up: @sunUp   Down: @sunDown</p>
+				<p>Sun Up: @sunUp   Down: @sunDown</p>
 				</div>	 
-				<p>Temperature:  @{
+				<p>Temperature: @{
 						if(!Model.IsPlaceholder)
 						{
-							@Model.current.temperature_2m
+							@Model.current.temperature_2m		// <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p>
 						}
-					} °C @tempFaren °F
-				</p>	@* <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@	
-				<p>Condition: @conditionStr</p>
+					}°C or @tempFaren°F
+				</p>	
+				<p>Condition: @conditionStr <img src="~/content/images/weatherpics/@weatherPic" /></p>
 				<p>Humidity: @humidity%</p>
 				<p>Windspeed: @windSpeed @windStr m/s </p>
 				<p>Winddirection: @windDirection @windDir°</p>				
 				<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
+				@* <script src='https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js'></script> *@
 			</div>
 		</div>
 	</div>

@@ -4,7 +4,6 @@ namespace CNewsProject.Models.Api.Weather
 {
 	public class Tables
 	{
-
 		public string GetConditionFromInt(int condition)
 		{
 			string kindOfWeather;
@@ -23,7 +22,7 @@ namespace CNewsProject.Models.Api.Weather
 					kindOfWeather = "Partly cloudy";
 					break;
 				case 3:
-					kindOfWeather = "Overcast"; ;
+					kindOfWeather = "Overcast";
 					break;
 				case 45:
 					kindOfWeather = "Fog";
@@ -101,8 +100,7 @@ namespace CNewsProject.Models.Api.Weather
 					kindOfWeather = "Unable to Fetch WeatherConditions";
 					break;
 			}
-			return kindOfWeather;
-
+			return kindOfWeather ;
 		}
 
 		public string GetDirectionFromInt(int windDir)
@@ -155,7 +153,6 @@ namespace CNewsProject.Models.Api.Weather
 					windDirection = "North";
 			}
 			return windDirection;
-
 		}
 
 		public string GetSpeedFromFloat(float windStr)
@@ -199,11 +196,203 @@ namespace CNewsProject.Models.Api.Weather
 				else if (windStr >= 32.7)
 					windSpeed = "Hurricane";
 			}
-
 			return windSpeed;
-
-
 		}
 
+		public string GetWeatherPicFromInt(int condition , int sun)
+		{
+			string weatherPic ="";
+			
+			//Code	 Description
+			if (sun == 1)
+			{ 
+				switch (condition)
+				{
+				case 0:
+					weatherPic = "day/Clear.png";
+					break;
+				case 1:
+					weatherPic = "day/MainlyClear.png";
+					break;
+				case 2:
+					weatherPic = "day/SemiClear.png";
+					break;
+				case 3:
+					weatherPic = "day/ALotOfCloud.png"; 
+					break;
+				case 45:
+					weatherPic = "day/Fog.png";
+					break;
+				case 48:
+					weatherPic = "day/Fog.png";
+					break;
+				case 51:
+					weatherPic = "day/LightRainShower.png";		//Duggregn : Drizzle
+					break;
+				case 53:
+					weatherPic = "day/RainShower.png";          //Duggregn : Drizzle
+						break;
+				case 55:
+					weatherPic = "day/HeavyRainShower.png";     //Duggregn : Drizzle
+						break;
+				case 56:
+					weatherPic = "day/DrizzleLightCold.png";     //Duggregn : Drizzle cold
+						break;
+				case 57:
+					weatherPic = "day/DrizzleCold.png";     //Duggregn : Drizzle cold
+						break;
+				case 61:
+					weatherPic = "day/LightRain.png.png";
+					break;
+				case 63:
+					weatherPic = "day/Rain.png";
+					break;
+				case 65:
+					weatherPic = "day/HeavyRain.png";
+						break;
+				case 66:
+					weatherPic = "day/LightSleet.png";           // Snöblandat regn
+						break;
+				case 67:
+					weatherPic = "day/HeavySleet.png";           // Snöblandat regn
+						break;
+				case 71:
+					weatherPic = "day/LightSnowfall.png";
+					break;
+				case 73:
+					weatherPic = "day/Snowfall.png";
+					break;
+				case 75:
+					weatherPic = "day/HeavySnowfall.png";
+						break;
+				case 77:
+					weatherPic = "Snow grains";                     //--
+						break;
+				case 80:
+					weatherPic = "day/LightRainShower.png";
+					break;
+				case 81:
+					weatherPic = "day/RainShower.png";
+					break;
+				case 82:
+					weatherPic = "day/HeavyRainShower.png";
+					break;
+				case 85:
+					weatherPic = "day/SnowShower.png";
+						break;
+				case 86:
+					weatherPic = "day/HeavySnowShower.png";
+						break;
+				case 95:
+					weatherPic = "day/ThunderShower.png";
+						break;
+				case 96:
+					weatherPic = "Thunderstorm with slight hail";           //--
+						break;
+				case 99:
+					weatherPic = "Thunderstorm with heavy hail";            //--
+						break;
+				default:
+					weatherPic = "Unable to Fetch WeatherConditions";
+					break;
+				}
+				
+			}
+			else if (sun == 2)
+			{
+				switch (condition)
+				{
+					case 0:
+						weatherPic = "night/ClearNight.png";
+						break;
+					case 1:
+						weatherPic = "night/MainlyClear.png";
+						break;
+					case 2:
+						weatherPic = "night/PartlyCloudyNight.png";
+						break;
+					case 3:
+						weatherPic = "night/Overcast.png";
+						break;
+					case 45:
+						weatherPic = "day/Fog.png";
+						break;
+					case 48:
+						weatherPic = "day/Fog.png";
+						break;
+					case 51:
+						weatherPic = "night/CloudyNight.png";
+						break;
+					case 53:
+						weatherPic = "night/LightRainShowerNight.png";
+						break;
+					case 55:
+						weatherPic = "night/RainShowerNight.png";               //"Drizzle: Dense intensity"
+						break;
+					case 56:
+						weatherPic = "night/DrizzleLightColdNight.png";
+						break;
+					case 57:
+						weatherPic = "night/DrizzleColdNight.png";
+						break;
+					case 61:
+						weatherPic = "day/LightRain.png.png";
+						break;
+					case 63:
+						weatherPic = "day/Rain.png";
+						break;
+					case 65:
+						weatherPic = "day/HeavyRain.png";
+						break;
+					case 66:
+						weatherPic = "day/LightSleet.png";           // Snöblandat regn
+						break;
+					case 67:
+						weatherPic = "day/HeavySleet.png";           // Snöblandat regn
+						break;
+					case 71:
+						weatherPic = "night/LightSnowfall.png";
+						break;
+					case 73:
+						weatherPic = "day/Snowfall.png";
+						break;
+					case 75:
+						weatherPic = "day/HeavySnowfall.png";         
+						break;
+					case 77:
+						weatherPic = "Snow grains";                         //--
+						break;
+					case 80:
+						weatherPic = "night/LightRainShowerNight.png";				//"Rain showers: Slight";
+						break;
+					case 81:
+						weatherPic = "night/RainShowerNight.png";
+						break;
+					case 82:
+						weatherPic = "night/RainShowersHeavyNight.png";
+						break;
+					case 85:
+						weatherPic = "night/LightSnowShowerNight.png";
+						break;
+					case 86:
+						weatherPic = "night/SnowShowerHeavyNight.png";
+						break;
+					case 95:
+						weatherPic = "night/ThunderShower.png";				//"Thunderstorm: Slight to Moderate";
+						break;
+					case 96:
+						weatherPic = "Thunderstorm with slight hail";       //--
+						break;
+					case 99:
+						weatherPic = "Thunderstorm with heavy hail";        //--
+						break;
+					default:
+						weatherPic = "Unable to Fetch WeatherConditions";
+						break;
+				}
+				
+			}
+			return weatherPic;
+		}
 	}
 }

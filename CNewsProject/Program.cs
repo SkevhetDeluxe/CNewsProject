@@ -1,22 +1,4 @@
-using System.Reflection;
-using CNewsProject.Data;
-
-using CNewsProject.Helpers;
-
-using CNewsProject.Models.Api.Weather;
-
-using CNewsProject.Models.DataBase.Identity;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.EntityFrameworkCore;
-
 using System.Text.Json;
-
-using Microsoft.OpenApi;
-using CNewsProject.Models.Api.CurrencyExchangeRate;
-
-
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,7 +43,7 @@ builder.Services.ConfigureApplicationCookie(opts =>
 
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
-
+builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IWeatherApiHandler, WeatherApiHandler>();
 builder.Services.AddScoped<ICurrencyExchangeRateService, CurrencyExchangeRateService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();

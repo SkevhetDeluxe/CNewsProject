@@ -1,0 +1,21 @@
+﻿@model AppUser
+
+<button class="btn edit-acc-btn">Edit Account</button>
+<p class="text-muted" style="display: none" id="edit-acc-confirmation">Changes saved</p>
+
+<form asp-controller="Account" asp-action="Profile" method="post" id="edit-acc-form" style="display:none">
+    <input asp-for="Id" type="hidden"/>
+
+    <label asp-for="UserName"></label><br/>
+    <input disabled asp-for="UserName"/>
+    <br/>
+    <label asp-for="Email"></label><br/>
+    <input disabled asp-for="Email"/>
+
+    <div class="form-group">
+        Fire Mode? <input type="checkbox" asp-for="Fire"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary" id="save-edit-acc">Save</button>
+    <button class="btn btn-danger edit-acc-btn">Cancel</button><br/>
+</form>

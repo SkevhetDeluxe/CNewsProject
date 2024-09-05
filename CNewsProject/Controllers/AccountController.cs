@@ -71,7 +71,7 @@ namespace CNewsProject.Controllers
             return View(user);
         }
 
-        [Route("/Account/MyAccount")]
+        //[Route("/Account/MyAccount")]
         [HttpPost]
         public IActionResult Profile(AppUser user)
         {
