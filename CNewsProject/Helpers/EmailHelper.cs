@@ -88,29 +88,10 @@ namespace CNewsProject.Helpers
 
             return (errList.Count == 0);
         }
+        #endregion
 
     }
 }
 
-    //public class EmailMessage
-    //{
-    //    public EmailMessage()
-    //    {
-
-    //    }
-
-    //    public List<EmailAddress> ToAddresses { get; set; }
-    //    public EmailAddress FromAddress { get; set; }
-    //    public string Subject { get; set; }
-    //    public string Content { get; set; }
-    //}
-
-    //public class EmailAddress
-    //{
-    //    public string Name { get; set; } = string.Empty;
-
-
-    //    public string Address { get; set; } = string.Empty;
-    //}
-    #endregion
+    
 

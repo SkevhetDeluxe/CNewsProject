@@ -49,36 +49,40 @@
     </div>
 </nav>
 
-@{ // For Debugging Only
+@{
+    // For Debugging Only
 
     @* <div> *@
     @*     <p>Controller: @currentController</p> *@
     @*     <p>Action: @currentAction</p> *@
     @* </div> *@
-
 }
 <div id="top" class="container row m-auto">
-    <main role="main" class="col-md-9 col-12 pb-3 pt-5">
-        @RenderBody()
-    </main>
-    <aside class="col-3 d-none d-md-block pt-5">
+    @{
+        if (currentController == "news" && currentAction != "economy" && currentAction != "search")
+        {
+            <main role="main" class="col-md-9 col-12 pb-3 pt-5">
+                @RenderBody()
+            </main>
+            <aside class="col-3 d-none d-md-block pt-5">
+                <div id="VCWeather">
 
-        <div id="VCWeather">
-        
-        </div><br/>
-
-        @{
-            if (currentController != "news" || currentAction != "economy")
-            {
+                </div><br/>
                 <div id="ExchangeVCDiv">
                     @*This Is Now Updated. Only loads data from API if data is old*@
                     <vc:exchange></vc:exchange>
                 </div>
-                <vc:sidebar-headlines></vc:sidebar-headlines>
-            }
+                <vc:sidebar-headlines count="5"></vc:sidebar-headlines>
+            </aside>
         }
-
-    </aside>
+        else
+        {
+            <main role="main" class="col-12 pb-3 pt-5">
+                @RenderBody()
+            </main>
+        }
+    }
+    
 </div>
 <div class="fixed-bottom d-none d-md-block" style="z-index: 1">
     &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -96,7 +100,7 @@
 @{
     string actionToJs = currentAction;
     string ctrlToJs = currentController;
-    
+
     if (ctrlToJs != "news")
         actionToJs = "NoAction";
 }
