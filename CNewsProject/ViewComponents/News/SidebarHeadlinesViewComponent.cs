@@ -9,16 +9,28 @@
             _articleService = articleService;
         }
 
-        public IViewComponentResult Invoke()
+        public IViewComponentResult Invoke(int count)
         {
-            SidebarHeadlinesVM vModel = new();
+            List<Article> approvedArticles = _articleService.GetAllPublished();
 
-            vModel.localArticles = _articleService.GetArticleListByCategoryStringified("Local", 5);
-            vModel.swedenArticles = _articleService.GetArticleListByCategoryStringified("Sweden", 5);
-            vModel.worldArticles = _articleService.GetArticleListByCategoryStringified("World", 5);
-            vModel.economyArticles = _articleService.GetArticleListByCategoryStringified("Economy", 5);
-            vModel.sportArticles = _articleService.GetArticleListByCategoryStringified("Sport", 5);
-
+            SidebarHeadlinesVM vModel = new()
+            {
+                localArticles = approvedArticles.Where(a => a.Category.Name == "Local" && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList(),
+                swedenArticles = approvedArticles.Where(a => a.Category.Name == "Sweden" && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList(),
+                worldArticles = approvedArticles.Where(a => a.Category.Name == "World" && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList(),
+                economyArticles = approvedArticles.Where(a => a.Category.Name == "Economy" && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList(),
+                sportArticles = approvedArticles.Where(a => a.Category.Name == "Sport" && a.Status == "Approved")
+                    .OrderByDescending(a => a.PublishedDate).Take(count)
+                    .ToList(),
+            };
             return View(vModel);
         }
     }

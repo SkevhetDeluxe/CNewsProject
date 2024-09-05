@@ -131,7 +131,6 @@ namespace CNewsProject.Service
         }
 
         public List<Article> GetAllArticles()
-
         {
             return _db.Article.OrderBy(a => a.Headline).ToList();
         }
@@ -238,7 +237,6 @@ namespace CNewsProject.Service
             GetArticleById(article.Id).Likes = article.Likes;
             GetArticleById(article.Id).ImageLink = article.ImageLink;
             GetArticleById(article.Id).Category = article.Category;
-            GetArticleById(article.Id).IsArchived = article.IsArchived;
 
             _db.SaveChanges();
         }
@@ -305,23 +303,18 @@ namespace CNewsProject.Service
 
         public List<Article> GetArticleListByCategoryStringified(string category, int count)
         {
-            List<Article> articleList = new();
             if (count != 0)
             {//.Include(a => a.Category)
-                articleList = _db.Article
+                return _db.Article
                     .Where(a => a.Category.Name == category && a.Status == "Approved")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList();
-
-                return articleList;
             }
             //.Include(a => a.Category) ONLY needed if you want to mess with the CATEGORY
-            articleList = _db.Article
+            return _db.Article
                 .Where(a => a.Category.Name == category && a.Status == "Approved")
                 .OrderByDescending(a => a.PublishedDate)
                 .ToList();
-
-            return articleList;
         }
 
         internal class QueryLists

@@ -12,12 +12,14 @@ namespace CNewsProject.Models.DataBase
         public string LinkText { get; set; } = string.Empty;
 
         [Required]
+        [MaxLength(150)]
         public string Headline { get; set; } = string.Empty;
 
         [Required]
         public string ContentSummary { get; set; } = string.Empty;
 
         [Required]
+        [MaxLength(7000)]
         public string Content { get; set; } = string.Empty;
         public int Views { get; set; }
         public int Likes { get; set; }
@@ -25,14 +27,14 @@ namespace CNewsProject.Models.DataBase
         public string ImageLink { get; set; } = string.Empty;
         public int CategoryId { get; set; }
         public Category Category { get; set; } = new();
-        public bool IsArchived  { get; set; }
         public string AuthorUserName { get; set; } = string.Empty;
         public string ThePublisherUserName { get; set; } = string.Empty;
         public string Status { get; set; } = "Pending";
+
         public string? DeclineMessage { get; set; } = null;
 
         // I don't know what this says actually but the -->
         // intended meaning is that false means you have to pay for this.
-        public bool IsntNotFree { get; set; } = false;
+        public bool IsntNotFree { get; set; } = false; // false = free. I think???
     }
 }

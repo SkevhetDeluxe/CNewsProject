@@ -17,10 +17,539 @@ namespace CNewsProject.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.7")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CNewsProject.Models.Api.CurrencyExchangeRate.Rates", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<float>("AED")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AFN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ALL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AMD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ANG")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AOA")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ARS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AUD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AWG")
+                        .HasColumnType("real");
+
+                    b.Property<float>("AZN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BAM")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BBD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BDT")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BGN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BHD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BIF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BMD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BND")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BOB")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BRL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BSD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BTN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BWP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BYN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("BZD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CAD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CDF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CHF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CLP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CNY")
+                        .HasColumnType("real");
+
+                    b.Property<float>("COP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CRC")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CUP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CVE")
+                        .HasColumnType("real");
+
+                    b.Property<float>("CZK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("DJF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("DKK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("DOP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("DZD")
+                        .HasColumnType("real");
+
+                    b.Property<DateOnly>("DateUpdated")
+                        .HasColumnType("date");
+
+                    b.Property<float>("EGP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ERN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ETB")
+                        .HasColumnType("real");
+
+                    b.Property<float>("EUR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FJD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FKP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("FOK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GBP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GEL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GGP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GHS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GIP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GMD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GNF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GTQ")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GYD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("HKD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("HNL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("HRK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("HTG")
+                        .HasColumnType("real");
+
+                    b.Property<float>("HUF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("IDR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ILS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("IMP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("INR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("IQD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("IRR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ISK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("JEP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("JMD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("JOD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("JPY")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KES")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KGS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KHR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KID")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KMF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KRW")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KWD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KYD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("KZT")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LAK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LBP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LKR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LRD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LSL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("LYD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MAD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MDL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MGA")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MKD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MMK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MNT")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MOP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MRU")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MUR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MVR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MWK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MXN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MYR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MZN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NAD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NGN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NIO")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NOK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NPR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("NZD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("OMR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PAB")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PEN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PGK")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PHP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PKR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PLN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("PYG")
+                        .HasColumnType("real");
+
+                    b.Property<float>("QAR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RON")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RSD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RUB")
+                        .HasColumnType("real");
+
+                    b.Property<float>("RWF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SAR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SBD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SCR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SDG")
+                        .HasColumnType("real");
+
+                    b.Property<int>("SEK")
+                        .HasColumnType("int");
+
+                    b.Property<float>("SGD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SHP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SLE")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SLL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SOS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SRD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SSP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("STN")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SYP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("SZL")
+                        .HasColumnType("real");
+
+                    b.Property<float>("THB")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TJS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TMT")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TND")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TOP")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TRY")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TTD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TVD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TWD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TZS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UAH")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UGX")
+                        .HasColumnType("real");
+
+                    b.Property<float>("USD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UYU")
+                        .HasColumnType("real");
+
+                    b.Property<float>("UZS")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VES")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VND")
+                        .HasColumnType("real");
+
+                    b.Property<float>("VUV")
+                        .HasColumnType("real");
+
+                    b.Property<float>("WST")
+                        .HasColumnType("real");
+
+                    b.Property<float>("XAF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("XCD")
+                        .HasColumnType("real");
+
+                    b.Property<float>("XDR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("XOF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("XPF")
+                        .HasColumnType("real");
+
+                    b.Property<float>("YER")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ZAR")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ZMW")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ZWL")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExchangeRates");
+                });
+
+            modelBuilder.Entity("CNewsProject.Models.Api.Weather.HistoricalWeather", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Condition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Temperature")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HistoricalWeathers");
+                });
 
             modelBuilder.Entity("CNewsProject.Models.DataBase.Article", b =>
                 {
@@ -39,22 +568,24 @@ namespace CNewsProject.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(7000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ContentSummary")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DeclineMessage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Headline")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<string>("ImageLink")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsArchived")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsntNotFree")
                         .HasColumnType("bit");
@@ -64,9 +595,6 @@ namespace CNewsProject.Migrations
 
                     b.Property<string>("LinkText")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PossibleMessageForADeclinedArticleWhichWillBeNullIfItWasNeverDeclinedToBeginWith")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishedDate")

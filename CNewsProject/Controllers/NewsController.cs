@@ -124,22 +124,23 @@ namespace CNewsProject.Controllers
             return View(articles);
         }
 
-		public IActionResult ArchiveOldArticles()
-		{
-			var archiveDate = DateTime.Now.AddMonths(-6); // Archive articles older than 6 months
-
-			var oldArticles = _context.Article
-				.Where(a => a.PublishedDate < archiveDate && !a.IsArchived);
-
-			foreach (var article in oldArticles)
-			{
-				article.IsArchived = true;
-			}
-
-			_context.SaveChanges();
-
-			return RedirectToAction("Archive");
-		}
+        // SHould be done in Azure Funciton. NOT HERE!
+		// public IActionResult ArchiveOldArticles()
+		// {
+		// 	var archiveDate = DateTime.Now.AddMonths(-6); // Archive articles older than 6 months
+		//
+		// 	var oldArticles = _context.Article
+		// 		.Where(a => a.PublishedDate < archiveDate && !a.IsArchived);
+		//
+		// 	foreach (var article in oldArticles)
+		// 	{
+		// 		article.IsArchived = true;
+		// 	}
+		//
+		// 	_context.SaveChanges();
+		//
+		// 	return RedirectToAction("Archive");
+		// }
 
         //public async Task TranslateDocuments()
         //{

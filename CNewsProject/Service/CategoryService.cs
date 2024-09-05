@@ -28,7 +28,7 @@ namespace CNewsProject.Service
 
         public Category GetCategoryById(int id)
         {
-            return _db.Category.FirstOrDefault(c => c.Id == id);
+            return _db.Category.Single(c => c.Id == id);
         }
         public Category GetCategoryByName(string name)
         {
@@ -44,7 +44,7 @@ namespace CNewsProject.Service
         }
         public void RemoveCategory(Category category)
         {
-            _db.Category.Remove(_db.Category.FirstOrDefault(c => c.Id == category.Id));
+            _db.Category.Remove(_db.Category.Single(c => c.Id == category.Id));
             _db.SaveChanges();
 
         }
