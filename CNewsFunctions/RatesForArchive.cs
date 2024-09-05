@@ -11,8 +11,7 @@ using System.ComponentModel.DataAnnotations;
 namespace CNewsFunctions
 {
     public class RatesForArchive:ITableEntity
-    {
-        [Key]
+    {        
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }        
         public DateOnly DateUpdated { get; set; }       

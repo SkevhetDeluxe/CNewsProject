@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=42s4C494d16TS+Ww3wwbWFcx3Nn2SuAsL6aJTsbfLnZqoND5gJ6O69MGdzSX69h6YrQTMgyBJ0t++AStJI5xcA==;EndpointSuffix=core.windows.net",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+  },
+  "ConnectionStrings": {
+    "GlobalConnection": "Data Source=dreammaker-it.se;Initial Catalog=cnewssecretdb;User ID=cnewsadmin;Password=SugMinRollBitch1337420;Encrypt=False;Trust Server Certificate=True;MultipleActiveResultSets=true"
+  }
+}
