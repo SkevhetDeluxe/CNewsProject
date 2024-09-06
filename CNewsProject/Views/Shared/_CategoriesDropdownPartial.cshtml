@@ -1,0 +1,34 @@
+@{
+    // This is C#
+    string currentAction = ViewContext.RouteData.Values["action"]!.ToString()!;
+    string currentController = ViewContext.RouteData.Values["controller"]!.ToString()!;
+
+    string currentSelected = "Categories";
+
+    if (currentController == "News")
+    {
+        if (currentAction == "Index")
+            currentSelected = "Latest";
+        else
+            currentSelected = currentAction;
+    }
+}
+
+<li class="nav-item dropdown">
+    <a id="news" class="nav-link dropdown-toggle c-border-round" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        @currentSelected
+    </a>
+    <div class="dropdown-menu">
+        <a id ="index" class="dropdown-item" asp-controller="News" asp-action="Index">Latest</a>
+        
+        <a id="local" class="dropdown-item" asp-controller="News" asp-action="Local" asp-fragment="top">Local</a>
+
+        <a id="sweden" class="dropdown-item" asp-controller="News" asp-action="Sweden">Sweden</a>
+
+        <a id="world" class="dropdown-item" asp-controller="News" asp-action="World">World</a>
+
+        <a id="economy" class="dropdown-item" asp-controller="News" asp-action="Economy">Economy</a>
+
+        <a id="sport" class="dropdown-item" asp-controller="News" asp-action="Sport">Sport</a>
+    </div>
+</li>

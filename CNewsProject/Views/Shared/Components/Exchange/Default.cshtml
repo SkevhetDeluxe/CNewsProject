@@ -1,0 +1,53 @@
+﻿@using CNewsProject.StaticTempData
+
+<div class="card">
+    <div class="card-body">
+        <div style="background-color:#dee6ef;">
+    <h3>Exchange rates</h3>
+        </div>
+    @{
+        // Calculating base exchange rates for 100 SEK and ensuring correct formatting
+        // string usd = (Model.USD * 100).ToString("F2");
+        // string eur = (Model.EUR * 100).ToString("F2");
+        // string jpy = (Model.JPY * 100).ToString("F2");
+        // string cny = (Model.CNY * 100).ToString("F2");
+        // string gbp = (Model.GBP * 100).ToString("F2");
+    }
+
+    <p>Enter the amount in SEK:</p>
+    <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates()" />
+    <ul>
+        <li id="liusd">USD : @CTempData.ExchangeRates.USD $</li>
+        <li id="lieur">EUR : @CTempData.ExchangeRates.EUR €</li>
+        <li id="lijpy">JPY : @CTempData.ExchangeRates.JPY Yen</li>
+        <li id="licny">CNY : @CTempData.ExchangeRates.CNY Yuán</li>
+        <li id="ligbp">GBP : @CTempData.ExchangeRates.GBP £</li>
+    </ul>
+
+    <script type="text/javascript">
+        // Parsing Razor variables as floats in JavaScript
+        let usdRate = parseFloat('@(CTempData.ExchangeRates.USD.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let eurRate = parseFloat('@(CTempData.ExchangeRates.EUR.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let jpyRate = parseFloat('@(CTempData.ExchangeRates.JPY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let cnyRate = parseFloat('@(CTempData.ExchangeRates.CNY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+        let gbpRate = parseFloat('@(CTempData.ExchangeRates.GBP.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+
+        function updateExchangeRates() {
+            const amountInSek = parseFloat(document.getElementById('amountInSek').value);
+
+            // Calculate and update each currency value
+            document.getElementById('liusd').textContent = `USD: ${(amountInSek * usdRate).toFixed(2)} $`;
+            document.getElementById('lieur').textContent = `EUR: ${(amountInSek * eurRate).toFixed(2)} €`;
+            document.getElementById('lijpy').textContent = `JPY: ${(amountInSek * jpyRate).toFixed(2)} Yen`;
+            document.getElementById('licny').textContent = `CNY: ${(amountInSek * cnyRate).toFixed(2)} Yuán`;
+            document.getElementById('ligbp').textContent = `GBP: ${(amountInSek * gbpRate).toFixed(2)} £`;
+        }
+
+        // Initialize the exchange rates on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            updateExchangeRates();
+        });
+
+    </script>
+    </div>
+</div>

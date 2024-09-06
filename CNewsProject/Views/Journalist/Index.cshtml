@@ -1,0 +1,12 @@
+﻿@model System.Security.Claims.ClaimsPrincipal
+
+@{
+    ViewData["Title"] = "Journalist Page";
+}
+
+<h1>Journalist</h1>
+
+<a asp-action="CreateArticle" class="btn btn-primary">Write Article</a>
+
+<vc:journalist-articles principal="@Model"></vc:journalist-articles>
+

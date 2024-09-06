@@ -1,0 +1,23 @@
+@using System.Web
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CategoryPageArticlesVM
+
+
+
+@* @{ *@
+@* 	string msg = "<a href='http://www.google.com/html/'>Google</a>"; *@
+@* } *@
+@* *@
+@* @Html.Raw(HttpUtility.HtmlDecode(@msg)) *@
+
+<section class="main-article">
+	<partial name="_ArticlePartial" model="@Model.MainArticle" />
+</section>
+<section class="articles row">
+	@foreach (var article in Model.NotMainButStillImportantArticles)
+	{
+		<div class="col-md-6 col-12">
+			<partial name="_ArticlePartial" model="article" />
+		</div>
+	}
+</section>

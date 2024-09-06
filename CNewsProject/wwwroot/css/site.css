@@ -1,22 +1,138 @@
-html {
-  font-size: 14px;
+
+.navfire {
+    background-image: url(/content/images/highqualitynavbar.png);
+    background-repeat: repeat;
+    background-size: 166px 75px;
 }
 
-@media (min-width: 768px) {
-  html {
+
+.hoverable {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.1s ease-in-out;
+}
+    .hoverable:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+    }
+
+.unlink {
+    text-decoration: none;
+    color:black;
+}
+
+.c-link-hover-container:hover{
+    .c-link-hover{
+        text-decoration: underline;
+    }
+}
+
+.c-link-hover {
+    text-decoration: none;
+}
+
+.c-nav-hat{
+    padding: 2rem 1rem;
+}
+
+.c-gradient-90{
+    background: rgb(0,153,153);
+    background: linear-gradient(90deg, rgba(0,153,153,1) 0%, rgba(0,51,102,1) 100%);
+}
+
+.c-nav-sticky {
+    position:  sticky;
+    top:  0;
+    padding: 0;
+}
+
+.c-container-img-center {
+    text-align: center;
+}
+
+.c-img-jumbo {
+    max-width: 700px;
+}
+
+.c-body {
+    background: #fff7e6;
+}
+
+.dropdown-menu{
+    --bs-dropdown-link-active-bg: #737373;
+}
+
+.nav-link {
+    color: white;
+}
+
+.navbar-nav {
+    --bs-nav-link-padding-x: 0.5rem;
+}
+
+.c-border-round{
+    border-radius: 10px;
+}
+
+.c-nav-item-hoverable:hover{
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-item{
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+/* FUCKS the NAVBAR Hamburger Menu up*/
+/*.nav-link {*/
+/*    height: 60px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
+/*#navbarNav {*/
+/*    height: 60px;*/
+/*    margin-top: 0;*/
+/*    margin-bottom: 0;*/
+/*    */
+/*}*/
+
+/*form stripe style*/
+<style >
+#payment-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-control {
+    border-radius: 4px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 20px;
     font-size: 16px;
-  }
+    border-radius: 4px;
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+#card-element {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+#card-errors {
+    color: red;
 }
 
-body {
-  margin-bottom: 60px;
-}
+</style >

@@ -1,0 +1,18 @@
+﻿@model List<Article>
+
+@{
+    ViewData["Title"] = "The Publisher Page";
+}
+
+<h3>Pending Articles</h3>
+
+<div style="overflow:auto">
+    @{
+        foreach(Article article in Model)
+        {
+            <div>
+                <a asp-action="Review" asp-route-id="@article.Id">@article.Headline</a><span>@article.WrittenDate</span>
+            </div>
+        }
+    }
+</div>

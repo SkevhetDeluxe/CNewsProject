@@ -1,0 +1,148 @@
+@model EditArticleVM
+
+@{
+    ViewData["Title"] = "EditeArticle";
+    string status = @Model.Status;
+    string DiscBtn = "Delete"; string DiscTip = "Delete Article";
+    string SaveBtn = "Save"; string SaveTip = "Save Changes";
+    string SubBtn = "Submit"; string SubTip = "Submit Article";
+}
+
+<style>
+    .c-textarea {
+        display: block;
+        width: 100%;
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet"/>
+
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+
+        <div class="mb-3">
+            @{
+                if (status == "Declined")
+                {
+                    <div>
+                        <h2>This Article has been Declined</h2>
+                        <h3>Reason: @Model.DeclineMessage</h3>
+                    </div>
+                    SubBtn = "Resubmit";
+                    DiscBtn = "Delete";
+                }
+                else if (status == "Pending")
+                {
+                    <div>
+                        <h2>This Article is Pending. You can Edit it and Resubmit it.</h2>
+                    </div>
+                    SubBtn = "Resubmit";
+                    SaveBtn = "Draft";
+                    DiscBtn = "Delete";
+                    
+                }
+                else if (status == "Draft")
+                {
+                    <div>
+                        <h2>Draft. Submit it when you are ready.</h2>
+                    </div>
+                } 
+            }
+        </div>
+
+        <form id="addArticle" asp-action="EditArticle" method="post" enctype="multipart/form-data">
+
+            <input asp-for="ArticleId" type="hidden"></input>
+            <input asp-for="Status" type="hidden"></input>
+            <input asp-for="BlobLink" type="hidden"></input>
+            
+            <div class="mb-3">
+                <img alt="I dont know man. Depends on what you chose" width="100%" src="@Model.BlobLink"/>
+                <br/>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="ArticleImage">Select New File</label>
+                <br/>
+                <input asp-for="ArticleImage"/>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Headline">Headline</label>
+                <br/>
+                <textarea id="headElement" type="http" class="c-textarea" asp-for="Headline" oninput="autoAdjustHeight(this)"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ContentSummary">Summary</label>
+                <br/>
+                <textarea id="sumElement" type="http" class="c-textarea" asp-for="ContentSummary" oninput="autoAdjustHeight(this)"></textarea>
+            </div>
+
+            <label for="editorContent">Content</label>
+            <br/>
+            <div id="editorContent" class="mb-3 bg-white">
+                @Html.Raw(@Model.Content)
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+            <input type="hidden" name="content"/>
+
+            <div class="mb-3">
+                <label asp-for="CategoryName">Category</label>
+                <br/>
+                <select asp-for="CategoryName" asp-items="Model.CategoryList"></select>
+            </div>
+
+            @*offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10*@
+            <div class="row">
+                <div class="col-2">
+                    <a asp-action="Index" title="@DiscTip" class="btn btn-danger">@DiscBtn</a>
+                </div>
+                <div class="col-10">
+                    <div class="row justify-content-end">
+                        <div class="col-3 col-sm-4 col-md-5 col-lg-6 col-xl-7"></div>
+                        <button type="submit" asp-route-draft="true" title="@SaveTip" class="col btn btn-secondary">@SaveBtn</button>
+                        <button type="submit" asp-route-draft="false" title="@SubTip" class="col ms-2 btn btn-primary">@SubBtn</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+string elem1 = "headElement";
+string elem2 = "sumElement";
+}
+
+<script>
+  const quill = new Quill('#editorContent', {
+    theme: 'snow'
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('[role="toolbar"]').forEach(function (el){
+    el.classList.add("bg-white");
+    autoAdjustHeight(@elem1);
+    autoAdjustHeight(@elem2);
+  })});
+  
+  const form = document.querySelector('#addArticle');
+  form.onsubmit = function () {
+      const content = document.querySelector('input[name=content]');
+      content.value = quill.root.innerHTML;
+  };
+
+
+  function autoAdjustHeight(textarea) {
+    
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+  }
+</script>

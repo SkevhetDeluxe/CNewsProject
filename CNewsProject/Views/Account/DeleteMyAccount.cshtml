@@ -1,0 +1,13 @@
+﻿@model AppUser
+
+
+<h1>
+    Are you Sure you wanna delete the account @Model.UserName
+</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit">YES</button>
+    <a asp-action="Profile">NO</a>
+</form>

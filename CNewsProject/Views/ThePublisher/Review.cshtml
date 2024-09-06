@@ -1,0 +1,100 @@
+﻿@model ReviewArticleVM
+
+<style>
+    .c-textarea {
+        display: block;
+        width: 100%;
+        height: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+        <form id="reviewArticle" asp-action="Preview" method="post">
+
+            <div class="mb-3">
+                <img width="100%" src="@Model.Article.ImageLink" />
+            </div>
+
+            <div>
+                <input type="hidden" asp-for="ArticleId" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Article.Headline">Headline</label>
+                <br/>
+                <textarea id="headElement" type="http" class="c-textarea" asp-for="Article.Headline" oninput="autoAdjustHeight(this)"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Article.ContentSummary">Summary</label>
+                <br/>
+                <textarea id="sumElement" type="http" class="c-textarea" asp-for="Article.ContentSummary" oninput="autoAdjustHeight(this)"></textarea>
+            </div>
+            
+            <label for="editorContent">Content</label>
+            <br/>
+            <div id="editorContent" class="mb-3 bg-white">
+                @Html.Raw(@Model.Article.Content)
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+            <input type="hidden" name="content"/>
+
+            <div class="mb-3">
+                <label asp-for="CategoryName">Category</label>
+                <br/>
+                <select asp-for="CategoryName" asp-items="Model.CategoryList"></select>
+            </div>
+
+            @*offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10*@
+            <div class="row">
+                <div class="col-2">
+                    <a asp-action="Decline" asp-route-id="@Model.ArticleId" class="btn btn-danger">Decline</a>
+                </div>
+                <div class="col-10">
+                    <div class="row justify-content-end">
+                        <div class="col-3 col-sm-4 col-md-5 col-lg-6 col-xl-7"></div>
+                        <button type="submit" class=" col-2 ms-2 btn btn-primary">Preview</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@{
+    string elem1 = "headElement";
+    string elem2 = "sumElement";
+}
+
+<script>
+  const quill = new Quill('#editorContent', {
+    theme: 'snow'
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('[role="toolbar"]').forEach(function (el){
+    el.classList.add("bg-white");
+    autoAdjustHeight(@elem1);
+    autoAdjustHeight(@elem2);
+  })});
+  
+  const form = document.querySelector('#reviewArticle');
+  form.onsubmit = function () {
+      const content = document.querySelector('input[name=content]');
+      content.value = quill.root.innerHTML;
+  };
+
+
+  function autoAdjustHeight(textarea) {
+    
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+  }
+</script>

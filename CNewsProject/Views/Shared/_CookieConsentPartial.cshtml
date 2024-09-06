@@ -1,0 +1,23 @@
+﻿@* Partial view for the cookies consent banner *@
+
+<style>
+    .cookie-consent-banner {
+        z-index: 2;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    } 
+</style>
+<div id="cookieConsent" class="cookie-consent-banner bg-dark text-white p-3 fixed-bottom" style="display: none">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <span>We use cookies to ensure you get the best experience on our website. <a href="/Home/Privacy" class="text-white">Learn more</a>.</span>
+            </div>
+            <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                <button id="acceptCookies" class="btn btn-success">Accept</button>
+                <button id="declineCookies" class="btn btn-danger">Decline</button>
+            </div>
+        </div>
+    </div>
+</div>

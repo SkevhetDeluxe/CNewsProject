@@ -1,0 +1,25 @@
+﻿@using System.Reflection
+@using CNewsProject.StaticTempData
+
+<div class="card">
+    <div class="card-body">
+        <div style="background-color:#dee6ef;">
+            <h3>Exchange rates</h3>
+        </div>
+        <p>100 SEK equals</p>
+    </div>
+    
+        <ul class="row">
+            @{
+
+                foreach (var prop in CTempData.ExchangeRates.GetType().GetProperties().Where(p => p.Name != "SEK" && p.Name != "DateUpdated"))
+                {
+                    string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(CTempData.ExchangeRates)) * 100);
+                    string liItem = prop.Name + " : " + temp;
+                    
+                    <li class="col-6 ps-0">@liItem</li>
+                }
+                
+            }
+        </ul>
+</div>

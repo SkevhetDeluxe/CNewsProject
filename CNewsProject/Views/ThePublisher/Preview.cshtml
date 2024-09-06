@@ -1,0 +1,39 @@
+﻿@model Article
+
+
+@{
+    string likeSymbol = "/Content/svg/Like/WhiteHeart.svg";
+}
+<div class="card mb-4 w-100">
+    <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline">
+    <div class="card-body bg-light">
+        <h5 class="card-title">@Model.Headline</h5>
+        <span style="color:dimgrey">
+            <span>by @Model.AuthorUserName</span>
+            <span>Date: @Model.PublishedDate.ToShortDateString()</span>
+        </span>
+        <span class="float-end">
+            <span>Views: @Model.Views</span>
+            <span>Likes: @Model.Likes</span>
+            <img id="likeElement" src="@likeSymbol" width="25"></img>
+        </span>
+    </div>
+    <div class="card-body">
+        @Html.Raw(@Model.Content)
+    </div>
+    <div class="card-footer text-muted">
+        <span>Category: @Model.Category.Name</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-2">
+        <a asp-action="Review" asp-route-id="@Model.Id" class="btn btn-secondary">Back</a>
+    </div>
+    <div class="col-10">
+        <div class="row justify-content-end">
+            <div class="col-3 col-sm-4 col-md-5 col-lg-6 col-xl-7"></div>
+            <a class=" col-2 ms-2 btn btn-primary" asp-action="Publish" asp-route-id="@Model.Id">Publish</a>
+            
+        </div>
+    </div>
+</div>

@@ -1,0 +1,37 @@
+﻿@model AppUser
+
+@{
+    //Vars
+    string profileName = Model.UserName + "'s Profile";
+}
+
+<h1>@profileName</h1>
+
+<vc:edit-account></vc:edit-account>
+
+<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
+
+
+@*I'm thinking a View Component here so you don't have to refresh page on EDIT*@
+
+
+
+@* 
+<div id="edit-acc-form">
+	<form>
+		<label asp-for="UserName">User Name</label><br />
+		<input asp-for="UserName" default="@Model.UserName" /><br />
+
+		<label asp-for="Email">Email Adress</label><br />
+		<input asp-for="Email" default="@Model.Email" /><br />
+
+		<label asp-for="Password">Old Password</label>
+		<input asp-for="Password" placeholder=" Old Password" type="password" /><br />
+
+		<label asp-for="Password">New Password</label><br />
+		<input asp-for="Password" placeholder="New Password" type="password"/><br />
+
+		<label asp-for="Password">Confirm Password</label>
+		<input asp-for="Password" placeholder="Confirm Password" type="password"/>
+	</form>
+</div> *@
