@@ -2,13 +2,14 @@
 
 public class EditAccountViewComponent : ViewComponent
 {
-    public EditAccountViewComponent()
+    private readonly IIdentityService _identityService;
+    public EditAccountViewComponent(IIdentityService identityService)
     {
-        
+        _identityService = identityService;
     }
 
-    public IViewComponentResult Invoke()
+    public IViewComponentResult Invoke(AppUser user)
     {
-        return View();
+        return View(user);
     }
 }

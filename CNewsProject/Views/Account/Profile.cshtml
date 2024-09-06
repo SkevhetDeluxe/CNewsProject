@@ -1,17 +1,39 @@
-﻿@model AppUser
+﻿@model UserProfileVM
 
 @{
     //Vars
-    string profileName = Model.UserName + "'s Profile";
+    string profileName = Model.User.UserName + "'s Profile";
 }
 
 <h1>@profileName</h1>
+<div class="row">
+    <div class="col-9">
+        <vc:edit-account user="@Model.User"></vc:edit-account>
+    </div>
 
-<vc:edit-account></vc:edit-account>
+    @{
+        <aside class="col-3">
 
-<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
+            @{
+	            if (Model.SubInfo != null)
+	            {
+		            <p>@Model.SubInfo.SubscriptionType.TypeName</p> //TODO SNARAST make pretty uwu
+		            <p>@Model.SubInfo.HistoricalPrice</p>
+		            <p>@Model.SubInfo.RenewedDate</p>
+		            <p>@Model.SubInfo.ExpiresDate</p>
+		            <br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a> //TODO maybe change this to a different view later
 
+	            }
+	            else
+	            {
+		            <br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
+	            }
+            }
 
+        </aside>
+    }
+
+</div>
 @*I'm thinking a View Component here so you don't have to refresh page on EDIT*@
 
 
