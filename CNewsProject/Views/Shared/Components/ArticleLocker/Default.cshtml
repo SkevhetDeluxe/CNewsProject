@@ -5,38 +5,43 @@
         z-index: 1;
         box-shadow: rgba(0, 0, 0, 0.35) 5px 15px;
     }
+    
+    #likeElement{
+        cursor: pointer;
+    }
 </style>
 
 @{
     if (Model.Access)
     {
         //Vars
+        
 
-        string btnColour = "btn-outline-primary";
-        string btnText = "Like";
+        string likeSymbol = "/Content/svg/Like/WhiteHeart.svg";
 
         if (Model.UserLikes.Contains(Model.Article.Id))
         {
-            btnColour = "btn-primary";
-            btnText = "Unlike";
+            likeSymbol = "/Content/svg/Like/BlueHeart.svg";
         }
+       
         // asp-controller="News" asp-action="Article">
-        <div class="card mb-4 w-100 hoverable">
+        <div class="card mb-4 w-100">
             <img class="card-img-top" src="@Model.Article.ImageLink" alt="@Model.Article.Headline">
-            <div class="card-body">
+            <div class="card-body bg-light">
                 <h5 class="card-title">@Model.Article.Headline</h5>
                 <span style="color:dimgrey">
-                <span>by @Model.Article.AuthorUserName</span>
-                <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
+                    <span>by @Model.Article.AuthorUserName</span>
+                    <span>Date: @Model.Article.PublishedDate.ToShortDateString()</span>
                 </span>
                 <span class="float-end">
-                <span>Views: @Model.Article.Views</span>
+                    <span>Views: @Model.Article.Views</span>
                     <span>Likes: @Model.Article.Likes</span>
-                    <button class="btn @btnColour" onclick="FilipsFunktion(@Model.Article.Id)">@btnText</button>
+                    <img id="likeElement" onclick="FilipsFunktion(@Model.Article.Id)" src="@likeSymbol" width="25"></img>
                 </span>
-                <br />
-                <br />
-                <p class="card-text">@Model.Article.Content</p>
+                
+            </div>
+            <div class="card-body">
+                @Html.Raw(@Model.Article.Content)
             </div>
             <div class="card-footer text-muted">
                 <span>Category: @Model.Article.Category.Name</span>

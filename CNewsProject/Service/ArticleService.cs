@@ -137,7 +137,7 @@ namespace CNewsProject.Service
 
         public List<Article> GetAllPublished()
         {
-            return _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).ToList();
+            return _db.Article.Include(a => a.Category).Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).ToList();
         }
 
         public FrontPageArticlesVM GetFrontPageArticleVM()
@@ -181,15 +181,16 @@ namespace CNewsProject.Service
 
        
 
-        public void WriteArticle(WriteArticleVM newArticle, string authorName)
+        public void WriteArticle(WriteArticleVM newArticle, string content, string authorName, bool draft)
         {
             Article article = new()
             {
                 Headline = newArticle.Headline,
-                Content = newArticle.Content,
+                Content = content,
                 ContentSummary = newArticle.ContentSummary,
                 LinkText = newArticle.Headline,
-                AuthorUserName = authorName
+                AuthorUserName = authorName,
+                Status = (draft ? "Draft" : "Pending")
             };
 
             if (_categoryService.CategoryExists(newArticle.CategoryName))
@@ -209,12 +210,12 @@ namespace CNewsProject.Service
             
             // Now UpBlob
             
-            var recentArticle = _db.Article.Single(a => a.Content == newArticle.Content);
+            var recentArticle = _db.Article.Single(a => a.Content == content);
             
             string imgName = "Article" + Convert.ToString(recentArticle.Id) + "Original";
 
             string imgUrl = UploadBlob(newArticle.ArticleImage, imgName);
-            _db.Article.Single(a => a.Content == newArticle.Content).ImageLink = imgUrl;
+            _db.Article.Single(a => a.Content == content).ImageLink = imgUrl;
             _db.SaveChanges();
         }
 
@@ -278,6 +279,36 @@ namespace CNewsProject.Service
             }
 
             _db.SaveChanges();
+        }
+
+        public bool UpdateArticleFromEditVM(EditArticleVM vModel, bool draft)
+        {
+            var article = GetArticleById(vModel.ArticleId);
+
+            if (article == null)
+                return false;
+
+            if (vModel.ArticleImage != null)
+            {
+                //TODO Update blob 
+            }
+
+            try
+            {
+                article.Category = _categoryService.GetCategoryByName(vModel.CategoryName);
+                article.Headline = vModel.Headline;
+                article.ContentSummary = vModel.ContentSummary;
+                article.Content = vModel.Content;
+                article.WrittenDate = DateTime.Now;
+                article.Status = draft ? "Draft" : "Pending";
+            }
+            catch
+            {
+                return false;
+            }
+
+            _db.SaveChanges();
+            return true;
         }
 
         public void PublishArticle(int id, string publisherName)

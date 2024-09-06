@@ -15,21 +15,21 @@
 
             SidebarHeadlinesVM vModel = new()
             {
-                localArticles = approvedArticles.Where(a => a.Category.Name == "Local" && a.Status == "Approved")
+                localArticles = approvedArticles.Where(a => a.Category.Name == "Local")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList(),
-                swedenArticles = approvedArticles.Where(a => a.Category.Name == "Sweden" && a.Status == "Approved")
+                swedenArticles = approvedArticles.Where(a => a.Category.Name == "Sweden")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList(),
-                worldArticles = approvedArticles.Where(a => a.Category.Name == "World" && a.Status == "Approved")
+                worldArticles = approvedArticles.Where(a => a.Category.Name == "World")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList(),
-                economyArticles = approvedArticles.Where(a => a.Category.Name == "Economy" && a.Status == "Approved")
+                economyArticles = approvedArticles.Where(a => a.Category.Name == "Economy")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList(),
-                sportArticles = approvedArticles.Where(a => a.Category.Name == "Sport" && a.Status == "Approved")
+                sportArticles = approvedArticles.Where(a => a.Category.Name == "Sport")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
-                    .ToList(),
+                    .ToList()
             };
             return View(vModel);
         }

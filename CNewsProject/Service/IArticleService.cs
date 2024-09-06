@@ -23,7 +23,9 @@ namespace CNewsProject.Service
         public void PublishArticle(int id, string publisherName);
         public void Laikalaininen(int id, ClaimsPrincipal principal);
         public string UploadBlob(IFormFile articleImage, string fileName);
-        public void WriteArticle(WriteArticleVM newArticle, string authorName);
+        public bool UpdateArticleFromEditVM(EditArticleVM vModel, bool draft);
+
+        public void WriteArticle(WriteArticleVM newArticle, string content, string authorName, bool draft);
         public CategoryPageArticlesVM GetCategoryPageArticleVM(string category);
         public List<Article> GetArticleListByCategoryStringified(string category, int count);
 
