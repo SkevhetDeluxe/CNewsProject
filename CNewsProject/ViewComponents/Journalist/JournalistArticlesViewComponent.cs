@@ -29,7 +29,8 @@ namespace CNewsProject.ViewComponents.Journalist
             {
                 Approved = articleList.Where(a => a.Status == "Approved").ToList() ?? new(),
                 Pending = articleList.Where(a => a.Status == "Pending").ToList() ?? new(),
-                Declined = articleList.Where(a => a.Status == "Declined").ToList() ?? new()
+                Declined = articleList.Where(a => a.Status == "Declined").ToList() ?? new(),
+                Draft = articleList.Where(a => a.Status == "Draft").ToList() ?? new(),
             };
 
             return View(vModel);

@@ -3,25 +3,22 @@
 @inject UserManager<AppUser> UserManager
 
 
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="text-light nav-link" asp-controller="Account" asp-action="Profile">
-                @User.Identity?.Name
-            </a>
-        </li>
-        <li class="nav-item">
-            <form asp-controller="Account" asp-action="Logout">
-                <button type="submit" class="nav-link text-light">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-       
-        <li class="nav-item">
-            <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Login</a>
-        </li>
-    }
-</ul>
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item c-nav-item-hoverable">
+        <a class="text-light nav-link" asp-controller="Account" asp-action="Profile">
+            @User.Identity?.Name
+        </a>
+    </li>
+    <li class="nav-item c-nav-item-hoverable">
+        <form asp-controller="Account" asp-action="Logout">
+            <button type="submit" class="nav-link text-light">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item c-nav-item-hoverable">
+        <a class="nav-link text-light" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+}

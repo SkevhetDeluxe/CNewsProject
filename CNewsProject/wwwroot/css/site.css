@@ -72,6 +72,16 @@
     border-radius: 10px;
 }
 
+.c-nav-item-hoverable:hover{
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.nav-item{
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
 /* FUCKS the NAVBAR Hamburger Menu up*/
 /*.nav-link {*/
 /*    height: 60px;*/

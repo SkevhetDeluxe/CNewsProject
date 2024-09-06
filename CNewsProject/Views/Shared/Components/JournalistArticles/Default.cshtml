@@ -4,14 +4,20 @@
 
 
 @{
-    List<string> statuses = new() { "Pending", "Approved", "Declined" };
-    List<string> colours = new() { "bg-warning", "bg-success", "bg-danger" };
+    List<string> statuses = new() { "Pending", "Approved", "Declined", "Draft" };
+    List<string> h3Ids = new() { "PendingId", "ApprovedId", "DeclinedId", "DraftId" };
+    List<string> colours = new() { "bg-primary", "bg-success", "bg-danger", "bg-secondary" };
+    List<string> bColours = new() { "#006666", "#336600", "#b30000", "#999999" };
+    List<string> Actions = new() { "EditArticle" , "Article"  , "EditArticle" , "EditArticle" };
+    List<string> Controllers = new() { "Journalist", "News", "Journalist", "Journalist" };
     List<Article> list = new();
-
-    for (int i = 0; i < 3; i++)
+    
+    
+    
+    for (int i = 0; i < 4; i++)
     {
-        <h3>@statuses[i]</h3>
-        <div style="overflow:auto; max-height:150px" class="mb-4 @colours[i]">
+        <h3 style="cursor:pointer;" id="@h3Ids[i]">@statuses[i]</h3>
+        <div id="@statuses[i]" style="overflow:auto; max-height:200px; border: @bColours[i] 4px solid;" class="mb-4 @colours[i]">
             @{
                 list = (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!;
 
@@ -21,73 +27,58 @@
                 }
                 else
                 {
-                    if (i == 1)
-                        foreach (var article in (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!)
+                    int articleNum = 1;
+                    foreach (var article in (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!)
+                    {
+                        if (articleNum % 2 == 0)
                         {
-                            <h4>Article: <a style="color: black" asp-controller="News" asp-action="Article" asp-route-id="@article.Id">@article.Headline</a></h4>
+                            <div class="p-2" style="background: rgba(0, 0, 0, 0.14);">
+                                <h4 class="pb-1 pt-1 m-0 c-link-hover-container">@articleNum : <a style="color: black;" class="c-link-hover" asp-controller="@Controllers[i]" asp-action="@Actions[i]" asp-route-id="@article.Id">@article.Headline</a></h4>
+                            </div>
                         }
-
-                    else
-                        foreach (var article in (List<Article>)Model.GetType().GetProperty(statuses[i])!.GetValue(Model)!)
+                        else
                         {
-                            <h4>Article: @article.Headline</h4>
+                            <div class="p-2">
+                                <h4 class="pb-1 pt-1 m-0  c-link-hover-container">@articleNum : <a style="color: black;" class="c-link-hover" asp-controller="@Controllers[i]" asp-action="@Actions[i]" asp-route-id="@article.Id">@article.Headline</a></h4>
+                            </div>
                         }
+                        articleNum++;
+                    }
                 }
             }
         </div>
     }
 }
 
-
-@* <h3>Pending</h3>
-<div style="overflow:auto; max-height:150px">
-    @{
-        if (Model.Pending.Count() == 0)
-        {
-            <h4>You have no Pending Articles</h4>
+<script type="text/javascript">
+    
+    document.addEventListener("DOMContentLoaded", function (){
+        const pendingElem = @h3Ids[0];
+        const approvedElem = @h3Ids[1];
+        const declinedElem = @h3Ids[2];
+        const draftElem = @h3Ids[3];
+        
+        pendingElem.addEventListener('click', function () {
+            ToggleDiv(@statuses[0]);
+        });
+        approvedElem.addEventListener('click', function () {
+            ToggleDiv(@statuses[1]);
+        });
+        declinedElem.addEventListener('click', function () {
+            ToggleDiv(@statuses[2]);
+        });
+        draftElem.addEventListener('click', function () {
+            ToggleDiv(@statuses[3]);
+        });
+    });
+    
+    function ToggleDiv(element){
+        if (element.style.display == "none"){
+            element.style.display = "block";
         }
-        else
-        {
-            foreach (Article article in Model.Pending)
-            {
-                <h4>Article: @article.Headline</h4>
-            }
-        }
-    }
-</div>
-
-<h3>Approved</h3>
-<div style="overflow:auto; max-height:150px">
-    @{
-        if(Model.Approved.Count() == 0)
-        {
-
-        }
-        else
-        {
-            foreach (Article article in Model.Approved)
-            {
-                <h4>Article: @article.Headline</h4>
-            }
+        else{
+            element.style.display = "none";
         }
     }
-</div>
-
-<h3>Declined</h3>
-<div style="overflow:auto; max-height:150px">
-    @{
-        if (Model.Declined.Count() == 0)
-        {
-
-        }
-        else
-        {
-            foreach (Article article in Model.Declined)
-            {
-                <h4>Article: @article.Headline</h4>
-            }
-        }
-    }
-</div>
-
- *@
+    
+</script>

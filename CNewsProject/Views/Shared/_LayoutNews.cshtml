@@ -26,7 +26,8 @@
         <img class="c-img-jumbo" src="Content/svg/DuckLOGOFinal.svg" alt="It's a rubber duck reading the newspaper on a wave."/>
     </div>
 }
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark  c-gradient-90 c-nav-sticky" data-bs-theme="dark">
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark c-gradient-90 c-nav-sticky" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index" asp-fragment="top">
             <img src="/Content/svg/SeaNewsWaveFinal.svg" alt="News Logo" style="height: 50px;">
@@ -40,7 +41,12 @@
                 <partial name="_CategoriesDropdownPartial"/>
                 <partial name="_RoleBasedLinksPartial"></partial>
             </ul>
-            <partial name="_LoginPartial"/>
+            <ul class="navbar-nav">
+                <li class="nav-item c-nav-item-hoverable">
+                    <a class="nav-link text-light" asp-action="Subscribe" asp-controller="Account">Subscribe</a>
+                </li>
+                <partial name="_LoginPartial"/>
+            </ul>
             <form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-primary" type="submit">Search</button>
@@ -84,9 +90,9 @@
     }
     
 </div>
-<div class="fixed-bottom d-none d-md-block" style="z-index: 1">
-    &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-</div>
+@* <div class="fixed-bottom d-none d-md-block" style="z-index: 1"> *@
+@*     &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+@* </div> *@
 <audio hidden id="mumsaudio" controls="controls">
     <source src="~/content/audio/mums.mp3" type="audio/mpeg"/>
 </audio>

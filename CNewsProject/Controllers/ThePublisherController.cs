@@ -37,11 +37,12 @@ namespace CNewsProject.Controllers
         }
 
 
-        public IActionResult Preview(ReviewArticleVM vModel)
+        [HttpPost]
+        public IActionResult Preview(ReviewArticleVM vModel, string content)
         {
             Article model = _articleService.GetArticleById(vModel.ArticleId);
             model.Headline = vModel.Article.Headline;
-            model.Content = vModel.Article.Content;
+            model.Content = content;
             model.ContentSummary = vModel.Article.ContentSummary;
             model.Category = _categoryService.GetCategoryByName(vModel.CategoryName);
 
@@ -77,15 +78,8 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Decline(DeclineVM vModel)
         {
-            AppUser publisher = await _identityService.GetAppUserByClaimsPrincipal(User);
-
-            if (publisher != null)
-            {
-                _articleService.DeclineArticle(vModel.Id, publisher.UserName!);
-                return View("/Views/ThePublisher/SuccessfullyDeclined.cshtml", vModel);
-            }
-
-            return RedirectToAction("Oops");
+            _articleService.DeclineArticle(vModel.Id, vModel.Reason);
+            return View("/Views/ThePublisher/SuccessfullyDeclined.cshtml", vModel);
         }
 
         public IActionResult TakeDown(int id) // TODO
