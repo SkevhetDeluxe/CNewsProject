@@ -85,3 +85,44 @@
 /*    margin-bottom: 0;*/
 /*    */
 /*}*/
+
+/*form stripe style*/
+<style >
+#payment-form {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-control {
+    border-radius: 4px;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+#card-element {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    margin-bottom: 10px;
+}
+
+#card-errors {
+    color: red;
+}
+
+</style >
