@@ -22,6 +22,8 @@ public class BlobResize(ILogger<BlobResize> logger, BlobServiceClient serviceCli
     {
         try
         {
+            logger.LogInformation("Realised blob in container images");
+
             // Download the original image from the blob
             BlobDownloadInfo download = await blobClient.DownloadAsync();
 

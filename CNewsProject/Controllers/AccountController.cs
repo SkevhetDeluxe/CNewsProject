@@ -42,7 +42,7 @@ namespace CNewsProject.Controllers
                         new { token, email = resultUser.User.Email }, Request.Scheme);
 
                     bool emailSent = _emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.",
-                        confirmationLink!);
+                        confirmationLink!, "Activate your account");
 
                     if (!emailSent)
                         return RedirectToAction();
@@ -214,7 +214,8 @@ namespace CNewsProject.Controllers
             var link = Url.Action("ResetPassword", "Account", new { token, email = user.Email }, Request.Scheme).Trim();
 
             EmailHelper emailHelper = new(config);
-            bool sentEmail = emailHelper.SendEmailAsync(user.Email!, "Reset Password", link!);
+            bool sentEmail = emailHelper.SendEmailAsync(user.Email!, "Reset Password", link!, 
+                "Reset your password here! If this was not you someone else put in your email mate. Might want to reset your password to your mail. Maybe?");
 
             if (sentEmail)
                 return View("ForgotPasswordConfirmation");
