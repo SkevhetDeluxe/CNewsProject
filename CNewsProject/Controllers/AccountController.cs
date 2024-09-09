@@ -70,7 +70,7 @@ namespace CNewsProject.Controllers
         }
 
         //Single READ ACCOUnt
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
             //AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
             //
@@ -78,7 +78,7 @@ namespace CNewsProject.Controllers
 
             UserProfileVM vModel = new()
             {
-                User = identitySrvc.GetAppUserByClaimsPrincipal(User).Result,
+                User = await identitySrvc.GetAppUserByClaimsPrincipal(User),
                 SubInfo = subscriptionService.GetSubscriptionByAppUser(User)
             };
             
