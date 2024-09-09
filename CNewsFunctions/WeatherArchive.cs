@@ -18,7 +18,7 @@ namespace CNewsFunctions
         }
 
         [Function("WeatherArchive")]
-        public async Task Run([TimerTrigger("0 0 3 * * *")] TimerInfo myTimer)
+        public async Task Run([TimerTrigger("0 0 3 * * *")] TimerInfo myTimer, ILogger log)
         {
             // Log the start of the function execution
             log.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
@@ -27,32 +27,18 @@ namespace CNewsFunctions
             using HttpClient httpClient = new HttpClient();
             var response = await httpClient.GetAsync(apiUrl);
             response.EnsureSuccessStatusCode();
-
             string responseBody = await response.Content.ReadAsStringAsync();
             var jsonObject = JObject.Parse(responseBody);
-
-            // Extract temperature and condition
             float temperature = jsonObject["main"]["temp"].Value<float>();
             string condition = jsonObject["weather"][0]["description"].Value<string>();
-
-            // Log the extracted data
             log.LogInformation($"Fetched weather data: Temperature - {temperature}, Condition - {condition}");
-
-            // Store the weather data in Azure Table Storage
             var connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=42s4C494d16TS+Ww3wwbWFcx3Nn2SuAsL6aJTsbfLnZqoND5gJ6O69MGdzSX69h6YrQTMgyBJ0t++AStJI5xcA==;EndpointSuffix=core.windows.net";
             TableServiceClient tableServiceClient = new TableServiceClient(connString);
             TableClient tableClient = tableServiceClient.GetTableClient("WeatherArchive");
-
-            // Ensure the table exists
             tableClient.CreateIfNotExists();
-
             var weatherEntity = new WeatherForArchive(DateTime.UtcNow, temperature, condition);
-
-            // Insert the entity into Azure Table Storage
             await tableClient.AddEntityAsync(weatherEntity);
-
-            log.LogInformation($"Weather data archived successfully at: {DateTime.UtcNow}");
-
+            log.LogInformation($"Weather data archived successfully at: {DateTime.UtcNow}");            
         }
     }
 }
