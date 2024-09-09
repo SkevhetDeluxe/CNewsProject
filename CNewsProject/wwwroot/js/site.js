@@ -69,6 +69,13 @@ $(document).ready(function () {
         $("#edit-acc-form").toggle();
         $("#edit-acc-confirmation").toggle();
     });
+    
+    
+    // Deselect Accordion
+    $(".accordion-button").click(function () {
+        $(this).blur();
+    });
+    
 });
 
 

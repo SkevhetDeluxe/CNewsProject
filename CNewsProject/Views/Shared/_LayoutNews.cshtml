@@ -27,7 +27,7 @@
     </div>
 }
 
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark c-gradient-90 c-nav-sticky" data-bs-theme="dark">
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark c-gradient-90 c-nav-sticky border-gradient" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" asp-area="" asp-controller="News" asp-action="Index" asp-fragment="top">
             <img src="/Content/svg/SeaNewsWaveFinal.svg" alt="News Logo" style="height: 50px;">
@@ -47,13 +47,26 @@
                 </li>
                 <partial name="_LoginPartial"/>
             </ul>
+            
             <form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
+            <div class="d-md-none">
+                <div class="mt-1 mb-1" id="VCWeather">
+
+                </div>
+                <div class="mb-1" id="ExchangeVCDiv">
+                    @*This Is Now Updated. Only loads data from API if data is old*@
+                    <vc:exchange></vc:exchange>
+                </div>
+            </div>
         </div>
     </div>
+    @* <div id="border-gradient"></div> *@
 </nav>
+
+
 
 @{
     // For Debugging Only
@@ -71,13 +84,13 @@
                 @RenderBody()
             </main>
             <aside class="col-3 d-none d-md-block pt-5">
-                <div id="VCWeather">
+                <div id="VCWeather" class="mb-1">
 
-                </div><br/>
-                <div id="ExchangeVCDiv">
+                </div>
+                <div id="ExchangeVCDiv" class="mb-1">
                     @*This Is Now Updated. Only loads data from API if data is old*@
                     <vc:exchange></vc:exchange>
-                </div>
+                </div><br/>
                 <vc:sidebar-headlines count="5"></vc:sidebar-headlines>
             </aside>
         }
