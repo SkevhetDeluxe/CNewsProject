@@ -16,13 +16,13 @@ namespace CNewsProject.Models.Statistics
 			_httpClient = httpClient;
 		}
 
-		public void countNewCustomer()
-		{
-			int number = SELECT COUNT(timeCreateUser);
+		//public void countNewCustomer()
+		//{
+		//	int number = SELECT COUNT(timeCreateUser);
 			
-			FROM table_name
-			WHERE condition;
-		}
+		//	FROM table_name
+		//	WHERE condition;
+		//}
 
 
 
