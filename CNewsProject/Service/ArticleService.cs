@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Drawing;
 using System.Security.Claims;
+using Azure;
 using MailKit.Search;
 
 //using static System.Net.Mime.MediaTypeNames;
@@ -54,6 +55,33 @@ namespace CNewsProject.Service
             //var newImg = new Bitmap()
 
             return blobClient.Uri.AbsoluteUri;
+        }
+
+        public bool DeleteBlob(string blobName)
+        {
+            try
+            {
+                var containers = _configuration.GetSection("imgContainers");
+
+                List<bool> failList = new();
+                foreach (var child in containers.GetChildren())
+                {
+                    BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(child.Value);
+
+                    BlobClient blobClient = containerClient.GetBlobClient(blobName);
+                    
+                    var result = blobClient.DeleteIfExists();
+                    
+                    if(!result)
+                        failList.Add(false);
+                }
+                
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -210,12 +238,12 @@ namespace CNewsProject.Service
             
             // Now UpBlob
             
-            var recentArticle = _db.Article.Single(a => a.Content == content);
+            var recentArticle = _db.Article.Single(a=> a.Id == article.Id);
             
-            string imgName = "Article" + Convert.ToString(recentArticle.Id) + "Original";
+            string imgName = "article" + Convert.ToString(recentArticle.Id) + "img";
 
             string imgUrl = UploadBlob(newArticle.ArticleImage, imgName);
-            _db.Article.Single(a => a.Content == content).ImageLink = imgUrl;
+            _db.Article.Single(a => a.Id == article.Id).ImageLink = imgUrl;
             _db.SaveChanges();
         }
 
@@ -290,7 +318,16 @@ namespace CNewsProject.Service
 
             if (vModel.ArticleImage != null)
             {
-                //TODO Update blob 
+                string imgName = article.ImageLink.Replace("https://cnewsstorage.blob.core.windows.net/images/", "");
+                
+                var deleted = DeleteBlob(imgName);
+
+                if (deleted)
+                {
+                    imgName = "article" + Convert.ToString(article.Id) + "img";
+                    string newLink = UploadBlob(vModel.ArticleImage, imgName);
+                    article.ImageLink = newLink;
+                }
             }
 
             try
@@ -328,7 +365,7 @@ namespace CNewsProject.Service
 
         #endregion
 
-        #region Get_Lists_With_Filters_ThisNameOfTheRegionIsOldFromAnotherProject.NewName="SearchFunctionality"()
+        #region Get_Lists_With_Filters_ThisNameOfTheRegionIsOldFromAnotherProject.NewName("SearchFunctionality")
 
         // Overload later to take filters and sortings
 
