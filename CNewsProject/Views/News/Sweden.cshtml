@@ -10,14 +10,52 @@
 @* *@
 @* @Html.Raw(HttpUtility.HtmlDecode(@msg)) *@
 
+@{
+List<Article> leftList = new();
+List<Article> rigthList = new();
+
+int count = 0;
+foreach (var article in Model.NotMainButStillImportantArticles)
+{
+var list = (count++ % 2 == 0) ? leftList : rigthList;
+list.Add(article);
+}
+}
+
+
 <section class="main-article">
 	<partial name="_ArticlePartial" model="@Model.MainArticle" />
 </section>
-<section class="articles row">
+<section class="articles row d-none d-md-flex">
+
+	<div class="col-6">
+		<div class="row">
+			@foreach (var article in leftList)
+			{
+			<div class="col-12">
+				<partial name="_ArticlePartial" model="article"/>
+			</div>
+			}
+		</div>
+	</div>
+	<div class="col-6">
+		<div class="row">
+			@foreach (var article in rigthList)
+			{
+			<div class="col-12">
+				<partial name="_ArticlePartial" model="article"/>
+			</div>
+			}
+		</div>
+	</div>
+
+</section>
+
+<section class="row d-flex d-md-none">
 	@foreach (var article in Model.NotMainButStillImportantArticles)
 	{
-		<div class="col-md-6 col-12">
-			<partial name="_ArticlePartial" model="article" />
-		</div>
+	<div class="col-md-6 col-12">
+		<partial name="_ArticlePartial" model="article"/>
+	</div>
 	}
 </section>
