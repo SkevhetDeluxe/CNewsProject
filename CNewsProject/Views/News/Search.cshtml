@@ -9,7 +9,15 @@
 <h1>Search</h1>
 
 <form method="post">
-    <input name="search" /> <button class="btn btn-sm btn-outline-success" type="submit">Search</button><br>
+    <label for="searchBox">Search</label>
+    <input id="searchBox" name="search"/>
+
+    <label for="authorBox">Author</label>
+    <input id="authorBox" name="author" autocomplete="off" />
+
+     <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
+    
+    <button class="btn btn-sm btn-primary" type="submit">Search</button><br>
     <select name="category">
         <option value="">Category</option>
         <option value="Local">Local</option>
@@ -18,7 +26,6 @@
         <option value="Economy">Economy</option>
         <option value="Sport">Sport</option>
     </select>
-
 </form>
 <br/>
 <div class="row">
@@ -38,3 +45,37 @@
         }
     }
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#authorBox').on('keyup', function () {
+            let searchTerm = $(this).val();
+            if (searchTerm.length > 1) {
+                $.ajax({
+                    url: '@Url.Action("SearchAuthors", "Article")',
+                    data: { term: searchTerm },
+                    success: function (data) {
+                        let suggestions = $('#authorSuggestions');
+                        suggestions.empty();
+                        if (data.length > 0) {
+                            suggestions.show();
+                            $.each(data, function (i, item) {
+                                suggestions.append('<li class="list-group-item author-suggestion">' + item + '</li>');
+                            });
+                        } else {
+                            suggestions.hide();
+                        }
+                    }
+                });
+            } else {
+                $('#authorSuggestions').hide();
+            }
+        });
+
+        // When a suggestion is clicked, fill the input field with the selected author
+        $(document).on('click', '.author-suggestion', function () {
+            $('#authorBox').val($(this).text());
+            $('#authorSuggestions').hide();
+        });
+    });
+</script>

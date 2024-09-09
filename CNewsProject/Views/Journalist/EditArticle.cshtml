@@ -65,11 +65,16 @@
                 <img alt="I dont know man. Depends on what you chose" width="100%" src="@Model.BlobLink"/>
                 <br/>
             </div>
-            
-            <div class="mb-3">
-                <label asp-for="ArticleImage">Select New File</label>
+
+            <div class="mb-1">
+                <label asp-for="ArticleImage">Select Image</label>
                 <br/>
-                <input asp-for="ArticleImage"/>
+                <input asp-for="ArticleImage" />
+            </div>
+            <div class="mb-3" style="color: red;">
+                <p>
+                    NOTICE: <span>Images will be cropped if not 16:9 Aspect Ratio</span>
+                </p>
             </div>
 
             <div class="mb-3">

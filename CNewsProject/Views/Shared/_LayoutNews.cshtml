@@ -78,8 +78,10 @@
 }
 <div id="top" class="container row m-auto">
     @{
+        int showWeather = 0;
         if (currentController == "news" && currentAction != "economy" && currentAction != "search")
         {
+            showWeather = 1;
             <main role="main" class="col-md-9 col-12 pb-3 pt-5">
                 @RenderBody()
             </main>
@@ -101,7 +103,7 @@
             </main>
         }
     }
-    
+
 </div>
 @* <div class="fixed-bottom d-none d-md-block" style="z-index: 1"> *@
 @*     &copy; @DateTime.Now.Year - CNewsProject - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
@@ -111,6 +113,7 @@
 </audio>
 <partial name="_CookieConsentPartial"/>
 
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
@@ -129,8 +132,14 @@
 		console.log("Realised Local JAVASCRIPT");
 		document.addEventListener('DOMContentLoaded', function() {
 			console.log("Document Loaded");
-			LoadWeather("Weather");
-
+			
+			let ajaxWeather = Boolean(@showWeather);
+			
+			console.log(ajaxWeather);
+			if (ajaxWeather){
+	    		LoadWeather("Weather");
+            }
+            
             SetSelectedNavActionItem();
             SetSelectedNavCtrlItem();
 		});

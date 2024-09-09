@@ -1,4 +1,4 @@
-$(document).ready(function () {
+﻿$(document).ready(function () {
     
     // Cookies Stuff
     LoadMums();
@@ -136,26 +136,27 @@ function TryDeleteType(id) {
             console.log(error);
         }
     });
+    
+}
 
-    function DeleteType(id) {
-        $.ajax({
-            url: '/Admin/DeleteType',
-            type: 'GET',
-            data: { id: id },
-            success: function (result) {
-                if (result.succeeded == true) {
-                    console.log("Success");
-                    AjaxRedirect("Admin", "RevokeSubTypes", "VC420");
-                }
-                else {
-                    console.log(`result.succeeded == ${result.succeeded}`);
-                }
-            },
-            error: function (error) {
-                console.log('Brrrrrrrrrrrrrrr');
+function DeleteType(id) {
+    $.ajax({
+        url: '/Admin/DeleteType',
+        type: 'GET',
+        data: { id: id },
+        success: function (result) {
+            if (result.succeeded == true) {
+                console.log("Success");
+                AjaxRedirect("Admin", "RevokeSubTypes", "VC420");
             }
-        })
-    }
+            else {
+                console.log(`result.succeeded == ${result.succeeded}`);
+            }
+        },
+        error: function (error) {
+            console.log('Brrrrrrrrrrrrrrr');
+        }
+    })
 }
 
 
@@ -194,5 +195,4 @@ function FindNewCity(cityName) {
         }
     });
 }
-
 
