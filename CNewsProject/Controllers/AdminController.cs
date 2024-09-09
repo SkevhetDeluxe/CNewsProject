@@ -3,29 +3,23 @@ namespace CNewsProject.Controllers
 {
 
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    public class AdminController(
+        IIdentityService identitySrvc,
+        ISubscriptionService subServ,
+        ISubscriptionStatisticsService statisticsService,
+        IArticleService articleService)
+        : Controller
     {
-        private readonly IIdentityService _identityService;
-        private readonly ISubscriptionService _subService;
-        private readonly ISubscriptionStatisticsService _statisticsService;
-
-        public AdminController(IIdentityService identitySrvc, ISubscriptionService subServ,ISubscriptionStatisticsService statisticsService)
-        {
-            _identityService = identitySrvc;
-            _subService = subServ;
-            _statisticsService = statisticsService;
-        }
-
-		public IActionResult SubscriptionStats()
+        public IActionResult SubscriptionStats()
 		{
 			var startDate = DateTime.Today.AddDays(-7); // Last week
 			var endDate = DateTime.Today;
 
 			var viewModel = new SubscriptionStatisticsViewModel
 			{
-				TotalSubscribers = _statisticsService.GetTotalSubscribers(),
-				NewSubscribersLastWeek = _statisticsService.GetNewSubscribers(startDate, endDate),
-				DailySubscriptions = _statisticsService.GetDailySubscriptions(startDate, endDate)
+				TotalSubscribers = statisticsService.GetTotalSubscribers(),
+				NewSubscribersLastWeek = statisticsService.GetNewSubscribers(startDate, endDate),
+				DailySubscriptions = statisticsService.GetDailySubscriptions(startDate, endDate)
 			};
 
 			return View(viewModel);
@@ -38,29 +32,29 @@ namespace CNewsProject.Controllers
         //[Route("Admin/Users")]
         public IActionResult Users()
         {
-            IEnumerable<AppUser> users = _identityService.ReadAppUsers();
+            IEnumerable<AppUser> users = identitySrvc.ReadAppUsers();
 
             return View(users);
         }
 
         public async Task<IActionResult> ManageUser(string id)
         {
-            AppUser user = await _identityService.GetAppUserByIdAsync(id);
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
             return View(user);
         }
 
         public async Task<IActionResult> AdminEdit(string id)
         {
-            AppUser user = await _identityService.GetAppUserByIdAsync(id);
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
             return View(user);
         }
 
         [HttpPost]
 		public async Task<IActionResult> AdminEdit(string id, string email, string userName, string password)
 		{
-			AppUser user = await _identityService.GetAppUserByIdAsync(id);
+			AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
 
-            await _identityService.UpdateAppUserAsync(id, email, userName, password);
+            await identitySrvc.UpdateAppUserAsync(id, email, userName, password);
 
 			return RedirectToAction("Index");
 		}
@@ -71,7 +65,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult Roles()
         {
-            IEnumerable<IdentityRole> roles = _identityService.ReadRoles();
+            IEnumerable<IdentityRole> roles = identitySrvc.ReadRoles();
 
             return View(roles);
         }
@@ -86,7 +80,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await _identityService.CreateRoleAsync(name);
+                IdentityResult result = await identitySrvc.CreateRoleAsync(name);
                 if (result.Succeeded)
                     return RedirectToAction("Roles");
                 
@@ -96,14 +90,14 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> UpdateRole(string id)
         {
-            IdentityRole role = await _identityService.GetRoleByIdAsync(id);
+            IdentityRole role = await identitySrvc.GetRoleByIdAsync(id);
 
             List<AppUser> members = new();
             List<AppUser> nonMembers = new();
 
             if (role != null)
             {
-                await _identityService.SplitUsersByRoleAsync(role, members, nonMembers);
+                await identitySrvc.SplitUsersByRoleAsync(role, members, nonMembers);
 
                 return View(new RoleEdit
                 {
@@ -123,20 +117,20 @@ namespace CNewsProject.Controllers
             {
                 foreach (string userId in model.AddIds ?? new string[] { })
                 {
-                    AppUser user = await _identityService.GetAppUserByIdAsync(userId);
+                    AppUser user = await identitySrvc.GetAppUserByIdAsync(userId);
                     
                     if (user != null)
                     {
-                        await _identityService.GrantUserRoleAsync(user, model.RoleName);
+                        await identitySrvc.GrantUserRoleAsync(user, model.RoleName);
                     }
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
-                    AppUser user = await _identityService.GetAppUserByIdAsync(userId);
+                    AppUser user = await identitySrvc.GetAppUserByIdAsync(userId);
 
                     if (user != null)
                     {
-                        await _identityService.PurgeUserRoleAsync(user, model.RoleName);
+                        await identitySrvc.PurgeUserRoleAsync(user, model.RoleName);
                     }
                 }
 
@@ -148,11 +142,11 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> DeleteRole(string id)
         {
-            IdentityRole role = await _identityService.GetRoleByIdAsync(id);
+            IdentityRole role = await identitySrvc.GetRoleByIdAsync(id);
 
             if (role != null)
             {
-                IdentityResult result = await _identityService.DeleteRoleAsync(role);
+                IdentityResult result = await identitySrvc.DeleteRoleAsync(role);
                 if (result.Succeeded)
                     return RedirectToAction("Roles");
             }
@@ -175,10 +169,10 @@ namespace CNewsProject.Controllers
 
         public IActionResult RevokeSubTypes()
         {
-            return ViewComponent("SubTypes", _subService.GetAllTypes());
+            return ViewComponent("SubTypes", subServ.GetAllTypes());
         }
 
-        public ViewResult SubscriptionTypes() => View(_subService.GetAllTypes());
+        public ViewResult SubscriptionTypes() => View(subServ.GetAllTypes());
 
         public IActionResult AddType()
         {
@@ -189,7 +183,7 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (_subService.AddType(type))
+                if (subServ.AddType(type))
                 {
                     return RedirectToAction("SubscriptionTypes");
                 }
@@ -199,7 +193,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult DeleteType(int id)
         {
-            bool result = _subService.RemoveType(id);
+            bool result = subServ.RemoveType(id);
 
             if (result)
                 return Json(new { succeeded = true });
@@ -209,21 +203,21 @@ namespace CNewsProject.Controllers
 
         public async Task<IActionResult> GiveSub(string userId, int typeId, double days)
         {
-            AppUser user = await _identityService.GetAppUserByIdAsync(userId);
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(userId);
 
-            bool succeded = _subService.AdminGiveSub(user, typeId, days);
+            bool succeded = subServ.AdminGiveSub(user, typeId, days);
 
             return RedirectToAction("ManageUser", new { id = userId });
         }
 
         public IActionResult ManageType(int id)
         {
-            return View(_subService.GetTypeById(id));
+            return View(subServ.GetTypeById(id));
         }
 
         public IActionResult TypeHasUsers(int id)
         {
-            if (_subService.TypeHasUsers(id))
+            if (subServ.TypeHasUsers(id))
                 return Json(new { hasUsers = true });
             else
                 return Json(new { hasUsers = false });
@@ -237,5 +231,13 @@ namespace CNewsProject.Controllers
             return RedirectToAction("SugMinaStats", "News");
         }
 		#endregion
+
+
+        public async Task<IActionResult> Area51()
+        {
+            var model = await articleService.GetAllAuthorNames() as List<string>;
+
+            return View(model);
+        }
 	}
 }

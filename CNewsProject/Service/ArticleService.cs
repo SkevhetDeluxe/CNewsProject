@@ -22,15 +22,17 @@ namespace CNewsProject.Service
         private readonly IConfiguration _configuration;
         private readonly ICategoryService _categoryService;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _blobServiceClient = new BlobServiceClient(configuration["AzureBlobStorage"]);
             _configuration = configuration;
             _categoryService = cgs;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         //Blob UPLOADING()
@@ -268,6 +270,20 @@ namespace CNewsProject.Service
             GetArticleById(article.Id).Category = article.Category;
 
             _db.SaveChanges();
+        }
+
+        public async Task<IList<string>> GetAllAuthorNames()
+        {
+            var allUsers = _db.Users.ToList();
+            List<string> authorNames = new();
+
+            foreach (var user in allUsers)
+            {
+                if(await _userManager.IsInRoleAsync(user, "Journalist"))
+                    authorNames.Add(user.UserName);
+            }
+            
+            return authorNames;
         }
 
         #endregion
