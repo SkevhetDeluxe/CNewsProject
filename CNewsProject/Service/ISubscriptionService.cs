@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using CNewsProject.Models.DataBase;
 
 
@@ -30,8 +31,10 @@ namespace CNewsProject.Service
         public void AddSubscription(Subscription supscription);
         public void RemoveSubscription(Subscription supscription);
         public void EditSubscription(Subscription supscription);
+        public Subscription GetSubscriptionByAppUser(ClaimsPrincipal user);
 
         // for Payment 
         bool IsUserSubscribed(string userId);
     }
+
 }

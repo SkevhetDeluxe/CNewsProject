@@ -1,4 +1,5 @@
-﻿using CNewsProject.Data;
+﻿using System.Security.Claims;
+using CNewsProject.Data;
 using CNewsProject.Models.DataBase;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -117,6 +118,11 @@ namespace CNewsProject.Service
             return _db.Subscription.OrderBy(o => o.Id).ToList();
         }
 
+        public Subscription GetSubscriptionByAppUser(ClaimsPrincipal user)
+        {
+            return _db.Subscription.Include(s => s.User).Include(s => s.SubscriptionType).FirstOrDefault(s => s.User.UserName == user.Identity.Name);
+        }
+
         public Subscription GetSubscriptionById(int id)
         {
             return _db.Subscription.FirstOrDefault(o => o.Id == id);
@@ -147,8 +153,5 @@ namespace CNewsProject.Service
 
             _db.SaveChanges();
         }
-
-       
     }
-
 }

@@ -8,8 +8,10 @@ namespace CNewsFunctions;
 
 public class ArchiveNews(ILogger<ArchiveNews> logger, FunctionDbContext db, IConfiguration config)
 {
+
     [Function("ArchiveNews")] // Assign False to RunOnStartup Parameter before PUBLISHING
     public void Run([TimerTrigger("0 0 * * * * ", RunOnStartup = false)] TimerInfo myTimer)
+
     {
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
         
