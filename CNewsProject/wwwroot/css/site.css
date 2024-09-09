@@ -136,3 +136,19 @@
 }
 
 </style >
+
+#authorSuggestions {
+    position: absolute;
+    width: 200px;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+.list-group-item {
+    cursor: pointer;
+}
+
+    .list-group-item:hover {
+        background-color: #f0f0f0;
+    }

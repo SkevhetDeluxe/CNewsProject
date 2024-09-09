@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace CNewsProject.Controllers
 {
 	public class NewsController : Controller
@@ -124,23 +128,35 @@ namespace CNewsProject.Controllers
             return View(articles);
         }
 
+        public JsonResult SearchAuthors(string term)
+        {
+            var authors = _context.Article
+                .Where(a => a.AuthorUserName.Contains(term))
+                .Select(a => a.AuthorUserName)
+                .Distinct()
+                .Take(10)
+                .ToList();
+
+            return Json(authors);
+        }
+
         // SHould be done in Azure Funciton. NOT HERE!
-		// public IActionResult ArchiveOldArticles()
-		// {
-		// 	var archiveDate = DateTime.Now.AddMonths(-6); // Archive articles older than 6 months
-		//
-		// 	var oldArticles = _context.Article
-		// 		.Where(a => a.PublishedDate < archiveDate && !a.IsArchived);
-		//
-		// 	foreach (var article in oldArticles)
-		// 	{
-		// 		article.IsArchived = true;
-		// 	}
-		//
-		// 	_context.SaveChanges();
-		//
-		// 	return RedirectToAction("Archive");
-		// }
+        // public IActionResult ArchiveOldArticles()
+        // {
+        // 	var archiveDate = DateTime.Now.AddMonths(-6); // Archive articles older than 6 months
+        //
+        // 	var oldArticles = _context.Article
+        // 		.Where(a => a.PublishedDate < archiveDate && !a.IsArchived);
+        //
+        // 	foreach (var article in oldArticles)
+        // 	{
+        // 		article.IsArchived = true;
+        // 	}
+        //
+        // 	_context.SaveChanges();
+        //
+        // 	return RedirectToAction("Archive");
+        // }
 
         //public async Task TranslateDocuments()
         //{
