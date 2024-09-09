@@ -2,8 +2,35 @@
 
 @{
     ViewData["Title"] = "Search";
-}
 
+    List<Article> listOne = new();
+    List<Article> listTwo = new();
+    List<Article> listThree = new();
+    List<Article> listFour = new();
+
+    int count = 0;
+    foreach (var item in Model)
+    {
+        switch (count % 4)
+        {
+            case 0:
+                listOne.Add(item);
+                break;
+            case 1:
+                listTwo.Add(item);
+                break;
+            case 2:
+                listThree.Add(item);
+                break;
+            case 3:
+                listFour.Add(item);
+                break;
+
+        }
+
+        count++;
+    }
+}
 
 
 <h1>Search</h1>
@@ -13,10 +40,10 @@
     <input id="searchBox" name="search"/>
 
     <label for="authorBox">Author</label>
-    <input id="authorBox" name="author" autocomplete="off" />
+    <input id="authorBox" name="author" autocomplete="off"/>
 
-     <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
-    
+    <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
+
     <button class="btn btn-sm btn-primary" type="submit">Search</button><br>
     <select name="category">
         <option value="">Category</option>
@@ -29,21 +56,41 @@
 </form>
 <br/>
 <div class="row">
-    @{
-        if (Model != null)
-        {
-            foreach (var article in Model)
+@{
+    if (Model != null)
+    {
+        <div class="col-md-3 col-sm-6 col-12">
+            @foreach (var article in listOne)
             {
-                <div class="col-md-3 col-sm-6 col-12">
-                    <partial name="_ArticlePartial" model="article" />
-                </div>
+                <partial name="_ArticlePartial" model="article"/>
             }
-        }
-        else if(true)
-        {
-            Console.WriteLine("LOL");
-        }
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+
+            @foreach (var article in listTwo)
+            {
+                <partial name="_ArticlePartial" model="article"/>
+            }
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+
+            @foreach (var article in listThree)
+            {
+                <partial name="_ArticlePartial" model="article"/>
+            }
+        </div>
+        <div class="col-md-3 col-sm-6 col-12">
+            @foreach (var article in listFour)
+            {
+                <partial name="_ArticlePartial" model="article"/>
+            }
+        </div>
     }
+    else if (true)
+    {
+        Console.WriteLine("LOL");
+    }
+}
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
