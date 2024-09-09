@@ -3,7 +3,10 @@
 namespace CNewsProject.Controllers
 {
     [Authorize]
-    public class AccountController(IIdentityService identitySrvc, IConfiguration config) : Controller
+    public class AccountController(
+        IIdentityService identitySrvc,
+        IConfiguration config,
+        ISubscriptionService subscriptionService) : Controller
     {
         private readonly EmailHelper _emailSender = new(config);
 
@@ -13,6 +16,7 @@ namespace CNewsProject.Controllers
         }
 
         // CRUD METHODS
+
         #region CRUD METHODS
 
         // [Route("Account/Register")]
@@ -34,9 +38,11 @@ namespace CNewsProject.Controllers
                 if (resultUser.Result.Succeeded)
                 {
                     string token = identitySrvc.GenerateEmailTokenAsync(resultUser.User).Result;
-                    var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = resultUser.User.Email }, Request.Scheme);
+                    var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                        new { token, email = resultUser.User.Email }, Request.Scheme);
 
-                    bool emailSent = _emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.", confirmationLink!);
+                    bool emailSent = _emailSender.SendEmailAsync(resultUser.User.Email, "Confirm Your Email.",
+                        confirmationLink!);
 
                     if (!emailSent)
                         return RedirectToAction();
@@ -64,26 +70,36 @@ namespace CNewsProject.Controllers
         }
 
         //Single READ ACCOUnt
-        public async Task<IActionResult> Profile()
+        public IActionResult Profile()
         {
-            AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
+            //AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
+            //
+            // Subscription user = subscriptionService.GetSubscriptionByAppUser(User);
 
-            return View(user);
+            UserProfileVM vModel = new()
+            {
+                User = identitySrvc.GetAppUserByClaimsPrincipal(User).Result,
+                SubInfo = subscriptionService.GetSubscriptionByAppUser(User)
+            };
+            
+            
+            return View(vModel);
         }
 
         //[Route("/Account/MyAccount")]
         [HttpPost]
-        public IActionResult Profile(AppUser user)
+        public IActionResult Profile(UserProfileVM vModel)
         {
-            if (identitySrvc.GetAppUserByIdAsync(user.Id).Result.Fire != user.Fire)
-				identitySrvc.FireOnOff(user.Id);
+            //          if (identitySrvc.GetAppUserByIdAsync(user.Id).Result.Fire != user.Fire)
+            // 	identitySrvc.FireOnOff(user.Id);
+            //
+            //user = identitySrvc.GetAppUserByIdAsync(user.Id).Result;
 
-			user = identitySrvc.GetAppUserByIdAsync(user.Id).Result;
-
-            return View(user);
+            return View(vModel);
         }
 
         //Profile RELATED stuff
+
         #region Profile RElated shit
 
         #endregion
@@ -135,10 +151,10 @@ namespace CNewsProject.Controllers
             return RedirectToAction("DeleteMyAccount");
         }
 
-
         #endregion
 
         // LOGIN LOGOUT METHODS
+
         #region LOGIN LOGOUT METHODS
 
         // [Route("Account/Login")]
@@ -158,7 +174,6 @@ namespace CNewsProject.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 Microsoft.AspNetCore.Identity.SignInResult result = await identitySrvc.LoginAppUserAsync(login);
 
                 if (result.Succeeded)
@@ -167,7 +182,6 @@ namespace CNewsProject.Controllers
                 ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
 
                 await identitySrvc.LoginAppUserAsync(login);
-
             }
 
             return View(login);
@@ -186,9 +200,9 @@ namespace CNewsProject.Controllers
         }
 
         [HttpPost]
-		[AllowAnonymous]
-		public async Task<IActionResult> ForgotPassword([Required]string email)
-		{
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgotPassword([Required] string email)
+        {
             if (!ModelState.IsValid)
                 return View(email);
 
@@ -203,16 +217,16 @@ namespace CNewsProject.Controllers
             bool sentEmail = emailHelper.SendEmailAsync(user.Email!, "Reset Password", link!);
 
             if (sentEmail)
-			    return View("ForgotPasswordConfirmation");
+                return View("ForgotPasswordConfirmation");
 
             return View(email);
-		}
+        }
 
-		[AllowAnonymous]
-		public IActionResult ForgotPasswordConfirmation()
-		{
-			return View();
-		}
+        [AllowAnonymous]
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
 
         [AllowAnonymous]
         public IActionResult ResetPassword(string token, string email)
@@ -248,7 +262,6 @@ namespace CNewsProject.Controllers
         }
 
         #endregion
-
 
 
         [Route("/Door/Bouncer")]

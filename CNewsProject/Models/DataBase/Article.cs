@@ -34,7 +34,7 @@ namespace CNewsProject.Models.DataBase
         public string? DeclineMessage { get; set; } = null;
 
         // I don't know what this says actually but the -->
-        // intended meaning is that false means you have to pay for this.
-        public bool IsntNotFree { get; set; } = false; // false = free. I think???
+        // intended meaning is that false means you have to pay for this. // CORRECT
+        public bool IsntNotFree { get; set; } = false; // false = free. I think??? // INCORRECT
     }
 }

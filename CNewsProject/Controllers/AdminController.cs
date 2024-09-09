@@ -119,7 +119,6 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateRole(RoleModification model)
         {
-            IdentityResult result;
             if (ModelState.IsValid)
             {
                 foreach (string userId in model.AddIds ?? new string[] { })
@@ -128,7 +127,7 @@ namespace CNewsProject.Controllers
                     
                     if (user != null)
                     {
-                        result = await _identityService.GrantUserRoleAsync(user, model.RoleName);
+                        await _identityService.GrantUserRoleAsync(user, model.RoleName);
                     }
                 }
                 foreach (string userId in model.DeleteIds ?? new string[] { })
@@ -137,7 +136,7 @@ namespace CNewsProject.Controllers
 
                     if (user != null)
                     {
-                        result = await _identityService.PurgeUserRoleAsync(user, model.RoleName);
+                        await _identityService.PurgeUserRoleAsync(user, model.RoleName);
                     }
                 }
 
