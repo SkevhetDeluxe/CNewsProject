@@ -16,6 +16,7 @@ namespace CNewsProject.Service
         public List<Article> GetPendingArticles();
         public void RemoveArticle(Article article);
         public void UpdateArticle(Article article);
+        public Task<IList<string>> GetAllAuthorNames();
         public void Laikalaininen(int id, string userId);
         public void DeclineArticle(int id, string reason);
         public FrontPageArticlesVM GetFrontPageArticleVM();

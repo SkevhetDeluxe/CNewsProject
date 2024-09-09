@@ -1,7 +1,9 @@
 ﻿using CNewsProject.Models.DataBase;
+using CNewsProject.Models.DataBase.AccountSettings;
 using CNewsProject.Models.DataBase.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Security;
 
 namespace CNewsProject.Data
 {
@@ -27,6 +29,8 @@ namespace CNewsProject.Data
 		public DbSet<Rates> ExchangeRates { get; set; }
 
 		public DbSet<HistoricalWeather> HistoricalWeathers { get; set; }
+        
+        public DbSet<NewsLetterSetting> NewsLetterSettings { get; set; }
 
 	}
 }
