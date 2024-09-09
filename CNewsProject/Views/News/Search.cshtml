@@ -9,7 +9,13 @@
 <h1>Search</h1>
 
 <form method="post">
-    <input name="search" /> <button class="btn btn-sm btn-outline-success" type="submit">Search</button><br>
+    <label for="searchBox">Search</label>
+    <input id="searchBox" name="search"/>
+
+    <label for="authorBox">Author</label>
+    <input id="authorBox" name="author"/>
+    
+    <button class="btn btn-sm btn-primary" type="submit">Search</button><br>
     <select name="category">
         <option value="">Category</option>
         <option value="Local">Local</option>
@@ -18,7 +24,6 @@
         <option value="Economy">Economy</option>
         <option value="Sport">Sport</option>
     </select>
-
 </form>
 <br/>
 <div class="row">
