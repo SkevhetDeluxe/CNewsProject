@@ -30,6 +30,15 @@
 
         count++;
     }
+
+    var dynamicAuthorNames = ViewBag.authorList;
+
+    List<string> authorNames = new();
+
+    foreach(var item in dynamicAuthorNames){
+        authorNames.Add(item);
+    }
+
 }
 
 
@@ -39,8 +48,7 @@
     <label for="searchBox">Search</label>
     <input id="searchBox" name="search"/>
 
-    <label for="authorBox">Author</label>
-    <input id="authorBox" name="author" autocomplete="off"/>
+    <partial name="_searchBarWithSuggestionsPartial" model="authorNames" />
 
     <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
 
