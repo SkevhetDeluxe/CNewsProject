@@ -551,32 +551,6 @@ namespace CNewsProject.Migrations
                     b.ToTable("HistoricalWeathers");
                 });
 
-            modelBuilder.Entity("CNewsProject.Models.DataBase.AccountSettings.NewsLetterSetting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorNames")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CategoryIds")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Latest")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Popular")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NewsLetterSettings");
-                });
-
             modelBuilder.Entity("CNewsProject.Models.DataBase.Article", b =>
                 {
                     b.Property<int>("Id")
@@ -731,6 +705,13 @@ namespace CNewsProject.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AuthorNames")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -745,6 +726,9 @@ namespace CNewsProject.Migrations
                     b.Property<bool>("Fire")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Latest")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LikedArticles")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -754,9 +738,6 @@ namespace CNewsProject.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("NewsLetterSettingId")
-                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -775,6 +756,9 @@ namespace CNewsProject.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("Popular")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -789,8 +773,6 @@ namespace CNewsProject.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("NewsLetterSettingId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -1039,17 +1021,6 @@ namespace CNewsProject.Migrations
                         .IsRequired();
 
                     b.Navigation("Article");
-                });
-
-            modelBuilder.Entity("CNewsProject.Models.DataBase.Identity.AppUser", b =>
-                {
-                    b.HasOne("CNewsProject.Models.DataBase.AccountSettings.NewsLetterSetting", "NewsLetterSetting")
-                        .WithMany()
-                        .HasForeignKey("NewsLetterSettingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NewsLetterSetting");
                 });
 
             modelBuilder.Entity("CNewsProject.Models.DataBase.Subscription", b =>
