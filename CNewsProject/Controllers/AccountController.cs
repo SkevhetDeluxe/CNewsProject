@@ -6,7 +6,8 @@ namespace CNewsProject.Controllers
     public class AccountController(
         IIdentityService identitySrvc,
         IConfiguration config,
-        ISubscriptionService subscriptionService) : Controller
+        ISubscriptionService subscriptionService,
+        IArticleService articleService) : Controller
     {
         private readonly EmailHelper _emailSender = new(config);
 
@@ -81,7 +82,11 @@ namespace CNewsProject.Controllers
                 User = await identitySrvc.GetAppUserByClaimsPrincipal(User),
                 SubInfo = subscriptionService.GetSubscriptionByAppUser(User)
             };
+
+            var authorNames = await articleService.GetAllAuthorNames() as List<string>;
             
+            if(authorNames != null)
+                ViewBag.authorList = authorNames;
             
             return View(vModel);
         }

@@ -1,5 +1,4 @@
 ﻿using CNewsProject.Models.DataBase;
-using CNewsProject.Models.DataBase.AccountSettings;
 using CNewsProject.Models.DataBase.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -30,7 +29,5 @@ namespace CNewsProject.Data
 
 		public DbSet<HistoricalWeather> HistoricalWeathers { get; set; }
         
-        public DbSet<NewsLetterSetting> NewsLetterSettings { get; set; }
-
 	}
 }
