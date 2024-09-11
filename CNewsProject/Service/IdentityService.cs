@@ -218,6 +218,34 @@ namespace CNewsProject.Service
         }
 
         #endregion
+        
+        #region NEWS LETTER SETTING
+
+        public bool UpdateNewsLetterSetting(AppUser user, NLUserSetting setting)
+        {
+            try
+            {
+                foreach (var item in setting.GetType().GetProperties())
+                {
+                    user.GetType().GetProperty(item.Name)!.SetValue(user, item.GetValue(setting));
+                }
+                
+                db.SaveChanges();
+                
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public List<string>? GetUserSubscribedToAuthors(AppUser user)
+        {
+            return user.AuthorNames.ToList();
+        }
+        
+        #endregion
         #endregion
 
         // Role RELATED
@@ -276,7 +304,13 @@ namespace CNewsProject.Service
         public async Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName)
         {
             IdentityResult result = await userManager.AddToRoleAsync(user, roleName);
-            signInManager.RefreshSignInAsync(user);
+
+            if (roleName == "Journalist")
+            {
+                CNewsProject.StaticTempData.AuthorNames.UserNames.Add(user.UserName!);
+            }
+            
+            await signInManager.RefreshSignInAsync(user);
 
             return result;
         }

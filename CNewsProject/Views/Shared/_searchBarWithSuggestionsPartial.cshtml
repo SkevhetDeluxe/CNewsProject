@@ -1,4 +1,4 @@
-@model List<string> 
+@model SearchBarSetting
 @inject IJsonHelper Json;
 
 <style>
@@ -9,7 +9,6 @@
     input {
         border: 1px solid black;
         background-color: #f1f1f1;
-        padding: 10px;
         font-size: 16px;
     }
     input[type=text] {
@@ -48,24 +47,24 @@
     }
 </style>
 
-<form autocomplete="off" onsubmit="">
-    <div class="autocomplete" style="width:300px;">
-        <input id="inputBox" type="text" name="selectedAuthor" placeholder="Author">
+<div id="@Model.ContainerId">
+    <div class="autocomplete" style="width:200px;">
+        <input autocomplete="off" id="@Model.InputFieldId" type="text" name="@Model.ControllerParameter" placeholder="@Model.Placeholder">
     </div>
-    <input type="submit">
-</form>
+    <button id="@Model.ButtonId"></button>
+</div>
+
+
 
 
 <script type="text/javascript">
+    let @{@Model.JsArrayName} = @Html.Raw(Json.Serialize(Model.Suggestions));
+    
+    @{@Model.JsArrayName}.
     
     document.addEventListener('DOMContentLoaded', function () {
-        let itemsArray = @Html.Raw(Json.Serialize(Model));
-        
-        itemsArray.forEach(function (item) {
-            console.log(item);
-        });
 
-        function autocomplete(inp, arr) {
+        function autocomplete(inp) {
             let currentFocus;
             inp.addEventListener("input", function(e) {
                 var a, b, i, val = this.value;
@@ -76,13 +75,13 @@
                 a.setAttribute("id", this.id + "autocomplete-list");
                 a.setAttribute("class", "autocomplete-items");
                 this.parentNode.appendChild(a);
-                for (i = 0; i < arr.length; i++) {
-                    if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                for (i = 0; i < @{@Model.JsArrayName}.length; i++) {
+                    if (@{@Model.JsArrayName}[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
                         b = document.createElement("DIV");
-                        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += arr[i].substr(val.length);
+                        b.innerHTML = "<strong>" + @{@Model.JsArrayName}[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += @{@Model.JsArrayName}[i].substr(val.length);
                         
-                        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                        b.innerHTML += "<input type='hidden' value='" + @{@Model.JsArrayName}[i] + "'>";
                         
                         b.addEventListener("click", function(e) {
                             
@@ -135,7 +134,7 @@
             });
         }
 
-        autocomplete(document.getElementById("inputBox"), itemsArray);
+        autocomplete(document.getElementById("@Model.InputFieldId"));
     });
 
     
