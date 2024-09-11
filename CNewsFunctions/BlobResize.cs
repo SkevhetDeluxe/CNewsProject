@@ -51,6 +51,10 @@ public class BlobResize(ILogger<BlobResize> logger, BlobServiceClient serviceCli
         }
     }
 
+    private string GetBlobUri(BlobClient blobClient)
+    {
+        return blobClient.Uri.AbsoluteUri;
+    }
 
     private async Task ResizeUploadToContainerAsync(string imgSize, string containerName, string blobName,
         Stream imageStream)
@@ -85,12 +89,17 @@ public class BlobResize(ILogger<BlobResize> logger, BlobServiceClient serviceCli
                     BlobClient resizedBlobClient = containerClient.GetBlobClient(blobName);
 
 
+
+
                     // Upload the resized image to the blob container
                     imageStream.Position = 0;
                     outputStream.Position = 0;
                     await resizedBlobClient.UploadAsync(outputStream, overwrite: true);
 
                     logger.LogInformation($"Uploaded image {blobName} to container {containerName}.");
+
+                    string imageUrl = GetBlobUri(resizedBlobClient);
+                    logger.LogInformation($"Image URL: {imageUrl}");
 
                     outputStream.Position = 0;
                 }
