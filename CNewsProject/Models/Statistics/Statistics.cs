@@ -1,12 +1,15 @@
-﻿using AspNetCore;
+﻿//using AspNetCore;
 using CNewsProject.Migrations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Data;
 using System.Globalization;
 using System.Net.Http;
 
+
 namespace CNewsProject.Models.Statistics
 {
-	public class Statistics:Views_Admin_Users
+	public class Statistics
 	{
 		private readonly ApplicationDbContext _dbContext;
 		private readonly HttpClient _httpClient;
@@ -16,18 +19,46 @@ namespace CNewsProject.Models.Statistics
 			_httpClient = httpClient;
 		}
 
-		public void countNewCustomer()
+		public int countNewCustomer()
 		{
-			int number = SELECT COUNT(timeCreateUser);
+			int number = _dbContext.Users.Count();          // How many who has a acount
+			List<AppUser> users = _dbContext.Users.OrderByDescending(u=>u.TimeCreateCustomer).ToList();
+			int timeA = DateTime.Now.Year;
+			int timeB = DateTime.Now.Month;
 			
-			FROM table_name
-			WHERE condition;
+			int count = 0;
+
+			foreach (var user in users)
+			{
+				if (timeB == 1)
+				{
+					if ((timeA-1) == user.TimeCreateCustomer.Year)
+					{
+						int timeC = 12;
+						if (timeC == user.TimeCreateCustomer.Month)
+						{
+							count++;
+						}
+
+					}
+
+				}
+				else if (timeA == user.TimeCreateCustomer.Year)
+				{
+					if ((timeB - 1) == user.TimeCreateCustomer.Month)
+					{
+						count++;
+					}
+				}
+		
+			}
+
+			return count;
 		}
 
 
 
-
-	public class Statisticscounter
+			public class Statisticscounter
 		{
 			////	<!-- Kopiera hela koden och klistra in där du vill ha din besöksräknare //-->
 			//	<a href = "http://www.seoett.com/raknare/" >
