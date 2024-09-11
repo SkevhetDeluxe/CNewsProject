@@ -272,7 +272,7 @@ namespace CNewsProject.Service
             _db.SaveChanges();
         }
 
-        public async Task<IList<string>> GetAllAuthorNames()
+        public async Task<List<string>> GetAllAuthorNames()
         {
             var allUsers = _db.Users.ToList();
             List<string> authorNames = new();

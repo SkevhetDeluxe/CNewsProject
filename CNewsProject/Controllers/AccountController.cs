@@ -77,16 +77,17 @@ namespace CNewsProject.Controllers
             //
             // Subscription user = subscriptionService.GetSubscriptionByAppUser(User);
 
+            var user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
+            
             UserProfileVM vModel = new()
             {
-                User = await identitySrvc.GetAppUserByClaimsPrincipal(User),
-                SubInfo = subscriptionService.GetSubscriptionByAppUser(User)
+                User = user,
+                SubInfo = subscriptionService.GetSubscriptionByAppUser(User),
+                SubscribedTo = user.AuthorNames ?? new List<string>()
             };
 
-            var authorNames = await articleService.GetAllAuthorNames() as List<string>;
-            
-            if(authorNames != null)
-                ViewBag.authorList = authorNames;
+            var authorNames = CNewsProject.StaticTempData.AuthorNames.UserNames;
+            ViewBag.authorList = authorNames;
             
             return View(vModel);
         }
@@ -103,6 +104,20 @@ namespace CNewsProject.Controllers
             return View(vModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateNewsLetterSetting(NLUserSetting setting, string? authorNames)
+        {
+            if (authorNames != null)
+            {
+                var authorArray = authorNames.Split(",");
+                setting.AuthorNames = new List<string>(authorArray);
+            }
+            
+            
+            identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
+            return RedirectToAction("Profile");
+        }
+        
         //Profile RELATED stuff
 
         #region Profile RElated shit

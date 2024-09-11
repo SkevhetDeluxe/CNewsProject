@@ -160,8 +160,6 @@ function DeleteType(id) {
 }
 
 
-
-
 // Loading Weather ASYNC
 
 function LoadWeather(name)

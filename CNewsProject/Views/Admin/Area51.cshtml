@@ -1,9 +1,57 @@
 @model List<string>
 
-<div>
-    <partial name="_searchBarWithSuggestionsPartial" model="Model"/>
-</div>
+@{
+    SearchBarSetting setting = new(Model, "Area51", "Area51Function", "Area");
+}
 
 <div>
-    
+    <partial name="_searchBarWithSuggestionsPartial" model="setting"/>
 </div>
+
+
+<div>
+    <input type="text" id="AreaInputTest"/>
+    <p id="AreaOutput">
+        Output
+    </p>
+</div>
+
+<script src="/js/cscripts.js"></script>
+<script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const outputBox = document.getElementById("AreaOutput");
+        const inputBox = document.getElementById('@setting.InputFieldId');
+        
+        inputBox.addEventListener('keydown', function (e) {
+            
+            if (e.key === "Enter") {
+                Area51Function(inputBox);
+            }
+        });
+
+        function Area51Function(inputElement){
+            
+            let inputValue = inputElement.value;
+            
+            console.log("Area FUNCITON");
+            
+            if (arrayContains(itemsArrayArea51, inputValue)){
+                outputBox.textContent = "true" + inputValue;
+                itemsArrayArea51 = itemsArrayArea51.filter(function (val) {
+                    return val !== inputValue;
+                });
+                
+                console.log(itemsArrayArea51);
+            }
+        }
+
+        const areaInput = document.getElementById("AreaInputTest");
+        areaInput.addEventListener("keypress", function (e) {
+            console.log("Pressed SOMETHING");
+        });
+    });
+
+
+</script>

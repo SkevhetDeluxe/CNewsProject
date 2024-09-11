@@ -20,7 +20,9 @@ namespace CNewsProject.Service
         public Task<AppUser> GetAppUserByClaimsPrincipal(System.Security.Claims.ClaimsPrincipal principal);
 
         public void FireOnOff(string userId);
+        public bool UpdateNewsLetterSetting(AppUser user, NLUserSetting setting);
 
+        public List<string>? GetUserSubscribedToAuthors(AppUser user);
 
 
 
