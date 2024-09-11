@@ -75,14 +75,24 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		public IActionResult Search() // REWORKING SEARCH
+		public async Task<IActionResult> Search() // REWORKING SEARCH
 		{
+			var auuthorNames = await _articleService.GetAllAuthorNames() as List<string>;
+
+			ViewBag.authorList = auuthorNames;
+
 			return View();
 		}
+
+
 		[HttpPost]
-		public IActionResult Search(string search, string category)
+		public async Task<IActionResult> Search(string search, string category)
 		{
-			SearchResult result = _articleService.SearchForArticles(search, category);
+            var auuthorNames = await _articleService.GetAllAuthorNames() as List<string>;
+
+            ViewBag.authorList = auuthorNames;
+
+            SearchResult result = _articleService.SearchForArticles(search, category);
 			return View(result.Articles);
 		}
 		

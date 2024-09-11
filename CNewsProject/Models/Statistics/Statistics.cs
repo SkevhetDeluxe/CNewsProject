@@ -1,3 +1,4 @@
+
 ﻿//using AspNetCore;
 using CNewsProject.Migrations;
 using Microsoft.EntityFrameworkCore;
@@ -84,18 +85,7 @@ namespace CNewsProject.Models.Statistics
 
 			}
 		}
-
-
-
-
-
-
 	}
 }
 
-		
-
-
-	
-	
 

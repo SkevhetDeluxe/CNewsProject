@@ -1,28 +1,62 @@
-﻿	@model CategoryPageArticlesVM
+﻿@model CategoryPageArticlesVM
 
+@{
+    List<Article> leftList = new();
+    List<Article> rigthList = new();
 
-	<div class="row">
-		<div class="col-md-9 col-12">
-			<section class="main-article">
-				<partial name="_ArticlePartial" model="@Model.MainArticle" />
-			</section>
-			<section class="articles row">
-				@foreach (var article in Model.NotMainButStillImportantArticles)
-				{
-					<div class="col-md-6 col-12">
-						<partial name="_ArticlePartial" model="article" />
-					</div>
-				}
-			</section>
-		</div>
-		<aside class="col-3 d-none d-md-block">
-			<div id="VCWeather">
-			</div><br />
-			<vc:exchange-all></vc:exchange-all>
-		</aside>
-	</div>
+    int count = 0;
+    foreach (var article in Model.NotMainButStillImportantArticles)
+    {
+        var list = (count++ % 2 == 0) ? leftList : rigthList;
+        list.Add(article);
+    }
+}
 
-	<script type="text/javascript">
+<div class="row">
+    <div class="col-md-9 col-12">
+        <section class="main-article">
+            <partial name="_ArticlePartial" model="@Model.MainArticle"/>
+        </section>
+        <section class="articles row d-none d-md-flex">
+            <div class="col-6">
+                <div class="row">
+                    @foreach (var article in leftList)
+                    {
+                        <div class="col-12">
+                            <partial name="_ArticlePartial" model="article"/>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    @foreach (var article in rigthList)
+                    {
+                        <div class="col-12">
+                            <partial name="_ArticlePartial" model="article"/>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+        <section class="row d-flex d-md-none">
+            @foreach (var article in Model.NotMainButStillImportantArticles)
+            {
+                <div class="col-md-6 col-12">
+                    <partial name="_ArticlePartial" model="article"/>
+                </div>
+            }
+        </section>
+    </div>
+    <aside class="col-3 d-none d-md-block">
+        <div class="mt-1 mb-1" id="VCWeather">
+        </div>
+        <vc:exchange-all class="mb-1"></vc:exchange-all>
+        <vc:sidebar-headlines count="5"></vc:sidebar-headlines>
+    </aside>
+</div>
+
+<script type="text/javascript">
 
 	document.addEventListener("DOMContentLoaded", function () {
 		LoadWeather("Weather")
@@ -30,7 +64,3 @@
 
 	
 	</script>
-
-
-
-

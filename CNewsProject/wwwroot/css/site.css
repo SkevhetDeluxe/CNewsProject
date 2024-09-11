@@ -10,17 +10,18 @@
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
     transition: box-shadow 0.1s ease-in-out;
 }
-    .hoverable:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
-    }
+
+.hoverable:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
+}
 
 .unlink {
     text-decoration: none;
-    color:black;
+    color: black;
 }
 
-.c-link-hover-container:hover{
-    .c-link-hover{
+.c-link-hover-container:hover {
+    .c-link-hover {
         text-decoration: underline;
     }
 }
@@ -29,18 +30,18 @@
     text-decoration: none;
 }
 
-.c-nav-hat{
+.c-nav-hat {
     padding: 2rem 1rem;
 }
 
-.c-gradient-90{
-    background: rgb(0,153,153);
-    background: linear-gradient(90deg, rgba(0,153,153,1) 0%, rgba(0,51,102,1) 100%);
+.c-gradient-90 {
+    background: rgb(0, 153, 153);
+    background: linear-gradient(90deg, rgba(0, 153, 153, 1) 0%, rgba(0, 51, 102, 1) 100%);
 }
 
 .c-nav-sticky {
-    position:  sticky;
-    top:  0;
+    position: sticky;
+    top: 0;
     padding: 0;
 }
 
@@ -56,7 +57,7 @@
     background: #fff7e6;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     --bs-dropdown-link-active-bg: #737373;
 }
 
@@ -68,16 +69,16 @@
     --bs-nav-link-padding-x: 0.5rem;
 }
 
-.c-border-round{
+.c-border-round {
     border-radius: 10px;
 }
 
-.c-nav-item-hoverable:hover{
+.c-nav-item-hoverable:hover {
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.25);
 }
 
-.nav-item{
+.nav-item {
     margin-left: 1px;
     margin-right: 1px;
 }
@@ -97,7 +98,8 @@
 /*}*/
 
 /*form stripe style*/
-<style >
+<
+style >
 #payment-form {
     max-width: 600px;
     margin: 0 auto;
@@ -120,9 +122,9 @@
     border-radius: 4px;
 }
 
-    .btn-success:hover {
-        background-color: #218838;
-    }
+.btn-success:hover {
+    background-color: #218838;
+}
 
 #card-element {
     padding: 10px;
@@ -133,6 +135,19 @@
 
 #card-errors {
     color: red;
+}
+
+#border-gradient {
+    margin-top: 200px;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(0, 128, 128, 1) 0%, rgba(0, 40, 77, 1) 100%);
+    z-index: 1000;
+}
+
+.border-gradient{
+    border-width: 0px 0px 4px 0px;
+    border-style: solid;
+    border-image: linear-gradient(to right, rgba(0, 128, 128, 1) 0%, rgba(0, 40, 77, 1) 100%) 1;
 }
 
 </style >

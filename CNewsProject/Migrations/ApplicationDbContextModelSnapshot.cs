@@ -705,6 +705,13 @@ namespace CNewsProject.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("AuthorNames")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategoryIds")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -717,6 +724,9 @@ namespace CNewsProject.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("Fire")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Latest")
                         .HasColumnType("bit");
 
                     b.Property<string>("LikedArticles")
@@ -744,6 +754,9 @@ namespace CNewsProject.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Popular")
                         .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")

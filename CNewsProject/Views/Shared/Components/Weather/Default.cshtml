@@ -1,87 +1,133 @@
-
 @model WeatherStats
 @inject IWeatherApiHandler _handler
 
 @{
-	WeatherStats stats = new();
-	string city = "Stockholm";
-	int direction = 0;
-	string hourMin = DateTime.Now.ToString("HH:mm");
-	int hour = DateTime.Now.Hour;
-	DateTime sunUpTime = Convert.ToDateTime( Model.daily.sunrise[0]);
-	string sunUp = sunUpTime.ToString("HH:mm") ?? "Could not parse DateTime";
-	DateTime sunDownTime = Convert.ToDateTime(Model.daily.sunset[0]);
-	string sunDown = sunDownTime.ToString("HH:mm");
-	int humidity = Model.hourly.relative_humidity_2m[hour];
-	int windDir = Model.hourly.wind_direction_10m[direction];
-	float windStr = Model.hourly.wind_speed_10m[hour];
-	int tempFaren = Convert.ToInt32 (32 + 1.8 * Model.current.temperature_2m);
-	Tables tables = new();
-	int condition = 0;
-	string conditionStr;
-	if (!Model.IsPlaceholder)
-	{
-		condition = Model.hourly.weather_code[hour]; //"Condition not available"
+    WeatherStats stats = new();
+    string city = "Stockholm";
+    int direction = 0;
+    string hourMin = DateTime.Now.ToString("HH:mm");
+    int hour = DateTime.Now.Hour;
+    DateTime sunUpTime = Convert.ToDateTime(Model.daily.sunrise[0]);
+    string sunUp = sunUpTime.ToString("HH:mm") ?? "Could not parse DateTime";
+    DateTime sunDownTime = Convert.ToDateTime(Model.daily.sunset[0]);
+    string sunDown = sunDownTime.ToString("HH:mm");
+    int humidity = Model.hourly.relative_humidity_2m[hour];
+    int windDir = Model.hourly.wind_direction_10m[direction];
+    float windStr = Model.hourly.wind_speed_10m[hour];
+    int tempFaren = Convert.ToInt32(32 + 1.8 * Model.current.temperature_2m);
+    Tables tables = new();
+    int condition = 0;
+    string conditionStr;
+    if (!Model.IsPlaceholder)
+    {
+        condition = Model.hourly.weather_code[hour]; //"Condition not available"
 
-		conditionStr = tables.GetConditionFromInt(condition);
-	}
-	else
-	{
-		conditionStr = "Loading";
-		Model.NameOfCity = "Stockholm";
-	}
-	string windDirection = tables.GetDirectionFromInt(windDir);
-	string windSpeed = tables.GetSpeedFromFloat(windStr);
+        conditionStr = tables.GetConditionFromInt(condition);
+    }
+    else
+    {
+        conditionStr = "Loading";
+        Model.NameOfCity = "Stockholm";
+    }
 
-	int sun = 1;
-	if (DateTime.Now < sunUpTime || DateTime.Now > sunDownTime)
-	{
-		sun = 2;		
-	}
-	
-	string weatherPic = tables.GetWeatherPicFromInt(condition,sun );    //<img src="~/content/images/Clear.png"/>;
+    string windDirection = tables.GetDirectionFromInt(windDir);
+    string windSpeed = tables.GetSpeedFromFloat(windStr);
+
+    int sun = 1;
+    if (DateTime.Now < sunUpTime || DateTime.Now > sunDownTime)
+    {
+        sun = 2;
+    }
+
+    string weatherPic = tables.GetWeatherPicFromInt(condition, sun); //<img src="~/content/images/Clear.png"/>;
 }
 
 <div class="weather-details">
-	<div class="weather-info">
-		<div class="card">
-			<div class="card-body">
-				<div style="background-color:#dee6ef;">
-					<h3 id="place" >Weather: @Model.NameOfCity</h3>
-				</div>
-				<form>
-					<div class="mt-3">
-						<input type="text" class="form-control" id="city" placeholder="Change City" default="@city" />
-					</div>
-				</form>
-				<div class="p-2 ps-0">
-					<button class="btn-sm" id="searchcity" onclick="FindNewCity(Search())">Find</button>
-				</div>
-				<div class="col-6 ps-0">
-				<p>Time: @hourMin </p>
-				<p>Sun Up: @sunUp   Down: @sunDown</p>
-				</div>	 
-				<p>Temperature: @{
-						if(!Model.IsPlaceholder)
-						{
-							@Model.current.temperature_2m		// <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p>
-						}
-					}°C or @tempFaren°F
-				</p>	
-				<p>Condition: @conditionStr <img src="~/content/images/weatherpics/@weatherPic" /></p>
-				<p>Humidity: @humidity%</p>
-				<p>Windspeed: @windSpeed @windStr m/s </p>
-				<p>Winddirection: @windDirection @windDir°</p>				
-				<p><a href="https://www.smhi.se/en/q/Linköping/2694762">Weather SMHI</a></p>
-				@* <script src='https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js'></script> *@
-			</div>
-		</div>
-	</div>
-
+    <div class="weather-info accordion">
+        <div class="card accordion-item">
+            <div class="accordion-header" id="headingWeath">
+                <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseWeath" aria-expanded="true" aria-controls="collapseWeath"><h3 id="place">Weather: @Model.NameOfCity</h3></button>
+            </div>
+            <div id="collapseWeath" class="accordion-collapse collapse show card-body" aria-labelledby="headingWeath">
+                
+                    <div class="mt-3">
+                        <input type="text" class="form-control" id="city" placeholder="Change City" default="@city" />
+                        <button class="btn btn-primary" type="submit" id="searchcity" onclick="FindNewCity(Search())">Find</button>
+                    </div>
+                
+                
+                <p>
+                    Weather:
+                    @{
+                        if (!Model.IsPlaceholder)
+                        {
+                            @Model.current.temperature_2m // <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p>
+                        }
+                    }
+                    °C or @tempFaren°F
+                    @conditionStr <img src="~/content/images/weatherpics/@weatherPic"/>
+                </p>
+                <p>Humidity: @humidity%</p>
+                <p>Wind: @windSpeed @windStr m/s @windDirection @windDir°</p>
+                <p>Sun Up: @sunUp Down: @sunDown</p>
+                <p>
+                    <a href="https://www.smhi.se/en/q/Linköping/2694762" target="_blank">Weather SMHI</a>
+                </p>
+                @* <script src='https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js'></script> *@
+            </div>
+        </div>
+    </div>
 </div>
+@* <div class="weather-details"> *@
+@* 	<div class="weather-info"> *@
+@* 		<div class="card"> *@
+@* 			<div class="card-body"> *@
+@* 				<div style="background-color:#dee6ef;"> *@
+@* 					<h3 id="place" >Weather: @Model.NameOfCity</h3> *@
+@* 				</div> *@
+@* 				<form> *@
+@* 					<div class="mt-3"> *@
+@* 						<input type="text" class="form-control" id="city" placeholder="Change City" default="@city" /> *@
+@* 					</div> *@
+@* 				</form> *@
+@* 				<div class="p-2 ps-0"> *@
+@* 					<button class="btn-sm" id="searchcity" onclick="FindNewCity(Search())">Find</button> *@
+@* 				</div> *@
+@* 				<div class="ps-0"> *@
+@* 					<p>Time: @hourMin </p> *@
+@* 					<p>Sun Up: @sunUp   Down: @sunDown</p> *@
+@* 				</div> *@
+@* 				<p>Temperature: @{ *@
+@* 					if(!Model.IsPlaceholder) *@
+@* 					{ *@
+@* 					@Model.current.temperature_2m		// <p>Temperature: @Model.hourly.temperature_2m[hour] °C</p> *@
+@* 					} *@
+@* 					}°C or @tempFaren°F *@
+@* 				</p> *@
+@* 				<p>Condition: @conditionStr <img src="~/content/images/weatherpics/@weatherPic" /></p> *@
+@* 				<p>Humidity: @humidity%</p> *@
+@* 				<p>Windspeed: @windSpeed @windStr m/s </p> *@
+@* 				<p>Winddirection: @windDirection @windDir°</p> *@
+@* 				<p><a href="https://www.smhi.se/en/q/Linköping/2694762" target="_blank" >Weather SMHI</a></p> *@
+@* 				$1$ <script src='https://unpkg.com/simple-statistics@7.8.3/dist/simple-statistics.min.js'></script> #1# *@
+@* 			</div> *@
+@* 		</div> *@
+@* 	</div> *@
+@* *@
+@* </div> *@
 
 <script type="text/javascript">
+    
 	function Search() {
-		return document.getElementById('city').value;
+	
+		 return document.getElementById('city').value;
 	}
+	
+	document.getElementById("city").addEventListener("keypress",function(event){
+	if(event.key === "Enter"){
+	event.preventDefault();
+	document.getElementById("searchcity").click();
+	}
+	});
+
 </script>
