@@ -233,9 +233,9 @@ namespace CNewsProject.Controllers
 		#endregion
 
 
-        public async Task<IActionResult> Area51()
+        public IActionResult Area51()
         {
-            var model = await articleService.GetAllAuthorNames() as List<string>;
+            var model = StaticTempData.AuthorNames.UserNames;
 
             return View(model);
         }

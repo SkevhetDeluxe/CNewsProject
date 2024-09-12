@@ -4,33 +4,31 @@
 @{
     //Vars
     string profileName = Model.User.UserName + "'s Profile";
-
-    List<string> authorNames = new List<string>();
-
-    foreach (var item in ViewBag.authorList)
-    {
-	    authorNames.Add(item);
-    }
+    
 }
 
 <h1>@profileName</h1>
 <div class="row">
-	<div class="col-9">
-		<vc:edit-account user="@Model.User"></vc:edit-account>
+	<div class="col-3">
+		<div>
+			<vc:edit-account user="@Model.User"></vc:edit-account>
+		</div>
+		<div>
+			<vc:news-letter-settings user="@Model.User"></vc:news-letter-settings>
+		</div>
 	</div>
-
 	@{
 		<aside class="col-3">
-
-			@{
-				if (Model.SubInfo != null)
-				{
-					<p>@Model.SubInfo.SubscriptionType.TypeName</p> //TODO SNARAST make pretty uwu
-					<p>@Model.SubInfo.HistoricalPrice</p>
-					<p>@Model.SubInfo.RenewedDate</p>
-					<p>@Model.SubInfo.ExpiresDate</p>
-					<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a> //TODO maybe change this to a different view later
-
+@*//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu *@
+@*//TODO SNARAST make pretty uwu *@@{//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@if (Model.SubInfo != null)//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@{//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.SubscriptionType.TypeName</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.HistoricalPrice</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.RenewedDate</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.ExpiresDate</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+@*//TODO SNARAST make pretty uwu *@<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a> //TODO maybe change this to a different view later
+//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
 				}
 				else
 				{
@@ -41,39 +39,8 @@
 		</aside>
 	}
 
+	
+
 </div>
 
-<script type="text/javascript">
-	
-	document.addEventListener("DOMContentLoaded", function () {
-		let authorNames = @Html.Raw(Json.Serialize(authorNames));
-		authorNames.forEach(function (item) {
-			console.log(item);
-		});
-	});
-	
-	
-</script>
-@*I'm thinking a View Component here so you don't have to refresh page on EDIT*@
 
-
-
-@* 
-<div id="edit-acc-form">
-	<form>
-		<label asp-for="UserName">User Name</label><br />
-		<input asp-for="UserName" default="@Model.UserName" /><br />
-
-		<label asp-for="Email">Email Adress</label><br />
-		<input asp-for="Email" default="@Model.Email" /><br />
-
-		<label asp-for="Password">Old Password</label>
-		<input asp-for="Password" placeholder=" Old Password" type="password" /><br />
-
-		<label asp-for="Password">New Password</label><br />
-		<input asp-for="Password" placeholder="New Password" type="password"/><br />
-
-		<label asp-for="Password">Confirm Password</label>
-		<input asp-for="Password" placeholder="Confirm Password" type="password"/>
-	</form>
-</div> *@
