@@ -74,16 +74,7 @@ namespace CNewsProject.Models.Statistics
 				// skapa upp diagram.
 
 				return i;
-			}
-
-			public class WeatherHistory
-			{
-
-
-				// sök väder i historia 45 år bakåt 
-				//https://history.openweathermap.org/data/2.5/history/city?lat={lat}&lon={lon}&type=hour&start={start}&end={end}&appid={API key}
-
-			}
+			}			
 		}
 	}
 }
