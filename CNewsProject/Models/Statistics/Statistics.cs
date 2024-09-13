@@ -1,8 +1,10 @@
 
 ﻿//using AspNetCore;
 using CNewsProject.Migrations;
+using MailKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.Identity.Client;
 using System.Data;
 using System.Globalization;
 using System.Net.Http;
@@ -12,54 +14,74 @@ namespace CNewsProject.Models.Statistics
 {
 	public class Statistics
 	{
-		private readonly ApplicationDbContext _dbContext;
-		private readonly HttpClient _httpClient;
-		public Statistics(ApplicationDbContext dbContext, HttpClient httpClient)
+		public TwoArrays CountNewCustomer(IEnumerable<AppUser> users)
 		{
-			_dbContext = dbContext;
-			_httpClient = httpClient;
-		}
-
-		public int countNewCustomer()
-		{
-			int number = _dbContext.Users.Count();          // How many who has a acount
-			List<AppUser> users = _dbContext.Users.OrderByDescending(u=>u.TimeCreateCustomer).ToList();
+			//int number = _dbContext.Users.Count();          // How many who has a acount
+			//List<AppUser> users = _dbContext.Users.OrderByDescending(u => u.TimeCreateCustomer).ToList();
 			int timeA = DateTime.Now.Year;
 			int timeB = DateTime.Now.Month;
-			
-			int count = 0;
-
-			foreach (var user in users)
+			timeA = timeA - 1;
+			//timeB = timeB + 1;
+			//if (timeB == 13)
+			//{
+			//	timeB = 1;
+			//	timeA++;
+			//}
+			int i=0,j=0,k = 0, l=0;
+			int[] subCount = new int[12];
+            int[] subNewCount = new int[12];
+            foreach (var user in users)
 			{
-				if (timeB == 1)
+				if (user.TimeCreateCustomer.Year < timeA && user.TimeCreateCustomer.Month < timeB)
 				{
-					if ((timeA-1) == user.TimeCreateCustomer.Year)
-					{
-						int timeC = 12;
-						if (timeC == user.TimeCreateCustomer.Month)
-						{
-							count++;
-						}
-
-					}
-
+					i++;
 				}
-				else if (timeA == user.TimeCreateCustomer.Year)
-				{
-					if ((timeB - 1) == user.TimeCreateCustomer.Month)
-					{
-						count++;
-					}
-				}
-		
+				
 			}
+            subCount[k] = i;
+            k++;
+            
+				
+			while (DateTime.Now.Year != timeA || DateTime.Now.Month != timeB)
+				{
+				foreach (var user in users)
+				{
 
-			return count;
-		}
+					if (timeA == user.TimeCreateCustomer.Year)
+					{
 
+						if (timeB == user.TimeCreateCustomer.Month)
+						{
+							j++;
+						}
+					}
+				}
+                subNewCount[l] = j;
+                l++;
+				if (k < 12)
+					{ 
+					i = i + j;
+					subCount[k] = i;
+					k++;
+					}
+			    j = 0;
+                timeB = timeB + 1;
+                if (timeB == 13)
+                {
+					timeB = 1;
+                    timeA++;
+                }
 
+                
+            }
 
-			public class Statisticscounter
+			TwoArrays twoArrays = new() { NewSubCount = subNewCount, SubCount = subCount };
+
+			return twoArrays;
+        }
+
+		
+    public class Statisticscounter
 		{
 			////	<!-- Kopiera hela koden och klistra in där du vill ha din besöksräknare //-->
 			//	<a href = "http://www.seoett.com/raknare/" >
@@ -77,6 +99,14 @@ namespace CNewsProject.Models.Statistics
 			}			
 		}
 	}
+
+    public class TwoArrays
+    {
+        public int[] SubCount { get; set; }
+        public int[] NewSubCount { get; set; }
+
+    }
 }
+
 
 

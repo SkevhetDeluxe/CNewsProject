@@ -230,7 +230,22 @@ namespace CNewsProject.Controllers
         {
             return RedirectToAction("SugMinaStats", "News");
         }
-		#endregion
+        #endregion
+
+        // STATISTICS
+        #region STATISTICS
+
+        public IActionResult Statistics()
+        {
+            var users = identitySrvc.ReadAppUsers();
+            CNewsProject.Models.Statistics.Statistics stats = new();
+
+            var newCArr = stats.CountNewCustomer(users);
+
+            return View("ShowStatistics", newCArr);
+        }
+
+        #endregion
 
 
         public IActionResult Area51()

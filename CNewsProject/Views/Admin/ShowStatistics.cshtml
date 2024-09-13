@@ -1,0 +1,212 @@
+﻿@model TwoArrays
+@using CNewsProject.Models.Statistics;
+@inject IJsonHelper Json;
+
+@{
+
+    int newSubMax = Model.NewSubCount.Max();
+    int subMax = Model.SubCount.Max();
+
+    newSubMax = GetYRoof(newSubMax);
+    subMax = GetYRoof(subMax);
+
+    int GetYRoof(int val)
+    {
+        if(val < 10)
+        {
+            return 10;
+        }
+        else
+        {
+            int x = val % 5;
+
+            return val + x + 5;
+        }
+    }
+    
+    int j = DateTime.Now.Month;
+    int[] monthNow = new int[12];
+    int i = 0;
+    for (i = 0; i < 12; i++)
+    {      
+        monthNow[i] = j;
+        j++;
+        if (j == 13)
+        {
+            j = 1;
+        }
+    }
+    j = 0;
+    string [] month = new string[12];
+    for (i = 0; i < 12; i++)
+    {
+        switch (monthNow[i])
+        {
+            case 1:
+                month[j] = "Jan";
+                break;
+            case 2:
+                month[j] = "Feb";
+                break;
+            case 3:
+                month[j] = "Mar";
+                break;
+            case 4:
+                month[j] = "Apr";
+                break;
+            case 5:
+                month[j] = "May";
+                break;
+            case 6:
+                month[j] = "Jun";
+                break;
+            case 7:
+                month[j] = "Jul";
+                break;
+            case 8:
+                month[j] = "Aug";
+                break;
+            case 9:
+                month[j] = "Sep";
+                break;
+            case 10:
+                month[j] = "Okt";
+                break;
+            case 11:
+                month[j] = "Nov";
+                break;
+            case 12:
+                month[j] = "Dec";
+                break;
+        }
+        j++;
+    }
+}
+<h1>Statistics</h1>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<canvas id="myChart"></canvas>
+
+<script type="text/javascript">
+
+    let newYRoof = Number('@newSubMax');
+    let YRoof = Number('@subMax');
+
+    const labels = @Html.Raw(Json.Serialize(month));
+    const newSubData = @Html.Raw(Json.Serialize(Model.NewSubCount)) ;
+    const subData = @Html.Raw(Json.Serialize(Model.SubCount)) ;
+    const ctx = document.
+        getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'New Subscribers' ,
+                data: newSubData,
+                backgroundColor:
+                    'rgba(60, 225, 30, 1)',
+                borderColor:
+                    'rgba(60, 225, 30, 1)',
+                borderWidth: 1
+            },
+                {
+                label: 'Current Subscribers',
+                data: subData,
+                backgroundColor:
+                    'rgba(55, 55, 185, 1)',
+                borderColor:
+                    'rgba(55, 55, 185, 1)',
+                borderWidth: 1
+                }]
+        },
+        options: {
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: YRoof,
+                }
+            }
+        }
+    });
+</script>
+
+@*     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <canvas id="newSubChart" style="width:100%;max-width:600px"></canvas>
+    <canvas id="subChart" style="width:100%;max-width:600px"></canvas>
+
+    <script>
+        const newCArray = @Html.Raw(Json.Serialize(Model.NewSubCount));
+        const cArray = @Html.Raw(Json.Serialize(Model.SubCount));
+
+        const xValues = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"];
+        const yValues = newCArray;
+        const oldYValues = cArray;
+
+        console.log(xValues);
+        console.log(yValues);
+        const barColors = "green";
+        const barColors2 = "red";
+
+    new Chart("newSubChart", {
+          type: "bar",
+          data: {
+            labels: xValues,
+            datasets: [{
+              backgroundColor: barColors,
+              data: yValues
+            }]
+          },
+        options: {
+            scales: {
+                yAxes: {
+                    suggestedMin: -1000,
+                    suggestedMax: 2200,
+                }
+            }
+        },
+          // options: {
+          //   scales: {
+          //       yAxes: [{
+          //           ticks: {
+          //               beginAtZero: true,
+          //               userCallback: function (label, index, labels) {
+          //                   // when the floored value is the same as the value we have a whole number
+          //                   if (Math.floor(label) === label) {
+          //                       return label;
+          //                   }
+
+          //               },
+          //           }
+          //       }],
+          //   },
+            legend: {display: false},
+            title: {
+              display: true,
+              text: "Number of Subscriber"
+            }
+          }
+        });
+
+
+    new Chart("subChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors2,
+                data: oldYValues
+            }]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: "Number of Subscriber"
+            }
+        }
+    });
+
+
+    </script>
+
+ *@
