@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using static System.Console;
 
 namespace CNewsProject.Models.Api.Weather
 {
@@ -58,7 +59,7 @@ namespace CNewsProject.Models.Api.Weather
 
             if (temperatureData != null)
             {
-                Console.WriteLine($"Temperature: {temperatureData}");
+                WriteLine($"Temperature: {temperatureData}");
             }
         }
     }
