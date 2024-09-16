@@ -237,7 +237,7 @@ namespace CNewsProject.Controllers
 
         public IActionResult Statistics()
         {
-            var users = identitySrvc.ReadAppUsers();
+            var users = subServ.GetAllSubscription();
             CNewsProject.Models.Statistics.Statistics stats = new();
 
             var newCArr = stats.CountNewCustomer(users);
