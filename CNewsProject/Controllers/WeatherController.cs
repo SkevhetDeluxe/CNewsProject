@@ -11,12 +11,7 @@ namespace CNewsProject.Controllers
 		private readonly ApplicationDbContext _dbContext;
         private readonly TableClient _tableClient;
 
-        public WeatherController()
-        {
-            var connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=your_account_key;EndpointSuffix=core.windows.net";
-            TableServiceClient tableServiceClient = new TableServiceClient(connString);
-            _tableClient = tableServiceClient.GetTableClient("WeatherArchive");
-        }
+        
 
         public async Task<IActionResult> WeatherHistory()
         {
@@ -35,10 +30,12 @@ namespace CNewsProject.Controllers
             return View(weatherHistory);
         }
 
-        public WeatherController(ApplicationDbContext dbContext)
+        public WeatherController(ApplicationDbContext dbContext, TableServiceClient tableServiceClient)
 		{
 			_dbContext = dbContext;
-		}
+
+            _tableClient = tableServiceClient.GetTableClient("WeatherArchive");
+        }
 
 		public IActionResult HistoricalData()
 		{

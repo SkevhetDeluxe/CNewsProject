@@ -1,3 +1,4 @@
+using Azure.Data.Tables;
 using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -66,6 +67,9 @@ builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatistic
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton(sp => new TableServiceClient(builder.Configuration["DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=your_account_key;EndpointSuffix=core.windows.net"]));
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=your_account_key;EndpointSuffix=core.windows.net")));
 builder.Services.AddMvc();
 
 var options = new JsonSerializerOptions
