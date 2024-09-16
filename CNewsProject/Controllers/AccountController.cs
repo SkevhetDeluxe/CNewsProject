@@ -61,6 +61,32 @@ namespace CNewsProject.Controllers
         }
 
         [AllowAnonymous]
+        public async Task<IActionResult> ResendEmail(string email)
+        {
+            if (email == null)
+                return RedirectToAction("Error");
+
+             
+            var user = await identitySrvc.GetAppUserByEmailAsync(email);
+
+			if ( user != null)
+            {
+                string token = await identitySrvc.GenerateEmailTokenAsync(user);
+				var confirmationLink = Url.Action("ConfirmEmail", "Account",
+					new { token, email }, Request.Scheme);
+
+				bool emailSent = _emailSender.SendEmailAsync(email, "Confirm Your Email.",
+					confirmationLink!, "Activate your account");
+
+				if (!emailSent)
+					return RedirectToAction();
+
+				return RedirectToAction("Index", "Home");
+			}
+            return RedirectToAction("Error");
+        }
+
+        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string token, string email)
         {
             AppUser user = await identitySrvc.GetAppUserByEmailAsync(email);
@@ -70,8 +96,11 @@ namespace CNewsProject.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //Single READ ACCOUnt
-        public async Task<IActionResult> Profile()
+        [AllowAnonymous]
+        public IActionResult Unconfirmed(string email) => View("Unconfirmed", email);
+
+		//Single READ ACCOUnt
+		public async Task<IActionResult> Profile()
         {
             //AppUser user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
             //
@@ -199,9 +228,14 @@ namespace CNewsProject.Controllers
                 if (result.Succeeded)
                     return Redirect(login.ReturnUrl ?? "/");
 
-                ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
+                if (result.IsNotAllowed)
+                    return RedirectToAction("Unconfirmed", new {email = login.EmailUsername});
+                else
+                {
+					ModelState.AddModelError(nameof(login.EmailUsername), "Login Failed: Invalid Email or password");
+				}
 
-                await identitySrvc.LoginAppUserAsync(login);
+				await identitySrvc.LoginAppUserAsync(login);
             }
 
             return View(login);
@@ -285,7 +319,14 @@ namespace CNewsProject.Controllers
         #endregion
 
 
-        [Route("/Door/Bouncer")]
+        // SUBSCRIBE REDIRECT
+        #region SUBSCRIBE REDIRECT
+
+        public IActionResult Subscribe() => View();
+
+		#endregion
+
+		[Route("/Door/Bouncer")]
         public IActionResult Denied()
         {
             return View();

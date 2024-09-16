@@ -55,8 +55,10 @@
 </div>
 
 
+
 @*//TODO YO MATE, WE NEED FUNCTIONALITY TO ADD AUTHORS TO USERS.AUTHORNAMES HERE MAAAAN*@
 <script src="/js/cscripts.js"></script>
+
 <script type="text/javascript">
     let @{@Model.JsArrayName} = @Html.Raw(Json.Serialize(Model.Suggestions));
     
@@ -149,5 +151,4 @@
         autocomplete(document.getElementById("@Model.InputFieldId"));
     });
 
-    
 </script>
