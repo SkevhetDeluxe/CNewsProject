@@ -46,7 +46,7 @@
     <div class="weather-info accordion">
         <div class="card accordion-item">
             <div class="accordion-header" id="headingWeath">
-                <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseWeath" aria-expanded="true" aria-controls="collapseWeath"><h3 id="place">Weather: @Model.NameOfCity</h3></button>
+                <button class="accordion-button c-gradient-90 text-light" data-bs-toggle="collapse" data-bs-target="#collapseWeath" aria-expanded="true" aria-controls="collapseWeath"><h3 id="place">Weather: @Model.NameOfCity</h3></button>
             </div>
             <div id="collapseWeath" class="accordion-collapse collapse show card-body" aria-labelledby="headingWeath">
                 
@@ -92,5 +92,9 @@
 	document.getElementById("searchcity").click();
 	}
 	});
+
+    $(".accordion-button").click(function () {
+        $(this).blur();
+    });
 
 </script>

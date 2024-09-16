@@ -15,96 +15,94 @@
 		}
 
 		td:hover {
-			background-color: lightgray;
+			background: linear-gradient(90deg, rgba(194, 240, 240, 1) 0%, rgba(140, 177, 217, 1) 100%);
 		}
 </style>
 
 <div class="card">
-    <div class="card-body">
-        <div style="background-color:#dee6ef;">
-            <a style="color:black; text-decoration:none" asp-controller="News" asp-action="Local">
-                <h2>Local News</h2>
-            </a>
-        </div>
-        <table>
-            @{
-                foreach (var item in Model.localArticles)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </table><br/>
-        <div style="background-color:#dee6ef;">
-            <a style="color:black; text-decoration:none" asp-controller="News" asp-action="Sweden">
-                <h2>Sweden News</h2>
-            </a>
-        </div>
-        <table>
-            @{
-                foreach (var item in Model.swedenArticles)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </table><br/>
-        <div style="background-color:#dee6ef;">
-            <a style="color:black; text-decoration:none" asp-controller="News" asp-action="World News">
-                <h2>World News</h2>
-            </a>
-        </div>
-        <table>
-            @{
-                foreach (var item in Model.worldArticles)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </table><br/>
-        <div style="background-color:#dee6ef;">
-            <a style="color:black; text-decoration:none" asp-controller="News" asp-action="Economy News">
-                <h2>Economy News</h2>
-            </a>
-        </div>
-        <table>
-            @{
-                foreach (var item in Model.economyArticles)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </table><br/>
-        <div style="background-color:#dee6ef;">
-            <a style="color:black; text-decoration:none" asp-controller="News" asp-action="Sport News">
-                <h2>Sport News</h2>
-            </a>
-        </div>
-        <table>
-            @{
-                foreach (var item in Model.sportArticles)
-                {
-                    <tr>
-                        <td>
-                            <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
-                        </td>
-                    </tr>
-                }
-            }
-        </table>
+    <div class="card-header c-gradient-90 px-4 py-3">
+        <a class="text-light" style="text-decoration:none" asp-controller="News" asp-action="Local">
+            <h3>Local News</h3>
+        </a>
     </div>
+    <table class="card-body pb-1">
+        @{
+            foreach (var item in Model.localArticles)
+            {
+                <tr>
+                    <td class="px-3">
+                        <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="card-header c-gradient-90 px-4 py-3">
+        <a class="text-light" style="text-decoration:none" asp-controller="News" asp-action="Sweden">
+            <h3>Sweden News</h3>
+        </a>
+    </div>
+    <table>
+        @{
+            foreach (var item in Model.swedenArticles)
+            {
+                <tr>
+                    <td class="px-3">
+                        <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="card-header c-gradient-90 px-4 py-3">
+        <a class="text-light" style="text-decoration:none" asp-controller="News" asp-action="World News">
+            <h3>World News</h3>
+        </a>
+    </div>
+    <table>
+        @{
+            foreach (var item in Model.worldArticles)
+            {
+                <tr>
+                    <td class="px-3">
+                        <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="card-header c-gradient-90 px-4 py-3">
+        <a class="text-light" style="text-decoration:none" asp-controller="News" asp-action="Economy News">
+            <h3>Economy News</h3>
+        </a>
+    </div>
+    <table>
+        @{
+            foreach (var item in Model.economyArticles)
+            {
+                <tr>
+                    <td class="px-3">
+                        <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="card-header c-gradient-90 px-4 py-3">
+        <a class="text-light" style="text-decoration:none" asp-controller="News" asp-action="Sport News">
+            <h3>Sport News</h3>
+        </a>
+    </div>
+    <table>
+        @{
+            foreach (var item in Model.sportArticles)
+            {
+                <tr>
+                    <td class="px-3">
+                        <a asp-controller="News" asp-action="Article" asp-route-id="@item.Id">@item.Headline</a>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 </div>

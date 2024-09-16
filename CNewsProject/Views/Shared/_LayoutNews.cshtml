@@ -53,10 +53,9 @@
                 <button class="btn btn-primary" type="submit">Search</button>
             </form>
             <div class="d-md-none">
-                @* <div class="mt-1 mb-1" id="VCWeather">
-                    <vc:weather></vc:weather>
-                </div> *@
-                <div class="mb-1" id="ExchangeVCDiv">
+                <div class="mt-1 mb-1 VCWeather">
+                </div> 
+                <div class="mb-1" id="ExchangeVCDiv2">
                     @*This Is Now Updated. Only loads data from API if data is old*@
                     <vc:exchange></vc:exchange>
                 </div>
@@ -79,20 +78,20 @@
 <div id="top" class="container row m-auto">
     @{
         int showWeather = 0;
-        if (currentController == "news" && currentAction != "economy" && currentAction != "search")
+        if (currentController == "news" && currentAction != "economy" && currentAction != "search" && currentAction != "article")
         {
             showWeather = 1;
             <main role="main" class="col-md-9 col-12 pb-3 pt-5">
                 @RenderBody()
             </main>
             <aside class="col-3 d-none d-md-block pt-5">
-                <div id="VCWeather" class="mb-1">
+                <div class="VCWeather mb-1">
 
                 </div>
                 <div id="ExchangeVCDiv" class="mb-1">
                     @*This Is Now Updated. Only loads data from API if data is old*@
                     <vc:exchange></vc:exchange>
-                </div><br/>
+                </div>
                 <vc:sidebar-headlines count="5"></vc:sidebar-headlines>
             </aside>
         }
