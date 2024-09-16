@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CNewsProject.Models.DataBase
+namespace CNewsFunctions.Models
 {
     public class Article
     {

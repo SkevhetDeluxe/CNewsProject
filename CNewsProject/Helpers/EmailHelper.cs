@@ -1,8 +1,6 @@
 ﻿using MimeKit;
 using MailKit.Net.Smtp;
-using MimeKit.Text;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using CNewsProject.Models.DataBase.Identity;
+
 
 //using System.Net.Mail;
 

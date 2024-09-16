@@ -15,6 +15,10 @@ public class NewsLetterSettingsViewComponent : ViewComponent
                 allAuthors.Remove(sak);
             }
         }
+        else
+        {
+            ViewBag.subscribedTo = new List<string>() { "NO!" };
+        }
         
         ViewBag.authorList = allAuthors;
         return View(setting);

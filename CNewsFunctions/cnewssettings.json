@@ -1,0 +1,21 @@
+{
+  "imgSizes" : {
+    "md" : {
+      "x" : 640,
+      "y": 360
+    },
+    "sm" : {
+      "x" : 400,
+      "y" : 225
+    },
+    "lg" : {
+      "x" : 2000,
+      "y" : 2000
+    }
+  },
+  "containerNames" : {
+    "sm" : "images-sm",
+    "md" : "images-md",
+    "lg" : "images-lg"
+  }
+}

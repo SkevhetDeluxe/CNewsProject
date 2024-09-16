@@ -117,6 +117,12 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
+		[Authorize]
+		public IActionResult Author(string authorName)
+		{
+			return View((object)authorName);
+		}
+
 		public IActionResult Laikalaininen(int articleId)
 		{
 			_articleService.Laikalaininen(articleId, User);

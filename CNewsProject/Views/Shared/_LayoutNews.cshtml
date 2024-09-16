@@ -122,9 +122,13 @@
     string actionToJs = currentAction;
     string ctrlToJs = currentController;
 
-    if (ctrlToJs != "news")
+    if (ctrlToJs != "news" || actionToJs == "author")
         actionToJs = "NoAction";
+
+    if (ctrlToJs == "news" || actionToJs == "author")
+        ctrlToJs = "NoCtrl";
 }
+
 
 <script type="text/javascript">
 		
@@ -148,9 +152,14 @@
 		    let elem = "@actionToJs";
 		    
 		    if (elem !== "NoAction"){
-		        elem = @actionToJs;
-                elem.style.backgroundColor = 'rgba(255, 255, 255, 25%)';//"#595959";
-                elem.style.color = "white";
+		        try{
+                    elem = @actionToJs;
+                    elem.style.backgroundColor = 'rgba(255, 255, 255, 25%)';//"#595959";
+                    elem.style.color = "white";
+		        }
+		        catch(error){
+		        
+		        }
 		    }
 		}
 
@@ -158,9 +167,14 @@
             let elem = "@ctrlToJs";
 
             if (elem !== "NoCtrl"){
+            try{
                 elem = @ctrlToJs;
                 elem.style.backgroundColor = 'rgba(255, 255, 255, 25%)';
-                elem.style.color = "white";
+                elem.style.color = "white";}
+            catch (error){
+            
+            }
+                
             }
         }
         

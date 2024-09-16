@@ -1,13 +1,14 @@
 ﻿
-namespace CNewsProject.Models.DataBase.Identity
+using Microsoft.AspNetCore.Identity;
+
+namespace CNewsFunctions.Models
 {
     public class AppUser : IdentityUser
     {
-        public List<int> LikedArticles { get; set; } = new();
-        public bool Fire { get; set; } // Deprecated. Might cause error if removed.
-        
-        public DateTime TimeCreateCustomer { get; set; } = DateTime.Now;
-        
+        // Credentials
+        public string UserName { get; set; } = "INIT";
+        public string Email { get; set; } = "INIT";
+
         #region NewsLetterSettings
         public bool NewsLetterEnabled { get; set; } = true;
         public List<int> CategoryIds { get; set; } = new() {1,2,3,4,5,};

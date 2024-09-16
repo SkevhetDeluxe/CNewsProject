@@ -51,19 +51,18 @@
     <div class="autocomplete" style="width:200px;">
         <input autocomplete="off" id="@Model.InputFieldId" type="text" name="@Model.ControllerParameter" placeholder="@Model.Placeholder">
     </div>
-    <button id="@Model.ButtonId"></button>
+    <div class="btn btn-primary" id="@Model.ButtonId">@Model.ButtonName</div>
 </div>
 
 
 
-
+@*//TODO YO MATE, WE NEED FUNCTIONALITY TO ADD AUTHORS TO USERS.AUTHORNAMES HERE MAAAAN*@
+<script src="/js/cscripts.js"></script>
 
 <script type="text/javascript">
     let @{@Model.JsArrayName} = @Html.Raw(Json.Serialize(Model.Suggestions));
     
-    @{@Model.JsArrayName}.
-    
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () { 
 
         function autocomplete(inp) {
             let currentFocus;
@@ -77,12 +76,26 @@
                 a.setAttribute("class", "autocomplete-items");
                 this.parentNode.appendChild(a);
                 for (i = 0; i < @{@Model.JsArrayName}.length; i++) {
-                    if (@{@Model.JsArrayName}[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    let item = String(@{@Model.JsArrayName}[i]);
+                    let lowerItem = item.toLowerCase();
+                    let lowerVal = val.toLowerCase();
+                    let [isInString, startCursor] = StringHas(lowerItem, lowerVal)
+                    
+                    if (isInString){ //.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
                         b = document.createElement("DIV");
-                        b.innerHTML = "<strong>" + @{@Model.JsArrayName}[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += @{@Model.JsArrayName}[i].substr(val.length);
                         
-                        b.innerHTML += "<input type='hidden' value='" + @{@Model.JsArrayName}[i] + "'>";
+                        if (startCursor > 0){
+                            b.innerHTML = @{@Model.JsArrayName}[i].substr(0, startCursor);
+                            b.innerHTML += "<strong>" + @{@Model.JsArrayName}[i].substr(startCursor, val.length) + "</strong";
+                            b.innerHTML += @{@Model.JsArrayName}[i].substr(startCursor + val.length);
+                            b.innerHTML += "<input type='hidden' value='" + @{@Model.JsArrayName}[i] + "'>";
+                        }
+                        else{
+                            b.innerHTML = "<strong>" + @{@Model.JsArrayName}[i].substr(0, val.length) + "</strong>";
+                            b.innerHTML += @{@Model.JsArrayName}[i].substr(val.length);
+                            b.innerHTML += "<input type='hidden' value='" + @{@Model.JsArrayName}[i] + "'>";
+                        }
+                       
                         
                         b.addEventListener("click", function(e) {
                             
@@ -138,5 +151,4 @@
         autocomplete(document.getElementById("@Model.InputFieldId"));
     });
 
-    
 </script>

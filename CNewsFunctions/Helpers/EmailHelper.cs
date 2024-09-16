@@ -74,5 +74,15 @@ namespace CNewsProject.Helpers
         }
 
         #endregion
+        
+        #region Constructing HTML
+
+        public string ConstructHtmlBody(string message)
+        {
+
+            return "";
+        }
+        
+        #endregion
     }
 }

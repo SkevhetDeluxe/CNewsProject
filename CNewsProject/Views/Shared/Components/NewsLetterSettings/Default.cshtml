@@ -4,28 +4,28 @@
 }
 
 <div>
-    @{ // Vars and Setup
-        
+    @{
+        // Vars and Setup
+
         int count = 1;
         List<string> authorNames = new();
         List<string> subscribedTo = new();
-        
+
         var dynAuthorList = ViewBag.authorList;
         foreach (var item in dynAuthorList)
         {
             authorNames.Add(item);
         }
-        
+
         var dynSubscribedTo = ViewBag.subscribedTo;
         foreach (var item in dynSubscribedTo)
         {
             subscribedTo.Add(item);
         }
 
-        SearchBarSetting authorSearchSetting = new(authorNames, "author", "TEMP", "Author");
-        
+        SearchBarSetting authorSearchSetting = new(authorNames, "author", "AddAuthorToSubscribed", "Author", "Add");
     }
-    
+
     <h5 id="personalisedSettingsHitBox" class="c-hover-pointer c-nonselectable">Personalised News Letter</h5>
 
     <div id="personalisedSettingsTarget" class="c-hidden">
@@ -53,41 +53,16 @@
                     <h4 style="font-weight: bold;">Subscribed Authors</h4>
                 </div>
                 <div id="authorNamesTarget">
-                    @{
-                        <div id="authorNamesContainer">
-                            @{
-                                if (Model.AuthorNames != null)
-                                {
-                                    List<string> elems = new();
-
-                                    foreach (var item in Model.AuthorNames)
-                                    {
-                                        string tempId = "authorNameItem" + Convert.ToString(count);
-                                        elems.Add(tempId);
-                                        <div id="@tempId">
-                                            <p>
-                                                @item<span style="color: red">&#10006;</span>
-                                            </p>
-                                        </div>
-                                    }
-                                }
-                            }
-                        </div>
-                        
-                        
-
-                        <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSetting"/>
-                    }
+                    <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSetting"/>
+                    <div id="authorNamesContainer" class="col-9">
+                    </div>
                 </div>
 
                 <br/>
                 <button class="btn btn-primary">Update</button>
             </form>
         </div>
-
-
     </div>
-
 </div>
 
 
@@ -98,12 +73,37 @@
     AddToggleableElementId("authorNamesHitBox","authorNamesTarget");
         
     document.addEventListener("DOMContentLoaded", function () {
-        const authorNames = @Html.Raw(Json.Serialize(@authorNames))
-        let iterations = Number(@authorNames.Count());
+        const inputBox = document.getElementById('@authorSearchSetting.InputFieldId');
+        const inputButton = document.getElementById('@authorSearchSetting.ButtonId');
         
-        console.log(iterations);
-        for (let i = 0; i > iterations; i++){
-            
-        } 
+        let subscribedAuthors = @Html.Raw(Json.Serialize(@subscribedTo));
+        let lastOddOrEven = 1;
+        if (subscribedAuthors[0] !== "NO!"){
+            lastOddOrEven = CreateAuthorDivs("authorNamesContainer", subscribedAuthors, 1);
+        }
+
+        inputBox.addEventListener('keydown', function (e) {
+            if (e.key === "Enter") {
+                AddAuthorToSubscribed(inputBox);
+            }
+        });
+        
+        inputButton.addEventListener('click', function (){
+            AddAuthorToSubscribed(inputBox);
+        });
+
+        function AddAuthorToSubscribed(inputElement){
+
+            let inputValue = inputElement.value;
+
+            if (arrayContains(@{@authorSearchSetting.JsArrayName}, inputValue)){
+                @{@authorSearchSetting.JsArrayName} = @{@authorSearchSetting.JsArrayName}.filter(function (val) {
+                    return val !== inputValue;
+                });
+                
+                lastOddOrEven = CreateSingleAuthorDiv("authorNamesContainer", inputValue, lastOddOrEven);
+                document.getElementById('@authorSearchSetting.InputFieldId').innerHTML = "";
+            }
+        }
     });
 </script>

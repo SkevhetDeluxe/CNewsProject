@@ -6,19 +6,5 @@
   },
   "ConnectionStrings": {
     "GlobalConnection": "Data Source=dreammaker-it.se;Initial Catalog=cnewssecretdb;User ID=cnewsadmin;Password=SugMinRollBitch1337420;Encrypt=False;Trust Server Certificate=True;MultipleActiveResultSets=true"
-  },
-  "imgSizes" : {
-    "md" : {
-      "x" : 640,
-      "y": 360
-    },
-    "sm" : {
-      "x" : 400,
-      "y" : 225
-    }
-  },
-  "containerNames" : {
-    "sm" : "images-sm",
-    "md" : "images-md"
   }
 }
