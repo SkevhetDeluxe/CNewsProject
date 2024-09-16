@@ -14,43 +14,35 @@ namespace CNewsProject.Models.Statistics
 {
 	public class Statistics
 	{
-		public TwoArrays CountNewCustomer(IEnumerable<AppUser> users)
+		public TwoArrays CountNewCustomer(IEnumerable<Subscription> users)
 		{
-			//int number = _dbContext.Users.Count();          // How many who has a acount
-			//List<AppUser> users = _dbContext.Users.OrderByDescending(u => u.TimeCreateCustomer).ToList();
 			int timeA = DateTime.Now.Year;
 			int timeB = DateTime.Now.Month;
 			timeA = timeA - 1;
-			//timeB = timeB + 1;
-			//if (timeB == 13)
-			//{
-			//	timeB = 1;
-			//	timeA++;
-			//}
 			int i=0,j=0,k = 0, l=0;
 			int[] subCount = new int[12];
             int[] subNewCount = new int[12];
             foreach (var user in users)
 			{
-				if (user.TimeCreateCustomer.Year < timeA && user.TimeCreateCustomer.Month < timeB)
+				if (user.RenewedDate.Year < timeA && user.RenewedDate.Month < timeB)
 				{
 					i++;
 				}
-				
-			}
+                if (user.ExpiresDate.Year < timeA && user.ExpiresDate.Month < timeB)
+                {
+                    i--;
+                }
+
+            }
             subCount[k] = i;
-            k++;
-            
-				
+            k++;	
 			while (DateTime.Now.Year != timeA || DateTime.Now.Month != timeB)
 				{
 				foreach (var user in users)
 				{
-
-					if (timeA == user.TimeCreateCustomer.Year)
+					if (timeA == user.RenewedDate.Year)
 					{
-
-						if (timeB == user.TimeCreateCustomer.Month)
+						if (timeB == user.RenewedDate.Month)
 						{
 							j++;
 						}
@@ -70,13 +62,9 @@ namespace CNewsProject.Models.Statistics
                 {
 					timeB = 1;
                     timeA++;
-                }
-
-                
+                }              
             }
-
 			TwoArrays twoArrays = new() { NewSubCount = subNewCount, SubCount = subCount };
-
 			return twoArrays;
         }
 
