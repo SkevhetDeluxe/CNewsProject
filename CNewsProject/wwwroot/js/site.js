@@ -170,7 +170,7 @@ function LoadWeather(name)
         type: 'GET',
         data: { name: name },
         success: function (result) {
-            $('#VCWeather').html(result);
+            $('.VCWeather').html(result);
         },
         error(error){
             console.log(error);
@@ -186,7 +186,7 @@ function FindNewCity(cityName) {
         type: 'GET',
         data: { city: cityName },
         success: function (result) {
-            $('#VCWeather').html(result);
+            $('.VCWeather').html(result);
         },
         error: function (error) {
             console.log('Houston we got a HUGE probn lem!');

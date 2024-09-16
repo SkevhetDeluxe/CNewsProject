@@ -95,7 +95,8 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
-=======
+}
+
 .c-hidden {
     display: none; !important;
 }
@@ -175,7 +176,8 @@
 .shamsSelect {
     width: 100%;
     padding: 12px;
-=======
+}
+    
 .border-gradient {
     border-width: 0px 0px 4px 0px;
     border-style: solid;
