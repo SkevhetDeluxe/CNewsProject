@@ -1,5 +1,5 @@
 using System;
-using CNewsProject.Data;
+using CNewsFunctions.Data;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

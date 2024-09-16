@@ -71,13 +71,13 @@ namespace CNewsProject.Service
                     BlobContainerClient containerClient = _blobServiceClient.GetBlobContainerClient(child.Value);
 
                     BlobClient blobClient = containerClient.GetBlobClient(blobName);
-                    
+
                     var result = blobClient.DeleteIfExists();
-                    
-                    if(!result)
+
+                    if (!result)
                         failList.Add(false);
                 }
-                
+
                 return true;
             }
             catch
@@ -167,14 +167,16 @@ namespace CNewsProject.Service
 
         public List<Article> GetAllPublished()
         {
-            return _db.Article.Include(a => a.Category).Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).ToList();
+            return _db.Article.Include(a => a.Category).Where(a => a.Status == "Approved")
+                .OrderByDescending(a => a.PublishedDate).ToList();
         }
 
         public FrontPageArticlesVM GetFrontPageArticleVM()
         {
             if (_db.Article.Any())
             {
-                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).AsNoTracking();
+                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate)
+                    .AsNoTracking();
                 return new FrontPageArticlesVM()
                 {
                     MainArticle = articles.First(),
@@ -195,7 +197,8 @@ namespace CNewsProject.Service
                 return new CategoryPageArticlesVM()
                 {
                     MainArticle = categoryArticles.OrderByDescending(a => a.PublishedDate).FirstOrDefault()!,
-                    NotMainButStillImportantArticles = categoryArticles.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
+                    NotMainButStillImportantArticles =
+                        categoryArticles.OrderByDescending(a => a.PublishedDate).Skip(1).ToList(),
                     TheRestLol = new()
                 };
             }
@@ -209,7 +212,6 @@ namespace CNewsProject.Service
             return _db.Article.Include(c => c.Category).FirstOrDefault(a => a.Id == Id)!;
         }
 
-       
 
         public void WriteArticle(WriteArticleVM newArticle, string content, string authorName, bool draft)
         {
@@ -237,18 +239,17 @@ namespace CNewsProject.Service
 
             _db.Article.Add(article);
             _db.SaveChanges();
-            
+
             // Now UpBlob
-            
-            var recentArticle = _db.Article.Single(a=> a.Id == article.Id);
-            
+
+            var recentArticle = _db.Article.Single(a => a.Id == article.Id);
+
             string imgName = "article" + Convert.ToString(recentArticle.Id) + "img";
 
             string imgUrl = UploadBlob(newArticle.ArticleImage, imgName);
             _db.Article.Single(a => a.Id == article.Id).ImageLink = imgUrl;
             _db.SaveChanges();
         }
-
 
         public void RemoveArticle(Article article)
         {
@@ -279,10 +280,10 @@ namespace CNewsProject.Service
 
             foreach (var user in allUsers)
             {
-                if(await _userManager.IsInRoleAsync(user, "Journalist"))
+                if (await _userManager.IsInRoleAsync(user, "Journalist"))
                     authorNames.Add(user.UserName);
             }
-            
+
             return authorNames;
         }
 
@@ -335,7 +336,7 @@ namespace CNewsProject.Service
             if (vModel.ArticleImage != null)
             {
                 string imgName = article.ImageLink.Replace("https://cnewsstorage.blob.core.windows.net/images/", "");
-                
+
                 var deleted = DeleteBlob(imgName);
 
                 if (deleted)
@@ -388,12 +389,14 @@ namespace CNewsProject.Service
         public List<Article> GetArticleListByCategoryStringified(string category, int count)
         {
             if (count != 0)
-            {//.Include(a => a.Category)
+            {
+                //.Include(a => a.Category)
                 return _db.Article
                     .Where(a => a.Category.Name == category && a.Status == "Approved")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList();
             }
+
             //.Include(a => a.Category) ONLY needed if you want to mess with the CATEGORY
             return _db.Article
                 .Where(a => a.Category.Name == category && a.Status == "Approved")
@@ -450,11 +453,15 @@ namespace CNewsProject.Service
 
                 if (qLists.Exact != null)
                     for (int i = 0; i < qLists.Exact.Count; i++)
-                        result = result.Where(a => a.Headline.ToLower().Contains(qLists.Exact[i]) || a.Content.ToLower().Contains(qLists.Exact[i])).ToList();
+                        result = result.Where(a =>
+                            a.Headline.ToLower().Contains(qLists.Exact[i]) ||
+                            a.Content.ToLower().Contains(qLists.Exact[i])).ToList();
 
                 if (qLists.Split != null)
                     for (int i = 0; i < qLists.Split.Count; i++)
-                        result = result.Where(a => a.Headline.ToLower().Contains(qLists.Split[i]) || a.Content.ToLower().Contains(qLists.Split[i])).ToList();
+                        result = result.Where(a =>
+                            a.Headline.ToLower().Contains(qLists.Split[i]) ||
+                            a.Content.ToLower().Contains(qLists.Split[i])).ToList();
 
                 if (qLists.Exclude != null)
                     result = result.Where(a => !qLists.Exclude.Any(h => a.Headline.ToLower().Contains(h))).ToList();
@@ -472,7 +479,7 @@ namespace CNewsProject.Service
                 articleList = GetAllPublished();
 
             else
-                articleList = GetArticleListByCategoryStringified(category,0); // 0 gives all
+                articleList = GetArticleListByCategoryStringified(category, 0); // 0 gives all
 
             result.Articles = QuerySearch(searchQuery, articleList);
 

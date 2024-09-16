@@ -1,6 +1,8 @@
 using System.Collections.Immutable;
 using Azure.Storage.Blobs;
-using CNewsProject.Data;
+using Azure.Storage.Queues;
+using CNewsFunctions.Data;
+using CNewsFunctions.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,10 +19,13 @@ var host = new HostBuilder()
         services.AddDbContext<FunctionDbContext>(options => 
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
         services.AddSingleton(new BlobServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
+        services.AddSingleton(new QueueClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "newsletterlist", new QueueClientOptions()
+            {MessageEncoding = QueueMessageEncoding.Base64}));
+        services.AddScoped<INewsLetterService, NewsLetterService>();
     })
     .ConfigureAppConfiguration(config =>
     {
-        config.AddJsonFile("local.settings.json", optional: true, reloadOnChange: true);
+        config.AddJsonFile("cnewssettings.json", optional: false, reloadOnChange: true);
     })
     .Build();
 

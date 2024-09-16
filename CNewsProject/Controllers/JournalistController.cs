@@ -26,7 +26,7 @@
             {
                 AppUser author = await _identityService.GetAppUserByClaimsPrincipal(User);
 
-                //_articleService.WriteArticle(vModel, content, author.UserName!, draft);
+                _articleService.WriteArticle(vModel, content, author.UserName!, draft);
 
                 return RedirectToAction("Index");
             }

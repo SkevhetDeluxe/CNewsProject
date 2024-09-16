@@ -739,6 +739,9 @@ namespace CNewsProject.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<bool>("NewsLetterEnabled")
+                        .HasColumnType("bit");
+
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");

@@ -16,11 +16,29 @@
     </p>
 </div>
 
+<div id="thisId" class="row">
+    <div id="thatId" class="col-3">
+        
+    </div>
+</div>
+
+
+<div class="mt-5">
+    <div id="someOtherId" class="col-3">
+        
+    </div>
+</div>
+
 <script src="/js/cscripts.js"></script>
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {
-
+        
+        StringHas("Yes","Yes");
+        CreateAuthorDivs("thatId", ["Steve","John", "That guy", "This guy"]);
+        
+        CreateAuthorDivs("someOtherId", ["OneNAME"], 1);
+        
         const outputBox = document.getElementById("AreaOutput");
         const inputBox = document.getElementById('@setting.InputFieldId');
         
@@ -37,13 +55,13 @@
             
             console.log("Area FUNCITON");
             
-            if (arrayContains(itemsArrayArea51, inputValue)){
+            if (arrayContains(@{@setting.JsArrayName}, inputValue)){
                 outputBox.textContent = "true" + inputValue;
-                itemsArrayArea51 = itemsArrayArea51.filter(function (val) {
+                @{@setting.JsArrayName} = @{@setting.JsArrayName}.filter(function (val) {
                     return val !== inputValue;
                 });
                 
-                console.log(itemsArrayArea51);
+                console.log(@{@setting.JsArrayName});
             }
         }
 
@@ -52,6 +70,7 @@
             console.log("Pressed SOMETHING");
         });
     });
+
 
 
 </script>

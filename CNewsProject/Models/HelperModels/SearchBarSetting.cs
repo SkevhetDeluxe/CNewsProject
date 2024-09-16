@@ -25,14 +25,20 @@ public class SearchBarSetting
         Placeholder = placeholder;
     }
 
-    public SearchBarSetting(List<string> autoCompleteItems, string elementId, string jsFunctionName, string placeholder, string controllerParameter) :
+    public SearchBarSetting(List<string> autoCompleteItems, string elementId, string jsFunctionName, string placeholder, string buttonName) :
         this(autoCompleteItems, elementId, jsFunctionName, placeholder)
+    {
+        ButtonName = buttonName;
+    }
+    
+    public SearchBarSetting(List<string> autoCompleteItems, string elementId, string jsFunctionName, string placeholder, string buttonName, string controllerParameter) :
+        this(autoCompleteItems, elementId, jsFunctionName, placeholder, buttonName)
     {
         ControllerParameter = controllerParameter;
     }
     
     // AutoCompleteItems
-    public List<string> Suggestions { get; set; } = new List<string>();
+    public List<string> Suggestions { get; set; }
     
     // SETTINGS
 
@@ -42,6 +48,7 @@ public class SearchBarSetting
     public string JsArrayName { get; set; } = "itemsArray";
     public string InputFieldId { get; set; } = "SBInputField";
     public string ButtonId {get; set;} = "SBButton";
+    public string ButtonName { get; set; } = "Search";
     public string Placeholder { get; set; } = "Input";
     public string ControllerParameter { get; set; } = "No Parameter";
     

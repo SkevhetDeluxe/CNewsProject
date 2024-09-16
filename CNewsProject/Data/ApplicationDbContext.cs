@@ -6,11 +6,9 @@ using Org.BouncyCastle.Security;
 
 namespace CNewsProject.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser>
+    public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : IdentityDbContext<AppUser>(options)
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        { }
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<Article> Article { get; set; }

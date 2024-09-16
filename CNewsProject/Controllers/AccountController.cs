@@ -86,8 +86,8 @@ namespace CNewsProject.Controllers
                 SubscribedTo = user.AuthorNames ?? new List<string>()
             };
 
-            var authorNames = CNewsProject.StaticTempData.AuthorNames.UserNames;
-            ViewBag.authorList = authorNames;
+            // var authorNames = CNewsProject.StaticTempData.AuthorNames.UserNames;
+            // ViewBag.authorList = authorNames;
             
             return View(vModel);
         }
