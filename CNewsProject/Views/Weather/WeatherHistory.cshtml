@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CNewsProject.Models.ViewModels.WeatherForArchiveViewModel>
+
+@{
+    ViewData["Title"] = "Historical Weather Data";
+}
+
+<h2>Weather History</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Temperature (°C)</th>
+            <th>Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var weather in Model)
+        {
+            <tr>
+                <td>@weather.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@weather.Temperature</td>
+                <td>@weather.Condition</td>
+            </tr>
+        }
+    </tbody>
+</table>
