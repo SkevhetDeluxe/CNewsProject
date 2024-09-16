@@ -1,12 +1,41 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Data.Tables;
+using Microsoft.AspNetCore.Mvc;
+using CNewsProject.Models.ViewModels; // Create a view model to handle weather data
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CNewsProject.Controllers
 {
 	public class WeatherController : Controller
 	{
 		private readonly ApplicationDbContext _dbContext;
+        private readonly TableClient _tableClient;
 
-		public WeatherController(ApplicationDbContext dbContext)
+        public WeatherController()
+        {
+            var connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=your_account_key;EndpointSuffix=core.windows.net";
+            TableServiceClient tableServiceClient = new TableServiceClient(connString);
+            _tableClient = tableServiceClient.GetTableClient("WeatherArchive");
+        }
+
+        public async Task<IActionResult> WeatherHistory()
+        {
+            var weatherHistory = new List<WeatherForArchiveViewModel>();
+
+            await foreach (var entity in _tableClient.QueryAsync<WeatherForArchive>())
+            {
+                weatherHistory.Add(new WeatherForArchiveViewModel
+                {
+                    Date = entity.DateUpdated,
+                    Temperature = entity.Temperature,
+                    Condition = entity.Condition
+                });
+            }
+
+            return View(weatherHistory);
+        }
+
+        public WeatherController(ApplicationDbContext dbContext)
 		{
 			_dbContext = dbContext;
 		}
