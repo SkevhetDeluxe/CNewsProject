@@ -39,7 +39,7 @@ namespace CNewsFunctions
                 log.LogInformation($"Fetched weather data: Temperature - {temperature}, Condition - {condition}");
 
                 // Azure Table storage setup
-                string connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=your_account_key;EndpointSuffix=core.windows.net";
+                string connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=42s4C494d16TS+Ww3wwbWFcx3Nn2SuAsL6aJTsbfLnZqoND5gJ6O69MGdzSX69h6YrQTMgyBJ0t++AStJI5xcA==;EndpointSuffix=core.windows.net";
                 TableServiceClient tableServiceClient = new TableServiceClient(connString);
                 TableClient tableClient = tableServiceClient.GetTableClient("WeatherArchive");
 
