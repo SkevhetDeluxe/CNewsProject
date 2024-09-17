@@ -1,15 +1,17 @@
 ﻿@model TwoArrays
+
 @using CNewsProject.Models.Statistics;
 @inject IJsonHelper Json;
+
 
 @{
 
     int newSubMax = Model.NewSubCount.Max();
+    int delSubMax = Model.DelSubCount.Max();
     int subMax = Model.SubCount.Max();
-
     newSubMax = GetYRoof(newSubMax);
+    delSubMax = GetYRoof(delSubMax);
     subMax = GetYRoof(subMax);
-
     int GetYRoof(int val)
     {
         if(val < 10)
@@ -89,19 +91,20 @@
 <script type="text/javascript">
 
     let newYRoof = Number('@newSubMax');
-    let YRoof = Number('@subMax');
+    let YRoof = Number('@delSubMax');
 
     const labels = @Html.Raw(Json.Serialize(month));
     const newSubData = @Html.Raw(Json.Serialize(Model.NewSubCount)) ;
-    const subData = @Html.Raw(Json.Serialize(Model.SubCount)) ;
+    const delSubData = @Html.Raw(Json.Serialize(Model.DelSubCount)) ;
     const ctx = document.
         getElementById('myChart').getContext('2d');
+
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
-                label: 'New Subscribers' ,
+                label: 'New Subscribers',
                 data: newSubData,
                 backgroundColor:
                     'rgba(60, 225, 30, 1)',
@@ -110,12 +113,12 @@
                 borderWidth: 1
             },
                 {
-                label: 'Current Subscribers',
-                data: subData,
+                label: 'Leaving Subscribers',
+                data: delSubData,
                 backgroundColor:
-                    'rgba(55, 55, 185, 1)',
+                    'rgba(245, 40, 0, 1)',
                 borderColor:
-                    'rgba(55, 55, 185, 1)',
+                    'rgba(245, 40, 0, 1)',
                 borderWidth: 1
                 }]
         },
@@ -129,4 +132,50 @@
         }
     });
 </script>
+    
+<h1>Statistics</h1>
+<canvas id="mySecondChart"></canvas>
 
+<script type="text/javascript">
+    // let SecondNewYRoof = Number('@newSubMax');
+    let SecondYRoof = Number('@subMax');
+
+    // const labels = @Html.Raw(Json.Serialize(month));
+     // const sNewSubData = @Html.Raw(Json.Serialize(Model.NewSubCount)) ;
+
+    const subData = @Html.Raw(Json.Serialize(Model.SubCount)) ;
+    const ctxx = document.
+        getElementById('mySecondChart').getContext('2d');
+    const mySecondChart = new Chart(ctxx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+            //     label: 'New Subscribers',
+            //     data: sNewSubData,
+            //     backgroundColor:
+            //     'rgba(60, 225, 30, 1)',
+            //     borderColor:
+            //     'rgba(60, 225, 30, 1)',
+            //     borderWidth: 1
+            // },
+            //     {
+                label: 'Subscribers',
+                data: subData,
+                backgroundColor:
+                    'rgba(55, 55, 185, 1)',
+                borderColor:
+                    'rgba(55, 55, 185, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    suggestedMin: 0,
+                    suggestedMax: SecondYRoof,
+                }
+            }
+        }
+    });
+</script>
