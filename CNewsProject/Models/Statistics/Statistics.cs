@@ -19,15 +19,16 @@ namespace CNewsProject.Models.Statistics
 			int timeA = DateTime.Now.Year;
 			int timeB = DateTime.Now.Month;
 			timeA = timeA - 1;
-			int i=0,j=0,k = 0, l=0;
-			int[] subCount = new int[12];
+			int i = 0 ,j = 0 ,k = 0 ,l = 0 ,m = 0 ,n = 0;
+			int[] delSubCount = new int[12];
             int[] subNewCount = new int[12];
+            int[] subCount = new int[12];
             foreach (var user in users)
-			{
-				if (user.RenewedDate.Year < timeA && user.RenewedDate.Month < timeB)
-				{
-					i++;
-				}
+            {
+                if (user.RenewedDate.Year < timeA && user.RenewedDate.Month < timeB)
+                {
+                    i++;
+                }
                 if (user.ExpiresDate.Year < timeA && user.ExpiresDate.Month < timeB)
                 {
                     i--;
@@ -35,8 +36,8 @@ namespace CNewsProject.Models.Statistics
 
             }
             subCount[k] = i;
-            k++;	
-			while (DateTime.Now.Year != timeA || DateTime.Now.Month != timeB)
+            k++;
+            while (DateTime.Now.Year != timeA || DateTime.Now.Month != timeB)
 				{
 				foreach (var user in users)
 				{
@@ -47,16 +48,25 @@ namespace CNewsProject.Models.Statistics
 							j++;
 						}
 					}
-				}
+                    if (timeA == user.ExpiresDate.Year)
+                    {
+                        if (timeB == user.ExpiresDate.Month)
+                        {
+                            m++;
+                        }
+                    }
+                }
                 subNewCount[l] = j;
                 l++;
-				if (k < 12)
-					{ 
-					i = i + j;
-					subCount[k] = i;
-					k++;
-					}
-			    j = 0;
+                delSubCount[n] = m;
+                n++;
+                if (k < 12)
+                {
+                    i = (i + j) - m;
+                    subCount[k] = i;
+                    k++;
+                }
+                i = 0; j = 0;
                 timeB = timeB + 1;
                 if (timeB == 13)
                 {
@@ -64,12 +74,11 @@ namespace CNewsProject.Models.Statistics
                     timeA++;
                 }              
             }
-			TwoArrays twoArrays = new() { NewSubCount = subNewCount, SubCount = subCount };
+			TwoArrays twoArrays = new() { NewSubCount = subNewCount, DelSubCount = delSubCount, SubCount = subCount };
 			return twoArrays;
         }
 
-		
-    public class Statisticscounter
+        public class Statisticscounter
 		{
 			////	<!-- Kopiera hela koden och klistra in där du vill ha din besöksräknare //-->
 			//	<a href = "http://www.seoett.com/raknare/" >
@@ -88,9 +97,11 @@ namespace CNewsProject.Models.Statistics
 		}
 	}
 
+   
     public class TwoArrays
     {
         public int[] SubCount { get; set; }
+        public int[] DelSubCount { get; set; }
         public int[] NewSubCount { get; set; }
 
     }
