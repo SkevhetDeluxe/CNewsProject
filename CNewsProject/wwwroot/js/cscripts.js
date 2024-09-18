@@ -145,16 +145,19 @@ function GetAuthorDivValues(){
 }
 
 function StringifyArrayValues(array) {
+    console.log(array);
     let stringifiedResult = "";
     let firstIteration = true;
-    array.forEach(item => function () {
+    array.forEach(function (item) {
+        console.log("IN ARRAY: " + item);
         if (firstIteration === true) {
-            stringifiedResult += item
+            stringifiedResult = String(item);
             firstIteration = false;
         } else {
-            stringifiedResult += (item + ",");
+            stringifiedResult += ("," +String(item));
         }
     });
+    console.log("STRINGIFIED ARRAY"); console.log(stringifiedResult);
     return stringifiedResult;
 }
 
@@ -294,7 +297,7 @@ function AjaxUpdateNewsLetterSetting(userSetting, authorNames){
     $.ajax({
         url:"/Account/UpdateNewsLetterSetting/",
         type:"POST",
-        data: { userSetting: userSetting, authorName: authorNames },
+        data: { jsonSetting: userSetting, authorNames: authorNames },
         beforeSend: function() {
             CreateLoadingScreen();
         },

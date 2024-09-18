@@ -17,5 +17,11 @@
     "sm" : "images-sm",
     "md" : "images-md",
     "lg" : "images-lg"
-  }
+  },
+  "SmtpServer": "smtp.gmail.com",
+  "SmtpPort": "465",
+  "SmtpUsername": "info.cnewsproject@gmail.com",
+  "SmtpPassword": "knlg pnnz guaq inqg",
+  "SenderEmail": "info.cnewsproject@gmail.com",
+  "SenderName": "CNewsInfo"
 }
