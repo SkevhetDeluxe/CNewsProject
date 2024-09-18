@@ -29,14 +29,47 @@
     <div id="personalisedSettingsTarget" class="c-hidden">
         <div class="row">
             <form id="newsLetterSettingsForm" asp-action="UpdateNewsLetterSetting" method="post">
-
+                
+                <div>
+                    Enable Newsletter?
+                    @{
+                        if (Model.NewsLetterEnabled)
+                        {
+                            <input name="NewsLetterEnabled" checked="checked" type="checkbox" value="true"/>
+                        }
+                        else
+                        {
+                            <input name="NewsLetterEnabled" type="checkbox" value="true"/>
+                        }
+                    }
+                    
+                </div>
+                
                 <div>
                     <label class="col-9" asp-for="Latest">Include Latest News</label>
-                    <input class="offset-1 col-1" asp-for="Latest"></input><br/>
+                    @{
+                        if (Model.Latest)
+                        {
+                            <input class="offset-1 col-1" name="Latest" type="checkbox" checked="checked" value="true"/>
+                        }
+                        else
+                        {
+                            <input class="offset-1 col-1" name="Latest" type="checkbox" value="true"/>
+                        }
+                    }
                 </div>
                 <div>
                     <label class="col-9" asp-for="Popular">Include Popular News</label>
-                    <input class="offset-1 col-1" asp-for="Popular"></input><br/>
+                    @{
+                        if (Model.Popular)
+                        {
+                            <input class="offset-1 col-1" name="Popular" type="checkbox" checked="checked" value="true"/>
+                        }
+                        else
+                        {
+                            <input class="offset-1 col-1" name="Popular" type="checkbox" value="true"/>
+                        }
+                    }
                 </div>
 
                 <div>
@@ -44,15 +77,24 @@
                         Included Categories
                     </h6>
                 </div>
-                <select name="CategoryIds" multiple="multiple">
-                    <option value="1">Local</option>
-                    <option value="2">Economy</option>
-                    <option value="3">Sport</option>
-                    <option value="4">Sweden</option>
-                    <option value="5">World</option>
-                </select>
-                
 
+                <input id="categoryIdsInput" type="hidden" asp-for="CategoryIds" value=""/>
+                <div class="row">
+                @{
+                    Dictionary<string, int> makeShitHappen = new() { { "Local", 1 }, { "Economy", 2 }, { "Sport", 3 }, { "Sweden", 4 }, { "World", 5 } };
+                    foreach (KeyValuePair<string, int> kvp in makeShitHappen)
+                    {
+                        if (Model.CategoryIds.Contains(kvp.Value))
+                        {
+                            <p class="col-9">@kvp.Key</p><input type="checkbox" checked="checked" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
+                        }
+                        else
+                        {
+                            <p class="col-9">@kvp.Key</p><input type="checkbox" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
+                        }
+                    }
+                }
+                </div>
                 <div id="authorNamesHitBox" class="c-hover-pointer c-nonselectable">
                     <h4 style="font-weight: bold;">Subscribed Authors</h4>
                 </div>
@@ -92,6 +134,15 @@
         
         form.addEventListener('submit', function (event){
             event.preventDefault();
+            
+            let catIdsArr=[];
+            document.querySelectorAll(".ThisClassIsPurelyForCategoryIds:checked").forEach(function (elem){
+                catIdsArr.push(elem.value);
+            });
+               
+            document.getElementById("categoryIdsInput").value = StringifyArrayValues(catIdsArr);
+            
+            
             let AuthorValues = GetAuthorDivValues();
             if (AuthorValues !== "NO AUTHORS"){
                 console.log(AuthorValues);
@@ -102,9 +153,7 @@
             
             console.log(formJSON);
             
-            
-            
-            AjaxUpdateNewsLetterSetting();
+            AjaxUpdateNewsLetterSetting(formJSON, AuthorValues);
         });
         
         returnToArray.addEventListener('JSValueChange', function(){

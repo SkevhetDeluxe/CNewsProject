@@ -146,7 +146,7 @@ namespace CNewsProject.Controllers
                     setting.AuthorNames = new List<string>(authorArray);
                 }
                 identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
-                return RedirectToAction("Profile");
+                return Json("Success");
             }
             catch(Exception ex)
             {
