@@ -4,38 +4,49 @@
 @{
     //Vars
     string profileName = Model.User.UserName + "'s Profile";
-    
 }
+
 
 <h1>@profileName</h1>
 <div class="row">
-	<div class="col-3">
-		<div>
-			<vc:edit-account user="@Model.User"></vc:edit-account>
-		</div>
-		<div>
-			<vc:news-letter-settings user="@Model.User"></vc:news-letter-settings>
-		</div>
-	</div>
-	@{
-		<aside class="col-3">
-@*//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu *@
-@*//TODO SNARAST make pretty uwu *@@{//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@if (Model.SubInfo != null)//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@{//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.SubscriptionType.TypeName</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.HistoricalPrice</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.RenewedDate</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@<p>@Model.SubInfo.ExpiresDate</p>//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-@*//TODO SNARAST make pretty uwu *@<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a> //TODO maybe change this to a different view later
+    <div class="col-3">
+        <div>
+            <vc:edit-account user="@Model.User"></vc:edit-account>
+        </div>
+        <div>
+            <vc:news-letter-settings user="@Model.User"></vc:news-letter-settings>
+        </div>
+    </div>
+    @{
+        <aside class="col-3">
+            @*//TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu *@
+            @*//TODO SNARAST make pretty uwu *@
+            @{
+                //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                @*//TODO SNARAST make pretty uwu *@
+                if (Model.SubInfo != null) //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@
+                {
+                    //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@
+                    <p>@Model.SubInfo.SubscriptionType.TypeName</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@
+                    <p>@Model.SubInfo.HistoricalPrice</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@
+                    <p>@Model.SubInfo.RenewedDate</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@
+                    <p>@Model.SubInfo.ExpiresDate</p> //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
+                    @*//TODO SNARAST make pretty uwu *@<br/>
+                    <a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a> //TODO maybe change this to a different view later
 //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu //TODO SNARAST make pretty uwu 
-				}
-				else
-				{
-					<br/><a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
-				}
-			}
+                }
+                else
+                {
+                    <br/>
+                    <a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
+                }
+            }
 
-		</aside>
-	}
+        </aside>
+    }
 </div>

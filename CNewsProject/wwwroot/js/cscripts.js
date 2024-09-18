@@ -1,6 +1,11 @@
-function CreateAuthorDivs(containerId, authorNames, oddEven) {
+function CreateAuthorDivs(containerId, authorNames) {
+
+    let jsValChangeEvent = new Event("JSValueChange");
     let container = document.getElementById(containerId);
     authorNames.forEach(function (name) {
+
+        // COUNTING ELEMS
+        let oddEven = DecideColour();
 
         // CREATING THE ELEMENT
         let authorDiv = document.createElement("div");
@@ -10,19 +15,24 @@ function CreateAuthorDivs(containerId, authorNames, oddEven) {
         authorDiv.innerHTML += "<div class='col-1 p-0 clickToDelete d-inline-flex justify-content-end c-hover-pointer'>&#x274c;</div>";
         authorDiv.innerHTML += `<input type="hidden" value="${name}">`;
         container.appendChild(authorDiv);
+
+        // SETTING COLOURS
         if (oddEven === 1) {
-            oddEven = 2;
             authorDiv.classList.add("bg-primary-subtle");
         } else {
-            oddEven = 1;
             authorDiv.classList.add("bg-secondary-subtle");
         }
 
         // ADDING EVENT LISTENER FOR REMOVING AND RECOLOURING
         authorDiv.getElementsByClassName("clickToDelete")[0].addEventListener("click", function () {
+            let returnElem = document.getElementById("returnToAuthorArray");
+            returnElem.value = authorDiv.getElementsByTagName("input")[0].value;
+            returnElem.dispatchEvent(jsValChangeEvent);
             authorDiv.remove();
             let remainingElems = document.querySelectorAll(".authorDiv");
-            oddEven = 1;
+
+            // SETTING COLOURS FOR REMOVAL
+            oddEven = DecideColourForDelete();
             remainingElems.forEach(function (elem) {
                 elem.classList.remove("bg-primary-subtle");
                 elem.classList.remove("bg-secondary-subtle");
@@ -41,8 +51,13 @@ function CreateAuthorDivs(containerId, authorNames, oddEven) {
     return oddEven;
 }
 
-function CreateSingleAuthorDiv(containerId, name, oddEven) {
+function CreateSingleAuthorDiv(containerId, name) {
+
+    let jsValChangeEvent = new Event("JSValueChange");
     let container = document.getElementById(containerId);
+
+    // COUNTING ELEMS
+    let oddEven = DecideColour();
 
     // CREATING THE ELEMENT
     let authorDiv = document.createElement("div");
@@ -53,18 +68,21 @@ function CreateSingleAuthorDiv(containerId, name, oddEven) {
     authorDiv.innerHTML += `<input type="hidden" value="${name}">`;
     container.appendChild(authorDiv);
     if (oddEven === 1) {
-        oddEven = 2;
         authorDiv.classList.add("bg-primary-subtle");
     } else {
-        oddEven = 1;
         authorDiv.classList.add("bg-secondary-subtle");
     }
 
     // ADDING EVENT LISTENER FOR REMOVING AND RECOLOURING
     authorDiv.getElementsByClassName("clickToDelete")[0].addEventListener("click", function () {
+        let returnElem = document.getElementById("returnToAuthorArray");
+        returnElem.value = authorDiv.getElementsByTagName("input")[0].value;
+        returnElem.dispatchEvent(jsValChangeEvent);
         authorDiv.remove();
         let remainingElems = document.querySelectorAll(".authorDiv");
-        oddEven = 1;
+
+        // SETTING COLOURS FOR REMOVAL
+        oddEven = DecideColourForDelete();
         remainingElems.forEach(function (elem) {
             elem.classList.remove("bg-primary-subtle");
             elem.classList.remove("bg-secondary-subtle");
@@ -77,9 +95,67 @@ function CreateSingleAuthorDiv(containerId, name, oddEven) {
             }
         });
     });
-    
+
     // RETURNING ODD OR EVEN
     return oddEven;
+}
+
+function DecideColour() {
+    let oddOrEven = 0;
+    let elemsInAuthorContainer = document.querySelectorAll(".authorDiv");
+    console.log(elemsInAuthorContainer)
+    
+    elemsInAuthorContainer.forEach(function (elem) {
+        oddOrEven++;
+    })
+    oddOrEven = (oddOrEven % 2) + 1;
+    console.log(oddOrEven);
+    
+    return oddOrEven;
+}
+
+function DecideColourForDelete() {
+    let oddOrEven = 0;
+    let elemsInAuthorContainer = document.querySelectorAll(".authorDiv");
+    console.log(elemsInAuthorContainer)
+
+    elemsInAuthorContainer.forEach(function (elem) {
+        oddOrEven++;
+    })
+    oddOrEven = (oddOrEven % 1) + 1;
+    console.log(oddOrEven);
+
+    return oddOrEven;
+}
+
+function GetAuthorDivValues(){
+    let returnString = "NO AUTHORS";
+    let changed = false;
+    
+    document.querySelectorAll(".authorDiv").forEach(function (elem) {
+        if(changed === false){
+            returnString = elem.getElementsByTagName("input")[0].value;
+            changed = true;
+        }
+        else{
+            returnString += ',' + elem.getElementsByTagName("input")[0].value;
+        }
+    })
+    return returnString;
+}
+
+function StringifyArrayValues(array) {
+    let stringifiedResult = "";
+    let firstIteration = true;
+    array.forEach(item => function () {
+        if (firstIteration === true) {
+            stringifiedResult += item
+            firstIteration = false;
+        } else {
+            stringifiedResult += (item + ",");
+        }
+    });
+    return stringifiedResult;
 }
 
 // REQUIREMENTS
@@ -178,4 +254,58 @@ function arrayContains(array, item) {
         }
     }
     return false;
+}
+
+function CreateLoadingScreen(){
+    let body = document.getElementById("cBodyId");
+    let loadingScreen = document.createElement("div");
+    loadingScreen.classList.add("c-nonselectable")
+    loadingScreen.classList.add("c-loading-screen");
+    loadingScreen.innerHTML = "<img class=\"c-loading-scream c-nonselectable\" src=\"/Content/svg/loadingscream/loadingScream.svg\" alt=\"Monster Loader\" width=\"31%\"/>";
+    body.insertBefore(loadingScreen, body.firstChild);
+}
+
+function RemoveLoadingScreen(){
+    let loadingScreen = document.getElementsByClassName("c-loading-screen");
+    console.log(loadingScreen);
+    for (let i = 0; i < loadingScreen.length; i++) {
+        loadingScreen[i].remove();
+    }
+}
+function UpdateNewsLetterSetting() {
+    let body = document.getElementById("cBodyId");
+    let loadingScreen = document.createElement("div");
+    loadingScreen.classList.add("c-loading-screen");
+    loadingScreen.innerHTML = "<img class=\"c-loading-scream\" src=\"/Content/svg/loadingscream/loadingScream.svg\" alt=\"Monster Loader\" width=\"31%\"/>";
+    body.appendChild(loadingScreen);
+    
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            // Typical action to be performed when the document is ready:
+            document.getElementById("demo").innerHTML = xhttp.responseText;
+        }
+    }
+    xhttp.open("POST", "/Content/" + xhttp.responseURL, true);
+    loadingScreen.remove();
+}
+
+function AjaxUpdateNewsLetterSetting(userSetting, authorNames){
+    $.ajax({
+        url:"/Account/UpdateNewsLetterSetting/",
+        type:"POST",
+        data: { userSetting: userSetting, authorName: authorNames },
+        beforeSend: function() {
+            CreateLoadingScreen();
+        },
+        complete: function() {
+            RemoveLoadingScreen();
+        },
+        success: function(result) {
+            
+        },
+        error: function(xhr, status, error) {
+            RemoveLoadingScreen();
+        }
+    })
 }

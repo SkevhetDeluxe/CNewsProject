@@ -25,7 +25,7 @@ namespace CNewsFunctions
             try
             {
                 // Fetch weather data from OpenWeatherMap API
-                string apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=Stockholm&appid=YOUR_API_KEY";
+                string apiUrl = "https://archive-api.open-meteo.com/v1/archive?latitude=52.52&longitude=13.41&start_date=2024-09-02&end_date=2024-09-16&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code,wind_speed_10m,wind_direction_100m&daily=sunrise,sunset";
                 using HttpClient httpClient = new HttpClient();
                 var response = await httpClient.GetAsync(apiUrl);
                 response.EnsureSuccessStatusCode();

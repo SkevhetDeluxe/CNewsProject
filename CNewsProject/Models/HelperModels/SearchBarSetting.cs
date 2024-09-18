@@ -45,7 +45,7 @@ public class SearchBarSetting
     #region Settings
     public string ContainerId { get; set; } = "SBContainer";
     public string JsFunctionName { get; set; }
-    public string JsArrayName { get; set; } = "itemsArray";
+    public string JsArrayName { get; set; } = "SBitemsArray";
     public string InputFieldId { get; set; } = "SBInputField";
     public string ButtonId {get; set;} = "SBButton";
     public string ButtonName { get; set; } = "Search";
