@@ -4,6 +4,47 @@
 /*    background-size: 166px 75px;*/
 /*}*/
 
+.c-z-index-much{
+    z-index: 999999 !important;
+}
+
+.c-loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    position: fixed !important;
+    z-index: 999 !important;
+}
+
+.c-size-100{
+    width :100%;
+    height: 50%;
+}
+
+.c-loading-scream{
+    /*position: absolute;*/
+    /*top: 50vh;*/
+    /*left: 50vh;*/
+    /*margin: auto;*/
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 1500ms linear infinite;
+}
+.c-loading-scream-fast {
+    -webkit-animation: spin 1s linear infinite; /* Safari */
+    animation: spin 1s linear infinite;
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 
 .hoverable {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);

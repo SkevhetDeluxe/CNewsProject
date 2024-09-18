@@ -17,7 +17,7 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
 {
 
     [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 0 7 * * 1", RunOnStartup = true)] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 0 6 * * 1", RunOnStartup = true)] TimerInfo myTimer)
     {
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
         
