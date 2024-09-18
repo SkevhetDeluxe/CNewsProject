@@ -1,13 +1,11 @@
 @using CNewsProject.StaticTempData
 @using Stripe
 @model NLUserSetting
-}
 
 <div>
     @{
         // Vars and Setup
 
-        int count = 1;
         List<string> authorNames = new();
         List<string> subscribedTo = new();
 
@@ -30,7 +28,7 @@
 
     <div id="personalisedSettingsTarget" class="c-hidden">
         <div class="row">
-            <form asp-action="UpdateNewsLetterSetting" method="post">
+            <form id="newsLetterSettingsForm" asp-action="UpdateNewsLetterSetting" method="post">
 
                 <div>
                     <label class="col-9" asp-for="Latest">Include Latest News</label>
@@ -46,8 +44,14 @@
                         Included Categories
                     </h6>
                 </div>
-                <input asp-for="CategoryIds"></input>
-                <input name="authorNames" type="hidden"/>
+                <select name="CategoryIds" multiple="multiple">
+                    <option value="1">Local</option>
+                    <option value="2">Economy</option>
+                    <option value="3">Sport</option>
+                    <option value="4">Sweden</option>
+                    <option value="5">World</option>
+                </select>
+                
 
                 <div id="authorNamesHitBox" class="c-hover-pointer c-nonselectable">
                     <h4 style="font-weight: bold;">Subscribed Authors</h4>
@@ -56,10 +60,11 @@
                     <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSetting"/>
                     <div id="authorNamesContainer" class="col-9">
                     </div>
+                    <input type="hidden" id="returnToAuthorArray"/>
                 </div>
 
                 <br/>
-                <button class="btn btn-primary">Update</button>
+                <button id="updateNewsLetterButton" class="btn btn-primary">Update</button>
             </form>
         </div>
     </div>
@@ -73,14 +78,38 @@
     AddToggleableElementId("authorNamesHitBox","authorNamesTarget");
         
     document.addEventListener("DOMContentLoaded", function () {
+    
         const inputBox = document.getElementById('@authorSearchSetting.InputFieldId');
         const inputButton = document.getElementById('@authorSearchSetting.ButtonId');
-        
+        const returnToArray = document.getElementById('returnToAuthorArray');
+        const form = document.getElementById("newsLetterSettingsForm");
+            
         let subscribedAuthors = @Html.Raw(Json.Serialize(@subscribedTo));
         let lastOddOrEven = 1;
         if (subscribedAuthors[0] !== "NO!"){
-            lastOddOrEven = CreateAuthorDivs("authorNamesContainer", subscribedAuthors, 1);
+            lastOddOrEven = CreateAuthorDivs("authorNamesContainer", subscribedAuthors);
         }
+        
+        form.addEventListener('submit', function (event){
+            event.preventDefault();
+            let AuthorValues = GetAuthorDivValues();
+            if (AuthorValues !== "NO AUTHORS"){
+                console.log(AuthorValues);
+            }
+            
+            const data = new FormData(event.target);
+            const formJSON = Object.fromEntries(data.entries());
+            
+            console.log(formJSON);
+            
+            
+            
+            AjaxUpdateNewsLetterSetting();
+        });
+        
+        returnToArray.addEventListener('JSValueChange', function(){
+            @{@authorSearchSetting.JsArrayName}.push(this.value);
+        });
 
         inputBox.addEventListener('keydown', function (e) {
             if (e.key === "Enter") {
@@ -93,7 +122,10 @@
         });
 
         function AddAuthorToSubscribed(inputElement){
-
+            
+            let stefansMindBeAtEase = document.getElementById("authorNamesContainer").getElementsByTagName("input")[0];
+            if (stefansMindBeAtEase === undefined){lastOddOrEven = 1;}
+            
             let inputValue = inputElement.value;
 
             if (arrayContains(@{@authorSearchSetting.JsArrayName}, inputValue)){
@@ -101,7 +133,7 @@
                     return val !== inputValue;
                 });
                 
-                lastOddOrEven = CreateSingleAuthorDiv("authorNamesContainer", inputValue, lastOddOrEven);
+                lastOddOrEven = CreateSingleAuthorDiv("authorNamesContainer", inputValue);
                 document.getElementById('@authorSearchSetting.InputFieldId').innerHTML = "";
             }
         }

@@ -1,3 +1,5 @@
+using Microsoft.Build.Framework;
+
 namespace CNewsProject.Models.Account;
 
 public class NLUserSetting

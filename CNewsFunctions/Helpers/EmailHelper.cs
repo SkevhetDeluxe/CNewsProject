@@ -6,15 +6,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace CNewsProject.Helpers
 {
-    public class EmailHelper //: IEmailSender
+    public class EmailHelper(IConfiguration config)
     {
-        private IConfiguration _configuration;
-
-        public EmailHelper(IConfiguration config)
-        {
-            _configuration = config;
-        }
-
         //ROBERTS WAY. VI FÅR SE
 
         #region ROBERTS WAY. VI FÅR SE
@@ -22,8 +15,8 @@ namespace CNewsProject.Helpers
         public bool SendEmailAsync(string email, string subject, string link, string desc)
         {
             var message = new MimeMessage();
-            message.Sender = MailboxAddress.Parse(_configuration["SenderEmail"]);
-            message.Sender.Name = _configuration["SenderName"];
+            message.Sender = MailboxAddress.Parse(config["SenderEmail"]);
+            message.Sender.Name = config["SenderName"];
             message.To.Add(MailboxAddress.Parse(email));
             message.From.Add(message.Sender);
             message.Subject = subject;
@@ -47,7 +40,7 @@ namespace CNewsProject.Helpers
             {
                 try
                 {
-                    emailClient.Connect(_configuration["SmtpServer"], Convert.ToInt32(_configuration["SmtpPort"]),
+                    emailClient.Connect(config["SmtpServer"], Convert.ToInt32(config["SmtpPort"]),
                         true);
                 }
                 catch
@@ -56,7 +49,7 @@ namespace CNewsProject.Helpers
                 }
 
                 emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
-                emailClient.Authenticate(_configuration["SmtpUsername"], _configuration["SmtpPassword"]);
+                emailClient.Authenticate(config["SmtpUsername"], config["SmtpPassword"]);
 
                 try
                 {

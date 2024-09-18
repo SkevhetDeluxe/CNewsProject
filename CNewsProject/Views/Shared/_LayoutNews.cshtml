@@ -15,7 +15,12 @@
     @* <link rel="stylesheet" href="~/CNewsProject.styles.css" asp-append-version="true"/> *@
 </head>
 
-<body class="c-body">
+<body id="cBodyId" class="c-body">
+@* <div class="c-loading-screen"> *@
+@*     <img class="c-loading-scream" src="/Content/svg/loadingscream/loadingScream.svg" alt="Monster Loader" width="31%"/> *@
+@* </div> *@
+
+
 
 @{
     // This makes the Jumbo image ONLY appear on News Index
@@ -47,7 +52,7 @@
                 </li>
                 <partial name="_LoginPartial"/>
             </ul>
-            
+
             <form class="d-flex" role="search" asp-controller="News" asp-action="Search" method="post">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
                 <button class="btn btn-primary" type="submit">Search</button>
@@ -67,7 +72,6 @@
 </nav>
 
 
-
 @{
     // For Debugging Only
 
@@ -82,7 +86,7 @@
         if (currentController == "news" && currentAction != "economy" && currentAction != "search")
         {
             showWeather = 1;
-            <main role="main" class="col-md-9 col-12 pb-3 pt-5">
+            <main id="cMain" role="main" class="col-md-9 col-12 pb-3 pt-5">
                 @RenderBody()
             </main>
             <aside class="col-3 d-none d-md-block pt-5">
@@ -98,7 +102,7 @@
         }
         else
         {
-            <main role="main" class="col-12 pb-3 pt-5">
+            <main id="cMain" role="main" class="col-12 pb-3 pt-5">
                 @RenderBody()
             </main>
         }
@@ -180,5 +184,6 @@
         
 
 	</script>
+
 </body>
 </html>

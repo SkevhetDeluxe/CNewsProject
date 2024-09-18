@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 
 namespace CNewsProject.Controllers
 {
@@ -134,25 +135,26 @@ namespace CNewsProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateNewsLetterSetting(NLUserSetting setting, string? authorNames)
+        public async Task<IActionResult> UpdateNewsLetterSetting(string jsonSetting, string? authorNames)
         {
-            if (authorNames != null)
+            try
             {
-                var authorArray = authorNames.Split(",");
-                setting.AuthorNames = new List<string>(authorArray);
+                NLUserSetting setting = JsonConvert.DeserializeObject<NLUserSetting>(jsonSetting);
+                if (authorNames != null && setting != null)
+                {
+                    var authorArray = authorNames.Split(",");
+                    setting.AuthorNames = new List<string>(authorArray);
+                }
+                identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
+                return RedirectToAction("Profile");
             }
-            
-            
-            identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
-            return RedirectToAction("Profile");
+            catch(Exception ex)
+            {
+                ModelState.AddModelError("err", ex.Message);
+                return RedirectToAction("Profile");
+            }
         }
         
-        //Profile RELATED stuff
-
-        #region Profile RElated shit
-
-        #endregion
-
         // UPDATE ACCOUNT. (We can decide what the Users are allowed to update later.)
         //                 (For now I'm just putting email, user name and password.)
 
