@@ -35,6 +35,12 @@ namespace CNewsFunctions
             decimal eurRate = jsonObject["rates"]["EUR"].Value<decimal>();
             decimal gbpRate = jsonObject["rates"]["GBP"].Value<decimal>();
 
+            if (usdRate <= 0 || eurRate <= 0 || gbpRate <= 0)
+            {
+                _logger.LogError("Invalid exchange rate data received.");
+                return;
+            }
+
             var ratesForArchive = new RatesForArchive(DateTime.UtcNow)
             {
                 USD = usdRate,
