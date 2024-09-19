@@ -9,11 +9,12 @@ using CNewsFunctions.Services;
 using CNewsFunctions.Models;
 using CNewsProject.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 
 namespace CNewsFunctions;
 
-public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext functionDbContext, QueueClient queueClient, INewsLetterService _service)
+public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext functionDbContext, QueueServiceClient queueServiceClient, INewsLetterService _service)
 {
 
     [Function("NewsLetterTimer")]
@@ -41,11 +42,15 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
             });
         }
         
+        QueueClient queueClient = queueServiceClient.GetQueueClient("newsletterlist");
+        
         // SENDING the INSTRUCTIONS!!!
         foreach (var instruction in emailInstructions)
         {
             queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
         }
+        
+        queueClient = queueServiceClient.GetQueueClient("clearpoppin");
 
         // TESTING ONLY
         // EmailInstruction testInstruction = new()
