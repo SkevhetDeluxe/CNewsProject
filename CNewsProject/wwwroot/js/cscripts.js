@@ -1,5 +1,5 @@
 function CreateAuthorDivs(containerId, authorNames) {
-
+    let oddEven = 1;
     let jsValChangeEvent = new Event("JSValueChange");
     let container = document.getElementById(containerId);
     authorNames.forEach(function (name) {
@@ -104,13 +104,13 @@ function DecideColour() {
     let oddOrEven = 0;
     let elemsInAuthorContainer = document.querySelectorAll(".authorDiv");
     console.log(elemsInAuthorContainer)
-    
+
     elemsInAuthorContainer.forEach(function (elem) {
         oddOrEven++;
     })
     oddOrEven = (oddOrEven % 2) + 1;
     console.log(oddOrEven);
-    
+
     return oddOrEven;
 }
 
@@ -131,7 +131,7 @@ function DecideColourForDelete() {
 function GetAuthorDivValues(){
     let returnString = "NO AUTHORS";
     let changed = false;
-    
+
     document.querySelectorAll(".authorDiv").forEach(function (elem) {
         if(changed === false){
             returnString = elem.getElementsByTagName("input")[0].value;
@@ -281,7 +281,7 @@ function UpdateNewsLetterSetting() {
     loadingScreen.classList.add("c-loading-screen");
     loadingScreen.innerHTML = "<img class=\"c-loading-scream\" src=\"/Content/svg/loadingscream/loadingScream.svg\" alt=\"Monster Loader\" width=\"31%\"/>";
     body.appendChild(loadingScreen);
-    
+
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
@@ -293,22 +293,40 @@ function UpdateNewsLetterSetting() {
     loadingScreen.remove();
 }
 
-function AjaxUpdateNewsLetterSetting(userSetting, authorNames){
+function AjaxUpdateNewsLetterSetting(userSetting, authorNames){console.log(userSetting);
+    console.log(authorNames);
     $.ajax({
         url:"/Account/UpdateNewsLetterSetting/",
         type:"POST",
         data: { jsonSetting: userSetting, authorNames: authorNames },
-        beforeSend: function() {
+        beforeSend: function () {
             CreateLoadingScreen();
         },
-        complete: function() {
+        complete: function () {
             RemoveLoadingScreen();
         },
         success: function(result) {
-            
+            if(result.success == true){
+                let successElem = document.getElementById("SuccessMessageSpot");
+                successElem.innerHTML = "<div class=\"border-success border border-5 border-opacity-75\">\n" +
+                    "<p style=\"color: springgreen\">Successfully updated profile</p>\n" +
+                    "</div>";
+            }
+            else{
+                let successElem = document.getElementById("SuccessMessageSpot");
+                successElem.innerHTML = "<div class=\"border-danger border border-5 border-opacity-75\">\n" +
+                    "<p style=\"color: darkred\">Successfully NOT updated profile</p>\n" +
+                    "</div>";
+            }
         },
-        error: function(xhr, status, error) {
+        error: function(result) {
+            let successElem = document.getElementById("SuccessMessageSpot");
+            successElem.innerHTML = "<div class=\"border-danger\">\n" +
+                "<p style=\"color: darkred\">ERROR ERROR ERROR ERROR ERROR ERROR ERROR</p>\n" +
+                "</div>";
             RemoveLoadingScreen();
         }
     })
 }
+
+

@@ -225,9 +225,11 @@ namespace CNewsProject.Service
         {
             try
             {
+                Dictionary<string, string> debugDictionary = new();
                 foreach (var item in setting.GetType().GetProperties())
                 {
                     user.GetType().GetProperty(item.Name)!.SetValue(user, item.GetValue(setting));
+                    debugDictionary.Add(item.Name.ToString(), item.GetValue(setting).ToString() ?? "null");
                 }
                 
                 db.SaveChanges();

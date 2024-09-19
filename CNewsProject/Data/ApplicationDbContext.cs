@@ -12,7 +12,7 @@ namespace CNewsProject.Data
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<Article> Article { get; set; }
-
+        public DbSet<WeeklyView> WeeklyViews { get; set; }
         public DbSet<Category> Category { get; set; }
 
         public DbSet<Subscription> Subscription { get; set; }

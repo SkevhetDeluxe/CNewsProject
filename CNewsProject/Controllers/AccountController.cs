@@ -134,24 +134,56 @@ namespace CNewsProject.Controllers
             return View(vModel);
         }
 
+        public class JsonSetting
+        {
+            public bool NewsLetterEnabled { get; set; }
+            public string CategoryIds { get; set; } = "";
+            public bool Latest { get; set; } 
+            public bool Popular { get; set; } 
+        }
+        
         [HttpPost]
         public async Task<IActionResult> UpdateNewsLetterSetting(string jsonSetting, string? authorNames)
         {
+            if(jsonSetting == null && authorNames == null)
+                return RedirectToAction("Error");
+            
             try
             {
-                NLUserSetting setting = JsonConvert.DeserializeObject<NLUserSetting>(jsonSetting);
+                var user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
+                
+                JsonSetting jasonSetting = JsonConvert.DeserializeObject<JsonSetting>(jsonSetting);
+                NLUserSetting setting = new(user);
+
+                setting.NewsLetterEnabled = jasonSetting.NewsLetterEnabled; // <<---- Det här är en inställning. // vad är det här??????????????
+                setting.Latest = jasonSetting.Latest;
+                setting.Popular = jasonSetting.Popular;
+
+                var catIds = jasonSetting.CategoryIds.Split(',');
+                var catIdList = catIds.ToList()
+                    .Select(s => Int32.Parse(s))
+                    .ToList();
+                
+                setting.CategoryIds = catIdList;
+                
                 if (authorNames != null && setting != null)
                 {
                     var authorArray = authorNames.Split(",");
                     setting.AuthorNames = new List<string>(authorArray);
                 }
-                identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
-                return Json("Success");
+                var result = identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
+
+                if (!result)
+                {
+                    return Ok("Error");
+                }
+                
+                return Ok(new { success = true });
             }
             catch(Exception ex)
             {
                 ModelState.AddModelError("err", ex.Message);
-                return RedirectToAction("Profile");
+                return Ok(new { success = false });
             }
         }
         
