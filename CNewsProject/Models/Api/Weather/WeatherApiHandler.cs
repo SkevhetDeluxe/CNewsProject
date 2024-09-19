@@ -23,7 +23,7 @@ namespace CNewsProject.Models.Api.Weather
 		}
 
 		// FOR REFERENCE
-		//https:// api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
+		//https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m
 		// https:// api/category/pmp3g/version/2/geotype/point/lon/16/lat/58/data.json
 
 		public string BaseUrl { get; set; }

@@ -66,7 +66,7 @@ namespace CNewsProject.Models.Statistics
                     subCount[k] = i;
                     k++;
                 }
-                i = 0; j = 0;
+                m = 0; j = 0;
                 timeB = timeB + 1;
                 if (timeB == 13)
                 {
