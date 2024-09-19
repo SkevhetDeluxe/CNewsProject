@@ -15,7 +15,9 @@ namespace CNewsFunctions
         public string RowKey { get; set; }
         public DateOnly DateUpdated { get; set; }
 
+        [Range(-100, 100)]
         public float Temperature { get; set; }     // Temperature value
+        [Required]
         public string Condition { get; set; }      // Weather condition (e.g., sunny, rainy)
 
         // Required properties for Table Storage
