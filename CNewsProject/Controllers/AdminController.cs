@@ -230,6 +230,12 @@ namespace CNewsProject.Controllers
         {
             return RedirectToAction("SugMinaStats", "News");
         }
+
+        public IActionResult SeedUsers(int amount)
+        {
+            identitySrvc.SeedUsers(amount);
+            return RedirectToAction("Area51");
+        }
         #endregion
 
         // STATISTICS

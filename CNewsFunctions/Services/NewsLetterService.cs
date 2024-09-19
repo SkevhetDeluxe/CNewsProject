@@ -17,6 +17,11 @@ public class NewsLetterService(FunctionDbContext dbContext) : INewsLetterService
         return dbContext.Article.Where(a => a.PublishedDate > theWeek).ToList();
     }
 
+    public List<int> GetLatestArticles()
+    {
+        return dbContext.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate).Select(a => a.Id).ToList();
+    }
+
     public List<int> GetUserNewsLetterArticles(AppUser user, List<Article> allArticles)
     {
         var catIds = user.CategoryIds;
@@ -62,6 +67,7 @@ public interface INewsLetterService
 {
     public List<AppUser> GetEmailUserList();
     public List<Article> GetRecentArticleList();
+    public List<int> GetLatestArticles();
     public List<int> GetUserNewsLetterArticles(AppUser user, List<Article> allArticles);
     public string ConstructHtmlBody(EmailInstruction instruction);
 }

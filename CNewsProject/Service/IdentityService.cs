@@ -323,5 +323,47 @@ namespace CNewsProject.Service
         }
 
         #endregion
+
+        public void SeedUsers(int amount)
+        {
+            Random random = new Random();
+            
+            
+            for (int i = 0; i < amount; i++)
+            {
+                int addToName = random.Next(7000, 20000);
+                AppUser newUser = new AppUser();
+                newUser.UserName = $"testuser{addToName}{i}";
+                newUser.NormalizedUserName = newUser.UserName.ToUpper();
+                newUser.Email = $"User{i}@gmail.com";
+                newUser.EmailConfirmed = true;
+                newUser.PhoneNumber = $"9999999{i}";
+                newUser.PhoneNumberConfirmed = true;
+                newUser.NormalizedEmail = newUser.Email.ToUpper();
+                newUser.PasswordHash = passwordHasher.HashPassword(newUser, "Password1!");
+                newUser.NewsLetterEnabled = false;
+                newUser.TimeCreateCustomer = DateTime.MinValue;
+
+                DateTime startDate = DateTime.Now.AddYears(random.Next(-1, 0)).AddMonths(random.Next(0,12));
+                
+                int daysAdd = random.Next(1, 12);
+                daysAdd *= 30;
+                
+                Subscription newSub = new();
+                newSub.UserId = newUser.Id;
+                newSub.User = newUser;
+                newSub.SubscriptionType = db.SubscriptionType.Single(st => st.Id == 1);
+                newSub.SubscriptionTypeId = 1;
+                newSub.HistoricalPrice = 59;
+                newSub.PaymentComplete = true;
+                newSub.RenewedDate = startDate;
+                newSub.ExpiresDate = startDate.AddDays(daysAdd);
+                
+                db.Users.Add(newUser);
+                db.Subscription.Add(newSub);
+                
+                db.SaveChanges();
+            }
+        }
     }
 }

@@ -39,6 +39,8 @@ namespace CNewsProject.Service
         public List<int> GetUserLikes(string userId);
         public List<int> GetUserLikes(ClaimsPrincipal principal);
 
+        public void SeedUsers(int amount);
+
         // ROLES
         #region ROLES
         public IEnumerable<IdentityRole>? ReadRoles();
