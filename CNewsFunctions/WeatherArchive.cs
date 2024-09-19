@@ -33,8 +33,8 @@ namespace CNewsFunctions
 
                 // Parse the weather data
                 var jsonObject = JObject.Parse(responseBody);
-                float temperature = jsonObject["main"]["temp"].Value<float>();
-                string condition = jsonObject["weather"][0]["description"].Value<string>();
+                float temperature = jsonObject["hourly"]["temperature_2m"].First.Value<float>();
+                string condition = jsonObject["hourly"]["weather_code"].First.Value<string>();
 
                 log.LogInformation($"Fetched weather data: Temperature - {temperature}, Condition - {condition}");
 
