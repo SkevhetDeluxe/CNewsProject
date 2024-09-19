@@ -3,7 +3,7 @@
 <button class="btn edit-acc-btn">Edit Account</button>
 <p class="text-muted" style="display: none" id="edit-acc-confirmation">Changes saved</p>
 
-<form asp-controller="Account" asp-action="Profile" method="post" id="edit-acc-form" style="display:none">
+<form asp-controller="Account" asp-action="Profile" method="post" id="edit-acc-form" style="display:none; margin: 10px;">
     <input asp-for="Id" type="hidden"/>
 
     <label asp-for="UserName"></label><br/>

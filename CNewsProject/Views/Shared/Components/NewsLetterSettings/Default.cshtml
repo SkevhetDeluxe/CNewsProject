@@ -24,9 +24,8 @@
         SearchBarSetting authorSearchSetting = new(authorNames, "author", "AddAuthorToSubscribed", "Author", "Add");
     }
 
-    <h5 id="personalisedSettingsHitBox" class="c-hover-pointer c-nonselectable">Personalised News Letter</h5>
-
-    <div id="personalisedSettingsTarget" class="c-hidden">
+    <button id="personalisedSettingsHitBox" class="btn c-hover-pointer c-nonselectable">Personalised News Letter</button>
+    <div id="personalisedSettingsTarget" class="c-hidden" style="margin: 10px;">
         <div class="row">
             <form  class="col-4 d-flex" id="newsLetterSettingsForm" name="theFormSoClear" asp-action="UpdateNewsLetterSetting" method="post">
 
@@ -35,11 +34,11 @@
                     @{
                         if (Model.NewsLetterEnabled)
                         {
-                            <input name="NewsLetterEnabled" checked="checked" type="checkbox" value="true"/>
+                            <input id="NewsLetterEnabled" class="col-1" name="NewsLetterEnabled" checked="checked" type="checkbox" value="true"/>
                         }
                         else
                         {
-                            <input name="NewsLetterEnabled" type="checkbox" value="true"/>
+                            <input id="NewsLetterEnabled" class="col-1" name="NewsLetterEnabled" type="checkbox" value="true"/>
                         }
                     }
 
@@ -50,31 +49,31 @@
                     @{
                         if (Model.Latest)
                         {
-                            <input class="offset-1 col-1" name="Latest" type="checkbox" checked="checked" value="true"/>
+                            <input id="Latest" class="col-1" name="Latest" type="checkbox" checked="checked" value="true"/>
                         }
                         else
                         {
-                            <input class="offset-1 col-1" name="Latest" type="checkbox" value="true"/>
+                            <input id="Latest" class="col-1" name="Latest" type="checkbox" value="true"/>
                         }
                     }
                 </div>
-                <div>
-                    <label class="col-2" asp-for="Popular">Include Popular News</label>
+                <div class="newsLetterSettingsBackground">
+                    <label class="col-10" for="Popular">Include Popular News</label>
                     @{
                         if (Model.Popular)
                         {
-                            <input class="offset-1 col-1" name="Popular" type="checkbox" checked="checked" value="true"/>
+                            <input id="Popular" class="col-1" name="Popular" type="checkbox" checked="checked" value="true"/>
                         }
                         else
                         {
-                            <input class="offset-1 col-1" name="Popular" type="checkbox" value="true"/>
+                            <input id="Popular" class="col-1" name="Popular" type="checkbox" value="true"/>
                         }
                     }
                 </div>
 
-                <div>
-                    <h6 style="font-weight: bold">
-                        Included Categories
+                <div class="newsLetterSettingsBackground">
+                    <h6 style="font-weight: bold; margin-top: 3px;">
+                        Included Categories:
                     </h6>
                 </div>
 
@@ -108,7 +107,7 @@
                 </div>
                 <div id="authorNamesTarget">
                     <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSetting"/>
-                    <div id="authorNamesContainer" class="col-9">
+                    <div id="authorNamesContainer" class="col-7" style="margin-left: 10px;">
                     </div>
                     <input type="hidden" id="returnToAuthorArray"/>
                 </div>
