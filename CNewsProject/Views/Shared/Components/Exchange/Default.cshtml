@@ -17,13 +17,13 @@
         }
         <div id="collapseExch" class="accordion-collapse collapse show card-body" aria-labelledby="headingExch">
             <p>Enter the amount in SEK:</p>
-            <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates()"/>
+            <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates(this)"/>
             <ul>
-                <li id="liusd">USD : @CTempData.ExchangeRates.USD $</li>
-                <li id="lieur">EUR : @CTempData.ExchangeRates.EUR €</li>
-                <li id="lijpy">JPY : @CTempData.ExchangeRates.JPY Yen</li>
-                <li id="licny">CNY : @CTempData.ExchangeRates.CNY Yuán</li>
-                <li id="ligbp">GBP : @CTempData.ExchangeRates.GBP £</li>
+                <li class="liusd">USD : @CTempData.ExchangeRates.USD $</li>
+                <li class="lieur">EUR : @CTempData.ExchangeRates.EUR €</li>
+                <li class="lijpy">JPY : @CTempData.ExchangeRates.JPY Yen</li>
+                <li class="licny">CNY : @CTempData.ExchangeRates.CNY Yuán</li>
+                <li class="ligbp">GBP : @CTempData.ExchangeRates.GBP £</li>
             </ul>
         </div>
         <script type="text/javascript">
@@ -34,15 +34,16 @@
         let cnyRate = parseFloat('@(CTempData.ExchangeRates.CNY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
         let gbpRate = parseFloat('@(CTempData.ExchangeRates.GBP.ToString(System.Globalization.CultureInfo.InvariantCulture))');
 
-        function updateExchangeRates() {
-            const amountInSek = parseFloat(document.getElementById('amountInSek').value);
+        function updateExchangeRates(amountChanger) {
+            const amountInSek = parseFloat(amountChanger.value);
+            let siblingEle = amountChanger.nextElementSibling;
 
             // Calculate and update each currency value
-            document.getElementById('liusd').textContent = `USD: ${(amountInSek * usdRate).toFixed(2)} $`;
-            document.getElementById('lieur').textContent = `EUR: ${(amountInSek * eurRate).toFixed(2)} €`;
-            document.getElementById('lijpy').textContent = `JPY: ${(amountInSek * jpyRate).toFixed(2)} Yen`;
-            document.getElementById('licny').textContent = `CNY: ${(amountInSek * cnyRate).toFixed(2)} Yuán`;
-            document.getElementById('ligbp').textContent = `GBP: ${(amountInSek * gbpRate).toFixed(2)} £`;
+            siblingEle.querySelector('.liusd').textContent = `USD: ${(amountInSek * usdRate).toFixed(2)} $`;
+            siblingEle.querySelector('.lieur').textContent = `EUR: ${(amountInSek * eurRate).toFixed(2)} €`;
+            siblingEle.querySelector('.lijpy').textContent = `JPY: ${(amountInSek * jpyRate).toFixed(2)} Yen`;
+            siblingEle.querySelector('.licny').textContent = `CNY: ${(amountInSek * cnyRate).toFixed(2)} Yuán`;
+            siblingEle.querySelector('.ligbp').textContent = `GBP: ${(amountInSek * gbpRate).toFixed(2)} £`;
         }
 
         // Initialize the exchange rates on page load
