@@ -18,9 +18,9 @@ function CreateAuthorDivs(containerId, authorNames) {
 
         // SETTING COLOURS
         if (oddEven === 1) {
-            authorDiv.classList.add("bg-primary-subtle");
+            authorDiv.classList.add("newsLetterSettingsBackground");
         } else {
-            authorDiv.classList.add("bg-secondary-subtle");
+            authorDiv.classList.add("newsLetterSettingsBackground");
         }
 
         // ADDING EVENT LISTENER FOR REMOVING AND RECOLOURING
@@ -34,14 +34,14 @@ function CreateAuthorDivs(containerId, authorNames) {
             // SETTING COLOURS FOR REMOVAL
             oddEven = DecideColourForDelete();
             remainingElems.forEach(function (elem) {
-                elem.classList.remove("bg-primary-subtle");
-                elem.classList.remove("bg-secondary-subtle");
+                elem.classList.remove("newsLetterSettingsBackground");
+                elem.classList.remove("newsLetterSettingsBackground");
                 if (oddEven === 1) {
                     oddEven = 2;
-                    elem.classList.add("bg-primary-subtle");
+                    elem.classList.add("newsLetterSettingsBackground");
                 } else {
                     oddEven = 1;
-                    elem.classList.add("bg-secondary-subtle");
+                    elem.classList.add("newsLetterSettingsBackground");
                 }
             });
         });
@@ -68,9 +68,9 @@ function CreateSingleAuthorDiv(containerId, name) {
     authorDiv.innerHTML += `<input type="hidden" value="${name}">`;
     container.appendChild(authorDiv);
     if (oddEven === 1) {
-        authorDiv.classList.add("bg-primary-subtle");
+        authorDiv.classList.add("newsLetterSettingsBackground");
     } else {
-        authorDiv.classList.add("bg-secondary-subtle");
+        authorDiv.classList.add("newsLetterSettingsBackground");
     }
 
     // ADDING EVENT LISTENER FOR REMOVING AND RECOLOURING
@@ -84,14 +84,14 @@ function CreateSingleAuthorDiv(containerId, name) {
         // SETTING COLOURS FOR REMOVAL
         oddEven = DecideColourForDelete();
         remainingElems.forEach(function (elem) {
-            elem.classList.remove("bg-primary-subtle");
-            elem.classList.remove("bg-secondary-subtle");
+            elem.classList.remove("newsLetterSettingsBackground");
+            elem.classList.remove("newsLetterSettingsBackground");
             if (oddEven === 1) {
                 oddEven = 2;
-                elem.classList.add("bg-primary-subtle");
+                elem.classList.add("newsLetterSettingsBackground");
             } else {
                 oddEven = 1;
-                elem.classList.add("bg-secondary-subtle");
+                elem.classList.add("newsLetterSettingsBackground");
             }
         });
     });
