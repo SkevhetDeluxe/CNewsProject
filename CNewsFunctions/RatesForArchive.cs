@@ -14,7 +14,7 @@ namespace CNewsFunctions
     {        
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }        
-        public DateOnly DateUpdated { get; set; }
+        public DateTime DateUpdated { get; set; }
 
         [Range(0, double.MaxValue)]
         public decimal USD { get; set; }
@@ -33,7 +33,7 @@ namespace CNewsFunctions
         {
             PartitionKey = "RatesArchive";  
             RowKey = dateUpdated.ToString("yyyyMMdd"); 
-            DateUpdated = DateOnly.FromDateTime(dateUpdated);
+            DateUpdated = dateUpdated;
         }
     }
 }
