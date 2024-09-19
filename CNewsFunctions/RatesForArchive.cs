@@ -14,9 +14,15 @@ namespace CNewsFunctions
     {        
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }        
-        public DateOnly DateUpdated { get; set; }       
+        public DateOnly DateUpdated { get; set; }
+
+        [Range(0, double.MaxValue)]
         public decimal USD { get; set; }
+
+        [Range(0, double.MaxValue)]
         public decimal EUR { get; set; }
+
+        [Range(0, double.MaxValue)]
         public decimal GBP { get; set; }
         public DateTimeOffset? Timestamp { get; set; }
         public ETag ETag { get; set; }
