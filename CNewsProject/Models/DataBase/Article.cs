@@ -22,6 +22,7 @@ namespace CNewsProject.Models.DataBase
         [MaxLength(7000)]
         public string Content { get; set; } = string.Empty;
         public int Views { get; set; }
+        public ICollection<WeeklyView>? WeeklyViews { get; set; }
         public int Likes { get; set; }
 
         public string ImageLink { get; set; } = string.Empty;

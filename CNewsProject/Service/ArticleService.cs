@@ -15,25 +15,15 @@ using MailKit.Search;
 
 namespace CNewsProject.Service
 {
-    public class ArticleService : IArticleService
+    public class ArticleService(
+        ApplicationDbContext db,
+        IConfiguration configuration,
+        ICategoryService cgs,
+        UserManager<AppUser> userManager,
+        RoleManager<IdentityRole> roleManager)
+        : IArticleService
     {
-        private readonly ApplicationDbContext _db;
-        private readonly BlobServiceClient _blobServiceClient;
-        private readonly IConfiguration _configuration;
-        private readonly ICategoryService _categoryService;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        public ArticleService(ApplicationDbContext db, IConfiguration configuration, ICategoryService cgs,
-            UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            _db = db;
-            _blobServiceClient = new BlobServiceClient(configuration["AzureBlobStorage"]);
-            _configuration = configuration;
-            _categoryService = cgs;
-            _userManager = userManager;
-            _roleManager = roleManager;
-        }
+        private readonly BlobServiceClient _blobServiceClient = new(configuration["AzureBlobStorage"]);
 
         //Blob UPLOADING()
 
@@ -63,7 +53,7 @@ namespace CNewsProject.Service
         {
             try
             {
-                var containers = _configuration.GetSection("imgContainers");
+                var containers = configuration.GetSection("imgContainers");
 
                 List<bool> failList = new();
                 foreach (var child in containers.GetChildren())
@@ -95,7 +85,7 @@ namespace CNewsProject.Service
         public void IncreaseViews(int id)
         {
             GetArticleById(id).Views++;
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         public void Laikalaininen(int id, string userId)
@@ -103,39 +93,39 @@ namespace CNewsProject.Service
             if (!HasLiked(id, userId))
             {
                 GetArticleById(id).Likes++;
-                _db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
-                _db.SaveChanges();
+                db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
+                db.SaveChanges();
             }
             else
             {
                 GetArticleById(id).Likes--;
-                _db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
-                _db.SaveChanges();
+                db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
+                db.SaveChanges();
             }
         }
 
 
         public void Laikalaininen(int id, ClaimsPrincipal principal)
         {
-            string userId = _userManager.GetUserAsync(principal).Result.Id;
+            string userId = userManager.GetUserAsync(principal).Result.Id;
 
             if (!HasLiked(id, userId))
             {
                 GetArticleById(id).Likes++;
-                _db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
-                _db.SaveChanges();
+                db.Users.Single(u => u.Id == userId).LikedArticles.Add(id);
+                db.SaveChanges();
             }
             else
             {
                 GetArticleById(id).Likes--;
-                _db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
-                _db.SaveChanges();
+                db.Users.Single(u => u.Id == userId).LikedArticles.Remove(id);
+                db.SaveChanges();
             }
         }
 
         private bool HasLiked(int id, string userId)
         {
-            return _db.Users.Single(u => u.Id == userId).LikedArticles.Contains(id);
+            return db.Users.Single(u => u.Id == userId).LikedArticles.Contains(id);
         }
 
         #endregion
@@ -146,36 +136,36 @@ namespace CNewsProject.Service
         public void AddToEditorsChoice(int id)
         {
             EditorsChoice selectedArticle = new() { Article = GetArticleById(id) };
-            _db.EditorsChoice.Add(selectedArticle);
-            _db.SaveChanges();
+            db.EditorsChoice.Add(selectedArticle);
+            db.SaveChanges();
         }
 
         public List<Article> GetLatestArticles()
         {
-            return _db.Article.OrderByDescending(a => a.PublishedDate).Take(5).ToList();
+            return db.Article.OrderByDescending(a => a.PublishedDate).Take(5).ToList();
         }
 
         public List<Article> GetFiveArticles()
         {
-            return _db.Article.OrderByDescending(a => a.Views).Take(5).ToList();
+            return db.Article.OrderByDescending(a => a.Views).Take(5).ToList();
         }
 
         public List<Article> GetAllArticles()
         {
-            return _db.Article.OrderBy(a => a.Headline).ToList();
+            return db.Article.OrderBy(a => a.Headline).ToList();
         }
 
         public List<Article> GetAllPublished()
         {
-            return _db.Article.Include(a => a.Category).Where(a => a.Status == "Approved")
+            return db.Article.Include(a => a.Category).Where(a => a.Status == "Approved")
                 .OrderByDescending(a => a.PublishedDate).ToList();
         }
 
         public FrontPageArticlesVM GetFrontPageArticleVM()
         {
-            if (_db.Article.Any())
+            if (db.Article.Any())
             {
-                var articles = _db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate)
+                var articles = db.Article.Where(a => a.Status == "Approved").OrderByDescending(a => a.PublishedDate)
                     .AsNoTracking();
                 return new FrontPageArticlesVM()
                 {
@@ -209,7 +199,7 @@ namespace CNewsProject.Service
 
         public Article GetArticleById(int Id)
         {
-            return _db.Article.Include(c => c.Category).FirstOrDefault(a => a.Id == Id)!;
+            return db.Article.Include(c => c.Category).FirstOrDefault(a => a.Id == Id)!;
         }
 
 
@@ -225,36 +215,36 @@ namespace CNewsProject.Service
                 Status = (draft ? "Draft" : "Pending")
             };
 
-            if (_categoryService.CategoryExists(newArticle.CategoryName))
+            if (cgs.CategoryExists(newArticle.CategoryName))
             {
-                article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
-                article.CategoryId = _categoryService.GetCategoryByName(newArticle.CategoryName).Id;
+                article.Category = cgs.GetCategoryByName(newArticle.CategoryName);
+                article.CategoryId = cgs.GetCategoryByName(newArticle.CategoryName).Id;
             }
             else
             {
-                _categoryService.AddCategory(newArticle.CategoryName);
-                article.Category = _categoryService.GetCategoryByName(newArticle.CategoryName);
-                article.CategoryId = _categoryService.GetCategoryByName(newArticle.CategoryName).Id;
+                cgs.AddCategory(newArticle.CategoryName);
+                article.Category = cgs.GetCategoryByName(newArticle.CategoryName);
+                article.CategoryId = cgs.GetCategoryByName(newArticle.CategoryName).Id;
             }
 
-            _db.Article.Add(article);
-            _db.SaveChanges();
+            db.Article.Add(article);
+            db.SaveChanges();
 
             // Now UpBlob
 
-            var recentArticle = _db.Article.Single(a => a.Id == article.Id);
+            var recentArticle = db.Article.Single(a => a.Id == article.Id);
 
             string imgName = "article" + Convert.ToString(recentArticle.Id) + "img";
 
             string imgUrl = UploadBlob(newArticle.ArticleImage, imgName);
-            _db.Article.Single(a => a.Id == article.Id).ImageLink = imgUrl;
-            _db.SaveChanges();
+            db.Article.Single(a => a.Id == article.Id).ImageLink = imgUrl;
+            db.SaveChanges();
         }
 
         public void RemoveArticle(Article article)
         {
-            _db.Article.Remove(_db.Article.FirstOrDefault(a => a.Id == article.Id)!);
-            _db.SaveChanges();
+            db.Article.Remove(db.Article.FirstOrDefault(a => a.Id == article.Id)!);
+            db.SaveChanges();
         }
 
 
@@ -270,17 +260,17 @@ namespace CNewsProject.Service
             GetArticleById(article.Id).ImageLink = article.ImageLink;
             GetArticleById(article.Id).Category = article.Category;
 
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         public async Task<List<string>> GetAllAuthorNames()
         {
-            var allUsers = _db.Users.ToList();
+            var allUsers = db.Users.ToList();
             List<string> authorNames = new();
 
             foreach (var user in allUsers)
             {
-                if (await _userManager.IsInRoleAsync(user, "Journalist"))
+                if (await userManager.IsInRoleAsync(user, "Journalist"))
                     authorNames.Add(user.UserName);
             }
 
@@ -297,7 +287,7 @@ namespace CNewsProject.Service
         {
             AuthorArticlesVM ArticleLists = new();
 
-            List<Article> AllAuthorArticles = _db.Article.Where(a => a.AuthorUserName == authorUserName)
+            List<Article> AllAuthorArticles = db.Article.Where(a => a.AuthorUserName == authorUserName)
                 .OrderByDescending(a => a.PublishedDate).ToList();
 
             ArticleLists.Pending = AllAuthorArticles.Where(a => a.Status == "Pending").ToList();
@@ -313,7 +303,7 @@ namespace CNewsProject.Service
 
         public List<Article> GetPendingArticles()
         {
-            return _db.Article.Where(a => a.Status == "Pending").OrderBy(a => a.WrittenDate).ToList();
+            return db.Article.Where(a => a.Status == "Pending").OrderBy(a => a.WrittenDate).ToList();
         }
 
         public void UpdateArticle(Article article)
@@ -323,7 +313,7 @@ namespace CNewsProject.Service
                 property.SetValue(GetArticleById(article.Id), property.GetValue(article));
             }
 
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         public bool UpdateArticleFromEditVM(EditArticleVM vModel, bool draft)
@@ -349,7 +339,7 @@ namespace CNewsProject.Service
 
             try
             {
-                article.Category = _categoryService.GetCategoryByName(vModel.CategoryName);
+                article.Category = cgs.GetCategoryByName(vModel.CategoryName);
                 article.Headline = vModel.Headline;
                 article.ContentSummary = vModel.ContentSummary;
                 article.Content = vModel.Content;
@@ -361,7 +351,7 @@ namespace CNewsProject.Service
                 return false;
             }
 
-            _db.SaveChanges();
+            db.SaveChanges();
             return true;
         }
 
@@ -370,14 +360,14 @@ namespace CNewsProject.Service
             GetArticleById(id).Status = "Approved";
             GetArticleById(id).ThePublisherUserName = publisherName;
             GetArticleById(id).PublishedDate = DateTime.Now;
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         public void DeclineArticle(int id, string reason)
         {
             GetArticleById(id).Status = "Declined";
             //GetArticleById(id).DeclineMessage = reason;
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         #endregion
@@ -391,14 +381,14 @@ namespace CNewsProject.Service
             if (count != 0)
             {
                 //.Include(a => a.Category)
-                return _db.Article
+                return db.Article
                     .Where(a => a.Category.Name == category && a.Status == "Approved")
                     .OrderByDescending(a => a.PublishedDate).Take(count)
                     .ToList();
             }
 
             //.Include(a => a.Category) ONLY needed if you want to mess with the CATEGORY
-            return _db.Article
+            return db.Article
                 .Where(a => a.Category.Name == category && a.Status == "Approved")
                 .OrderByDescending(a => a.PublishedDate)
                 .ToList();
@@ -498,7 +488,7 @@ namespace CNewsProject.Service
         public void GetTheRealStats()
         {
             Random rnd = new();
-            foreach (var sak in _db.Article)
+            foreach (var sak in db.Article)
             {
                 int temp = rnd.Next(11, 319);
                 int temp2 = rnd.Next(45, 454);
@@ -506,7 +496,7 @@ namespace CNewsProject.Service
                 sak.Views += temp + temp2;
             }
 
-            _db.SaveChanges();
+            db.SaveChanges();
         }
 
         #endregion
