@@ -27,7 +27,7 @@
     <button id="personalisedSettingsHitBox" class="btn c-hover-pointer c-nonselectable">Personalised News Letter</button>
     <div id="personalisedSettingsTarget" class="c-hidden" style="margin: 10px;">
         <div class="row">
-            <form  class="col-4 d-flex" id="newsLetterSettingsForm" name="theFormSoClear" asp-action="UpdateNewsLetterSetting" method="post">
+            <form  class="col-4" id="newsLetterSettingsForm" name="theFormSoClear" asp-action="UpdateNewsLetterSetting" method="post">
 
                 <div class="newsLetterSettingsBackground">
                     <label for="NewsLetterEnabled" class="col-10">Enable Newsletter?</label>
@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="newsLetterSettingsBackground">
-                    <h6 style="font-weight: bold; margin-top: 3px;">
+                    <h6 style="font-weight: bold; margin-top: 10px;">
                         Included Categories:
                     </h6>
                 </div>
@@ -103,7 +103,7 @@
                     }
                 </div>
                 <div id="authorNamesHitBox" class="c-hover-pointer c-nonselectable">
-                    <h4 style="font-weight: bold;">Subscribed Authors</h4>
+                    <h6 style="font-weight: bold; margin-top: 10px;">Subscribed Authors:</h6>
                 </div>
                 <div id="authorNamesTarget">
                     <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSetting"/>

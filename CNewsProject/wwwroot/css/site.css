@@ -266,6 +266,6 @@
     background-color: #ffefcc;
 }
 
-.d-flex input[type="checkbox"]{
-    place-content: end;
+.ThisClassIsPurelyForCategoryIds:checked{
+    margin-left: 3px;
 } 
