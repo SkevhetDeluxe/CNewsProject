@@ -871,6 +871,24 @@ namespace CNewsProject.Migrations
                     b.ToTable("VisitorCounts");
                 });
 
+            modelBuilder.Entity("CNewsProject.Models.DataBase.WeeklyView", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ArticleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("WeeklyViews");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -1045,6 +1063,17 @@ namespace CNewsProject.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CNewsProject.Models.DataBase.WeeklyView", b =>
+                {
+                    b.HasOne("CNewsProject.Models.DataBase.Article", "Article")
+                        .WithMany("WeeklyViews")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -1094,6 +1123,11 @@ namespace CNewsProject.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CNewsProject.Models.DataBase.Article", b =>
+                {
+                    b.Navigation("WeeklyViews");
                 });
 #pragma warning restore 612, 618
         }

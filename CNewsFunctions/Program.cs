@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+//services.AddSingleton(new QueueClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "newsletterlist", new QueueClientOptions()
+//      {MessageEncoding = QueueMessageEncoding.Base64}));
+
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication()
     .ConfigureServices((context, services) =>
@@ -19,8 +22,7 @@ var host = new HostBuilder()
         services.AddDbContext<FunctionDbContext>(options => 
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
         services.AddSingleton(new BlobServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
-        services.AddSingleton(new QueueClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), "newsletterlist", new QueueClientOptions()
-            {MessageEncoding = QueueMessageEncoding.Base64}));
+        services.AddSingleton(new QueueServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
         services.AddScoped<INewsLetterService, NewsLetterService>();
     })
     .ConfigureAppConfiguration(config =>

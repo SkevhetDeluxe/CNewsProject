@@ -84,7 +84,10 @@ namespace CNewsProject.Service
 
         public void IncreaseViews(int id)
         {
-            GetArticleById(id).Views++;
+            var article = GetArticleById(id);
+            article.Views++;
+            WeeklyView view = new (article);
+            db.WeeklyViews.Add(view);
             db.SaveChanges();
         }
 
