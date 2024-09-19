@@ -17,7 +17,7 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
 {
 
     [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 0 6 * * 1", RunOnStartup = true)] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 0 6 * * 1")] TimerInfo myTimer)
     {
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
         
@@ -46,5 +46,17 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
         {
             queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
         }
+
+        // TESTING ONLY
+        // EmailInstruction testInstruction = new()
+        // {
+        //     Email = "filip.bergfjord@protonmail.com",
+        //     UserName = "Filip",
+        //     Subject = "Weekly Newsletter",
+        //     ArticleIds = _service.GetLatestArticles(),
+        //     AuthorNames = new(),
+        // };
+
+        // queueClient.SendMessage(JsonConvert.SerializeObject(testInstruction));
     }
 }

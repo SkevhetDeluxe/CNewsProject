@@ -19,7 +19,5 @@ public class TestActive
     {
         _logger.LogInformation("C# HTTP trigger function processed a request.");
         return new OkObjectResult("Welcome to Azure Functions!");
-        
     }
-
 }
