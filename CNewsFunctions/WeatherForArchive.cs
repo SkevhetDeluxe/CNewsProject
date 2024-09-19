@@ -13,7 +13,7 @@ namespace CNewsFunctions
     {        
         public string PartitionKey { get; set; }
         public string RowKey { get; set; }
-        public DateOnly DateUpdated { get; set; }
+        public DateTime DateUpdated { get; set; }
 
         [Range(-100, 100)]
         public float Temperature { get; set; }     // Temperature value
@@ -33,7 +33,7 @@ namespace CNewsFunctions
             PartitionKey = "WeatherArchive";  // Static partition for all weather data
             RowKey = dateUpdated.ToString("yyyyMMdd-HHmmss");  // Unique row key based on timestamp
 
-            DateUpdated = DateOnly.FromDateTime(dateUpdated);  // Convert DateTime to DateOnly
+            DateUpdated = dateUpdated;  // Convert DateTime to DateOnly
             Temperature = temperature;
             Condition = condition;
         }
