@@ -1,39 +1,93 @@
 ﻿@using System.Reflection
 @using CNewsProject.StaticTempData
 
-<div class="card">
-    <div class="card-body">
-        <div style="background-color:#dee6ef;">
-            <h3>Exchange rates</h3>
-        </div>
-        <p>100 SEK equals</p>
-    </div>
-    
-    <ul class="row">
-        @{
+<style>
+    .c-gradient-90-light{
+        background: linear-gradient(90deg, rgba(194, 240, 240, 1) 0%, rgba(140, 177, 217, 1) 100%);
+    }
+</style>
 
-            foreach (var prop in CTempData.ExchangeRates.GetType().GetProperties().Where(p => p.Name != "SEK" && p.Name != "DateUpdated"))
-            {
-                string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(CTempData.ExchangeRates)) * 100);
-                string liItem = prop.Name + " : " + temp;
-                    
-                <li class="col-6 ps-0">@liItem</li>
-            }
-                
+<div class="accordion">
+    <div class="card accordion-item">
+        <div class="accordion-header" id="headingExch">
+            <button class="accordion-button c-gradient-90 text-light" data-bs-toggle="collapse" data-bs-target="#collapseExch" aria-expanded="true" aria-controls="collapseExch">
+                <h3>Exchange rates</h3>
+            </button>
+        </div>
+        @{
+            // Calculating base exchange rates for 100 SEK and ensuring correct formatting
+            // string usd = (Model.USD * 100).ToString("F2");
+            // string eur = (Model.EUR * 100).ToString("F2");
+            // string jpy = (Model.JPY * 100).ToString("F2");
+            // string cny = (Model.CNY * 100).ToString("F2");
+            // string gbp = (Model.GBP * 100).ToString("F2");
         }
-    </ul>
+        <div id="collapseExch" class="accordion-collapse collapse show card-body" aria-labelledby="headingExch">
+            <p>Enter the amount in SEK:</p>
+            <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates(this)"/>
+            <ul>
+                <li class="liusd">USD : @CTempData.ExchangeRates.USD $</li>
+                <li class="lieur">EUR : @CTempData.ExchangeRates.EUR €</li>
+                <li class="lijpy">JPY : @CTempData.ExchangeRates.JPY Yen</li>
+                <li class="licny">CNY : @CTempData.ExchangeRates.CNY Yuán</li>
+                <li class="ligbp">GBP : @CTempData.ExchangeRates.GBP £</li>
+            </ul>
+            <div class="accordion" style="margin:-16px;">
+                <div class="accordion-item">
+                    <div class="accordion-header" id="headingExchAll">
+                        <button class="accordion-button collapsed c-gradient-90-light" data-bs-toggle="collapse" data-bs-target="#collapseExchAll" aria-expanded="true" aria-controls="collapseExchAll">
+                            <h5>View More</h5>
+                        </button>
+                    </div>
+                    <div id="collapseExchAll" class="accordion-collapse collapse p-2" aria-labelledby="headingExchAll">
+                        <p>100 SEK equals</p>
+                        <ul class="row">
+                            @{
+                                foreach (var prop in CTempData.ExchangeRates.GetType().GetProperties().Where(p => p.Name != "SEK" && p.Name != "DateUpdated").Skip(1))
+                                {
+                                    string temp = string.Format("{0:F2}", Convert.ToDecimal(prop.GetValue(CTempData.ExchangeRates)) * 100);
+                                    string liItem = prop.Name + " : " + temp;
+
+                                    <li class="col-6 ps-0">@liItem</li>
+                                }
+                            }
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            // Parsing Razor variables as floats in JavaScript
+            let usdRate = parseFloat('@(CTempData.ExchangeRates.USD.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+            let eurRate = parseFloat('@(CTempData.ExchangeRates.EUR.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+            let jpyRate = parseFloat('@(CTempData.ExchangeRates.JPY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+            let cnyRate = parseFloat('@(CTempData.ExchangeRates.CNY.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+            let gbpRate = parseFloat('@(CTempData.ExchangeRates.GBP.ToString(System.Globalization.CultureInfo.InvariantCulture))');
+
+            function updateExchangeRates(amountChanger) {
+                const amountInSek = parseFloat(amountChanger.value);
+                let siblingEle = amountChanger.nextElementSibling;
+
+                // Calculate and update each currency value
+                siblingEle.querySelector('.liusd').textContent = `USD: ${(amountInSek * usdRate).toFixed(2)} $`;
+                siblingEle.querySelector('.lieur').textContent = `EUR: ${(amountInSek * eurRate).toFixed(2)} €`;
+                siblingEle.querySelector('.lijpy').textContent = `JPY: ${(amountInSek * jpyRate).toFixed(2)} Yen`;
+                siblingEle.querySelector('.licny').textContent = `CNY: ${(amountInSek * cnyRate).toFixed(2)} Yuán`;
+                siblingEle.querySelector('.ligbp').textContent = `GBP: ${(amountInSek * gbpRate).toFixed(2)} £`;
+            }
+
+            // Initialize the exchange rates on page load
+            document.addEventListener("DOMContentLoaded", function () {
+                updateExchangeRates();
+            });
+
+        </script>
+    </div>
 </div>
 
-@* If we want to add a read more to this use this general setup.*@
-@* And put the five basic exchange rates outside of this and the rest inside of this *@
 
-@* <div class="accordion"> *@
-@*     <div class="accordion-item"> *@
-@*         <div class="accordion-header" id="$1$id for header#1#"> *@
-@*             <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="$1$id for collapse#1#" aria-expanded="true" aria-controls="$1$id for collapse#1#"><h3>$1$View More#1#</h3></button> *@
-@*         </div> *@
-@*         <div id="$1$id for collapse#1#" class="accordion-collapse collapse" aria-labelledby="$1$id for header#1#"> *@
-@*             $1$CONTENT#1# *@
-@*         </div> *@
-@*     </div> *@
-@* </div> *@
+<div>
+
+</div>

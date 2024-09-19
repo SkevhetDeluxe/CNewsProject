@@ -51,8 +51,8 @@
             <div id="collapseWeath" class="accordion-collapse collapse show card-body" aria-labelledby="headingWeath">
                 
                     <div class="mt-3">
-                        <input type="text" class="form-control" id="city" placeholder="Change City" default="@city" />
-                        <button class="btn btn-primary" type="submit" id="searchcity" onclick="FindNewCity(Search())">Find</button>
+                        <input type="text" class="form-control city-search-bar" id="city" placeholder="Change City" default="@city" />
+                        <button class="btn btn-primary city-search-button" type="submit" id="searchcity" onclick="FindNewCity(Search(this))">Find</button>
                     </div>
                 
                 
@@ -81,9 +81,15 @@
 
 <script type="text/javascript">
     
-	function Search() {
-	
-		 return document.getElementById('city').value;
+   @* function Search(){
+    document.querySelector('.city-search-button').click(function(){
+    console.log("button");
+    });
+    }*@
+    
+	function Search(searchButton) {
+	return searchButton.previousElementSibling.value;
+		
 	}
 	
 	document.getElementById("city").addEventListener("keypress",function(event){
@@ -96,5 +102,6 @@
     $(".accordion-button").click(function () {
         $(this).blur();
     });
+
 
 </script>
