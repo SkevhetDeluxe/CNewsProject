@@ -1,0 +1,25 @@
+﻿@model List<ExchangeRateHistoryViewModel>
+
+<h2>Exchange Rate History</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>USD (to SEK)</th>
+            <th>EUR (to SEK)</th>
+            <th>GBP (to SEK)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rate in Model)
+        {
+            <tr>
+                <td>@rate.Date.ToShortDateString()</td>
+                <td>@rate.USD</td>
+                <td>@rate.EUR</td>
+                <td>@rate.GBP</td>
+            </tr>
+        }
+    </tbody>
+</table>
