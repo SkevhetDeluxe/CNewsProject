@@ -59,7 +59,7 @@
                     }
                 </div>
                 <div>
-                    <label class="col-9" asp-for="Popular">Include Popular News</label>
+                    <label class="col-2" asp-for="Popular">Include Popular News</label>
                     @{
                         if (Model.Popular)
                         {
@@ -86,11 +86,11 @@
                     {
                         if (Model.CategoryIds.Contains(kvp.Value))
                         {
-                            <p class="col-9">@kvp.Key</p><input type="checkbox" checked="checked" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
+                            <label class="col-9">@kvp.Key</label><input type="checkbox" checked="checked" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
                         }
                         else
                         {
-                            <p class="col-9">@kvp.Key</p><input type="checkbox" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
+                            <label class="col-9">@kvp.Key</label><input type="checkbox" class="ThisClassIsPurelyForCategoryIds col-1 offset-1" value="@kvp.Value"/>
                         }
                     }
                 }
