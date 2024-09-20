@@ -17,7 +17,7 @@
         }
         <div id="collapseExch" class="accordion-collapse collapse show card-body" aria-labelledby="headingExch">
             <p>Enter the amount in SEK:</p>
-            <input id="amountInSek" class="form-control mb-3" type="number" value="100" onchange="updateExchangeRates(this)"/>
+            <input class="form-control mb-3" type="number" value="100" min="1" onchange="updateExchangeRates(this)"/>
             <ul>
                 <li class="liusd">USD : @CTempData.ExchangeRates.USD $</li>
                 <li class="lieur">EUR : @CTempData.ExchangeRates.EUR €</li>
@@ -37,6 +37,7 @@
         function updateExchangeRates(amountChanger) {
             const amountInSek = parseFloat(amountChanger.value);
             let siblingEle = amountChanger.nextElementSibling;
+
 
             // Calculate and update each currency value
             siblingEle.querySelector('.liusd').textContent = `USD: ${(amountInSek * usdRate).toFixed(2)} $`;
