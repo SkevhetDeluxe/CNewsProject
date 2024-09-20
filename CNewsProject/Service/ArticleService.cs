@@ -86,8 +86,25 @@ namespace CNewsProject.Service
         {
             var article = GetArticleById(id);
             article.Views++;
-            WeeklyView view = new (article);
-            db.WeeklyViews.Add(view);
+            
+            var view =  db.WeeklyViews.SingleOrDefault(wv => wv.ArticleId == id);
+            
+            
+            if (view != null)
+            {
+                view.Amount++;
+            }
+            else
+            {
+                WeeklyView newView = new()
+                {
+                    ArticleId = id,
+                    Article = article,
+                    Amount = 1
+                };
+                
+                 db.WeeklyViews.Add(newView);
+            }
             db.SaveChanges();
         }
 
@@ -250,7 +267,18 @@ namespace CNewsProject.Service
             db.SaveChanges();
         }
 
-
+        public bool JournalistRemoveArticle(int articleId, AppUser user)
+        {
+            var article = db.Article.Single(a => a.Id == articleId);
+            
+            if (article.AuthorUserName != user.UserName)
+                return false;
+            
+            db.Article.Remove(db.Article.FirstOrDefault(a => a.Id == article.Id)!);
+            db.SaveChanges();
+            
+            return true;
+        }
         public void EditArticle(Article article)
         {
             GetArticleById(article.Id).PublishedDate = article.PublishedDate;

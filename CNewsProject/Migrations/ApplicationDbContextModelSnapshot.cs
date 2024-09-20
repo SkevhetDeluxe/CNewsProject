@@ -879,6 +879,9 @@ namespace CNewsProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
