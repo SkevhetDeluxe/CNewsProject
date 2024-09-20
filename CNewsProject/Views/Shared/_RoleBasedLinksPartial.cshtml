@@ -8,9 +8,9 @@
 
         if (user != null)
         {
-           var isJournalist = await UserManager.IsInRoleAsync(user, "Journalist");
-           var isThePublisher = await UserManager.IsInRoleAsync(user, "The Publisher");
-           var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
+            var isJournalist = await UserManager.IsInRoleAsync(user, "Journalist");
+            var isThePublisher = await UserManager.IsInRoleAsync(user, "The Publisher");
+            var isAdmin = await UserManager.IsInRoleAsync(user, "Admin");
 
             if (isJournalist)
             {
@@ -30,6 +30,15 @@
             {
                 <li class="nav-item c-nav-item-hoverable">
                     <a id="admin" class="nav-link text-light c-border-round" asp-controller="Admin" asp-action="Index">Admin</a>
+                </li>
+                
+                // MOVE THESE TO ADMIN PAGE LATER
+                <li class="nav-item c-nav-item-hoverable">
+                    <a id="weatherHistory" class="nav-link text-light c-border-round" asp-controller="Weather" asp-action="WeatherHistory">Weather History</a>
+                </li>
+
+                <li class="nav-item c-nav-item-hoverable">
+                    <a id="exchangeRate" class="nav-link text-light c-border-round" asp-controller="ExchangeRate" asp-action="History">Exchange Rate History</a>
                 </li>
             }
         }
