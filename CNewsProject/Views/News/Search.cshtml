@@ -39,14 +39,15 @@
         authorNames.Add(item);
     }
     ViewData["imgSize"] = 0;
+
+    // THIS IS FOR AUTHOR SEARCH WHICH WE'RE NOT USING SEE ROW 62-65
+    // SearchBarSetting authorSearchSettings = new(authorNames, "author", "jsSearchFunction", "Author", "submit");
 }
 
 <form method="post" class="row">
     <input class="form-control" id="searchBox" name="search" placeholder="Search" style="width: 200px; margin-right: 5px;"/>
 
-    @* <partial name="_searchBarWithSuggestionsPartial" model="authorNames" /> *@
-
-    <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
+  
 
     <select class="form-select" name="category" style="width: 200px; margin-right: 5px;">
         <option value="">Category</option>
@@ -58,6 +59,10 @@
     </select>
     <button class="btn btn-primary" type="submit" style="width:83px;">Search</button><br>
     
+    @* THIS DOESNT WORK AND DOESNT LOOK GOOD SO IF WE WANT IT THAT NEEDS TO BE FIXED. BUT AT LEAST IT NO LONGER CAUSES ERRORS IF YOU UNCOMMENT IT *@
+    @* <partial name="_searchBarWithSuggestionsPartial" model="authorSearchSettings" /> *@
+    @* *@
+    @* <ul id="authorSuggestions" class="list-group" style="display: none;"></ul> *@
 </form>
 <br/>
 <div class="row">

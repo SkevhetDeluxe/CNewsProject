@@ -27,7 +27,7 @@
     <button id="personalisedSettingsHitBox" class="btn c-hover-pointer c-nonselectable">Personalised News Letter</button>
     <div id="personalisedSettingsTarget" class="c-hidden" style="margin: 10px;">
         <div class="row">
-            <form  class="col-4" id="newsLetterSettingsForm" name="theFormSoClear" asp-action="UpdateNewsLetterSetting" method="post">
+            <form  class="col-md-4" id="newsLetterSettingsForm" name="theFormSoClear" asp-action="UpdateNewsLetterSetting" method="post">
 
                 <div class="newsLetterSettingsBackground">
                     <label for="NewsLetterEnabled" class="col-10">Enable Newsletter?</label>
@@ -87,16 +87,15 @@
                             if (Model.CategoryIds.Contains(kvp.Value))
                             {
                                 <div class="newsLetterSettingsBackground">
-                                    <label for="@datId" class="col-10">@kvp.Key</label><input type="checkbox" id="@datId" checked="checked" class="ThisClassIsPurelyForCategoryIds col-1" value="@kvp.Value"/>
+                                    <label for="@datId" class="col-10">@kvp.Key</label>
+                                    <input type="checkbox" id="@datId" checked="checked" class="ThisClassIsPurelyForCategoryIds col-1" value="@kvp.Value"/>
                                 </div>
                             }
                             else
                             {
                                 <div class="newsLetterSettingsBackground">
                                     <label for="@datId" class="col-10">@kvp.Key</label>
-                                    <input type="checkbox" id="@datId"
-                                           class="ThisClassIsPurelyForCategoryIds col-1"
-                                           value="@kvp.Value"/>
+                                    <input type="checkbox" id="@datId" class="ThisClassIsPurelyForCategoryIds col-1" value="@kvp.Value"/>
                                 </div>
                             }
                         }
