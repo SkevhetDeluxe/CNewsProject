@@ -1,17 +1,9 @@
 ﻿namespace CNewsProject.Controllers
 {
     [Authorize(Roles = "Journalist")]
-    public class JournalistController : Controller
+    public class JournalistController(IArticleService articleService, IIdentityService identitySrvc)
+        : Controller
     {
-        private readonly IArticleService _articleService;
-        private readonly IIdentityService _identityService;
-
-        public JournalistController(IArticleService articleService, IIdentityService identitySrvc)
-        {
-            _articleService = articleService;
-            _identityService = identitySrvc;
-        }
-
         public IActionResult Index()
         {
             return View(User);
@@ -24,9 +16,9 @@
         {
             if (ModelState.IsValid)
             {
-                AppUser author = await _identityService.GetAppUserByClaimsPrincipal(User);
+                var author = await identitySrvc.GetAppUserByClaimsPrincipal(User);
 
-                _articleService.WriteArticle(vModel, content, author.UserName!, draft);
+                articleService.WriteArticle(vModel, content, author.UserName!, draft);
 
                 return RedirectToAction("Index");
             }
@@ -40,9 +32,9 @@
         {
             try
             {
-                var author = await _identityService.GetAppUserByClaimsPrincipal(User);
+                var author = await identitySrvc.GetAppUserByClaimsPrincipal(User);
 
-                var article = _articleService.GetArticleById(id);
+                var article = articleService.GetArticleById(id);
 
                 if (article.AuthorUserName == author.UserName!)
                 {
@@ -60,9 +52,9 @@
         [HttpPost]
         public async Task<IActionResult> EditArticle(EditArticleVM vModel, bool draft)
         {
-            var author = await _identityService.GetAppUserByClaimsPrincipal(User);
+            var author = await identitySrvc.GetAppUserByClaimsPrincipal(User);
             
-            var article = _articleService.GetArticleById(vModel.ArticleId);
+            var article = articleService.GetArticleById(vModel.ArticleId);
             
             if(article.AuthorUserName != author.UserName!)
                 return RedirectToAction("Denied", "Account");
@@ -73,13 +65,18 @@
                 
                 //if(result)
                 //    return RedirectToAction("Index");
-                
-                return View(vModel);
             }
-            else
-            {
-                return View(vModel);
-            }
+
+            return View(vModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteArticle(int id)
+        {
+            var user = await identitySrvc.GetAppUserByClaimsPrincipal(User);
+            var result = articleService.JournalistRemoveArticle(id, user);
+            
+            return !result ? RedirectToAction("Denied", "Account") : RedirectToAction("Index");
         }
     }
 }

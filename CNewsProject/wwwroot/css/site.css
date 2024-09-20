@@ -4,6 +4,10 @@
 /*    background-size: 166px 75px;*/
 /*}*/
 
+.c-click-through{
+    pointer-events: none;
+}
+
 .c-z-index-much{
     z-index: 999999 !important;
 }

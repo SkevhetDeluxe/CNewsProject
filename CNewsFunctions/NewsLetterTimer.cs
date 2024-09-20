@@ -18,7 +18,7 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
 {
 
     [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 0 6 * * 1")] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 0 6 * * 1", RunOnStartup = true)] TimerInfo myTimer)
     {
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
         
@@ -36,13 +36,14 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
             {
                 Email = user.Email,
                 UserName = user.UserName,
-                Subject = "Weekly Newsletter",
+                Subject = "Weekly News Letter",
                 ArticleIds = _service.GetUserNewsLetterArticles(user, recentArticles),
                 AuthorNames = user.AuthorNames ?? new(),
             });
         }
         
         QueueClient queueClient = queueServiceClient.GetQueueClient("newsletterlist");
+        //queueClient.SendMessage("IT WORKED WITH THIS QUEUE");
         
         // SENDING the INSTRUCTIONS!!!
         foreach (var instruction in emailInstructions)
@@ -50,7 +51,8 @@ public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext 
             queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
         }
         
-        queueClient = queueServiceClient.GetQueueClient("clearpoppin");
+        //queueClient = queueServiceClient.GetQueueClient("clearpoppin");
+        queueClient.SendMessage(""); // TODO OR NOT TODO? THAT IS THE QUESTION! SEND INSTRUCTIONS TO CLEAR THE WEEKLY VIEWS!
 
         // TESTING ONLY
         // EmailInstruction testInstruction = new()
