@@ -38,22 +38,17 @@
     foreach(var item in dynamicAuthorNames){
         authorNames.Add(item);
     }
-
+    ViewData["imgSize"] = 0;
 }
 
+<form method="post" class="row">
+    <input class="form-control" id="searchBox" name="search" placeholder="Search" style="width: 200px; margin-right: 5px;"/>
 
-<h1>Search</h1>
-
-<form method="post">
-    <label for="searchBox">Search</label>
-    <input id="searchBox" name="search"/>
-
-    <partial name="_searchBarWithSuggestionsPartial" model="authorNames" />
+    @* <partial name="_searchBarWithSuggestionsPartial" model="authorNames" /> *@
 
     <ul id="authorSuggestions" class="list-group" style="display: none;"></ul>
 
-    <button class="btn btn-sm btn-primary" type="submit">Search</button><br>
-    <select name="category">
+    <select class="form-select" name="category" style="width: 200px; margin-right: 5px;">
         <option value="">Category</option>
         <option value="Local">Local</option>
         <option value="Sweden">Sweden</option>
@@ -61,6 +56,8 @@
         <option value="Economy">Economy</option>
         <option value="Sport">Sport</option>
     </select>
+    <button class="btn btn-primary" type="submit" style="width:83px;">Search</button><br>
+    
 </form>
 <br/>
 <div class="row">

@@ -48,5 +48,3 @@ namespace CNewsProject.Controllers
         }
     }
 }
-
-

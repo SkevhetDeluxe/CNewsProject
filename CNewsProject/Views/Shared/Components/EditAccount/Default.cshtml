@@ -7,10 +7,9 @@
     <input asp-for="Id" type="hidden"/>
 
     <label asp-for="UserName"></label><br/>
-    <input disabled asp-for="UserName"/>
-    <br/>
+    <input class="form-control" asp-for="UserName"/>
     <label asp-for="Email"></label><br/>
-    <input disabled asp-for="Email"/>
+    <input class="form-control" asp-for="Email"/>
 
     <button type="submit" class="btn btn-primary" id="save-edit-acc" style="margin-top: 4px;">Save</button>
     <button type="reset" class="btn btn-danger edit-acc-btn" style="margin-top: 4px;">Cancel</button><br/>
