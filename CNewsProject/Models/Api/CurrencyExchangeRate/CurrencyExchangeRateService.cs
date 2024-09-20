@@ -27,7 +27,7 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var jsonObject = JObject.Parse(responseContent);
 
-                exchangeRates = jsonObject["rates"].ToObject<Rates>();
+                exchangeRates = jsonObject["rates"]?.ToObject<Rates>();
             }
             ExchangeRates = exchangeRates ?? ExchangeRates;
             ExchangeRates.DateUpdated = DateOnly.FromDateTime(DateTime.Now);
@@ -45,7 +45,7 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
 				var responseContent = await response.Content.ReadAsStringAsync();
 				var jsonObject = JObject.Parse(responseContent);
 
-				exchangeRates = jsonObject["rates"].ToObject<Rates>();
+				exchangeRates = jsonObject["rates"]?.ToObject<Rates>();
 			}
 
 			if (exchangeRates != null)

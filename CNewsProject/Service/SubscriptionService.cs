@@ -125,7 +125,7 @@ namespace CNewsProject.Service
 
         public Subscription GetSubscriptionById(int id)
         {
-            return _db.Subscription.FirstOrDefault(o => o.Id == id);
+            return (_db.Subscription.FirstOrDefault(o => o.Id == id);
         }
 
 

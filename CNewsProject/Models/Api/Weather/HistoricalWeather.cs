@@ -4,8 +4,8 @@
 	{
 		public int Id { get; set; }
 		public DateTime Date { get; set; }
-		public string City { get; set; }
+		public string? City { get; set; }
 		public float Temperature { get; set; }
-		public string Condition { get; set; }
+		public string? Condition { get; set; }
 	}
 }
