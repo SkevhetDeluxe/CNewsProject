@@ -2,8 +2,8 @@
 
 	<form class="shamsForm" asp-controller="Subscription" asp-action="BuySubscription" method="post">
 		<div class="formDiv">
-			<label class="shamsLabel" for="membershipType">Membership Type:</label>
-			<select class="shamsSelect" id="membershipType" name="membershipType">
+			<label class="shamsLabel" for="membershipType">Subscription Type:</label>
+			<select class="form-select shamsSelect" id="membershipType" name="membershipType">
 				<option value="basic">Basic - $29/month</option>
 				<option value="middle">Middle - $59/month</option>
 				<option value="expensive">Expensive - $189/month</option>
@@ -11,12 +11,12 @@
 		</div>
 		<div class="formDiv">
 			<label class="shamsLabel" for="paymentFrequency">Payment Frequency:</label>
-			<select class="shamsSelect" id="paymentFrequency" name="paymentFrequency">
+			<select class="form-select shamsSelect" id="paymentFrequency" name="paymentFrequency">
 				<option value="monthly">Monthly</option>
 				<option value="yearly">Yearly</option>
 			</select>
 		</div>
-		<button class="shamsButton" type="submit">Checkout</button>
+		<button class="btn btn-primary shamsButton" type="submit">Checkout</button>
 	</form>
 
 </div>
