@@ -3,13 +3,19 @@
     ViewData["Title"] = "ROLES";
 }
 
-<h1 class="bg-info text-white">All Roles</h1>
+<style>
+    td:nth-of-type(1):before { content: "ID"; }
+    td:nth-of-type(2):before { content: "Name"; }
+    td:nth-of-type(3):before { content: "Users"; }
+</style>
+
+<h3 class="">All Roles</h3>
 
 <a asp-action="Index" class="btn btn-secondary">Back to Base</a>
 <a asp-action="CreateRole" class="btn btn-secondary">Create a Role</a>
-
-<table class="table table-sm table-bordered table-bordered">
-    <tr><th>ID</th><th>Name</th><th>Users</th><th>Update</th><th>Delete</th></tr>
+<div class="">
+<table class="table table-sm table-bordered table-bordered mt-1" id="rolesTable" style="white-space: nowrap">
+    <thead><tr><th>ID</th><th>Name</th><th>Users</th><th>Update</th><th>Delete</th></tr></thead>
 
     @* @foreach (var role in Model)
     {
@@ -27,6 +33,7 @@
 
     </tr>
     } *@
+    <tbody>
 
     @{
         if (Model != null)
@@ -68,5 +75,6 @@
             }
         }
     }
-
+    </tbody>
 </table>
+</div>
