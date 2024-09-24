@@ -1,26 +1,31 @@
 ﻿@model AppUser
 
+<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
 <h3>User: @Model.UserName</h3>
 <h4>ID: @Model.Id</h4>
 
-<tr>
-    <th>Roles</th>
-    <th>Subscription</th>
-</tr>
-<tr>
-    <td></td>
-</tr>
+@*TODO add roles and subscription info of user to this view *@
+
+@* <tr> *@
+@*     <th>Roles</th> *@
+@*     <th>Subscription</th> *@
+@* </tr> *@
+@* <tr> *@
+@*     <td></td> *@
+@* </tr> *@
 
 <form asp-action="GiveSub">
 
     <label for="userId">User ID</label>
-    <input readonly="readonly" name="userId" value="@Model.Id" />
+    <input class="form-control" readonly="readonly" name="userId" value="@Model.Id" />
 
     <label for="typeId">Type ID</label>
-    <input name="typeId" />
+    <input class="form-control" name="typeId" />
 
     <label for="days">Amount of days</label>
-    <input name="days" />
+    <input class="form-control" name="days" />
 
-    <button class="btn btn-primary" type="submit">Accept</button>
+    <button class="btn btn-primary mt-1" type="submit">Accept</button>
+    <a class="btn btn-primary mt-1" asp-action="Users">Back</a>
 </form>
+</div>

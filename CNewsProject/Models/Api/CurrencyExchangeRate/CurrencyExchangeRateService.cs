@@ -27,10 +27,10 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
                 var responseContent = await response.Content.ReadAsStringAsync();
                 var jsonObject = JObject.Parse(responseContent);
 
-                exchangeRates = jsonObject["rates"].ToObject<Rates>();
+                exchangeRates = jsonObject["rates"]?.ToObject<Rates>();
             }
             ExchangeRates = exchangeRates ?? ExchangeRates;
-            ExchangeRates.DateUpdated = DateOnly.FromDateTime(DateTime.Now);
+            ExchangeRates.DateUpdated = DateTime.Now;
         }
 
 		public async Task StoreExchangeRatesAsync()
@@ -45,12 +45,12 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
 				var responseContent = await response.Content.ReadAsStringAsync();
 				var jsonObject = JObject.Parse(responseContent);
 
-				exchangeRates = jsonObject["rates"].ToObject<Rates>();
+				exchangeRates = jsonObject["rates"]?.ToObject<Rates>();
 			}
 
 			if (exchangeRates != null)
 			{
-				exchangeRates.DateUpdated = DateOnly.FromDateTime(DateTime.Now);
+				exchangeRates.DateUpdated = DateTime.Now;
 				_dbContext.ExchangeRates.Add(exchangeRates);
 				await _dbContext.SaveChangesAsync();
 			}

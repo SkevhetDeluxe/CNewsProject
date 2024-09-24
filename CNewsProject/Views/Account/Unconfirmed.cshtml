@@ -1,11 +1,12 @@
 ﻿@model string
 
-<div>
-	<h1> You need to confirm your email.</h1>
-</div>
-<div>
+
+<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+	<div>
+		<h3> You need to confirm your email.</h3>
+	</div>
 	<form asp-action="ResendEmail">
 		<input type="hidden" name="email" value="@Model"/>
-		<button type="submit">Resend Email Confirmation?</button>
+		<button class="btn btn-primary" type="submit">Resend Email Confirmation</button>
 	</form>
 </div>

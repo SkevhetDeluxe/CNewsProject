@@ -1,4 +1,41 @@
 ﻿@model SubscriptionType
 
+@*TODO make this work to edit subscritption types. I only copied in the form from AddType and removed the asp-action so it doesn't accidentally mess anything up*@
 
-<a asp-action="GiveSub">Give Sub to User</a>
+<div class="row">
+    <div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+        <h3>Manage Subscription Type</h3>
+        <a class="btn btn-primary" asp-action="GiveSub">Give Sub to User</a>
+        
+        <hr/>
+        <form asp-action="" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TypeName" class="control-label"></label>
+                <input asp-for="TypeName" class="form-control"/>
+                <span asp-validation-for="TypeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control"/>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccessLevel" class="control-label"></label>
+                <input asp-for="AccessLevel" class="form-control"/>
+                <span asp-validation-for="AccessLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="" value="Edit" class="btn btn-primary mt-1"/>
+            </div>
+        </form>
+        <div>
+            <a asp-action="SubscriptionTypes">Back to List</a>
+        </div>
+    </div>
+</div>

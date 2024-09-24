@@ -2,9 +2,8 @@
 @{
     ViewData["Title"] = "CREATE ROLE";
 }
-
-<h1 class="bg-info text-white">Create a Role</h1>
-<a asp-action="Roles" class="btn btn-secondary">Back</a>
+<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+<h3 class="">Create a Role</h3>
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-action="CreateRole" method="post">
@@ -12,5 +11,8 @@
         <label for="name">Name:</label>
         <input name="name" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary mt-1">Create</button>
+    <a asp-action="Roles" class="btn btn-danger mt-1">Back</a>
+    
 </form>
+</div>

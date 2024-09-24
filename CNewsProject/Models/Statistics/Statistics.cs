@@ -100,9 +100,9 @@ namespace CNewsProject.Models.Statistics
    
     public class TwoArrays
     {
-        public int[] SubCount { get; set; }
-        public int[] DelSubCount { get; set; }
-        public int[] NewSubCount { get; set; }
+        public int[]? SubCount { get; set; }
+        public int[]? DelSubCount { get; set; }
+        public int[]? NewSubCount { get; set; }
 
     }
 }

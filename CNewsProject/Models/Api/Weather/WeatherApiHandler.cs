@@ -55,7 +55,7 @@ namespace CNewsProject.Models.Api.Weather
 				var json = await response.Content.ReadAsStringAsync();
 				var data = JObject.Parse(json);
 
-				GeoLocation gps = data.ToObject<GeoLocation>();
+				GeoLocation? gps = data.ToObject<GeoLocation>();
 
 				return gps;
 			}
@@ -74,7 +74,7 @@ namespace CNewsProject.Models.Api.Weather
 				var json = await response.Content.ReadAsStringAsync();
 				var data = JObject.Parse(json);
 
-				WeatherStats stats = data.ToObject<WeatherStats>();
+				WeatherStats? stats = data.ToObject<WeatherStats>();
 
 				return stats;
 			}
@@ -95,10 +95,7 @@ namespace CNewsProject.Models.Api.Weather
 				var json = await response.Content.ReadAsStringAsync();
 				var data = JObject.Parse(json);
 
-				GeoLocation gps = data.ToObject<GeoLocation>();
-
-
-
+				GeoLocation? gps = data.ToObject<GeoLocation>();
 				return gps;
 			}
 			else
@@ -115,8 +112,8 @@ namespace CNewsProject.Models.Api.Weather
 				var jsonContent = await response.Content.ReadAsStringAsync();
 				var jsonObject = JObject.Parse(jsonContent);
 
-				var temperature = jsonObject["forecast"]["forecastday"][0]["day"]["avgtemp_c"].Value<float>();
-				var condition = jsonObject["forecast"]["forecastday"][0]["day"]["condition"]["text"].Value<string>();
+				var temperature = jsonObject["forecast"]?["forecastday"]?[0]?["day"]?["avgtemp_c"]?.Value<float>();
+				var condition = jsonObject["forecast"]?["forecastday"]?[0]?["day"]?["condition"]?["text"]?.Value<string>();
 
 				var historicalWeather = new HistoricalWeather
 				{
@@ -146,7 +143,7 @@ namespace CNewsProject.Models.Api.Weather
 				var json = await response.Content.ReadAsStringAsync();
 				var data = JObject.Parse(json);
 
-				WeatherStats stats = data.ToObject<WeatherStats>();
+				WeatherStats? stats = data.ToObject<WeatherStats>();
 
 				return stats;
 			}
@@ -155,3 +152,13 @@ namespace CNewsProject.Models.Api.Weather
 		}
 	}
 }
+
+//$ curl "https://archive-api.open-meteo.com/v1/era5?latitude=52.52&longitude=13.41&start_date=2021-01-01&end_date=2021-12-31&hourly=temperature_2m"
+
+//{
+//  "hourly": {
+//    "time": ["2022-01-01T00:00", "2022-01-01T01:00", ...]
+//    "temperature_2m": [1.7, 1.3, 1.8, 1.3, 1.8, ...],
+//  }
+//}
+
