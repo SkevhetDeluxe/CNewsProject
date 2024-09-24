@@ -14,56 +14,70 @@ using Microsoft.Extensions.Configuration;
 
 namespace CNewsFunctions;
 
-public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext functionDbContext, QueueServiceClient queueServiceClient, INewsLetterService _service)
+public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext functionDbContext, QueueServiceClient queueServiceClient, ISuperService _service)
 {
-
-    [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 0 6 * * 1", RunOnStartup = true)] TimerInfo myTimer)
+    //const string schedule = "0 0 6 * * 1";
+    private readonly string _testMode = Environment.GetEnvironmentVariable("CNEWS_NEWSLETTER_TESTMODE")!;
+    [Function("NewsLetterTimer")] // TODO REMOVE                   RunOnStartup!!!!!!!
+    public void Run([TimerTrigger("%CNEWS_NEWSLETTER_SCHEDULE%", UseMonitor = true)] TimerInfo myTimer)
     {
-        logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+        logger.LogInformation($"CNEWS_NEWSLETTER_TESTMODE is set at {_testMode}");
         
-        // Fetching USERS
-        var users = _service.GetEmailUserList();
-        
-        // Fetching RECENT ArticleList
-        var recentArticles = _service.GetRecentArticleList();
-        
-        // Constructing The Instructions
-        List<EmailInstruction> emailInstructions = new();
-        foreach (var user in users)
+        if (_testMode == "1")
         {
-            emailInstructions.Add(new EmailInstruction()
+            TestMode();
+        }
+        else
+        {
+            logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
+        
+            // Fetching USERS
+            var users = _service.GetEmailUserList();
+        
+            // Fetching RECENT ArticleList
+            var recentArticles = _service.GetRecentArticleList();
+        
+            // Constructing The Instructions
+            List<EmailInstruction> emailInstructions = new();
+            int count = 0;
+            int totalCount = users.Count();
+            foreach (var user in users)
             {
-                Email = user.Email,
-                UserName = user.UserName,
-                Subject = "Weekly News Letter",
-                ArticleIds = _service.GetUserNewsLetterArticles(user, recentArticles),
-                AuthorNames = user.AuthorNames ?? new(),
-            });
+                emailInstructions.Add(new EmailInstruction()
+                {
+                    AmountOfMessages = totalCount,
+                    NumberInList = count++,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Subject = "Weekly News Letter",
+                    ArticleIds = _service.GetUserNewsLetterArticles(user, recentArticles),
+                    AuthorNames = user.AuthorNames ?? new(),
+                });
+            }
+        
+            QueueClient queueClient = queueServiceClient.GetQueueClient("newsletterlist");
+            // SENDING the INSTRUCTIONS!!!
+            foreach (var instruction in emailInstructions)
+            {
+                queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
+            } 
         }
-        
-        QueueClient queueClient = queueServiceClient.GetQueueClient("newsletterlist");
-        //queueClient.SendMessage("IT WORKED WITH THIS QUEUE");
-        
-        // SENDING the INSTRUCTIONS!!!
-        foreach (var instruction in emailInstructions)
-        {
-            queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
-        }
-        
-        //queueClient = queueServiceClient.GetQueueClient("clearpoppin");
-        queueClient.SendMessage(""); // TODO OR NOT TODO? THAT IS THE QUESTION! SEND INSTRUCTIONS TO CLEAR THE WEEKLY VIEWS!
-
-        // TESTING ONLY
-        // EmailInstruction testInstruction = new()
-        // {
-        //     Email = "filip.bergfjord@protonmail.com",
-        //     UserName = "Filip",
-        //     Subject = "Weekly Newsletter",
-        //     ArticleIds = _service.GetLatestArticles(),
-        //     AuthorNames = new(),
-        // };
-
         // queueClient.SendMessage(JsonConvert.SerializeObject(testInstruction));
+    }
+
+    private void TestMode()
+    {
+        logger.LogInformation("Testing mode");
+        EmailInstruction testInstruction = new()
+        {
+            Email = "filip.bergfjord@protonmail.com",
+            UserName = "Filip",
+            Subject = "Weekly Newsletter",
+            ArticleIds = _service.GetLatestArticles(),
+            AuthorNames = new(),
+        };
+        QueueClient queueClient = queueServiceClient.GetQueueClient("devqueueone");
+        
+        queueClient.SendMessage((JsonConvert.SerializeObject(testInstruction)));
     }
 }

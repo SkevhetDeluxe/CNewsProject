@@ -35,6 +35,35 @@ namespace CNewsProject.Service
         // AppUser RELATED
         #region AppUser RELATED
 
+        #region SUBSCRIBED
+
+        public bool IsSubscribed(AppUser user)
+        {
+            List<Subscription> subs = db.Subscription.Where(s => s.UserId == user.Id).ToList();
+            if (subs.Count != 0)
+                return true;
+
+            return false;
+        }
+
+        public bool IsSubscribed(ClaimsPrincipal principal)
+        {
+            var user = GetAppUserByClaimsPrincipal(principal).Result;
+
+            return IsSubscribed(user);
+        }
+
+        public DateTime GetSubscriptionExpiry(AppUser user)
+        {
+            return db.Subscription.Where(s => s.User == user).Max(s => s.ExpiresDate);
+        }
+
+        public void Subscribe(AppUser user)
+        {
+            Subscription subscription = db.Subscription.FirstOrDefault(s => s.UserId == user.Id);
+        }
+        #endregion
+        
         //LIKES
         #region FetchLikes
 
@@ -103,6 +132,30 @@ namespace CNewsProject.Service
             return user;
         }
 
+        public AppUser? GetAppUserByNormalisedName(string name)
+        {
+            try
+            {
+                AppUser user = db.Users.SingleOrDefault(u => u.NormalizedUserName == name);
+                return user;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public string GetUserNameByNormalisedName(string name)
+        {
+            try
+            {
+                AppUser user = db.Users.SingleOrDefault(u => u.NormalizedUserName == name);
+                return user.UserName;
+            }
+            catch
+            {
+                return null;
+            }
+        }
         public async Task<AppUser> GetAppUserByEmailAsync(string email)
         {
             AppUser user = await userManager.FindByEmailAsync(email);
@@ -259,6 +312,7 @@ namespace CNewsProject.Service
         public IEnumerable<IdentityRole>? ReadRoles()
         {
             IEnumerable<IdentityRole>? roles = roleManager.Roles;
+            
             return roles;
         }
 

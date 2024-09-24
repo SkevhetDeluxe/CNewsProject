@@ -1,23 +1,24 @@
 using System;
 using Azure.Storage.Queues.Models;
+using CNewsFunctions.Services;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
 
 namespace CNewsFunctions;
 
-public class ClearPoppin
+public class ClearPoppin(ILogger<ClearPoppin> logger, ISuperService superService)
 {
-    private readonly ILogger<ClearPoppin> _logger;
-
-    public ClearPoppin(ILogger<ClearPoppin> logger)
-    {
-        _logger = logger;
-    }
-
     [Function(nameof(ClearPoppin))]
-    public void Run([QueueTrigger("myqueue", Connection = "")] QueueMessage message)
+    public void Run([QueueTrigger("clearpoppin", Connection = "AzureWebJobsStorage")] QueueMessage message)
     {
-        _logger.LogInformation($"C# Queue trigger function processed: {message.MessageText}");
-        // TODO THE WHOLE COMPLETE MOTHERFUCKING FUNCTION MAN
+        if (message.MessageText == "CLEAR POPPIN")
+        {
+            logger.LogInformation("INITIATE CLEAR POPPIN");
+            logger.LogInformation("INITIATING CLEAR POPPIN");
+            logger.LogInformation("INITIATED CLEAR POPPIN");
+            logger.LogInformation(superService.Clear("POPPIN"));
+            logger.LogInformation("YES SIR, CLEARING POPPIN");
+            logger.LogInformation("SIR WE CLEARED POPPIN");
+        }
     }
 }
