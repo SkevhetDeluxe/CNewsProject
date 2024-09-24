@@ -20,7 +20,9 @@ namespace CNewsProject.Service
         public void Laikalaininen(int id, string userId);
         public void DeclineArticle(int id, string reason);
         public FrontPageArticlesVM GetFrontPageArticleVM();
-        
+        public List<Article> GetAuthorArticles(string userName);
+        public string GetAuthorNameIncaseSensitive(string normalisedName);
+
         public SearchResult SearchForArticles(string search, string category);
         public void PublishArticle(int id, string publisherName);
         

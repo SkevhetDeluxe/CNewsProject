@@ -21,15 +21,28 @@ namespace CNewsProject.ViewComponents.Subscriber
 
         public IViewComponentResult Invoke(ClaimsPrincipal principal, int id)
         {
-            if (principal.Identity.IsAuthenticated == true)
+            var article = _articleService.GetArticleById(id);
+            
+            if (principal.Identity.IsAuthenticated)
             {
                 AppUser user = _identityService.GetAppUserByClaimsPrincipal(principal).Result;
 
-                if (_identityService.UserHasRole(user, "Admin").Result)
+                if(article.IsntNotFree == true)
+                    return View(new ArticleLock()
+                    {
+                        Article = article,
+                        Access = true,
+                        UserLikes = user.LikedArticles,
+                        Roles = _identityService.GetUsersRolesAsync(user).Result
+                    });
+                
+                bool isSubbed = _identityService.IsSubscribed(user);
+                
+                if (_identityService.UserHasRole(user, "Admin").Result || isSubbed)
                 {
                     return View(new ArticleLock()
                     {
-                        Article = _articleService.GetArticleById(id),
+                        Article = article,
                         Access = true,
                         UserLikes = user.LikedArticles,
                         Roles = _identityService.GetUsersRolesAsync(user).Result
@@ -37,8 +50,7 @@ namespace CNewsProject.ViewComponents.Subscriber
                 }
             }
 
-            return View(new ArticleLock() { Article = _articleService.GetArticleById(id), Access = false });
+            return View(new ArticleLock() { Article = article, Access = false });
         }
-
     }
 }

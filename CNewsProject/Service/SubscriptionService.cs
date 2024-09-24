@@ -92,10 +92,48 @@ namespace CNewsProject.Service
             }
         }
 
-        #endregion
+        public void RedeemSub(AppUser user, int typeId, int days, long histPrice)
+        {
+            SubscriptionType type = GetTypeById(typeId);
+
+            DateTime startDate = DateTime.Now;
+
+            if (IsSubscribed(user))
+            {
+                startDate = GetSubscriptionExpiry(user);
+            }
+            
+            Subscription newSub = new()
+            {
+                SubscriptionType = type,
+                HistoricalPrice = histPrice,
+                RenewedDate = startDate,
+                ExpiresDate = startDate.AddDays(days),
+                User = user,
+                PaymentComplete = true
+            };
+
+            _db.Subscription.Add(newSub);
+            _db.SaveChanges();
+        }
 
         #endregion
 
+        #endregion
+        public bool IsSubscribed(AppUser user)
+        {
+            List<Subscription> subs = _db.Subscription.Where(s => s.UserId == user.Id).ToList();
+            if (subs.Count != 0)
+                return true;
+
+            return false;
+        }
+
+        
+        public DateTime GetSubscriptionExpiry(AppUser user)
+        {
+            return _db.Subscription.Where(s => s.User == user).Max(s => s.ExpiresDate);
+        }
 
         // sh
         public bool IsUserSubscribed(string userId)

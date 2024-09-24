@@ -171,6 +171,11 @@ namespace CNewsProject.Controllers
                     var authorArray = authorNames.Split(",");
                     setting.AuthorNames = new List<string>(authorArray);
                 }
+
+                if (authorNames == "NO AUTHORS")
+                {
+                    setting.AuthorNames = new List<string>();
+                }
                 var result = identitySrvc.UpdateNewsLetterSetting(await identitySrvc.GetAppUserByClaimsPrincipal(User), setting);
 
                 if (!result)

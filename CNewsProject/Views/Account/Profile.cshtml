@@ -7,38 +7,38 @@
 }
 
 <div id="SuccessMessageSpot">
-    
+
 </div>
 
 <h1>@profileName</h1>
 <div class="row">
-    <div class="col-9">
-        <div class="col-4">
+    <div class="col-md-9 col-sm-12">
+        <div class="col-md-4 col-sm-12">
             <vc:edit-account user="@Model.User"></vc:edit-account>
         </div>
         <div>
             <vc:news-letter-settings user="@Model.User"></vc:news-letter-settings>
         </div>
     </div>
-    @{
-        <aside class="col-3">
-            <div class="better-card">
-    @{
-        if (Model.SubInfo != null)
-        {
-            <p style="font-weight: bold;">@Model.SubInfo.SubscriptionType.TypeName </p>
-            <p> @Model.SubInfo.HistoricalPrice kr / Month</p>
-            <p>From: @Model.SubInfo.RenewedDate</p>
-            <p>To: @Model.SubInfo.ExpiresDate</p>
-            <a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a>
-        }
-        else
-        {
-            <br/>
-            <a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Subscribe Now</a>
-        }
-    }
-            </div>
-</aside>
-    }
+
+    <aside class="col-md-3 col-sm-12">
+        <div class="better-card">
+            @{
+                if (Model.SubInfo != null)
+                {
+                    <p style="font-weight: bold;">@Model.SubInfo.SubscriptionType.TypeName </p>
+                    <p> @Model.SubInfo.HistoricalPrice kr</p>
+                    <p>From: @Model.SubInfo.RenewedDate</p>
+                    <p>To: @Model.SubInfo.ExpiresDate</p>
+                    <a class="btn btn-primary text-white" asp-controller="Subscription" asp-action="Index">Manage Subscription</a>
+                }
+                else
+                {
+                    <br/>
+                    <a class="btn btn-primary text-white" asp-controller="Account" asp-action="Subscribe">Subscribe Now</a>
+                }
+            }
+        </div>
+    </aside>
+
 </div>

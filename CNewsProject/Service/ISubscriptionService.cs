@@ -19,6 +19,10 @@ namespace CNewsProject.Service
         #endregion
         // SUBS
         #region SUBS
+        public bool IsSubscribed(AppUser user);
+        
+        public DateTime GetSubscriptionExpiry(AppUser user);
+        public void RedeemSub(AppUser user, int typeId, int days, long histPrice);
         public bool AdminGiveSub(AppUser user, int typeId, double days);
         #endregion
         #endregion

@@ -33,8 +33,7 @@ namespace CNewsFunctions.Models
 
         public string? DeclineMessage { get; set; } = null;
 
-        // I don't know what this says actually but the -->
-        // intended meaning is that false means you have to pay for this.
+        //TRIPLE NEGATIVE!
         public bool IsntNotFree { get; set; } = false;
     }
 }

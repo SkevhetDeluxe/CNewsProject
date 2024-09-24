@@ -36,6 +36,7 @@ namespace CNewsProject.Models.DataBase
 
         // I don't know what this says actually but the -->
         // intended meaning is that false means you have to pay for this. // CORRECT
+        // GUYS, GUYS!! It's A TRIPLE NEGATIVE ALL RIGHT!?
         public bool IsntNotFree { get; set; } = false; // false = paid for. I think??? // INCORRECT
     }
 }

@@ -4,8 +4,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CNewsFunctions.Services;
 
-public class NewsLetterService(FunctionDbContext dbContext) : INewsLetterService
+public class SuperService(FunctionDbContext dbContext) : ISuperService
 {
+    // EY VA HÄNDER!?
+
+    public string Clear(string poppin)
+    {
+        if (poppin != "POPPIN")
+            return "Nah bruv you gotta say it. -.-";
+        
+        dbContext.Database.ExecuteSqlRaw("TRUNCATE TABLE [WeeklyViews]");
+        
+        return nameof(Clear).ToUpper() + "ED " + poppin;
+    }
+    
+    
+    
     public List<AppUser> GetEmailUserList()
     {
         return dbContext.Users.Where(u => u.NewsLetterEnabled).ToList();
@@ -63,11 +77,14 @@ public class NewsLetterService(FunctionDbContext dbContext) : INewsLetterService
     }
 }
 
-public interface INewsLetterService
+public interface ISuperService
 {
     public List<AppUser> GetEmailUserList();
     public List<Article> GetRecentArticleList();
     public List<int> GetLatestArticles();
     public List<int> GetUserNewsLetterArticles(AppUser user, List<Article> allArticles);
     public string ConstructHtmlBody(EmailInstruction instruction);
+    
+    public string Clear(string poppin);
+
 }

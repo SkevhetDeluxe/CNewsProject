@@ -1,3 +1,20 @@
-@model string
+@model List<Article>
 
-<h1>@Model</h1>
+<h1>
+    @{@ViewBag.AuthorName}'s MOTHERFUCKING AUTHOR PAGE Y'ALL
+</h1>
+
+<div class="row">
+    @{
+        if (Model.Count > 0)
+        {
+            ViewData["imgSize"] = 0;
+            foreach (var sak in Model)
+            {
+                <div class="col-12">
+                    <partial name="_ArticlePartial" model="@sak"/>
+                </div>
+            }
+        }
+    }
+</div>

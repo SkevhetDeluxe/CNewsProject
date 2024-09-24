@@ -23,7 +23,7 @@ var host = new HostBuilder()
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
         services.AddSingleton(new BlobServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
         services.AddSingleton(new QueueServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
-        services.AddScoped<INewsLetterService, NewsLetterService>();
+        services.AddScoped<ISuperService, SuperService>();
     })
     .ConfigureAppConfiguration(config =>
     {

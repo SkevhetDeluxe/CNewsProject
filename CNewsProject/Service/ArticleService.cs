@@ -19,6 +19,7 @@ namespace CNewsProject.Service
         ApplicationDbContext db,
         IConfiguration configuration,
         ICategoryService cgs,
+        IIdentityService identityService,
         UserManager<AppUser> userManager,
         RoleManager<IdentityRole> roleManager)
         : IArticleService
@@ -296,16 +297,37 @@ namespace CNewsProject.Service
 
         public async Task<List<string>> GetAllAuthorNames()
         {
-            var allUsers = db.Users.ToList();
+            var users = await userManager.GetUsersInRoleAsync("Journalist");
             List<string> authorNames = new();
 
-            foreach (var user in allUsers)
+            foreach (var user in users)
             {
-                if (await userManager.IsInRoleAsync(user, "Journalist"))
-                    authorNames.Add(user.UserName);
+                authorNames.Add(user.UserName!);
             }
 
             return authorNames;
+        }
+
+        public string GetAuthorNameIncaseSensitive(string normalisedName)
+        {
+            return identityService.GetUserNameByNormalisedName(normalisedName.ToUpper());
+        }
+        public List<Article> GetAuthorArticles(string userName)
+        {
+            try
+            {
+                var author = identityService.GetAppUserByNormalisedName(userName.ToUpper());
+                var allArticles = db.Article.ToList();
+                var authorArticles = allArticles
+                    .Where(a => a.AuthorUserName == author.UserName && a.Status == "Approved")
+                    .ToList();
+
+                return authorArticles;
+            }
+            catch
+            {
+                return new List<Article>();
+            }
         }
 
         #endregion

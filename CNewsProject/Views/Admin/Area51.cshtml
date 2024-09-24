@@ -1,76 +1,11 @@
-@model List<string>
-
+@inject IArticleService ArticleService
+@inject IIdentityService IdentityService
 @{
-    SearchBarSetting setting = new(Model, "Area51", "Area51Function", "Area");
+    Article newModel = ArticleService.GetArticleById(88);
+    
 }
 
-<div>
-    <partial name="_searchBarWithSuggestionsPartial" model="setting"/>
-</div>
-
-
-<div>
-    <input type="text" id="AreaInputTest"/>
-    <p id="AreaOutput">
-        Output
-    </p>
-</div>
-
-<div id="thisId" class="row">
-    <div id="thatId" class="col-3">
-        
-    </div>
-</div>
-
-
-<div class="mt-5">
-    <div id="someOtherId" class="col-3">
-        
-    </div>
-</div>
-
-<script src="/js/cscripts.js"></script>
-<script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-        
-        StringHas("Yes","Yes");
-        CreateAuthorDivs("thatId", ["Steve","John", "That guy", "This guy"]);
-        
-        CreateAuthorDivs("someOtherId", ["OneNAME"], 1);
-        
-        const outputBox = document.getElementById("AreaOutput");
-        const inputBox = document.getElementById('@setting.InputFieldId');
-        
-        inputBox.addEventListener('keydown', function (e) {
-            
-            if (e.key === "Enter") {
-                Area51Function(inputBox);
-            }
-        });
-
-        function Area51Function(inputElement){
-            
-            let inputValue = inputElement.value;
-            
-            console.log("Area FUNCITON");
-            
-            if (arrayContains(@{@setting.JsArrayName}, inputValue)){
-                outputBox.textContent = "true" + inputValue;
-                @{@setting.JsArrayName} = @{@setting.JsArrayName}.filter(function (val) {
-                    return val !== inputValue;
-                });
-                
-                console.log(@{@setting.JsArrayName});
-            }
-        }
-
-        const areaInput = document.getElementById("AreaInputTest");
-        areaInput.addEventListener("keypress", function (e) {
-            console.log("Pressed SOMETHING");
-        });
-    });
-
-
-
-</script>
+<a href="#">
+    <img src="@newModel.ImageLink" width="400px" alt=""/>
+    <h1>HEADLINE HERE MATE</h1>
+</a>
