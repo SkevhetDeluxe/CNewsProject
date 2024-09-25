@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using Azure.Data.Tables;
 using Azure.Storage.Blobs;
 using Azure.Storage.Queues;
 using CNewsFunctions.Data;
@@ -23,11 +24,16 @@ var host = new HostBuilder()
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
         services.AddSingleton(new BlobServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
         services.AddSingleton(new QueueServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
+        services.AddSingleton(new TableServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
         services.AddScoped<ISuperService, SuperService>();
     })
     .ConfigureAppConfiguration(config =>
     {
         config.AddJsonFile("cnewssettings.json", optional: false, reloadOnChange: true);
+    })
+    .ConfigureAppConfiguration((context, builder) =>
+    {
+        builder.AddEnvironmentVariables();
     })
     .Build();
 
