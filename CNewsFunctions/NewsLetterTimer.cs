@@ -14,56 +14,80 @@ using Microsoft.Extensions.Configuration;
 
 namespace CNewsFunctions;
 
-public class NewsLetterTimer(ILogger<NewsLetterTimer> logger, FunctionDbContext functionDbContext, QueueServiceClient queueServiceClient, INewsLetterService _service)
+public class NewsLetterTimer(
+    ILogger<NewsLetterTimer> logger,
+    FunctionDbContext functionDbContext,
+    QueueServiceClient queueServiceClient,
+    ISuperService service,
+    IConfiguration config)
 {
+    //const string schedule = "0 0 6 * * 1";
+    private static readonly string TestMode = Environment.GetEnvironmentVariable("CNEWS_NEWSLETTER_TESTMODE") ?? "0";
 
     [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 0 6 * * 1", RunOnStartup = true)] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 */5 * * * *", UseMonitor = true)] TimerInfo myTimer)
     {
+        QueueClient queueClient = queueServiceClient.GetQueueClient("devqueuetwo");
+        queueClient.SendMessage($"NewsLetterTimer ACTIVATED at {DateTime.Now}");
+
+        string schedule = Environment.GetEnvironmentVariable("CNEWS_NEWSLETTER_SCHEDULE") ?? "";
+
+        logger.LogInformation($"CNEWS_NEWSLETTER_TESTMODE is set at {TestMode}");
+
+        if (TestMode == "1")
+        {
+            TestRun();
+        }
+
         logger.LogInformation($"C# Timer trigger function executed at: {DateTime.Now}");
-        
+
         // Fetching USERS
-        var users = _service.GetEmailUserList();
-        
+        var users = service.GetEmailUserList();
+
         // Fetching RECENT ArticleList
-        var recentArticles = _service.GetRecentArticleList();
-        
+        var recentArticles = service.GetRecentArticleList();
+
         // Constructing The Instructions
         List<EmailInstruction> emailInstructions = new();
+        int count = 0;
+        int totalCount = users.Count();
         foreach (var user in users)
         {
             emailInstructions.Add(new EmailInstruction()
             {
+                AmountOfMessages = totalCount,
+                NumberInList = count++,
                 Email = user.Email,
                 UserName = user.UserName,
                 Subject = "Weekly News Letter",
-                ArticleIds = _service.GetUserNewsLetterArticles(user, recentArticles),
+                ArticleIds = service.GetUserNewsLetterArticles(user, recentArticles),
                 AuthorNames = user.AuthorNames ?? new(),
             });
         }
-        
-        QueueClient queueClient = queueServiceClient.GetQueueClient("newsletterlist");
-        //queueClient.SendMessage("IT WORKED WITH THIS QUEUE");
-        
+
+        queueClient = queueServiceClient.GetQueueClient("newsletterlist");
         // SENDING the INSTRUCTIONS!!!
         foreach (var instruction in emailInstructions)
         {
             queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
         }
-        
-        //queueClient = queueServiceClient.GetQueueClient("clearpoppin");
-        queueClient.SendMessage(""); // TODO OR NOT TODO? THAT IS THE QUESTION! SEND INSTRUCTIONS TO CLEAR THE WEEKLY VIEWS!
-
-        // TESTING ONLY
-        // EmailInstruction testInstruction = new()
-        // {
-        //     Email = "filip.bergfjord@protonmail.com",
-        //     UserName = "Filip",
-        //     Subject = "Weekly Newsletter",
-        //     ArticleIds = _service.GetLatestArticles(),
-        //     AuthorNames = new(),
-        // };
 
         // queueClient.SendMessage(JsonConvert.SerializeObject(testInstruction));
+    }
+
+    private void TestRun()
+    {
+        logger.LogInformation("Testing mode");
+        EmailInstruction testInstruction = new()
+        {
+            Email = "filip.bergfjord@protonmail.com",
+            UserName = "Filip",
+            Subject = "Weekly Newsletter",
+            ArticleIds = service.GetLatestArticles(),
+            AuthorNames = new(),
+        };
+        QueueClient queueClient = queueServiceClient.GetQueueClient("devqueueone");
+
+        queueClient.SendMessage((JsonConvert.SerializeObject(testInstruction)));
     }
 }

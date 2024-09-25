@@ -84,22 +84,23 @@ namespace CNewsProject.Controllers
 			return View(vModel);
 		}
 
-		public async Task<IActionResult> Search() // REWORKING SEARCH
+		[HttpGet]
+		public IActionResult Search() // REWORKING SEARCH
 		{
-			var auuthorNames = await _articleService.GetAllAuthorNames() as List<string>;
+			var authorNames = StaticTempData.AuthorNames.UserNames;
 
-			ViewBag.authorList = auuthorNames;
+			ViewBag.authorList = authorNames;
 
 			return View();
 		}
 
 
 		[HttpPost]
-		public async Task<IActionResult> Search(string search, string category)
+		public IActionResult Search(string search, string category)
 		{
-            var auuthorNames = await _articleService.GetAllAuthorNames() as List<string>;
+            var authorNames = StaticTempData.AuthorNames.UserNames;
 
-            ViewBag.authorList = auuthorNames;
+            ViewBag.authorList = authorNames;
 
             SearchResult result = _articleService.SearchForArticles(search, category);
 			return View(result.Articles);
@@ -118,9 +119,12 @@ namespace CNewsProject.Controllers
 		}
 
 		[Authorize]
-		public IActionResult Author(string authorName)
+		[HttpGet("{controller}/{action}/{name?}")]
+		public IActionResult Author([FromRoute] string name)
 		{
-			return View((object)authorName);
+			ViewBag.AuthorName = _articleService.GetAuthorNameIncaseSensitive(name);
+			var list = _articleService.GetAuthorArticles(name);
+			return View(list);
 		}
 
 		public IActionResult Laikalaininen(int articleId)

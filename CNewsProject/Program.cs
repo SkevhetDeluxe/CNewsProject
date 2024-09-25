@@ -115,6 +115,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=News}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();

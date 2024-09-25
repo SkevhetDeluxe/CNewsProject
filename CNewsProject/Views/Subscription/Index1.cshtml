@@ -1,21 +1,39 @@
 ﻿<div class="d-flex align-items-center justify-content-center">
 
+	@{
+		// VARS
+		int basePrice = 59;
+		int PriceX3 = 168;
+		int PriceX6 = 318;
+		int PriceX12 = 531;
+		int PriceX9999 = 5899;
+		
+		/*
+		 * 59
+		 * 177 - 168
+		 * 354 - 318
+		 * 708 - 531
+		 * 589941 - 5899
+		 */
+	}
 	<form class="shamsForm" action="Subscription/BuySubscription" method="post">
 		<div class="formDiv">
-			<label class="shamsLabel" for="membershipType">Membership Type:</label>
+			<label class="shamsLabel" for="membershipType">Length:</label>
 			<select class="shamsSelect" id="membershipType" name="membershipType">
-				<option value="basic">Basic - $29/month</option>
-				<option value="middle">Middle - $59/month</option>
-				<option value="expensive">Expensive - $189/month</option>
+				<option value="1">Month - @basePrice SEK/month</option>
+				<option value="3">Quarter Year - @PriceX3 SEK (5% off)</option>
+				<option value="6">Year Divided By Two and you get one of the Halfs - @PriceX6 SEK (10% off)</option>
+				<option value="12">Year - @PriceX12 SEK (20% off)</option>
+				<option value="9999">833 Years and a Quarter - @PriceX9999 SEK (99% off FIRE SALE!!!)</option>
 			</select>
 		</div>
-		<div class="formDiv">
-			<label class="shamsLabel" for="paymentFrequency">Payment Frequency:</label>
-			<select class="shamsSelect" id="paymentFrequency" name="paymentFrequency">
-				<option value="monthly">Monthly</option>
-				<option value="yearly">Yearly</option>
-			</select>
-		</div>
+		@* <div class="formDiv"> *@
+		@* 	<label class="shamsLabel" for="paymentFrequency">Payment Frequency:</label> *@
+		@* 	<select class="shamsSelect" id="paymentFrequency" name="paymentFrequency"> *@
+		@* 		<option value="monthly">Monthly</option> *@
+		@* 		<option value="yearly">Yearly</option> *@
+		@* 	</select> *@
+		@* </div> *@
 		<button class="shamsButton" type="submit">Checkout</button>
 	</form>
 

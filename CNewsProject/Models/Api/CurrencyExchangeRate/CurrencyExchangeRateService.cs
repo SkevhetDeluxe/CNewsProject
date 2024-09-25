@@ -30,7 +30,6 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
                 exchangeRates = jsonObject["rates"]?.ToObject<Rates>();
             }
             ExchangeRates = exchangeRates ?? ExchangeRates;
-            ExchangeRates.DateUpdated = DateTime.Now;
         }
 
 		public async Task StoreExchangeRatesAsync()
@@ -50,7 +49,6 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
 
 			if (exchangeRates != null)
 			{
-				exchangeRates.DateUpdated = DateTime.Now;
 				_dbContext.ExchangeRates.Add(exchangeRates);
 				await _dbContext.SaveChangesAsync();
 			}

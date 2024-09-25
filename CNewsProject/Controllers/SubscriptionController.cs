@@ -1,29 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Mvc;
 using Stripe.Checkout;
 using Stripe;
+using static CNewsProject.StaticTempData.SubscriptionStripeTokens;
 
 namespace CNewsProject.Controllers
 {
     [Authorize]
-    public class SubscriptionController : Controller
+    public class SubscriptionController(
+        ISubscriptionService subscriptionService,
+        IIdentityService filipService,
+        IConfiguration configuration)
+        : Controller
     {
-        private readonly ISubscriptionService _subscriptionService;
-        private readonly IConfiguration _configuration;
-        private readonly IIdentityService _identityService;
-        public SubscriptionController(ISubscriptionService subscriptionService, IIdentityService filipService, IConfiguration configuration)
-        {
-            _subscriptionService = subscriptionService;
-            _identityService = filipService;
-			_configuration = configuration;
-		}
+        public ViewResult Index() => View(subscriptionService.GetAllTypes());
 
-        public ViewResult Index() => View(_subscriptionService.GetAllTypes());
-
+        [HttpGet]
         public IActionResult Subscribe()
         {
             var model = new SubscriptionViewModel
             {
-                AvailableSubscriptions = _subscriptionService.GetAllSubscription()
+                AvailableSubscriptions = subscriptionService.GetAllSubscription()
             };
             return View(model);
         }
@@ -31,16 +28,16 @@ namespace CNewsProject.Controllers
         [HttpPost]
         public IActionResult Subscribe(int subscriptionId)
         {
-            var user = _identityService.GetAppUserByClaimsPrincipal(User);
+            var user = filipService.GetAppUserByClaimsPrincipal(User);
             
-            var subscription = _subscriptionService.GetSubscriptionById(subscriptionId);
+            var subscription = subscriptionService.GetSubscriptionById(subscriptionId);
 
             //subscription.UserId = userId;
             //subscription.CreateDate = DateOnly.FromDateTime(DateTime.Now);
             subscription.ExpiresDate = DateTime.Now.AddMonths(1); //  1 month subscription
             subscription.PaymentComplete = true; // payment is done
 
-            _subscriptionService.AddSubscription(subscription);
+            subscriptionService.AddSubscription(subscription);
 
             return RedirectToAction("Details", "News");
         }
@@ -53,31 +50,52 @@ namespace CNewsProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult BuySubscription(string membershipType, string paymentFrequency)
+        public IActionResult BuySubscription(int months)
         {
+            int typeConverted = Convert.ToInt32(months);
+            string buyersName = filipService.GetAppUserByClaimsPrincipal(User).Result.UserName!;
 
-            long narmalPris = 29;
+            long narmalPris = 59;
+            string stripeName = "1 Month";
 
-            if (membershipType == "middle")
-                narmalPris = 59;
-            else if (membershipType == "expensive")
-                narmalPris = 189;
-
-            if (paymentFrequency == "yearly")
+            switch (typeConverted)
             {
-                narmalPris = narmalPris * 11;
-                membershipType += " yearly";
+                case 1:
+                {
+                    narmalPris = 59;
+                    stripeName = "1 Month";
+                    break;
+                }
+                case 3:
+                {
+                    narmalPris = 168;
+                    stripeName = "QUARTER YEAR";
+                    break;
+                }
+                case 6:
+                {
+                    narmalPris = 318;
+                    stripeName = "One Year, Divided by TWO Whole Units, then You get one of the Halfs";
+                    break;
+                }
+                case 12:
+                {
+                    narmalPris = 531;
+                    stripeName = "Uno YEARO";
+                    break;
+                }
+                case 9999:
+                {
+                    narmalPris = 5899;
+                    stripeName = "MY MAN. 833 SPININGS around the SUNe and 0NE Quarter";
+                    break;
+                }
             }
-            else
-            {
-                membershipType += " monthly";
-            }
-
 
 
 
             // Set Stripe secret key
-            StripeConfiguration.ApiKey = _configuration["Stripe:SecretKey"];
+            StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
 
             // Create options for the Stripe session
             var options = new SessionCreateOptions
@@ -93,18 +111,18 @@ namespace CNewsProject.Controllers
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             UnitAmount = narmalPris * 100, // Amount in cents
-                            Currency = "usd",
+                            Currency = "sek",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
-                                Name = membershipType,
+                                Name = stripeName,
                             },
                         },
                         Quantity = 1,
                     }
                 },
                 Mode = "payment",
-                SuccessUrl = "https://localhost:7093/subscription/success",
-                CancelUrl = "https://localhost:7093/subscription/cancel"
+                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" + GeneratePaymentDetails(buyersName, 1, months*30, narmalPris), //TODO GET DAYS AND SUBTYPE
+                CancelUrl = "https://localhost:44374/subscription/cancel"
             };
 
             // Create session service and session object
@@ -114,16 +132,29 @@ namespace CNewsProject.Controllers
             // Redirect to Stripe checkout session URL
             return Redirect(session.Url);
         }
-
+        
         // Success action
-        public IActionResult Success()
+        public IActionResult Success(string token)
         {
-            return View();
+            Guid gToken = Guid.Parse(token);
+            if (gToken == Guid.Empty)
+                return RedirectToAction("Index");
+
+            var user = filipService.GetAppUserByClaimsPrincipal(User).Result;
+            
+            bool redeemed = RedeemToken(gToken, user, subscriptionService);
+
+            if (!redeemed)
+                return View(false);
+            
+            return View(true);
         }
 
         // Cancel action
-        public IActionResult Cancel()
+        public IActionResult Cancel(string token)
         {
+            Guid gToken = Guid.Parse(token);
+            RemoveToken(gToken);
             return View();
         }
 
@@ -131,5 +162,13 @@ namespace CNewsProject.Controllers
 		{
 			return View();
 		}
+
+        private Guid GeneratePaymentDetails(string userName, int subTypeId, int days, long histPrice)
+        {
+            Guid guid = Guid.NewGuid();
+            AssignToken(guid, userName, subTypeId, days, histPrice);
+    
+            return guid;
+        }
 	}
 }

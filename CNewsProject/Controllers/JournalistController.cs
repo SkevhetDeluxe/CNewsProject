@@ -61,10 +61,10 @@
             
             if (ModelState.IsValid)
             {
-                //var result = _articleService.UpdateArticleFromEditVM(vModel, draft);
+                var result = articleService.UpdateArticleFromEditVM(vModel, draft);
                 
-                //if(result)
-                //    return RedirectToAction("Index");
+                if(result)
+                    return RedirectToAction("Index");
             }
 
             return View(vModel);

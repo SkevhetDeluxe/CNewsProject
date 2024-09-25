@@ -1,7 +1,5 @@
-
 namespace CNewsProject.Controllers
 {
-
     [Authorize(Roles = "Admin")]
     public class AdminController(
         IIdentityService identitySrvc,
@@ -11,24 +9,26 @@ namespace CNewsProject.Controllers
         : Controller
     {
         public IActionResult SubscriptionStats()
-		{
-			var startDate = DateTime.Today.AddDays(-7); // Last week
-			var endDate = DateTime.Today;
+        {
+            var startDate = DateTime.Today.AddDays(-7); // Last week
+            var endDate = DateTime.Today;
 
-			var viewModel = new SubscriptionStatisticsViewModel
-			{
-				TotalSubscribers = statisticsService.GetTotalSubscribers(),
-				NewSubscribersLastWeek = statisticsService.GetNewSubscribers(startDate, endDate),
-				DailySubscriptions = statisticsService.GetDailySubscriptions(startDate, endDate)
-			};
+            var viewModel = new SubscriptionStatisticsViewModel
+            {
+                TotalSubscribers = statisticsService.GetTotalSubscribers(),
+                NewSubscribersLastWeek = statisticsService.GetNewSubscribers(startDate, endDate),
+                DailySubscriptions = statisticsService.GetDailySubscriptions(startDate, endDate)
+            };
 
-			return View(viewModel);
-		}
+            return View(viewModel);
+        }
 
-		public ViewResult Index() => View();
+        public ViewResult Index() => View();
 
         // USERS
+
         #region USERS
+
         //[Route("Admin/Users")]
         public IActionResult Users()
         {
@@ -50,24 +50,29 @@ namespace CNewsProject.Controllers
         }
 
         [HttpPost]
-		public async Task<IActionResult> AdminEdit(string id, string email, string userName, string password)
-		{
-			AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
+        public async Task<IActionResult> AdminEdit(string id, string email, string userName, string password)
+        {
+            AppUser user = await identitySrvc.GetAppUserByIdAsync(id);
 
             await identitySrvc.UpdateAppUserAsync(id, email, userName, password);
 
-			return RedirectToAction("Index");
-		}
+            return RedirectToAction("Index");
+        }
+
         #endregion
 
         // ROLES
+
         #region ROLES
 
         public IActionResult Roles()
         {
-            IEnumerable<IdentityRole> roles = identitySrvc.ReadRoles();
-
+            IEnumerable<IdentityRole> roles = identitySrvc.ReadRoles().ToList();
+            
+            Dictionary<string, string> dickPictionary = roles.ToDictionary(r => r.Name, r => r.Id);
+            
             return View(roles);
+            // return View();
         }
 
         public IActionResult CreateRole()
@@ -83,8 +88,8 @@ namespace CNewsProject.Controllers
                 IdentityResult result = await identitySrvc.CreateRoleAsync(name);
                 if (result.Succeeded)
                     return RedirectToAction("Roles");
-                
             }
+
             return View(name);
         }
 
@@ -118,12 +123,13 @@ namespace CNewsProject.Controllers
                 foreach (string userId in model.AddIds ?? new string[] { })
                 {
                     AppUser user = await identitySrvc.GetAppUserByIdAsync(userId);
-                    
+
                     if (user != null)
                     {
                         await identitySrvc.GrantUserRoleAsync(user, model.RoleName);
                     }
                 }
+
                 foreach (string userId in model.DeleteIds ?? new string[] { })
                 {
                     AppUser user = await identitySrvc.GetAppUserByIdAsync(userId);
@@ -158,6 +164,7 @@ namespace CNewsProject.Controllers
         #endregion
 
         // CLAIMS
+
         #region CLAIMS
 
         public ViewResult Claims() => View(User?.Claims);
@@ -165,6 +172,7 @@ namespace CNewsProject.Controllers
         #endregion
 
         //SUBSCRIPTIONS
+
         #region
 
         public IActionResult RevokeSubTypes()
@@ -178,6 +186,7 @@ namespace CNewsProject.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddType(SubscriptionType type)
         {
@@ -188,6 +197,7 @@ namespace CNewsProject.Controllers
                     return RedirectToAction("SubscriptionTypes");
                 }
             }
+
             return View(type);
         }
 
@@ -226,6 +236,7 @@ namespace CNewsProject.Controllers
         #endregion
 
         #region SHhhhhhhhhhhhhhhhhhhhhHhHhhhHhHHHhh
+
         public IActionResult SugMinaStats()
         {
             return RedirectToAction("SugMinaStats", "News");
@@ -236,9 +247,11 @@ namespace CNewsProject.Controllers
             identitySrvc.SeedUsers(amount);
             return RedirectToAction("Area51");
         }
+
         #endregion
 
         // STATISTICS
+
         #region STATISTICS
 
         public IActionResult Statistics()
@@ -252,13 +265,12 @@ namespace CNewsProject.Controllers
         }
 
         #endregion
-        
+
 
         public IActionResult Area51()
         {
-            var model = StaticTempData.AuthorNames.UserNames;
-
-            return View(model);
+            // JUST FOR TESTING SHIT
+            return View();
         }
-	}
+    }
 }

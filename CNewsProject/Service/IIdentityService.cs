@@ -25,7 +25,11 @@ namespace CNewsProject.Service
         public List<string>? GetUserSubscribedToAuthors(AppUser user);
 
 
-
+        public bool IsSubscribed(AppUser user);
+        public bool IsSubscribed(ClaimsPrincipal principal);
+        public AppUser? GetAppUserByNormalisedName(string name);
+        public string GetUserNameByNormalisedName(string name);
+        public DateTime GetSubscriptionExpiry(AppUser user);
 
 		public IEnumerable<AppUser> ReadAppUsers();
         public Task<IdentityResult> UpdateAppUserAsync(string id, string email, string name, string password);
