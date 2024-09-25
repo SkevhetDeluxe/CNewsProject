@@ -1,14 +1,13 @@
 ﻿@model bool
 
-
 @{
     if (Model)
     {
-        <div class="text-center">
-            <h1 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"> Thank You For Subscribing! Enjoy Unlimited Access To Our Website. </h1>
-            <img src="https://ruperhat.com/wp-content/uploads/2020/06/Paymentsuccessful21.png" alt="Payment Successful Image" />
-            <h5 style="font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif"> We appreciate your choice! </h5>
-            <a href="/" class="payment-success-button">Continue Exploring</a>
+       ﻿<div class="offset-md-3 col-md-6 offset-sm-2 col-sm-8 offset-1 col-10">
+	        <h2> Thank You For Subscribing!</h2>
+	        @* <img src="https://ruperhat.com/wp-content/uploads/2020/06/Paymentsuccessful21.png" alt="Payment Successful Image" /> *@
+	        <h5> We appreciate your choice! </h5>
+          <a href="/" class="btn btn-primary">Continue Exploring</a>
         </div>
     }
     else
