@@ -20,7 +20,7 @@ namespace CNewsProject.Controllers
             {
                 exchangeRateHistory.Add(new ExchangeRateHistoryViewModel
                 {
-                    Date = DateTime.Parse(entity.RowKey),  // Assuming the RowKey is the date
+                    Date = DateTime.Parse(entity.Timestamp.ToString()),  // Assuming the RowKey is the date
                     USD = (decimal)(entity.GetDouble("USD") ?? 0),  // Convert nullable double to decimal
                     EUR = (decimal)(entity.GetDouble("EUR") ?? 0),
                     GBP = (decimal)(entity.GetDouble("GBP") ?? 0)

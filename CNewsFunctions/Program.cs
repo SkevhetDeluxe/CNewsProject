@@ -23,7 +23,10 @@ var host = new HostBuilder()
         services.AddDbContext<FunctionDbContext>(options => 
             options.UseSqlServer(context.Configuration.GetConnectionString("GlobalConnection")));
         services.AddSingleton(new BlobServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
-        services.AddSingleton(new QueueServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
+        services.AddSingleton(new QueueServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage"), new QueueClientOptions()
+        {
+            MessageEncoding = QueueMessageEncoding.Base64
+        }));
         services.AddSingleton(new TableServiceClient(Environment.GetEnvironmentVariable("AzureWebJobsStorage")));
         services.AddScoped<ISuperService, SuperService>();
     })

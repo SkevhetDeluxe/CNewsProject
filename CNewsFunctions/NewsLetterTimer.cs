@@ -25,7 +25,7 @@ public class NewsLetterTimer(
     private static readonly string TestMode = Environment.GetEnvironmentVariable("CNEWS_NEWSLETTER_TESTMODE") ?? "0";
 
     [Function("NewsLetterTimer")]
-    public void Run([TimerTrigger("0 */5 * * * *", UseMonitor = true)] TimerInfo myTimer)
+    public void Run([TimerTrigger("0 0 5 * * 1", UseMonitor = true)] TimerInfo myTimer)
     {
         QueueClient queueClient = queueServiceClient.GetQueueClient("devqueuetwo");
         queueClient.SendMessage($"NewsLetterTimer ACTIVATED at {DateTime.Now}");
@@ -51,20 +51,36 @@ public class NewsLetterTimer(
         List<EmailInstruction> emailInstructions = new();
         int count = 0;
         int totalCount = users.Count();
-        foreach (var user in users)
+        if (totalCount == 0)
+        {
+            foreach (var user in users)
+            {
+                emailInstructions.Add(new EmailInstruction()
+                {
+                    AmountOfMessages = totalCount,
+                    NumberInList = count++,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Subject = "Weekly News Letter",
+                    ArticleIds = service.GetUserNewsLetterArticles(user, recentArticles),
+                    AuthorNames = user.AuthorNames ?? new(),
+                });
+            } 
+        }
+        else
         {
             emailInstructions.Add(new EmailInstruction()
             {
-                AmountOfMessages = totalCount,
-                NumberInList = count++,
-                Email = user.Email,
-                UserName = user.UserName,
-                Subject = "Weekly News Letter",
-                ArticleIds = service.GetUserNewsLetterArticles(user, recentArticles),
-                AuthorNames = user.AuthorNames ?? new(),
-            });
+                AmountOfMessages = 1,
+                NumberInList = 0,
+                Email = "NOMAIL",
+                UserName = "IGNORE",
+                Subject = "IGNORE",
+                ArticleIds = new(),
+                AuthorNames = new()
+            });   
         }
-
+        
         queueClient = queueServiceClient.GetQueueClient("newsletterlist");
         // SENDING the INSTRUCTIONS!!!
         foreach (var instruction in emailInstructions)

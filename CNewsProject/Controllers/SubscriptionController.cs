@@ -29,7 +29,7 @@ namespace CNewsProject.Controllers
         public IActionResult Subscribe(int subscriptionId)
         {
             var user = filipService.GetAppUserByClaimsPrincipal(User);
-            
+
             var subscription = subscriptionService.GetSubscriptionById(subscriptionId);
 
             //subscription.UserId = userId;
@@ -42,10 +42,9 @@ namespace CNewsProject.Controllers
             return RedirectToAction("Details", "News");
         }
         // Bayad cod ienja dayel shawad sh. Si?
-   
+
         public IActionResult Index2()
         {
-            
             return View();
         }
 
@@ -93,7 +92,6 @@ namespace CNewsProject.Controllers
             }
 
 
-
             // Set Stripe secret key
             StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
 
@@ -121,7 +119,8 @@ namespace CNewsProject.Controllers
                     }
                 },
                 Mode = "payment",
-                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" + GeneratePaymentDetails(buyersName, 1, months*30, narmalPris), //TODO GET DAYS AND SUBTYPE
+                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" +
+                             GeneratePaymentDetails(buyersName, 1, months * 30, narmalPris),
                 CancelUrl = "https://localhost:44374/subscription/cancel"
             };
 
@@ -132,22 +131,32 @@ namespace CNewsProject.Controllers
             // Redirect to Stripe checkout session URL
             return Redirect(session.Url);
         }
-        
+
         // Success action
-        public IActionResult Success(string token)
+        public IActionResult Success(string? token)
         {
-            Guid gToken = Guid.Parse(token);
-            if (gToken == Guid.Empty)
-                return RedirectToAction("Index");
-
-            var user = filipService.GetAppUserByClaimsPrincipal(User).Result;
+            if (token == null)
+                return RedirectToAction("Cancel");
             
-            bool redeemed = RedeemToken(gToken, user, subscriptionService);
+            try
+            {
+                Guid gToken = Guid.Parse(token);
+                if (gToken == Guid.Empty)
+                    return RedirectToAction("Index");
 
-            if (!redeemed)
+                var user = filipService.GetAppUserByClaimsPrincipal(User).Result;
+
+                bool redeemed = RedeemToken(gToken, user, subscriptionService);
+
+                if (!redeemed)
+                    return View(false);
+
+                return View(true);
+            }
+            catch
+            {
                 return View(false);
-            
-            return View(true);
+            }
         }
 
         // Cancel action
@@ -159,16 +168,16 @@ namespace CNewsProject.Controllers
         }
 
         public IActionResult ThankYou()
-		{
-			return View();
-		}
+        {
+            return View();
+        }
 
         private Guid GeneratePaymentDetails(string userName, int subTypeId, int days, long histPrice)
         {
             Guid guid = Guid.NewGuid();
             AssignToken(guid, userName, subTypeId, days, histPrice);
-    
+
             return guid;
         }
-	}
+    }
 }

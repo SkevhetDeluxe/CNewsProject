@@ -39,7 +39,10 @@ public class NewsLetterSend(ILogger<NewsLetterSend> logger, IConfiguration confi
         
         EmailHelper emailHelper = new(configuration);
 
-        emailHelper.SendEmailInstructionAsync(emailInstruction);
+        if (emailInstruction.Email != "NOMAIL")
+        {
+            emailHelper.SendEmailInstructionAsync(emailInstruction);
+        }
         
         logger.LogInformation($"C# Queue trigger function processed: email = {message.MessageText}");
 
