@@ -15,7 +15,7 @@ namespace CNewsFunctions
         }
 
         [Function("ExchangeRateArchived")]
-        public async Task Run([TimerTrigger("0 0 3 * * *")] TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 0 3 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
         {
             var connString = "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=42s4C494d16TS+Ww3wwbWFcx3Nn2SuAsL6aJTsbfLnZqoND5gJ6O69MGdzSX69h6YrQTMgyBJ0t++AStJI5xcA==;EndpointSuffix=core.windows.net";
             TableServiceClient tableServiceClient = new TableServiceClient(connString);

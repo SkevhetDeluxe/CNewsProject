@@ -120,8 +120,11 @@ namespace CNewsProject.Controllers
 
 		[Authorize]
 		[HttpGet("{controller}/{action}/{name?}")]
-		public IActionResult Author([FromRoute] string name)
+		public IActionResult Author([FromRoute] string? name)
 		{
+			if(name == null)
+				return RedirectToAction("Missing");
+			
 			ViewBag.AuthorName = _articleService.GetAuthorNameIncaseSensitive(name);
 			var list = _articleService.GetAuthorArticles(name);
 			return View(list);
