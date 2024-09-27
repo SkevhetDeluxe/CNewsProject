@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace CNewsProject.TimedServices;
 
-public class TimedNewsLetterService(ILogger<TimedNewsLetterService> logger, QueueServiceClient queueServiceClient, INewsLetterService service) : BackgroundService
+public class TimedNewsLetterService(ILogger<TimedNewsLetterService> logger, QueueServiceClient queueServiceClient, IServiceScopeFactory scopeFactory) : BackgroundService
 {
     private bool _sentToday = false;
     private string _lastSent = string.Empty;
@@ -36,6 +36,8 @@ public class TimedNewsLetterService(ILogger<TimedNewsLetterService> logger, Queu
         int hour = DateTime.Now.Hour;
         int minutes = DateTime.Now.Minute;
 
+        var queueClient = queueServiceClient.GetQueueClient("devqueueone");
+
         if (_lastSent != weekday)
         {
             _lastSent = weekday;
@@ -45,6 +47,7 @@ public class TimedNewsLetterService(ILogger<TimedNewsLetterService> logger, Queu
                 {
                     if (minutes >= schedule.Minute && _sentToday == false)
                     {
+                        queueClient.SendMessage("Activated SCHEDULE");
                         _sentToday = true;
                         return true;
                     }
@@ -58,51 +61,58 @@ public class TimedNewsLetterService(ILogger<TimedNewsLetterService> logger, Queu
 
     private void Work()
     {
-        // Fetching USERS
-        var users = service.GetEmailUserList();
-
-        // Fetching RECENT ArticleList
-        var recentArticles = service.GetRecentArticleList();
-
-        // Constructing The Instructions
-        List<EmailInstruction> emailInstructions = new();
-        int count = 0;
-        int totalCount = users.Count();
-        if (totalCount == 0)
+        using (var scope = scopeFactory.CreateScope())
         {
-            foreach (var user in users)
+            var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var service = scope.ServiceProvider.GetRequiredService<INewsLetterService>();
+
+
+            // Fetching USERS
+            var users = service.GetEmailUserList();
+
+            // Fetching RECENT ArticleList
+            var recentArticles = service.GetRecentArticleList();
+
+            // Constructing The Instructions
+            List<EmailInstruction> emailInstructions = new();
+            int count = 0;
+            int totalCount = users.Count();
+            if (totalCount == 0)
+            {
+                foreach (var user in users)
+                {
+                    emailInstructions.Add(new EmailInstruction()
+                    {
+                        AmountOfMessages = totalCount,
+                        NumberInList = count++,
+                        Email = user.Email,
+                        UserName = user.UserName,
+                        Subject = "Weekly News Letter",
+                        ArticleIds = service.GetUserNewsLetterArticles(user, recentArticles),
+                        AuthorNames = user.AuthorNames ?? new(),
+                    });
+                }
+            }
+            else
             {
                 emailInstructions.Add(new EmailInstruction()
                 {
-                    AmountOfMessages = totalCount,
-                    NumberInList = count++,
-                    Email = user.Email,
-                    UserName = user.UserName,
-                    Subject = "Weekly News Letter",
-                    ArticleIds = service.GetUserNewsLetterArticles(user, recentArticles),
-                    AuthorNames = user.AuthorNames ?? new(),
+                    AmountOfMessages = 1,
+                    NumberInList = 0,
+                    Email = "NOMAIL",
+                    UserName = "IGNORE",
+                    Subject = "IGNORE",
+                    ArticleIds = new(),
+                    AuthorNames = new()
                 });
-            } 
-        }
-        else
-        {
-            emailInstructions.Add(new EmailInstruction()
+            }
+
+            var queueClient = queueServiceClient.GetQueueClient("newsletterlist");
+            // SENDING the INSTRUCTIONS!!!
+            foreach (var instruction in emailInstructions)
             {
-                AmountOfMessages = 1,
-                NumberInList = 0,
-                Email = "NOMAIL",
-                UserName = "IGNORE",
-                Subject = "IGNORE",
-                ArticleIds = new(),
-                AuthorNames = new()
-            });   
-        }
-        
-        var queueClient = queueServiceClient.GetQueueClient("newsletterlist");
-        // SENDING the INSTRUCTIONS!!!
-        foreach (var instruction in emailInstructions)
-        {
-            queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
+                queueClient.SendMessage((JsonConvert.SerializeObject(instruction)));
+            }
         }
     }
 }
