@@ -119,8 +119,8 @@ namespace CNewsProject.Controllers
                     }
                 },
                 Mode = "payment",
-                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" + token,
-                CancelUrl = "https://localhost:44374/subscription/cancel" + "?token=" + token
+                SuccessUrl = "https://cnewsoffical.azurewebsites.net/subscription/success/" + "?token=" + token,
+                CancelUrl = "https://cnewsoffical.azurewebsites.net/subscription/cancel" + "?token=" + token
             };
 
             // Create session service and session object
@@ -159,8 +159,11 @@ namespace CNewsProject.Controllers
         }
 
         // Cancel action
-        public IActionResult Cancel(string token)
+        public IActionResult Cancel(string? token)
         {
+            if (token == null)
+                return View();
+            
             Guid gToken = Guid.Parse(token);
             RemoveToken(gToken);
             return View();

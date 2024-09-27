@@ -7,15 +7,9 @@ using static CNewsProject.StaticTempData.CTempData;
 
 namespace CNewsProject.Models.Api.CurrencyExchangeRate
 {
-    public class CurrencyExchangeRateService  : ICurrencyExchangeRateService 
+    public class CurrencyExchangeRateService(ApplicationDbContext dbContext) : ICurrencyExchangeRateService
     {
-		private readonly ApplicationDbContext _dbContext;
-
-		public CurrencyExchangeRateService(ApplicationDbContext dbContext)
-		{
-			_dbContext = dbContext;
-		}
-		public async Task GetExchangeRatesAsync()
+	    public async Task GetExchangeRatesAsync()
         {
             Rates? exchangeRates;
 
@@ -49,8 +43,8 @@ namespace CNewsProject.Models.Api.CurrencyExchangeRate
 
 			if (exchangeRates != null)
 			{
-				_dbContext.ExchangeRates.Add(exchangeRates);
-				await _dbContext.SaveChangesAsync();
+				dbContext.ExchangeRates.Add(exchangeRates);
+				await dbContext.SaveChangesAsync();
 			}
 		}
 	}

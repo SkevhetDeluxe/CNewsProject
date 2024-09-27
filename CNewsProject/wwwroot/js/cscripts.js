@@ -345,7 +345,7 @@ function TakeDownArticle(msg, id){
             RemoveLoadingScreen();
         },
         success: function(result) {
-           window.location.replace("https://localhost:44374/");
+           window.location.replace("https://cnewsoffical.azurewebsites.net");
         },
         error: function(result) {
             RemoveLoadingScreen();

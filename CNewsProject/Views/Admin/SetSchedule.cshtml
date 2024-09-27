@@ -1,0 +1,28 @@
+@model CNewsProject.Models.Schedule.ScheduleConfig
+
+<div class="row">
+
+    <form asp-action="SetSchedule" method="post">
+        <label class="col-3" asp-for="Weekday">Weekday</label>
+        <label class="col-3" asp-for="Hour">Hour</label>
+        <label class="col-3" asp-for="Minute">Minute</label>
+        <div class="col-3"></div>
+        <select class="col-3" asp-for="Weekday">
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+            <option value="Sunday">Sunday</option>
+        </select>
+        <input class="col-3" asp-for="Hour" max="23"/>
+        <input class="col-3" asp-for="Minute" max="60"/>
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </form>
+
+    <div class="col-3">@ViewBag.Weekday</div>
+    <div class="col-3">@ViewBag.Hour</div>
+    <div class="col-3">@ViewBag.Minute</div>
+    
+</div>

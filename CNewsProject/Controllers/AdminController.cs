@@ -1,3 +1,6 @@
+using CNewsProject.Models.Schedule;
+using Newtonsoft.Json;
+
 namespace CNewsProject.Controllers
 {
     [Authorize(Roles = "Admin")]
@@ -278,6 +281,30 @@ namespace CNewsProject.Controllers
         #endregion
 
 
+        public IActionResult SetSchedule()
+        {
+            ScheduleConfig schedule = JsonConvert.DeserializeObject<ScheduleConfig>(System.IO.File.ReadAllText("timerschedule.json"))!;
+            
+            ViewBag.Weekday = schedule.Weekday;
+            ViewBag.Hour = schedule.Hour;
+            ViewBag.Minute = schedule.Minute;
+            
+            return View(new ScheduleConfig());
+        }
+
+        [HttpPost]
+        public IActionResult SetSchedule(ScheduleConfig model)
+        {
+            string json = JsonConvert.SerializeObject(model);
+            System.IO.File.WriteAllText("timerschedule.json", json);
+            
+            ViewBag.Weekday = model.Weekday;
+            ViewBag.Hour = model.Hour;
+            ViewBag.Minute = model.Minute;
+            
+            return View();
+        }
+        
         public IActionResult Area51()
         {
             // JUST FOR TESTING SHIT
