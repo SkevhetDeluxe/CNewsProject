@@ -26,6 +26,5 @@ namespace CNewsProject.Data
 		public DbSet<Rates> ExchangeRates { get; set; }
 
 		public DbSet<HistoricalWeather> HistoricalWeathers { get; set; }
-        
 	}
 }

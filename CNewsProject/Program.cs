@@ -1,5 +1,7 @@
 using Azure.Data.Tables;
 using System.Text.Json;
+using Azure.Storage.Queues;
+using CNewsProject.TimedServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +49,9 @@ builder.Services.ConfigureApplicationCookie(opts =>
     opts.SlidingExpiration = true;
 });
 
+string azureConnectionString =
+    "DefaultEndpointsProtocol=https;AccountName=cnewsstorage;AccountKey=42s4C494d16TS+Ww3wwbWFcx3Nn2SuAsL6aJTsbfLnZqoND5gJ6O69MGdzSX69h6YrQTMgyBJ0t++AStJI5xcA==;EndpointSuffix=core.windows.net";
+
 
 builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddSwaggerGen();
@@ -60,10 +65,29 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddScoped<IFillObjectHelper, FillObjectHelper>();
 builder.Services.AddScoped<ISubscriptionStatisticsService, SubscriptionStatisticsService>();
 
+builder.Services.AddScoped<INewsLetterService, NewsLetterService>();
+builder.Services.AddHostedService<TimedNewsLetterService>();
+builder.Services.AddSingleton(new QueueServiceClient(azureConnectionString, new QueueClientOptions()
+         {
+             MessageEncoding = QueueMessageEncoding.Base64
+         }));
+
 
 //builder.Services.AddTransient<IEmailSender, EmailHelper>();
 
 
+// var host = Host.CreateDefaultBuilder(args)
+//     .ConfigureServices(services =>
+//     {
+//         services.AddHostedService<TimedNewsLetterService>();
+//         services.AddSingleton(new QueueServiceClient(azureConnectionString, new QueueClientOptions()
+//         {
+//             MessageEncoding = QueueMessageEncoding.Base64
+//         }));
+//     })
+//     .Build();
+//
+// await host.RunAsync();
 
 builder.Services.AddControllersWithViews();
 
