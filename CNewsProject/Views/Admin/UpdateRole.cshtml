@@ -1,9 +1,9 @@
-﻿@model RoleEdit
+@model RoleEdit
 @{
     ViewData["Title"] = "UPDATE ROLE";
 }
 
-<h1 class="bg-info text-white">Update Role</h1>
+<h2 class="">Update Role</h2>
 <a asp-action="Roles" class="btn btn-secondary">Back</a>
 <div asp-validation-summary="All" class="text-danger"></div>
 
@@ -11,8 +11,10 @@
     <input type="hidden" name="roleName" value="@Model.Role.Name" />
     <input type="hidden" name="roleId" value="@Model.Role.Id" />
 
-    <h2 id="memberHitBox" class="bg-info p-1 text-white c-nonselectable c-hover-pointer">Purge @Model.Role.Name</h2>
-    <table id="memberTarget" class="table table-bordered table-sm">
+
+    <h3 id="memberHitBox" class="p-1 c-nonselectable c-hover-pointer">Purge @Model.Role.Name</h3>
+    <table id=memberTarget class="table table-bordered table-sm table-striped purgeGrantRoleTable">
+
         @if (Model.Members.Count() == 0)
         {
             <tr><td colspan="2">No Users Are Members</td></tr>
@@ -31,8 +33,12 @@
         }
     </table>
     
-    <h2 id="nonMemberHitBox" class="bg-info p-1 text-white c-hover-pointer c-nonselectable">Grant @Model.Role.Name</h2>
-    <table id="nonMemberTarget" class="table table-bordered table-sm">
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    
+    <h3 id="nonMemberHitBox" class="p-1 c-hover-pointer c-nonselectable">Grant @Model.Role.Name</h3>
+    <table id="nonMemberTarget" class="table table-bordered table-sm table-striped purgeGrantRoleTable">
+
         @if (Model.NonMembers.Count() == 0)
         {
             <tr><td colspan="2">All Users Are Members</td></tr>
@@ -50,6 +56,7 @@
             }
         }
     </table>
+    
     <button type="submit" class="btn btn-primary">Save</button>
 </form>
 

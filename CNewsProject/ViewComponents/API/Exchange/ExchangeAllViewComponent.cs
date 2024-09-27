@@ -15,10 +15,10 @@ namespace CNewsProject.ViewComponents.API.Exchange
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            if (ExchangeRates.DateUpdated != DateOnly.FromDateTime(DateTime.Now))
-            {
-                await _ExchangeService.GetExchangeRatesAsync();
-            }
+            // if (ExchangeRates.DateUpdated != DateOnly.FromDateTime(DateTime.Now))
+            // {
+            //     await _ExchangeService.GetExchangeRatesAsync();
+            // }
             
             return View();
         }

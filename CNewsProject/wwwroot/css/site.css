@@ -14,10 +14,11 @@
 }
 
 .c-click-through{
+
     pointer-events: none;
 }
 
-.c-z-index-much{
+.c-z-index-much {
     z-index: 999999 !important;
 }
 
@@ -32,12 +33,12 @@
     z-index: 999 !important;
 }
 
-.c-size-100{
-    width :100%;
+.c-size-100 {
+    width: 100%;
     height: 50%;
 }
 
-.c-loading-scream{
+.c-loading-scream {
     /*position: absolute;*/
     /*top: 50vh;*/
     /*left: 50vh;*/
@@ -45,17 +46,28 @@
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 1500ms linear infinite;
 }
+
 .c-loading-scream-fast {
     -webkit-animation: spin 1s linear infinite; /* Safari */
     animation: spin 1s linear infinite;
 }
+
 @-webkit-keyframes spin {
-    0% { -webkit-transform: rotate(0deg); }
-    100% { -webkit-transform: rotate(360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
+
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 
@@ -68,7 +80,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.8);
 }
 
-.c-hover-pointer:hover{
+.c-hover-pointer:hover {
     cursor: pointer;
 }
 
@@ -153,7 +165,8 @@
 }
 
 .c-hidden {
-    display: none; !important;
+    display: none;
+!important;
 }
 
 .c-nonselectable {
@@ -163,13 +176,14 @@
     user-select: none;
 }
 
-.c-clickable-toggle-target{
-    
+.c-clickable-toggle-target {
+
 }
 
-.c-clickable-toggle{
-    
+.c-clickable-toggle {
+
 }
+
 /* FUCKS the NAVBAR Hamburger Menu up*/
 /*.nav-link {*/
 /*    height: 60px;*/
@@ -213,9 +227,9 @@
     width: 100%;
 }
 
-    .shamsButton:hover {
-        /*background-color: #45a049;*/
-    }
+.shamsButton:hover {
+    /*background-color: #45a049;*/
+}
 
 .formDiv {
     margin-bottom: 20px;
@@ -232,7 +246,7 @@
     width: 100%;
     padding: 12px;
 }
-    
+
 .border-gradient {
     border-width: 0px 0px 4px 0px;
     border-style: solid;
@@ -240,54 +254,54 @@
 }
 
 /*for btn */
-.payment-success-button {
-    display: inline-block;
-    padding: 15px 30px;
-    background: linear-gradient(to right, #4CAF50, #388E3C); 
-    color: white;
-    text-decoration: none;
-    border: none;
-    border-radius: 25px; 
-    font-size: 1.2em;
-    font-weight: 600; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    cursor: pointer;
-    transition: all 0.3s ease; 
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-    position: relative;
-    overflow: hidden;
-}
+/*.payment-success-button {*/
+/*    display: inline-block;*/
+/*    padding: 15px 30px;*/
+/*    background: linear-gradient(to right, #4CAF50, #388E3C);*/
+/*    color: white;*/
+/*    text-decoration: none;*/
+/*    border: none;*/
+/*    border-radius: 25px;*/
+/*    font-size: 1.2em;*/
+/*    font-weight: 600;*/
+/*    text-transform: uppercase;*/
+/*    letter-spacing: 1px;*/
+/*    cursor: pointer;*/
+/*    transition: all 0.3s ease;*/
+/*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+/*    position: relative;*/
+/*    overflow: hidden;*/
+/*}*/
 
-    .payment-success-button:hover {
-        transform: translateY(-2px); 
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); 
-    }
+/*.payment-success-button:hover {*/
+/*    transform: translateY(-2px);*/
+/*    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);*/
+/*}*/
 
-    .payment-success-button:active {
-        transform: translateY(1px); 
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
-    }
+/*.payment-success-button:active {*/
+/*    transform: translateY(1px);*/
+/*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+/*}*/
 
-    .payment-success-button::before { 
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0);
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.3); 
-        border-radius: 50%;
-        opacity: 0;
-        transition: all 0.5s ease;
-    }
+/*.payment-success-button::before {*/
+/*    content: '';*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%) scale(0);*/
+/*    width: 100%;*/
+/*    height: 100%;*/
+/*    background-color: rgba(255, 255, 255, 0.3);*/
+/*    border-radius: 50%;*/
+/*    opacity: 0;*/
+/*    transition: all 0.5s ease;*/
+/*}*/
 
-    .payment-success-button:focus::before,
-    .payment-success-button:active::before {
-        transform: translate(-50%, -50%) scale(2);
-        opacity: 1;
-    }
+/*.payment-success-button:focus::before,*/
+/*.payment-success-button:active::before {*/
+/*    transform: translate(-50%, -50%) scale(2);*/
+/*    opacity: 1;*/
+/*}*/
 
 /*FAKE REGION END - THIS MIGHT REALLY MESS UP STUFF */
 
@@ -319,49 +333,63 @@
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23ffffff'><path fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/></svg>") !important;
 }
 
-.better-card{
+.better-card {
     background-color: #ffefcc;
     border: 1px solid #ffe7b3;
     border-radius: 5px;
     padding: 10px;
 }
 
-#newsLetterSettingsForm .newsLetterSettingsBackground:nth-child(odd){
+#newsLetterSettingsForm .newsLetterSettingsBackground:nth-child(odd) {
     background-color: #ffefcc;
 }
 
-.ThisClassIsPurelyForCategoryIds:checked{
+.ThisClassIsPurelyForCategoryIds:checked {
     margin-left: 0;
 }
 
+.table-striped > tbody > tr:nth-child(odd) > td,
+.table-striped > thead > tr:nth-child(odd) > th {
+    background-color: #ffefcc;
+}
 
-@media
-only screen and (max-width: 760px),
+.table-striped > tbody > tr:nth-child(even) > td,
+.table-striped > thead > tr:nth-child(even) > th {
+    background-color: #fff7e6;
+}
+
+.table-bordered {
+    border: 1px solid #ffefcc;
+}
+
+@media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
 
     /* Force table to not be like tables anymore */
-    table, thead, tbody, th, td, tr {
+    table:not(.purgeGrantRoleTable),table:not(.purgeGrantRoleTable) thead,table:not(.purgeGrantRoleTable) tbody,table:not(.purgeGrantRoleTable) th,table:not(.purgeGrantRoleTable) td,table:not(.purgeGrantRoleTable) tr {
         display: block;
     }
 
     /* Hide table headers (but not display: none;, for accessibility) */
-    thead tr {
+    table:not(.purgeGrantRoleTable) thead tr {
         position: absolute;
         top: -9999px;
         left: -9999px;
     }
 
-    tr { border: 1px solid #ccc; }
+    table:not(.purgeGrantRoleTable) tr {
+        border: 1px solid #ffefcc;
+    }
 
-    .table td {
+    .table:not(.purgeGrantRoleTable) td {
         /* Behave  like a "row" */
         border: none;
-        border-bottom: 1px solid #eee;
+        border-bottom: 1px solid #ffefcc;
         position: relative;
         padding-left: 25%;
     }
 
-    .table td:before {
+    .table:not(.purgeGrantRoleTable) td:before {
         /* Now like a table header */
         position: absolute;
         /* Top/left values mimic padding */
@@ -369,6 +397,93 @@ only screen and (max-width: 760px),
         left: 6px;
         width: 45%;
         padding-right: 10px;
-        white-space: nowrap;
     }
+
+    /*#region row labels for mobile tables*/
+    #claims-table td:nth-of-type(1):before {
+        content: "Subject";
+    }
+
+    #claims-table td:nth-of-type(2):before {
+        content: "Issuer";
+    }
+
+    #claims-table td:nth-of-type(3):before {
+        content: "Type";
+    }
+
+    #claims-table td:nth-of-type(4):before {
+        content: "Value";
+    }
+
+    
+    #rolesTable td:nth-of-type(1):before {
+        content: "ID";
+    }
+
+    #rolesTable td:nth-of-type(2):before {
+        content: "Name";
+    }
+
+    #rolesTable td:nth-of-type(3):before {
+        content: "Users";
+    }
+
+
+    #subTypeTable td:nth-of-type(1):before {
+        content: "ID";
+    }
+
+    #subTypeTable td:nth-of-type(2):before {
+        content: "Name";
+    }
+
+    #subTypeTable td:nth-of-type(3):before {
+        content: "Price";
+    }
+
+    
+    #usersTable td:nth-of-type(1):before {
+        content: "ID";
+    }
+
+    #usersTable td:nth-of-type(2):before {
+        content: "Name";
+    }
+
+    #usersTable td:nth-of-type(3):before {
+        content: "Email";
+    }
+    
+    
+    #exchRateHistoryTable td:nth-of-type(1):before {
+        content: "Date";
+    }
+
+    #exchRateHistoryTable td:nth-of-type(2):before {
+        content: "USD (to SEK)";
+    }
+
+    #exchRateHistoryTable td:nth-of-type(3):before {
+        content: "EUR (to SEK)";
+    }
+    
+    #exchRateHistoryTable td:nth-of-type(4):before {
+        content: "GBP (to SEK)";
+    }
+
+
+    #weatherHistoryTable td:nth-of-type(1):before {
+        content: "Date";
+    }
+
+    #weatherHistoryTable td:nth-of-type(2):before {
+        content: "Temperature (°C)";
+    }
+
+    #weatherHistoryTable td:nth-of-type(4):before {
+        content: "Condition";
+    }
+
+    /*#endregion*/
 }

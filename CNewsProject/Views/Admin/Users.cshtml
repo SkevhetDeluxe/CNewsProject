@@ -3,12 +3,15 @@
     ViewData["Title"] = "USERS";
 }
 
-<h1 class="bg-info text-white">All Users</h1>
+
+
+<h3 class="">All Users</h3>
 
 <a asp-action="Index" class="btn btn-secondary">Back to Base</a>
 
 
-<table class="table table-sm table-bordered">
+<table class="table table-sm table-bordered table-striped mt-2" id="usersTable">
+    <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
@@ -17,6 +20,8 @@
         <th>Edit</th>
         <th>Delete</th>
     </tr>
+    </thead>
+    <tbody>
     @foreach (AppUser user in Model)
     {
         <tr>
@@ -42,4 +47,5 @@
             </td>
         </tr>
     }
+    </tbody>
 </table>
