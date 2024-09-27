@@ -337,13 +337,25 @@ namespace CNewsProject.Service
 
         #endregion ROLES
 
-        public async Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers)
+        // public async Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers)
+        // {
+        //     foreach (AppUser user in userManager.Users)
+        //     {
+        //         var list = (await userManager.IsInRoleAsync(user, role.Name)) ? members : nonMembers;
+        //         list.Add(user);
+        //     }
+        // }
+        
+        public async Task<Tuple<List<AppUser>, List<AppUser>>> SplitUsersByRoleAsync(IdentityRole role)
         {
-            foreach (AppUser user in userManager.Users)
+            var roleMembers =  (List<AppUser>) await userManager.GetUsersInRoleAsync(role.Name!);
+            var nonMembers = db.Users.ToList();
+            foreach (AppUser user in roleMembers)
             {
-                var list = (await userManager.IsInRoleAsync(user, role.Name)) ? members : nonMembers;
-                list.Add(user);
+                nonMembers.Remove(user);
             }
+            
+            return new Tuple<List<AppUser>, List<AppUser>>(roleMembers, nonMembers);
         }
 
         public async Task<bool> UserHasRole(AppUser user, string roleName)

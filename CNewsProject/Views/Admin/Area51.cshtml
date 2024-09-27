@@ -5,7 +5,17 @@
     
 }
 
-<a href="#">
-    <img src="@newModel.ImageLink" width="400px" alt=""/>
-    <h1>HEADLINE HERE MATE</h1>
-</a>
+<button id="clickmebitch">CLICK ME IF YOU DARE</button>
+
+<script src="/js/cscripts.js"></script>
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function (){
+        let elem = document.getElementById("clickmebitch");
+        elem.addEventListener("click", function () {
+            PromptBox("Give reason for TakeDown:", "TestAlert", true, "You NEED to Give reason for TakeDown:");
+        });
+    });
+    
+</script>

@@ -27,10 +27,10 @@
 
         <div class="mb-3">
             @{
-                if (status == "Declined")
+                if (status == "Declined" || status == "Taken Down")
                 {
                     <div>
-                        <h2>This Article has been Declined</h2>
+                        <h2>This Article has been @status</h2>
                         <h3>Reason: @Model.DeclineMessage</h3>
                     </div>
                     SubBtn = "Resubmit";

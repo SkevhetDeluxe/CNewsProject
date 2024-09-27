@@ -229,8 +229,8 @@ function AddToggleableElementClass() {
 // ID from Target Element
 function AddToggleableElementId(hitBoxId, targetId) {
     document.addEventListener("DOMContentLoaded", function () {
-        const hitBox = document.getElementById(hitBoxId);
-        const target = document.getElementById(targetId);
+        let hitBox = document.getElementById(String(hitBoxId));
+        let target = document.getElementById(String(targetId));
 
         hitBox.addEventListener("click", function () {
             console.log("Clicked", this);
@@ -326,7 +326,55 @@ function AjaxUpdateNewsLetterSetting(userSetting, authorNames){console.log(userS
                 "</div>";
             RemoveLoadingScreen();
         }
+    });
+}
+
+function TestAlert(){
+    alert("TestAlert");
+}
+// cnewsofficial.azurewebsites.net
+function TakeDownArticle(msg, id){
+    $.ajax({
+        url:"/ThePublisher/TakeDown/",
+        type:"POST",
+        data: { id: id, reason: msg },
+        beforeSend: function () {
+            CreateLoadingScreen();
+        },
+        complete: function () {
+            RemoveLoadingScreen();
+        },
+        success: function(result) {
+           window.location.replace("https://localhost:44374/");
+        },
+        error: function(result) {
+            RemoveLoadingScreen();
+        }
     })
 }
 
+// REQUIREMENTS
+//
+// MESSAGE 
+//
+// NAME OF FUNCTION TO RUN ON OKAY
+function PromptBox(msg, notNull, returnMsg, functionName, inputAsParam, params) {
+    let input = prompt(msg);
+    if (input === "" && notNull === true) {
+        PromptBox(returnMsg, functionName)
+    } else if(input == null){
+        
+    }
+    else {
+        if(functionName != null){
+            if(inputAsParam === true && params != null){
+                window[functionName](input, params);
+            }else if (inputAsParam === true){
+                window[functionName](input);
+            }else if (params != null){
+                window[functionName](params);
+            }
+        }
+    }
+}
 

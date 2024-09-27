@@ -91,7 +91,7 @@ namespace CNewsProject.Controllers
                 }
             }
 
-
+            Guid token = GeneratePaymentDetails(buyersName, 1, months * 30, narmalPris);
             // Set Stripe secret key
             StripeConfiguration.ApiKey = configuration["Stripe:SecretKey"];
 
@@ -119,9 +119,8 @@ namespace CNewsProject.Controllers
                     }
                 },
                 Mode = "payment",
-                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" +
-                             GeneratePaymentDetails(buyersName, 1, months * 30, narmalPris),
-                CancelUrl = "https://localhost:44374/subscription/cancel"
+                SuccessUrl = "https://localhost:44374/subscription/success/" + "?token=" + token,
+                CancelUrl = "https://localhost:44374/subscription/cancel" + "?token=" + token
             };
 
             // Create session service and session object
