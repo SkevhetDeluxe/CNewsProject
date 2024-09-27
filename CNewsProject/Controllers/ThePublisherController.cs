@@ -67,7 +67,7 @@ namespace CNewsProject.Controllers
 
             return View(vModel);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Decline(DeclineVM vModel)
         {
@@ -75,17 +75,12 @@ namespace CNewsProject.Controllers
             return View("/Views/ThePublisher/SuccessfullyDeclined.cshtml", vModel);
         }
 
-        public IActionResult TakeDown(int id) // TODO
-        {
-            var article = articleService.GetArticleById(id);
-
-            return View(article);
-        }
-
         [HttpPost]
-        public IActionResult TakeDown(Article article)
+        public IActionResult TakeDown(int id, string reason)
         {
-            return View(article);
+            articleService.TakeDownArticle(id, reason);
+            
+            return RedirectToAction("Index", "News");
         }
 
         public IActionResult Oops()

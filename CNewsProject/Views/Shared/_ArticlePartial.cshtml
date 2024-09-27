@@ -8,13 +8,20 @@
 <a class="card mb-4 w-100 hoverable unlink c-link-hover-container" asp-controller="News" asp-action="Article" asp-route-id="@Model.Id">
     
     @{
-        if ((int)ViewData["imgSize"] > 0)
+        try
         {
-            <img class="card-img-top" src="@newImageLink" alt="@Model.Headline" >
+            if ((int)ViewData["imgSize"] > 0)
+            {
+                <img class="card-img-top" src="@newImageLink" alt="@Model.Headline">
+            }
+            else
+            {
+                <img class="card-img-top" src="@newImageLink2" alt="@Model.Headline">
+            }
         }
-        else
+        catch
         {
-            <img class="card-img-top" src="@newImageLink2" alt="@Model.Headline" >
+            <img class="card-img-top" src="@Model.ImageLink" alt="@Model.Headline IMAGE">
         }
     }
 

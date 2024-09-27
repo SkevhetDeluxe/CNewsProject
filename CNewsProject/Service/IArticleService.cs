@@ -278,6 +278,7 @@ namespace CNewsProject.Service
 
 
 
+        public void TakeDownArticle(int id, string reason);
 
 
 

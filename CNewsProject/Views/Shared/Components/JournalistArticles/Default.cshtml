@@ -4,17 +4,17 @@
 
 
 @{
-    List<string> statuses = new() { "Pending", "Approved", "Declined", "Draft" };
-    List<string> h3Ids = new() { "PendingId", "ApprovedId", "DeclinedId", "DraftId" };
-    List<string> colours = new() { "bg-primary", "bg-success", "bg-danger", "bg-secondary" };
-    List<string> bColours = new() { "#006666", "#336600", "#b30000", "#999999" };
-    List<string> Actions = new() { "EditArticle" , "Article"  , "EditArticle" , "EditArticle" };
-    List<string> Controllers = new() { "Journalist", "News", "Journalist", "Journalist" };
+    List<string> statuses = new() { "Pending", "Approved", "Declined", "Draft" , "TakenDown"};
+    List<string> h3Ids = new() { "PendingId", "ApprovedId", "DeclinedId", "DraftId", "TakenDownId"};
+    List<string> colours = new() { "bg-primary", "bg-success", "bg-danger", "bg-secondary" , "bg-danger"};
+    List<string> bColours = new() { "#006666", "#336600", "#b30000", "#999999", "#b30000"};
+    List<string> Actions = new() { "EditArticle" , "Article"  , "EditArticle" , "EditArticle", "EditArticle"};
+    List<string> Controllers = new() { "Journalist", "News", "Journalist", "Journalist", "Journalist"};
     List<Article> list = new();
     
     
     
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < statuses.Count; i++)
     {
         <h3 style="cursor:pointer;" id="@h3Ids[i]">@statuses[i]</h3>
         <div id="@statuses[i]" style="overflow:auto; max-height:200px; border: @bColours[i] 4px solid;" class="mb-4 @colours[i]">
@@ -57,6 +57,7 @@
         const approvedElem = @h3Ids[1];
         const declinedElem = @h3Ids[2];
         const draftElem = @h3Ids[3];
+        const takenDownElem = @h3Ids[4];
         
         pendingElem.addEventListener('click', function () {
             ToggleDiv(@statuses[0]);
@@ -69,6 +70,9 @@
         });
         draftElem.addEventListener('click', function () {
             ToggleDiv(@statuses[3]);
+        });
+        takenDownElem.addEventListener('click', function () {
+            ToggleDiv(@statuses[4]);
         });
     });
     

@@ -52,7 +52,7 @@ namespace CNewsProject.Service
         public Task<IdentityRole>? GetRoleByIdAsync(string id);
         public Task<IdentityResult> DeleteRoleAsync(IdentityRole role);
 
-        public Task SplitUsersByRoleAsync(IdentityRole role, List<AppUser> members, List<AppUser> nonMembers);
+        public Task<Tuple<List<AppUser>,List<AppUser>>> SplitUsersByRoleAsync(IdentityRole role);
         public Task<bool> UserHasRole(AppUser user, string roleName);
         public Task<IList<string>> GetUsersRolesAsync(AppUser user);
         public Task<IdentityResult> GrantUserRoleAsync(AppUser user, string roleName);

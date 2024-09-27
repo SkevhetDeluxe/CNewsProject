@@ -36,7 +36,7 @@
                 <span class="float-end">
                     <span>Views: @Model.Article.Views</span>
                     <span>Likes: @Model.Article.Likes</span>
-                    <img id="likeElement" onclick="FilipsFunktion(@Model.Article.Id)" src="@likeSymbol" width="25"></img>
+                    <img id="likeElement" onclick="FilipsFunktion(@Model.Article.Id)" src="@likeSymbol" width="25" alt="Like button, Heart Symbol">
                 </span>
                 
             </div>
@@ -48,7 +48,7 @@
                 @{
                     if (Model.Roles.Contains("The Publisher") || Model.Roles.Contains("Admin"))
                     {
-                        <a asp-controller="ThePublisher" asp-action="TakeDown" class="float-end btn btn-outline-danger">Take down article</a>
+                        <button id="takeDownButton" class="float-end btn btn-outline-danger">Take down article</button>
                     }
                 }
                 
@@ -81,3 +81,16 @@
         </div>
     }
 }
+
+<script src="/js/cscripts.js"></script>
+
+<script>
+    
+    document.addEventListener("DOMContentLoaded", function (){
+        let elem = document.getElementById("takeDownButton");
+        elem.addEventListener("click", function () {
+            PromptBox("Give reason for TakeDown:", true, "You NEED to Give reason for TakeDown:", "TakeDownArticle", true, @Model.Article.Id);
+        });
+    });
+    
+</script>

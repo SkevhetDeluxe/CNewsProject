@@ -59,6 +59,20 @@ namespace CNewsProject.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AdminDelete(string id)
+        {
+            try
+            {
+                await identitySrvc.DeleteUserByIdAsync(id);
+                return RedirectToAction("Users");
+            }
+            catch
+            {
+                return RedirectToAction("Users");
+            }
+        }
+
         #endregion
 
         // ROLES
@@ -96,19 +110,16 @@ namespace CNewsProject.Controllers
         public async Task<IActionResult> UpdateRole(string id)
         {
             IdentityRole role = await identitySrvc.GetRoleByIdAsync(id);
-
-            List<AppUser> members = new();
-            List<AppUser> nonMembers = new();
-
+            
             if (role != null)
             {
-                await identitySrvc.SplitUsersByRoleAsync(role, members, nonMembers);
+                Tuple<List<AppUser>, List<AppUser>> containerTuple = await identitySrvc.SplitUsersByRoleAsync(role);
 
                 return View(new RoleEdit
                 {
                     Role = role,
-                    Members = members,
-                    NonMembers = nonMembers
+                    Members = containerTuple.Item1,
+                    NonMembers = containerTuple.Item2
                 });
             }
 

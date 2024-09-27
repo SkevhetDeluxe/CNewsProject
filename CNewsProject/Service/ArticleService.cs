@@ -419,7 +419,15 @@ namespace CNewsProject.Service
         public void DeclineArticle(int id, string reason)
         {
             GetArticleById(id).Status = "Declined";
-            //GetArticleById(id).DeclineMessage = reason;
+            GetArticleById(id).DeclineMessage = reason;
+            db.SaveChanges();
+        }
+
+        public void TakeDownArticle(int id, string reason)
+        {
+            var article = GetArticleById(id);
+            article.Status = "Taken Down";
+            article.DeclineMessage = reason;
             db.SaveChanges();
         }
 
